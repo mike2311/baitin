@@ -1,0 +1,126 @@
+site_name: BAITIN System Documentation
+
+site_url: https://mike2311.github.io/baitin/
+repo_url: https://github.com/mike2311/baitin
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - attr_list
+  - md_in_html
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+
+nav:
+  - Home: README.md
+  - Overview:
+    - System Summary: 00-overview/system-summary.md
+    - Technology Stack: 00-overview/technology-stack.md
+    - User Roles: 00-overview/user-roles.md
+  - Data Architecture:
+    - Database Overview: 01-data-architecture/database-overview.md
+    - Entity Relationships: 01-data-architecture/entity-relationships.md
+    - Table Inventory: 01-data-architecture/table-inventory.md
+    - Indexes and Keys: 01-data-architecture/indexes-and-keys.md
+    - Table Details:
+      - Master Data Tables: 01-data-architecture/table-details/master-data-tables.md
+      - Supporting Tables: 01-data-architecture/table-details/supporting-tables.md
+      - Transaction Tables: 01-data-architecture/table-details/transaction-tables.md
+  - Business Processes:
+    - Workflow Overview: 02-business-processes/workflow-overview.md
+    - Order Enquiry Process: 02-business-processes/order-enquiry-process.md
+    - Order Confirmation Process: 02-business-processes/order-confirmation-process.md
+    - Contract Process: 02-business-processes/contract-process.md
+    - Shipping Process: 02-business-processes/shipping-process.md
+    - Delivery Note Process: 02-business-processes/delivery-note-process.md
+    - Invoice Process: 02-business-processes/invoice-process.md
+    - Master Data Management: 02-business-processes/master-data-management.md
+  - Application Modules:
+    - Module Inventory: 03-application-modules/module-inventory.md
+    - Order Enquiry Module: 03-application-modules/order-enquiry-module.md
+  - Forms and Screens:
+    - Form Inventory: 04-forms-and-screens/form-inventory.md
+    - Form Logic Patterns: 04-forms-and-screens/form-logic-patterns.md
+    - Authentication Forms: 04-forms-and-screens/authentication-forms.md
+    - Master Data Forms: 04-forms-and-screens/master-data-forms.md
+    - Order Enquiry Forms: 04-forms-and-screens/order-enquiry-forms.md
+    - Order Confirmation Forms: 04-forms-and-screens/order-confirmation-forms.md
+    - Contract Forms: 04-forms-and-screens/contract-forms.md
+    - Shipping Order Forms: 04-forms-and-screens/shipping-order-forms.md
+    - Delivery Note Forms: 04-forms-and-screens/delivery-note-forms.md
+    - Invoice Forms: 04-forms-and-screens/invoice-forms.md
+    - Enquiry Forms: 04-forms-and-screens/enquiry-forms.md
+    - Report Forms: 04-forms-and-screens/report-forms.md
+    - Utility Forms: 04-forms-and-screens/utility-forms.md
+    - Form Layouts: 04-forms-and-screens/form-layouts.md
+    - Form Process Mapping: 04-forms-and-screens/form-process-mapping.md
+    - Validation Catalog: 04-forms-and-screens/validation-catalog.md
+  - Business Logic:
+    - Program Inventory: 05-business-logic/program-inventory.md
+    - Excel Import Logic: 05-business-logic/excel-import-logic.md
+    - Core Algorithms: 05-business-logic/core-algorithms.md
+  - Reporting:
+    - Report Inventory: 06-reporting/report-inventory.md
+  - Integration:
+    - Excel Integration: 07-integration/excel-integration.md
+  - Security:
+    - Authentication: 08-security/authentication.md
+  - Technical Details:
+    - Configuration: 09-technical-details/configuration.md
+    - File Structure: 09-technical-details/file-structure.md
+    - Known Issues: 09-technical-details/known-issues.md
+    - Phased Out Modules: 09-technical-details/phased-out-modules.md
+  - Modernization Strategy:
+    - Overview: modernization-strategy/README.md
+    - Planning and Assessment:
+      - Executive Summary: modernization-strategy/01-executive-summary/executive-summary.md
+      - Current State Assessment: modernization-strategy/02-current-state-assessment/current-state-assessment.md
+      - Resource and Timeline: modernization-strategy/14-resource-timeline/resource-timeline.md
+      - Risk Management: modernization-strategy/12-risk-management/risk-management.md
+      - Success Metrics: modernization-strategy/13-success-metrics/success-metrics.md
+    - Architecture and Design:
+      - Target State Architecture: modernization-strategy/03-target-state-architecture/target-state-architecture.md
+      - Application Modernization: modernization-strategy/05-application-modernization/application-modernization.md
+      - UX/UI Strategy: modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
+      - Security and Compliance: modernization-strategy/07-security-compliance/security-compliance.md
+    - Implementation:
+      - Phased Delivery Plan: modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md
+      - PoC Strategy: modernization-strategy/15-poc-strategy/poc-strategy.md
+      - Data Migration Strategy: modernization-strategy/04-data-migration-strategy/data-migration-strategy.md
+      - Integration Strategy: modernization-strategy/08-integration-strategy/integration-strategy.md
+      - Reporting and Analytics: modernization-strategy/09-reporting-analytics/reporting-analytics.md
+    - Operations:
+      - Deployment and Operations: modernization-strategy/10-deployment-operations/deployment-operations.md
