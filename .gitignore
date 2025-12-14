@@ -52,6 +52,9 @@ Desktop.ini
 *.suo
 *.user
 
+# MkDocs build output
+site/
+
 # NOTE: The following FoxPro source files SHOULD be committed:
 # *.PRG - Program source files
 # *.SCX, *.SCT - Form source files  
