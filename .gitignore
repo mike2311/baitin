@@ -1,0 +1,62 @@
+# FoxPro Database Files - DO NOT COMMIT
+# These contain production data and can be very large (100MB+)
+# Database files should be managed separately, not in version control
+*.DBF
+*.FPT
+*.CDX
+*.IDX
+*.NTX
+
+# FoxPro Compiled/Binary Files - DO NOT COMMIT
+# These are generated from source and can be rebuilt
+*.APP
+*.EXE
+*.FXP
+*.MPX
+
+# Temporary and Work Files
+*.TMP
+*.BAK
+*.OLD
+*~
+*.swp
+*.swo
+
+# User-specific work directories (contain user data/exports)
+*work/
+*work\*
+
+# Excel files (often contain data exports or user work)
+*.XLS
+*.XLSX
+
+# Image files (binary assets - typically not needed in source control)
+*.BMP
+*.JPG
+*.JPEG
+*.PNG
+*.GIF
+
+# Text files that appear to be temporary/exports
+# Uncomment if you want to exclude all .TXT files
+# *.TXT
+
+# Windows specific
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE specific
+.vscode/
+.idea/
+*.suo
+*.user
+
+# NOTE: The following FoxPro source files SHOULD be committed:
+# *.PRG - Program source files
+# *.SCX, *.SCT - Form source files  
+# *.FRX, *.FRT - Report source files
+# *.MNX, *.MNT - Menu source files
+# *.VCX, *.VCT - Class library source files
+# *.PJX, *.PJT - Project files
+# *.MPR - Menu program files (if source)

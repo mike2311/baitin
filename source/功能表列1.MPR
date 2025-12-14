@@ -1,0 +1,33 @@
+*       *********************************************************
+*       *                                                         
+*       * 04/09/2007            能表列1.MPR             13:57:48  
+*       *                                                         
+*       *********************************************************
+*       *                                                         
+*       * 作者姓名                                                
+*       *                                                         
+*       * Copyright(C) 2007 公司名稱                             
+*       * 地址                                                    
+*       * 城市,     郵遞區號                                      
+*       * 國家/地區                                         
+*       *                                                         
+*       * 描述:                                            
+*       * 本程式由 GENMENU 自動產生。    
+*       *                                                         
+*       *********************************************************
+
+
+*       *********************************************************
+*       *                                                         
+*       *                        功能表定義                       
+*       *                                                         
+*       *********************************************************
+*
+
+DEFINE POPUP 快顯功能表 SHORTCUT RELATIVE FROM MROW(),MCOL()
+DEFINE BAR 1 OF 快顯功能表 PROMPT "Change Customer Ship Date"
+DEFINE BAR 2 OF 快顯功能表 PROMPT "Change Vendor Ship Date"
+ON SELECTION BAR 1 OF 快顯功能表 do form ioecustshipdate
+ON SELECTION BAR 2 OF 快顯功能表 do form ioeshipdate
+
+ACTIVATE POPUP 快顯功能表
