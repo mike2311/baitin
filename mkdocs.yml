@@ -9,10 +9,14 @@ theme:
   features:
     - navigation.sections
     - navigation.expand
+    - navigation.instant
+    - navigation.tracking
     - search.suggest
     - search.highlight
     - content.tabs.link
     - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
   palette:
     # Light mode
     - scheme: default
