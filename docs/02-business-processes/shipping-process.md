@@ -16,11 +16,49 @@ Shipping Orders (SO) are created to coordinate the shipping of confirmed orders.
 
 **Form:** `isetso` (Input Shipping Order)
 
-**Process:**
-1. User selects OC or Contract
-2. System retrieves items
-3. User assigns items to shipments
-4. System creates SO records
+### SO Creation Detailed Flow
+
+```mermaid
+flowchart TD
+    Start([SO Creation Start]) --> UserSelectSource[User Selects Source Document<br/>OC conf_no OR<br/>Contract cont_no]
+    UserSelectSource --> CheckSourceType{Source<br/>Type?}
+    
+    CheckSourceType -->|OC| SelectOCItems[SELECT FROM morddt<br/>WHERE conf_no = selected OC<br/>Retrieve OC items]
+    CheckSourceType -->|Contract| SelectContractItems[SELECT FROM mcontdt<br/>WHERE cont_no = selected Contract<br/>Retrieve Contract items]
+    
+    SelectOCItems --> DisplayItems[Display Items in Form<br/>User can select items<br/>to include in SO]
+    SelectContractItems --> DisplayItems
+    
+    DisplayItems --> UserAssignItems[User Assigns Items<br/>Select quantities<br/>Set ship dates<br/>Assign to shipments]
+    
+    UserAssignItems --> UserConfirm{User<br/>Confirms<br/>Creation?}
+    UserConfirm -->|Cancel| EndCancel[Cancel SO Creation]
+    UserConfirm -->|Yes| GenerateSONo[Generate SO Number<br/>so_no<br/>Sequential or from OC/Contract]
+    
+    GenerateSONo --> ItemLoop{For Each<br/>Selected Item}
+    ItemLoop -->|No More| SetShipMark
+    ItemLoop -->|Yes| CreateSORecord[APPEND BLANK to mso<br/>Create SO record]
+    
+    CreateSORecord --> SetSOFields[REPLACE mso.so_no = so_no<br/>REPLACE mso.conf_no = conf_no<br/>if from OC<br/>REPLACE mso.cont_no = cont_no<br/>if from Contract]
+    
+    SetSOFields --> SetItemFields[REPLACE mso.item_no = item_no<br/>REPLACE mso.qty = selected qty<br/>REPLACE mso.ship_date = ship_date<br/>REPLACE mso.oc_no = oc_no<br/>if applicable]
+    
+    SetItemFields --> GetShipMark[Retrieve Ship Mark<br/>SELECT mcustom<br/>LOCATE FOR cust_no<br/>Get shipmark memo field]
+    GetShipMark --> SetShipMarkFields[REPLACE mso.shipmark<br/>= customer shipmark<br/>or custom shipmark]
+    
+    SetShipMarkFields --> SetFOBTerms[REPLACE mso.fob_port<br/>= contract fob_port<br/>or default FOB port]
+    SetFOBTerms --> SetOtherFields[REPLACE other SO fields<br/>ship_to, loading_port<br/>dest, remarks]
+    SetOtherFields --> NextItem[Next Item<br/>Continue Loop]
+    NextItem --> ItemLoop
+    
+    SetShipMark[Apply Ship Mark<br/>from Customer] --> GetCustomerInfo[SELECT mcustom<br/>Get customer shipmark<br/>from memo field]
+    GetCustomerInfo --> ApplyShipMark[REPLACE SO records<br/>with ship mark<br/>from mcustom.shipmark]
+    ApplyShipMark --> Complete[SO Creation Complete]
+    EndCancel --> End
+    Complete --> End([Process Complete])
+```
+
+**Code Reference:** Form `isetso` - Shipping Order creation logic
 
 ### SO Table Structure
 
@@ -57,13 +95,50 @@ Shipping Orders (SO) are created to coordinate the shipping of confirmed orders.
 
 ### Format Application
 
-**Process:**
-1. Look up customer's SO format key
-2. Retrieve format definition from `zsoformat`
-3. Apply format to SO report
-4. Generate formatted SO document
+### SO Format Application Detailed Flow
 
-**Code Reference:** `pso.prg` (lines 1-29)
+```mermaid
+flowchart TD
+    Start([SO Format Application]) --> SelectSO[Select SO Number<br/>w_so_no]
+    SelectSO --> GetSOData[SELECT FROM mso<br/>WHERE so_no = w_so_no<br/>Get SO records]
+    
+    GetSOData --> GetCustomer[Get Customer Number<br/>w_cust_no from SO<br/>or linked OC/Contract]
+    GetCustomer --> LookupFormatKey[SELECT mcustom<br/>LOCATE FOR cust_no<br/>Get so_format_key<br/>or default format key]
+    
+    LookupFormatKey --> CheckFormatKey{Format Key<br/>Exists?}
+    CheckFormatKey -->|No| UseDefaultFormat[Use Default Format<br/>Standard SO layout]
+    CheckFormatKey -->|Yes| SelectFormat[SELECT FROM zsoformat<br/>WHERE so_key = format_key<br/>ORDER BY vpos, hpos<br/>Get format definition]
+    
+    SelectFormat --> CheckFormatFound{Format<br/>Definition<br/>Found?}
+    CheckFormatFound -->|No| UseDefaultFormat
+    CheckFormatFound -->|Yes| InitFormatArray[Initialize Format Array<br/>Store format elements<br/>vpos, hpos, height, width<br/>uniqueid]
+    
+    UseDefaultFormat --> GenerateReport
+    InitFormatArray --> LoadReportTemplate[Load SO Report Template<br/>pso.frx or pso2.frx]
+    LoadReportTemplate --> ApplyFormatElements{For Each<br/>Format Element<br/>in zsoformat}
+    
+    ApplyFormatElements -->|More| GetFormatElement[Get Format Element<br/>uniqueid, vpos, hpos<br/>height, width]
+    GetFormatElement --> PositionElement[Position Report Element<br/>at vpos, hpos<br/>with height, width]
+    PositionElement --> ApplyFormatElements
+    
+    ApplyFormatElements -->|No More| MapDataFields[Map SO Data to<br/>Format Elements<br/>Based on uniqueid]
+    
+    MapDataFields --> GenerateReport[Generate Formatted SO Report<br/>Apply format layout<br/>Fill with SO data]
+    GenerateReport --> OutputReport{Output<br/>Format?}
+    
+    OutputReport -->|Print| SendToPrinter[Send to Printer]
+    OutputReport -->|Preview| ShowPreview[Display Preview]
+    OutputReport -->|PDF| GeneratePDF[Generate PDF File]
+    OutputReport -->|Excel| ExportExcel[Export to Excel]
+    
+    SendToPrinter --> End
+    ShowPreview --> End
+    GeneratePDF --> End
+    ExportExcel --> End
+    End([Format Application Complete])
+```
+
+**Code Reference:** `source/pso.prg` (lines 1-29)
 
 ### Format Configuration
 

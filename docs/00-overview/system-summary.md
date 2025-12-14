@@ -127,11 +127,11 @@ The system is designed for companies engaged in:
 ## System Architecture
 
 ```mermaid
-graph TB
-    User[User] --> Login[Login Form<br/>ILOGON]
+flowchart TB
+    User[User] --> Login["Login Form<br/>ILOGON"]
     Login --> Auth{Authentication}
-    Auth -->|SUPERVISOR| MenuS[BATMENUS<br/>Full Menu]
-    Auth -->|REGULAR| MenuR[BATMENU<br/>Limited Menu]
+    Auth -->|SUPERVISOR| MenuS["BATMENUS<br/>Full Menu"]
+    Auth -->|REGULAR| MenuR["BATMENU<br/>Limited Menu"]
     
     MenuS --> File[File Management]
     MenuS --> OE[Order Enquiry]
@@ -151,9 +151,9 @@ graph TB
     OE --> QtyBrk[Qty Breakdown]
     
     subgraph DataLayer [Data Layer]
-        DBF[(DBF Files<br/>186 Tables)]
-        CDX[(CDX Indexes)]
-        FPT[(FPT Memo Files)]
+        DBF[("DBF Files<br/>186 Tables")]
+        CDX[("CDX Indexes")]
+        FPT[("FPT Memo Files")]
     end
     
     OE --> DBF

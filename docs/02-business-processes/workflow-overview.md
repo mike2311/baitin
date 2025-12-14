@@ -8,25 +8,25 @@ The system manages the complete lifecycle of international trading operations fr
 
 ```mermaid
 flowchart TD
-    Start([Customer Inquiry]) --> OE[Order Enquiry<br/>OE]
+    Start([Customer Inquiry]) --> OE["Order Enquiry<br/>OE"]
     OE --> Validate{Validate OE}
-    Validate -->|Valid| Process[Process OE<br/>Qty Breakdown<br/>BOM]
+    Validate -->|Valid| Process["Process OE<br/>Qty Breakdown<br/>BOM"]
     Validate -->|Invalid| Reject[Reject OE]
     
     Process --> Post[Post OE to OC]
-    Post --> OC[Order Confirmation<br/>OC]
+    Post --> OC["Order Confirmation<br/>OC"]
     
-    OC --> GenContract[Generate Contracts<br/>Group by Vendor]
-    GenContract --> Contract[Contract<br/>Purchase Order]
+    OC --> GenContract["Generate Contracts<br/>Group by Vendor"]
+    GenContract --> Contract["Contract<br/>Purchase Order"]
     
     Contract --> CreateSO[Create Shipping Order]
-    CreateSO --> SO[Shipping Order<br/>SO]
+    CreateSO --> SO["Shipping Order<br/>SO"]
     
     SO --> CreateDN[Create Delivery Note]
-    CreateDN --> DN[Delivery Note<br/>DN]
+    CreateDN --> DN["Delivery Note<br/>DN"]
     
     DN --> CreateInv[Create Invoice]
-    CreateInv --> Inv[Invoice<br/>INV]
+    CreateInv --> Inv["Invoice<br/>INV"]
     
     Inv --> PackingList[Generate Packing List]
     PackingList --> ShipAdvice[Shipment Advice]
@@ -113,9 +113,9 @@ flowchart TD
     Start([Post OE to OC]) --> SelectOE[Select OE]
     SelectOE --> ValidateOE{OE Valid?}
     ValidateOE -->|No| Error[Error Message]
-    ValidateOE -->|Yes| CreateOC[Create OC Header]
+    ValidateOE -->|Yes| CreateOC["Create OC Header"]
     
-    CreateOC --> CopyItems[Copy OE Items to OC]
+    CreateOC --> CopyItems["Copy OE Items to OC"]
     CopyItems --> ProcessBOM{BOM Items?}
     ProcessBOM -->|Yes| CalcBOM[Calculate BOM Quantities]
     ProcessBOM -->|No| UpdateStatus[Update OE Status]

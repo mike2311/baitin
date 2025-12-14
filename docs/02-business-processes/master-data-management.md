@@ -10,18 +10,77 @@ Master data management covers the creation and maintenance of items, customers, 
 
 **Form:** `iitem` (Input Item)
 
-**Process:**
-1. User enters item number
-2. System validates uniqueness
-3. User enters item details:
-   - Description
-   - Price and cost
-   - Packing information
-   - Dimensions (weight, cube)
-   - Origin and HTC code
-   - Standard code
-   - UPC code
-4. System saves to `mitem` table
+### Item Master Data Management Detailed Flow
+
+```mermaid
+flowchart TD
+    Start([Item Master Data Management]) --> UserAction{User<br/>Action?}
+    
+    UserAction -->|Create| CreateItem
+    UserAction -->|Update| UpdateItem
+    UserAction -->|BOM Setup| SetupBOM
+    
+    CreateItem[Create New Item] --> EnterItemNo[User Enters Item Number<br/>item_no]
+    EnterItemNo --> ValidateUnique[SELECT mitem<br/>SEEK item_no<br/>Check if exists]
+    
+    ValidateUnique --> Duplicate{Item<br/>Already<br/>Exists?}
+    Duplicate -->|Yes| ShowDuplicateError[Show Error<br/>Item Number Already Exists]
+    Duplicate -->|No| EnterItemDetails[User Enters Item Details<br/>Description memo field<br/>Price, Cost<br/>Packing info pack_pc_1-4<br/>pack_desp_1-4]
+    
+    ShowDuplicateError --> EndCancel
+    EnterItemDetails --> EnterDimensions[Enter Dimensions<br/>Weight wt<br/>Cube cube<br/>Dimensions dim]
+    
+    EnterDimensions --> EnterCodes[Enter Codes<br/>Origin origin<br/>HTC Code htc_no<br/>Standard Code std_code<br/>UPC Code upc_no]
+    
+    EnterCodes --> ValidateStdCode{Validate<br/>Standard Code<br/>in zstdcode?}
+    ValidateStdCode -->|No| ShowStdCodeError[Show Error<br/>Invalid Standard Code]
+    ValidateStdCode -->|Yes| ValidateOrigin{Validate<br/>Origin Code<br/>in zorigin?}
+    
+    ShowStdCodeError --> EndCancel
+    ValidateOrigin -->|No| ShowOriginError[Show Error<br/>Invalid Origin]
+    ValidateOrigin -->|Yes| CreateRecord[APPEND BLANK to mitem<br/>REPLACE all item fields]
+    
+    ShowOriginError --> EndCancel
+    CreateRecord --> SetAuditFields[REPLACE cre_date = DATE<br/>REPLACE cre_user = sysUserId<br/>REPLACE user_id = sysUserId]
+    SetAuditFields --> EndSuccess
+    
+    UpdateItem[Update Existing Item] --> SelectItem[User Selects Item<br/>from mitem lookup]
+    SelectItem --> LoadItem[LOAD mitem record<br/>Display in form]
+    LoadItem --> ModifyFields[User Modifies Fields<br/>Description, Price, etc.]
+    ModifyFields --> ValidateChanges{Validate<br/>Changes<br/>std_code, origin?}
+    
+    ValidateChanges -->|Invalid| ShowValidationError[Show Validation Error]
+    ValidateChanges -->|Valid| SaveChanges[Save Changes<br/>REPLACE fields<br/>REPLACE mod_date = DATE<br/>REPLACE mod_user = sysUserId]
+    
+    ShowValidationError --> EndCancel
+    SaveChanges --> EndSuccess
+    
+    SetupBOM[Setup Item BOM] --> SelectParentItem[Select Parent Item<br/>item_no]
+    SelectParentItem --> CheckBOMExists{Check mprodbom<br/>BOM exists<br/>for this item?}
+    
+    CheckBOMExists -->|Yes| LoadBOM[Load Existing BOM<br/>Display sub-items]
+    CheckBOMExists -->|No| CreateNewBOM[Create New BOM Structure]
+    
+    LoadBOM --> AddSubItem[User Adds Sub-item<br/>Select from mitem]
+    CreateNewBOM --> AddSubItem
+    
+    AddSubItem --> ValidateSubItem{Sub-item<br/>exists<br/>in mitem?}
+    ValidateSubItem -->|No| ShowSubItemError[Show Error<br/>Sub-item Not Found]
+    ValidateSubItem -->|Yes| EnterBOMQty[User Enters BOM Quantity<br/>qty per parent item]
+    
+    ShowSubItemError --> AddSubItem
+    EnterBOMQty --> SaveBOMRecord[APPEND or UPDATE<br/>mprodbom record<br/>REPLACE item_no, sub_item, qty]
+    
+    SaveBOMRecord --> MoreSubItems{More<br/>Sub-items?}
+    MoreSubItems -->|Yes| AddSubItem
+    MoreSubItems -->|No| EndSuccess
+    
+    EndSuccess([Operation Successful]) --> End
+    EndCancel([Operation Cancelled or Error]) --> End
+    End([Process Complete])
+```
+
+**Code Reference:** Form `iitem` - Item entry form, Form `iprodbom` - BOM setup
 
 ### Item Import
 
@@ -108,16 +167,61 @@ Master data management covers the creation and maintenance of items, customers, 
 
 **Form:** `icustom` (Input Customer)
 
-**Process:**
-1. User enters customer number
-2. System validates uniqueness
-3. User enters customer details:
-   - Name and address
-   - Contact information
-   - Payment terms
-   - Shipping parameters
-   - Ship marks
-4. System saves to `mcustom` table
+### Customer Master Data Management Detailed Flow
+
+```mermaid
+flowchart TD
+    Start([Customer Master Data Management]) --> UserAction{User<br/>Action?}
+    
+    UserAction -->|Create| CreateCustomer
+    UserAction -->|Update| UpdateCustomer
+    UserAction -->|Ship Mark| SetupShipMark
+    
+    CreateCustomer[Create New Customer] --> EnterCustNo[User Enters Customer Number<br/>cust_no]
+    EnterCustNo --> ValidateUnique[SELECT mcustom<br/>SEEK cust_no<br/>Check if exists]
+    
+    ValidateUnique --> Duplicate{Customer<br/>Already<br/>Exists?}
+    Duplicate -->|Yes| ShowDuplicateError[Show Error<br/>Customer Number Already Exists]
+    Duplicate -->|No| EnterCustomerDetails[User Enters Customer Details<br/>English Name ename<br/>Short Name sname<br/>Address addr1-4]
+    
+    ShowDuplicateError --> EndCancel
+    EnterCustomerDetails --> EnterContact[Enter Contact Information<br/>Contact Name cont_name<br/>Telephones tel, tel2<br/>Fax Numbers fax, fax2]
+    
+    EnterContact --> EnterTerms[Enter Payment Terms<br/>term<br/>Select from zpayterm<br/>or enter custom terms]
+    
+    EnterTerms --> EnterShippingParams[Enter Shipping Parameters<br/>show_sub_item_detail flag<br/>wt_unit weight unit<br/>Shipping preferences]
+    
+    EnterShippingParams --> SetupShipMarkStep[Setup Ship Mark<br/>Enter shipmark memo<br/>or use template from mshipmark]
+    
+    SetupShipMarkStep --> CreateRecord[APPEND BLANK to mcustom<br/>REPLACE all customer fields]
+    CreateRecord --> SetAuditFields[REPLACE cre_date = DATE<br/>REPLACE cre_user = sysUserId<br/>REPLACE user_id = sysUserId]
+    SetAuditFields --> EndSuccess
+    
+    UpdateCustomer[Update Existing Customer] --> SelectCustomer[User Selects Customer<br/>from mcustom lookup]
+    SelectCustomer --> LoadCustomer[LOAD mcustom record<br/>Display in form]
+    LoadCustomer --> ModifyFields[User Modifies Fields<br/>Address, Contact, Terms, etc.]
+    ModifyFields --> SaveChanges[Save Changes<br/>REPLACE fields<br/>REPLACE mod_date = DATE<br/>REPLACE mod_user = sysUserId]
+    SaveChanges --> EndSuccess
+    
+    SetupShipMark[Setup Ship Mark] --> SelectCustForMark[Select Customer<br/>for Ship Mark setup]
+    SelectCustForMark --> LoadShipMark[Load Current Ship Mark<br/>from mcustom.shipmark memo]
+    
+    LoadShipMark --> UserOption{Ship Mark<br/>Option?}
+    UserOption -->|Enter Manual| EnterManualMark[User Enters Ship Mark<br/>Text in memo field<br/>Multi-line format]
+    UserOption -->|Use Template| SelectTemplate[Select Template<br/>from mshipmark<br/>Browse available templates]
+    
+    SelectTemplate --> ApplyTemplate[Apply Template<br/>Copy template to<br/>mcustom.shipmark]
+    
+    EnterManualMark --> SaveShipMark[REPLACE mcustom.shipmark<br/>= entered mark<br/>or applied template]
+    ApplyTemplate --> SaveShipMark
+    SaveShipMark --> EndSuccess
+    
+    EndSuccess([Operation Successful]) --> End
+    EndCancel([Operation Cancelled or Error]) --> End
+    End([Process Complete])
+```
+
+**Code Reference:** Form `icustom` - Customer entry form
 
 ### Customer Import
 
@@ -177,14 +281,59 @@ Master data management covers the creation and maintenance of items, customers, 
 
 **Form:** `ivendor` (Input Vendor)
 
-**Process:**
-1. User enters vendor number
-2. System validates uniqueness
-3. User enters vendor details:
-   - Name and address
-   - Contact information
-   - Vendor type (Vendor/Maker)
-4. System saves to `mvendor` table
+### Vendor Master Data Management Detailed Flow
+
+```mermaid
+flowchart TD
+    Start([Vendor Master Data Management]) --> UserAction{User<br/>Action?}
+    
+    UserAction -->|Create| CreateVendor
+    UserAction -->|Update| UpdateVendor
+    UserAction -->|Item Link| LinkVendorItem
+    
+    CreateVendor[Create New Vendor] --> EnterVendorNo[User Enters Vendor Number<br/>vendor_no]
+    EnterVendorNo --> ValidateUnique[SELECT mvendor<br/>SEEK vendor_no<br/>Check if exists]
+    
+    ValidateUnique --> Duplicate{Vendor<br/>Already<br/>Exists?}
+    Duplicate -->|Yes| ShowDuplicateError[Show Error<br/>Vendor Number Already Exists]
+    Duplicate -->|No| EnterVendorDetails[User Enters Vendor Details<br/>English Name ename<br/>Short Name sname<br/>Address addr1-4]
+    
+    ShowDuplicateError --> EndCancel
+    EnterVendorDetails --> EnterContact[Enter Contact Information<br/>Contact Name cont_name<br/>Telephones tel, tel2<br/>Fax Numbers fax, fax2]
+    
+    EnterContact --> SelectVendorType[Select Vendor Type<br/>type = 1 for Vendor<br/>type = 2 for Maker]
+    
+    SelectVendorType --> EnterPaymentTerms[Enter Payment Terms<br/>Payment preferences<br/>Default payment terms<br/>if applicable]
+    
+    EnterPaymentTerms --> CreateRecord[APPEND BLANK to mvendor<br/>REPLACE all vendor fields]
+    CreateRecord --> SetAuditFields[REPLACE cre_date = DATE<br/>REPLACE cre_user = sysUserId<br/>REPLACE user_id = sysUserId]
+    SetAuditFields --> EndSuccess
+    
+    UpdateVendor[Update Existing Vendor] --> SelectVendor[User Selects Vendor<br/>from mvendor lookup]
+    SelectVendor --> LoadVendor[LOAD mvendor record<br/>Display in form]
+    LoadVendor --> ModifyFields[User Modifies Fields<br/>Address, Contact, Type, etc.]
+    ModifyFields --> SaveChanges[Save Changes<br/>REPLACE fields<br/>REPLACE mod_date = DATE<br/>REPLACE mod_user = sysUserId]
+    SaveChanges --> EndSuccess
+    
+    LinkVendorItem[Link Vendor to Item] --> SelectItem[Select Item<br/>from mitem<br/>item_no]
+    SelectItem --> SelectVendorForLink[Select Vendor<br/>from mvendor<br/>vendor_no]
+    
+    SelectVendorForLink --> CheckLinkExists{Check mitemven<br/>Link exists<br/>item_no + vendor_no?}
+    CheckLinkExists -->|Yes| ShowLinkExists[Show Message<br/>Link Already Exists<br/>or Update Existing]
+    CheckLinkExists -->|No| CreateLink[APPEND BLANK to mitemven<br/>REPLACE item_no, vendor_no]
+    
+    ShowLinkExists --> UpdateLink[UPDATE mitemven<br/>Modify link details<br/>if needed]
+    CreateLink --> SetLinkDetails[Set Link Details<br/>Default vendor flag<br/>Vendor-specific item info<br/>if applicable]
+    
+    UpdateLink --> EndSuccess
+    SetLinkDetails --> EndSuccess
+    
+    EndSuccess([Operation Successful]) --> End
+    EndCancel([Operation Cancelled or Error]) --> End
+    End([Process Complete])
+```
+
+**Code Reference:** Form `ivendor` - Vendor entry form, Item-Vendor linking logic
 
 ### Vendor Import
 

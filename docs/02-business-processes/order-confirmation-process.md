@@ -6,24 +6,73 @@ Order Confirmation (OC) represents confirmed customer orders. OCs are created by
 
 ## Post OE to OC Workflow
 
-### Process Flow
+### Post OE to OC Detailed Flow
 
 ```mermaid
 flowchart TD
-    Start([Post OE to OC]) --> SelectOE[Select OE to Post]
-    SelectOE --> ValidateOE{Validate OE}
-    ValidateOE -->|Invalid| Error[Show Error]
-    ValidateOE -->|Valid| CreateOC[Create OC Header<br/>mordhd]
+    Start([Post OE to OC]) --> InitVars[Initialize Variables<br/>w_head_item = space 20<br/>w_head_qty = 0]
+    InitVars --> SelectVOE1[SELECT voe1 cursor<br/>GO TOP<br/>Cursor contains OEs to post]
     
-    CreateOC --> CopyItems[Copy OE Items to OC<br/>moe → morddt]
-    CopyItems --> ProcessBOM{Has BOM Items?}
+    SelectVOE1 --> OELoop{More OEs<br/>in voe1?}
+    OELoop -->|No| Complete[Post Complete]
+    OELoop -->|Yes| DisplayStatus[@2.5,40 SAY<br/>Update Item No. + item_no]
     
-    ProcessBOM -->|Yes| CalcBOM[Calculate BOM Quantities]
-    ProcessBOM -->|No| UpdateStatus[Update OE Status]
+    DisplayStatus --> LocateMORDDT[SELECT morddt<br/>LOCATE FOR<br/>conf_no == voe1.oc_no<br/>AND item_no == voe1.item_no]
     
-    CalcBOM --> UpdateStatus
-    UpdateStatus --> Complete[OC Created]
+    LocateMORDDT --> FoundMORDDT{Record<br/>Found?}
+    FoundMORDDT -->|Yes| UpdateMORDDT[DO update_morddt<br/>Update OC Detail Record]
+    FoundMORDDT -->|No| LocateMCONTDT
+    
+    UpdateMORDDT --> ReplaceMORDDTFields[REPLACE morddt.qty<br/>= voe1.qty<br/>REPLACE morddt.ctn = voe1.ctn<br/>REPLACE morddt.price = voe1.price<br/>REPLACE morddt.po_no = voe1.po_no]
+    
+    ReplaceMORDDTFields --> CheckBOM{Check if Item<br/>has BOM}
+    CheckBOM --> CalcTotalBOMQty[SELECT SUM qty as total_qty<br/>FROM mprodbom<br/>WHERE item_no == morddt.item_no<br/>INTO CURSOR sum_qty]
+    
+    CalcTotalBOMQty --> CheckTotalQty{sum_qty.total_qty<br/>> 0?}
+    CheckTotalQty -->|No| LocateMCONTDT
+    CheckTotalQty -->|Yes| SetHeadVars[w_head_item = morddt.item_no<br/>w_head_qty = morddt.qty]
+    
+    SetHeadVars --> SkipNextMORDDT[SELECT morddt<br/>SKIP<br/>Go to Next Record]
+    SkipNextMORDDT --> BOMSubLoop{morddt.head<br/>== .F.?}
+    
+    BOMSubLoop -->|Yes| LocateBOMRecord[SELECT mprodbom<br/>LOCATE FOR<br/>item_no == w_head_item<br/>AND sub_item == morddt.item_no]
+    
+    LocateBOMRecord --> CalcSubQty[Calculate Sub-item Quantity<br/>sub_qty = w_head_qty *<br/>mprodbom.qty / total_qty]
+    CalcSubQty --> ReplaceSubQty[REPLACE morddt.qty<br/>= calculated sub_qty]
+    ReplaceSubQty --> SkipNextSub[SKIP morddt<br/>Next Sub-item]
+    SkipNextSub --> BOMSubLoop
+    
+    BOMSubLoop -->|No| LocateMCONTDT[SELECT mcontdt<br/>LOCATE FOR<br/>conf_no == voe1.oc_no<br/>AND item_no == voe1.item_no]
+    
+    LocateMCONTDT --> FoundMCONTDT{Record<br/>Found?}
+    FoundMCONTDT -->|Yes| UpdateMCONTDT[DO update_mcontdt<br/>Update Contract Detail]
+    FoundMCONTDT -->|No| NextOE
+    
+    UpdateMCONTDT --> ReplaceMCONTDTFields[REPLACE mcontdt.qty<br/>= voe1.qty<br/>REPLACE mcontdt.ctn = voe1.ctn<br/>REPLACE mcontdt.price = voe1.cost<br/>REPLACE mcontdt.po_no = voe1.po_no]
+    
+    ReplaceMCONTDTFields --> CheckContBOM{Check if Item<br/>has BOM}
+    CheckContBOM --> CalcContTotalQty[SELECT SUM qty as total_qty<br/>FROM mprodbom<br/>WHERE item_no == mcontdt.item_no<br/>INTO CURSOR sum_qty]
+    
+    CalcContTotalQty --> CheckContTotalQty{sum_qty.total_qty<br/>> 0?}
+    CheckContTotalQty -->|No| NextOE
+    CheckContTotalQty -->|Yes| SetContHeadVars[w_head_item = mcontdt.item_no<br/>w_head_qty = mcontdt.qty]
+    
+    SetContHeadVars --> SkipNextMCONTDT[SELECT mcontdt<br/>SKIP<br/>Go to Next Record]
+    SkipNextMCONTDT --> BOMContSubLoop{mcontdt.head<br/>== .F.?}
+    
+    BOMContSubLoop -->|Yes| LocateContBOM[SELECT mprodbom<br/>LOCATE FOR<br/>item_no == w_head_item<br/>AND sub_item == mcontdt.item_no]
+    
+    LocateContBOM --> CalcContSubQty[Calculate Sub-item Quantity<br/>sub_qty = w_head_qty *<br/>mprodbom.qty / total_qty]
+    CalcContSubQty --> ReplaceContSubQty[REPLACE mcontdt.qty<br/>= calculated sub_qty]
+    ReplaceContSubQty --> SkipNextContSub[SKIP mcontdt<br/>Next Sub-item]
+    SkipNextContSub --> BOMContSubLoop
+    
+    BOMContSubLoop -->|No| NextOE[SKIP voe1<br/>Next OE Item]
+    NextOE --> ClearStatus[@2.5,40 SAY<br/>Update Completed]
+    ClearStatus --> OELoop
 ```
+
+**Code Reference:** `source/uordcont.prg` (lines 1-79)
 
 ### Step 1: Select OE
 

@@ -22,19 +22,101 @@ The system uses form-based authentication with password validation. Users log in
 ### Authentication Flow
 
 ```mermaid
-graph TD
-    Start([User Opens Application]) --> LoginForm[ILOGON Form]
-    LoginForm --> EnterCreds[Enter Username/Password]
-    EnterCreds --> Validate{Validate Credentials}
-    Validate -->|Invalid| Reject[Login Rejected<br/>M = .F.]
-    Validate -->|Valid| SetVars[Set Variables<br/>User_right<br/>sysUserId]
-    SetVars --> CheckRole{Check User_right}
-    CheckRole -->|SUPERVISOR| LoadSupervisor[BATMENUS.MPX]
-    CheckRole -->|REGULAR| LoadRegular[BATMENU.MPX]
-    LoadSupervisor --> MainApp[Main Application]
-    LoadRegular --> MainApp
-    Reject --> Cancel[Cancel/Exit]
+flowchart TD
+    Start([Application Start]) --> ClearAll[CLEAR ALL<br/>Clear all variables and memory]
+    ClearAll --> InitPublicVars[Initialize Public Variables<br/>M, User_right, w_shop_no<br/>w_shop_name, sysUserId<br/>syswork, w_sys_language]
+    InitPublicVars --> CheckBatworkDir{Directory<br/>C:\Batwork<br/>exists?}
+    CheckBatworkDir -->|No| CreateBatworkDir[MD C:\Batwork<br/>Create directory]
+    CheckBatworkDir -->|Yes| SetSysLanguage
+    CreateBatworkDir --> SetSysLanguage[w_sys_language = E<br/>SET HOUR TO 24<br/>PUBLIC w_password]
+    SetSysLanguage --> SetFoxConfig[SET TALK OFF<br/>SET DELETE ON<br/>SET SAFETY OFF<br/>SET STATUS BAR OFF<br/>SET CENTURY ON<br/>SET DATE MDY]
+    SetFoxConfig --> SetPaths[SET PATH TO c:\batwork<br/>SET EXCLUSIVE OFF<br/>SET ENGINEBEHAVIOR 70]
+    SetPaths --> SetScreenCaption["Set Screen Caption<br/>_SCREEN.CAPTION =<br/>'Trading Management System - V3.0 July 9, 2025)'<br/>_SCREEN.WINDOWSTATE = 2"]
+    SetScreenCaption --> DoLoginForm[DO FORM ILOGON<br/>Display login form]
+    
+    DoLoginForm --> LoginForm[ILOGON Form Displayed<br/>User enters username/password]
+    LoginForm --> FormValidate[Form validates credentials<br/>Lookup in user table<br/>Compare password]
+    
+    FormValidate -->|Invalid| SetMFalse[M = .F.<br/>User_right = empty<br/>sysUserId = empty<br/>Return to main.prg]
+    FormValidate -->|Valid| SetMTrue[M = .T.<br/>User_right = SUPERVISOR/REGULAR_USER<br/>sysUserId = user_id<br/>Return to main.prg]
+    
+    SetMFalse --> CheckMVar{M == .T.?}
+    SetMTrue --> CheckMVar
+    
+    CheckMVar -->|No M = .T.| CancelApp[CANCEL<br/>Exit application]
+    CheckMVar -->|M = .T.| CheckUserRight{Upper User_right<br/>== SUPERVISOR?}
+    
+    CheckUserRight -->|Yes| SetSuperCaption["_screen.Caption +=<br/>'Date: ' + DTOC gettoday<br/>DO BATMENUS.MPX<br/>Load Supervisor Menu"]
+    CheckUserRight -->|No| SetRegularCaption["_screen.Caption +=<br/>'Date: ' + DTOC gettoday<br/>DO BATMENU.MPX<br/>Load Regular Menu"]
+    
+    SetSuperCaption --> CreateUserWorkDir
+    SetRegularCaption --> CreateUserWorkDir[syswork = 'c:\' +<br/>ALLTRIM sysUserId + 'work'<br/>Build user work directory path]
+    
+    CreateUserWorkDir --> CheckUserDir{User Directory<br/>syswork exists?}
+    CheckUserDir -->|No| MakeUserDir[MD syswork<br/>Create user directory]
+    CheckUserDir -->|Yes| SetPathWithUser
+    MakeUserDir --> SetPathWithUser[SET PATH TO<br/>c:\batwork, syswork<br/>Add user directory to path]
+    
+    SetPathWithUser --> AddUserToCaption["_screen.Caption +=<br/>' ' + ALLTRIM sysUserId<br/>Add user ID to caption]
+    AddUserToCaption --> SetSysMenuOn[SET SYSMENU ON<br/>ON SHUTDOWN QUIT<br/>Enable system menu]
+    SetSysMenuOn --> ReadEvent[READ EVENT<br/>Enter event loop<br/>Start application]
+    ReadEvent --> MainApp[Main Application Running<br/>Event loop active]
+    
+    CancelApp --> End([Application Exited])
 ```
+
+**Code Reference:** `source/main.prg` (lines 1-50)
+
+### Logout Process Flow
+
+```mermaid
+flowchart TD
+    Start([User Selects Logout Menu]) --> SetDone[DONE = .T.<br/>Play beep sound<br/>?? CHR 7]
+    SetDone --> ShowConfirm[MESSAGEBOX<br/>'Logout?'<br/>4+32, 'Trading Document Processing System']
+    ShowConfirm --> UserConfirm{User clicked<br/>Yes 6?}
+    
+    UserConfirm -->|No| EndLogout[Cancel Logout<br/>Return to application]
+    UserConfirm -->|Yes| ClearAllVars[CLEAR ALL<br/>Clear all variables<br/>M, User_right, sysUserId, etc.]
+    
+    ClearAllVars --> CloseDatabase[CLOSE DATABASE<br/>Close all database connections]
+    CloseDatabase --> CloseAllFiles[CLOSE ALL<br/>Close all open tables and files]
+    CloseAllFiles --> ResetSysMenu[SET SYSMENU TO DEFAULT<br/>Reset system menu to default state]
+    ResetSysMenu --> ClearScreen[_SCREEN.CLS<br/>Clear screen display]
+    ClearScreen --> RefreshScreen[_SCREEN.REFRESH<br/>Refresh screen]
+    RefreshScreen --> DoMain[DO main<br/>Restart application<br/>Return to login form]
+    DoMain --> RestartApp[Application Restarts<br/>Back to main.prg<br/>Login form displayed]
+    RestartApp --> EndLogout
+    
+    EndLogout --> End([Process Complete])
+```
+
+**Code Reference:** `source/BATMENUS.MPR` (lines 416-428)
+
+### Exit Process Flow
+
+```mermaid
+flowchart TD
+    Start([User Selects Exit Menu]) --> SetDone[DONE = .T.<br/>Play beep sound<br/>?? CHR 7]
+    SetDone --> ShowConfirm[MESSAGEBOX<br/>'Quit?'<br/>4+32, 'Trading Document Processing System']
+    ShowConfirm --> UserConfirm{User clicked<br/>Yes 6?}
+    
+    UserConfirm -->|No| EndExit[Cancel Exit<br/>Return to application]
+    UserConfirm -->|Yes| ClearAllVars[CLEAR ALL<br/>Clear all variables]
+    
+    ClearAllVars --> ClearReadAll[CLEAR READ ALL<br/>Clear all read statements<br/>Close all forms]
+    ClearReadAll --> CloseDatabase[CLOSE DATABASE<br/>Close database connections]
+    CloseDatabase --> CloseAllFiles[CLOSE ALL<br/>Close all open files]
+    CloseAllFiles --> ClearEvents[CLEAR EVENTS<br/>Clear event loop<br/>Exit READ EVENT]
+    ClearEvents --> ResetSysMenu[SET SYSMENU TO DEFAULT<br/>Reset system menu]
+    ResetSysMenu --> ClearScreen[_SCREEN.CLS<br/>Clear screen]
+    ClearScreen --> RefreshScreen[_SCREEN.REFRESH<br/>Refresh screen]
+    RefreshScreen --> ExitApp[Application Exits<br/>Program terminates]
+    ExitApp --> EndExit
+    
+    EndExit --> End([Process Complete])
+```
+
+**Code Reference:** `source/BATMENUS.MPR` (lines 445-457)
 
 ## Password Handling
 

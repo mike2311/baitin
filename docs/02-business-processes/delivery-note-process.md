@@ -142,3 +142,4 @@ DN breakdowns (`mdnbrk`) are typically copied from OE quantity breakdowns (`mqty
 
 The Delivery Note process creates shipping documentation for goods delivery. It links SO to actual delivery tracking, supports quantity breakdowns, and serves as source for invoice generation. Loading coordination helps manage warehouse operations and container allocation.
 
+

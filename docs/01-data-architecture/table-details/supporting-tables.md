@@ -366,7 +366,7 @@ Most supporting tables follow this pattern:
 ### Reference Data Flow
 
 ```mermaid
-graph TB
+flowchart TB
     ZSTDCODE[zstdcode] --> MITEM[mitem]
     ZORIGIN[zorigin] --> MITEM
     ZFOBPORT[zfobport] --> MSO[mso]

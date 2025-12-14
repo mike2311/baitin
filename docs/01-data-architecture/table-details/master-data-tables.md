@@ -232,31 +232,31 @@
 ### Item Relationships
 
 ```mermaid
-graph TB
-    MITEM[mitem<br/>Item Master] --> MITEMVEN[mitemven<br/>Item-Vendor]
-    MITEM --> MPRODBOM[mprodbom<br/>Product BOM]
-    MITEM --> MITEMMFTR[mitemmftr<br/>Item-Manufacturer]
-    MITEMVEN --> MVENDOR[mvendor<br/>Vendor]
-    MPRODBOM --> MITEM2[mitem<br/>Sub-items]
-    MITEMMFTR --> ZMFTR[zmftr<br/>Manufacturer]
+flowchart TB
+    MITEM["mitem<br/>Item Master"] --> MITEMVEN["mitemven<br/>Item-Vendor"]
+    MITEM --> MPRODBOM["mprodbom<br/>Product BOM"]
+    MITEM --> MITEMMFTR["mitemmftr<br/>Item-Manufacturer"]
+    MITEMVEN --> MVENDOR["mvendor<br/>Vendor"]
+    MPRODBOM --> MITEM2["mitem<br/>Sub-items"]
+    MITEMMFTR --> ZMFTR["zmftr<br/>Manufacturer"]
 ```
 
 ### Customer Usage
 
 ```mermaid
-graph TB
-    MCUSTOM[mcustom<br/>Customer] --> MOEHD[moehd<br/>OE Header]
-    MCUSTOM --> MORDHD[mordhd<br/>OC Header]
-    MCUSTOM --> MINVHD[minvhd<br/>Invoice Header]
+flowchart TB
+    MCUSTOM["mcustom<br/>Customer"] --> MOEHD["moehd<br/>OE Header"]
+    MCUSTOM --> MORDHD["mordhd<br/>OC Header"]
+    MCUSTOM --> MINVHD["minvhd<br/>Invoice Header"]
 ```
 
 ### Vendor Usage
 
 ```mermaid
-graph TB
-    MVENDOR[mvendor<br/>Vendor] --> MOE[moe<br/>OE Detail]
-    MVENDOR --> MCONTHD[mconthd<br/>Contract Header]
-    MVENDOR --> MITEMVEN[mitemven<br/>Item-Vendor]
+flowchart TB
+    MVENDOR["mvendor<br/>Vendor"] --> MOE["moe<br/>OE Detail"]
+    MVENDOR --> MCONTHD["mconthd<br/>Contract Header"]
+    MVENDOR --> MITEMVEN["mitemven<br/>Item-Vendor"]
 ```
 
 ## Data Import Patterns

@@ -12,13 +12,13 @@ The system supports two primary user roles with different access levels:
 ### Authentication Flow
 
 ```mermaid
-graph TD
-    Start([User Login]) --> LoginForm[ILOGON Form]
+flowchart TD
+    Start([User Login]) --> LoginForm["ILOGON Form"]
     LoginForm --> Validate{Validate Credentials}
     Validate -->|Success| CheckRole{Check User_right}
     Validate -->|Fail| Reject[Login Rejected]
-    CheckRole -->|SUPERVISOR| LoadSupervisor[BATMENUS.MPX<br/>Full Menu]
-    CheckRole -->|REGULAR| LoadRegular[BATMENU.MPX<br/>Limited Menu]
+    CheckRole -->|SUPERVISOR| LoadSupervisor["BATMENUS.MPX<br/>Full Menu"]
+    CheckRole -->|REGULAR| LoadRegular["BATMENU.MPX<br/>Limited Menu"]
     LoadSupervisor --> MainApp[Main Application]
     LoadRegular --> MainApp
 ```
