@@ -8,7 +8,6 @@ theme:
   name: material
   features:
     - navigation.sections
-    - navigation.expand
     - navigation.instant
     - navigation.tracking
     - search.suggest
