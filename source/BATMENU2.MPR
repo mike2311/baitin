@@ -1,0 +1,123 @@
+*       *********************************************************
+*       *                                                         
+*       * 09/18/2001           BATMENU2.MPR             18:02:29  
+*       *                                                         
+*       *********************************************************
+*       *                                                         
+*       * 作者姓名                                                
+*       *                                                         
+*       * Copyright(C) 2001 公司名稱                             
+*       * 地址                                                    
+*       * 城市,     郵遞區號                                      
+*       * 國家/地區                                         
+*       *                                                         
+*       * 描述:                                            
+*       * 本程式由 GENMENU 自動產生。    
+*       *                                                         
+*       *********************************************************
+
+
+*       *********************************************************
+*       *                                                         
+*       *                        功能表定義                       
+*       *                                                         
+*       *********************************************************
+*
+
+SET SYSMENU TO
+SET SYSMENU AUTOMATIC
+
+DEFINE PAD _0hg12o3qy OF _MSYSMENU PROMPT "File" COLOR SCHEME 3 ;
+	KEY ALT+F, ""
+DEFINE PAD _0hg12o3qz OF _MSYSMENU PROMPT "Document Process" COLOR SCHEME 3 ;
+	KEY ALT+D, ""
+DEFINE PAD _0hg12o3r0 OF _MSYSMENU PROMPT "Enquiry" COLOR SCHEME 3 ;
+	KEY ALT+E, ""
+DEFINE PAD _0hg12o3r1 OF _MSYSMENU PROMPT "Exit" COLOR SCHEME 3 ;
+	KEY ALT+E, ""
+ON PAD _0hg12o3qy OF _MSYSMENU ACTIVATE POPUP file
+ON PAD _0hg12o3qz OF _MSYSMENU ACTIVATE POPUP 輸入銷售資
+ON PAD _0hg12o3r0 OF _MSYSMENU ACTIVATE POPUP enquiry
+ON SELECTION PAD _0hg12o3r1 OF _MSYSMENU ;
+	DO _0hg12o3r5 ;
+	IN LOCFILE("BAITIN\BATMENU2" ,"MPX;MPR|FXP;PRG" ,"WHERE is BATMENU2?")
+
+DEFINE POPUP file MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF file PROMPT "Item"
+DEFINE BAR 2 OF file PROMPT "Product BOM"
+DEFINE BAR 3 OF file PROMPT "Customer"
+DEFINE BAR 4 OF file PROMPT "Customer Invoice Parameter"
+DEFINE BAR 5 OF file PROMPT "Vendor"
+DEFINE BAR 6 OF file PROMPT "SKN No."
+DEFINE BAR 7 OF file PROMPT "Ship Mark"
+DEFINE BAR 8 OF file PROMPT "Payment Terms"
+DEFINE BAR 9 OF file PROMPT "Fob Terms"
+DEFINE BAR 10 OF file PROMPT "Input Shipping Order Format"
+DEFINE BAR 11 OF file PROMPT "Standard Code"
+ON SELECTION BAR 1 OF file DO FORM IITEM
+ON SELECTION BAR 2 OF file DO FORM IPRODBOM
+ON SELECTION BAR 3 OF file DO FORM ICUSTOM
+ON SELECTION BAR 4 OF file DO FORM ICUSTINV
+ON SELECTION BAR 5 OF file DO FORM IVENDOR
+ON SELECTION BAR 6 OF file DO FORM ISKN
+ON SELECTION BAR 7 OF file DO FORM ISHIPMARK
+ON SELECTION BAR 8 OF file DO FORM IPAYTERM
+ON SELECTION BAR 9 OF file DO FORM IFOBTERM
+ON SELECTION BAR 10 OF file DO FORM ISOFORMAT
+ON SELECTION BAR 11 OF file DO FORM IZSTDCODE
+
+DEFINE POPUP 輸入銷售資 MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF 輸入銷售資 PROMPT "Input Order Enquiry"
+DEFINE BAR 2 OF 輸入銷售資 PROMPT "Print Order Enquiry"
+DEFINE BAR 3 OF 輸入銷售資 PROMPT "Input Order Confirmation"
+DEFINE BAR 4 OF 輸入銷售資 PROMPT "Print Order Confirmation"
+DEFINE BAR 5 OF 輸入銷售資 PROMPT "Input Contract"
+DEFINE BAR 6 OF 輸入銷售資 PROMPT "Print Contract"
+DEFINE BAR 7 OF 輸入銷售資 PROMPT "Input Shipping Order"
+DEFINE BAR 8 OF 輸入銷售資 PROMPT "Print Shipping Order"
+DEFINE BAR 9 OF 輸入銷售資 PROMPT "Input Invoice"
+DEFINE BAR 10 OF 輸入銷售資 PROMPT "Print Invoice"
+ON SELECTION BAR 1 OF 輸入銷售資 DO FORM IOE1
+ON SELECTION BAR 2 OF 輸入銷售資 DO FORM PORDENQ
+ON SELECTION BAR 3 OF 輸入銷售資 DO FORM IORDHD
+ON SELECTION BAR 4 OF 輸入銷售資 DO FORM PCONFIRM
+ON SELECTION BAR 5 OF 輸入銷售資 DO FORM ISETCONT
+ON SELECTION BAR 6 OF 輸入銷售資 DO FORM PCONTRACT
+ON SELECTION BAR 7 OF 輸入銷售資 DO FORM ISO1
+ON SELECTION BAR 8 OF 輸入銷售資 DO FORM PSO
+ON SELECTION BAR 9 OF 輸入銷售資 DO FORM IINVHD
+ON SELECTION BAR 10 OF 輸入銷售資 DO FORM PINV
+
+DEFINE POPUP enquiry MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF enquiry PROMPT "Sales Analysis By Customer - Date"
+DEFINE BAR 2 OF enquiry PROMPT "Sales Analysis By Item - Date"
+ON SELECTION BAR 1 OF enquiry do form esabycd
+ON SELECTION BAR 2 OF enquiry do form esabyid
+
+
+*       *********************************************************
+*       *                                                         
+*       * _0HG12O3R5  ON SELECTION PAD                            
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  BATMENU2.MPR,            Record:   32       
+*       * Called By:  ON SELECTION PAD                            
+*       * Prompt:     Exit                                        
+*       * Snippet:    1                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _0hg12o3r5
+DONE=.T.
+?? CHR(7)
+IF MESSAGEBOX("Quit?",4+32,"Trading Document Processing System")=6
+     CLEAR READ ALL
+     CLOSE DATABASE
+     CLOSE ALL
+     CLEAR EVENTS
+     SET SYSMENU TO DEFAULT
+     _SCREEN.CLS
+     _SCREEN.REFRESH
+ENDIF
+

@@ -1,0 +1,162 @@
+*       *********************************************************
+*       *                                                         
+*       * 11/07/00             PSAMENU.MPR              17:42:44  
+*       *                                                         
+*       *********************************************************
+*       *                                                         
+*       * 作者姓名                                                
+*       *                                                         
+*       * 版權所有(C) 2000 公司名稱                             
+*       * 地址                                                    
+*       * 城市,     郵遞區號                                      
+*       * 國家/地區                                         
+*       *                                                         
+*       * 描述:                                            
+*       * 本程式由 GENMENU 自動產生。    
+*       *                                                         
+*       *********************************************************
+
+
+*       *********************************************************
+*       *                                                         
+*       *                        功能表定義                       
+*       *                                                         
+*       *********************************************************
+*
+
+SET SYSMENU TO
+SET SYSMENU AUTOMATIC
+
+DEFINE PAD _08o11yozk OF _MSYSMENU PROMPT "檔案" COLOR SCHEME 3
+DEFINE PAD _08o11yozs OF _MSYSMENU PROMPT "輸入銷售資料" COLOR SCHEME 3
+DEFINE PAD _08o11yozt OF _MSYSMENU PROMPT "出貨及入貨" COLOR SCHEME 3
+DEFINE PAD _08o11yozv OF _MSYSMENU PROMPT "計算酬金" COLOR SCHEME 3
+DEFINE PAD _08o11yozw OF _MSYSMENU PROMPT "制作自動轉帳磁碟" COLOR SCHEME 3
+DEFINE PAD _08o11yozx OF _MSYSMENU PROMPT "查詢" COLOR SCHEME 3
+DEFINE PAD _08o11yp02 OF _MSYSMENU PROMPT "報表" COLOR SCHEME 3
+DEFINE PAD _08o11yp04 OF _MSYSMENU PROMPT "每月過帳" COLOR SCHEME 3
+DEFINE PAD _08o11yp05 OF _MSYSMENU PROMPT "報稅 (IR56B)" COLOR SCHEME 3
+DEFINE PAD _08o11yp07 OF _MSYSMENU PROMPT "離開" COLOR SCHEME 3
+ON PAD _08o11yozk OF _MSYSMENU ACTIVATE POPUP 檔案
+ON SELECTION PAD _08o11yozs OF _MSYSMENU DO FORM ISALEHD
+ON PAD _08o11yozt OF _MSYSMENU ACTIVATE POPUP _rz308k6hh
+ON SELECTION PAD _08o11yozv OF _MSYSMENU DO FORM UPV
+ON SELECTION PAD _08o11yozw OF _MSYSMENU DO FORM AUTOPAY
+ON PAD _08o11yozx OF _MSYSMENU ACTIVATE POPUP 查詢
+ON PAD _08o11yp02 OF _MSYSMENU ACTIVATE POPUP 報表
+ON SELECTION PAD _08o11yp04 OF _MSYSMENU do form umonclr
+ON SELECTION PAD _08o11yp05 OF _MSYSMENU do form zir56b
+ON SELECTION PAD _08o11yp07 OF _MSYSMENU ;
+	DO _08o11yp0t ;
+	IN LOCFILE("PSA\PSAMENU" ,"MPX;MPR|FXP;PRG" ,"哪是 PSAMENU?")
+
+DEFINE POPUP 檔案 MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF 檔案 PROMPT "經銷商"
+DEFINE BAR 2 OF 檔案 PROMPT "貨品"
+DEFINE BAR 3 OF 檔案 PROMPT "供應商" ;
+	SKIP FOR .t.
+DEFINE BAR 4 OF 檔案 PROMPT "用戶"
+DEFINE BAR 5 OF 檔案 PROMPT "單位"
+DEFINE BAR 6 OF 檔案 PROMPT "國藉"
+DEFINE BAR 7 OF 檔案 PROMPT "系統變數"
+DEFINE BAR 8 OF 檔案 PROMPT "重整資料"
+DEFINE BAR 9 OF 檔案 PROMPT "旅遊獎賞"
+DEFINE BAR 10 OF 檔案 PROMPT "PV 記錄"
+ON SELECTION BAR 1 OF 檔案 DO FORM IDSTBTOR
+ON SELECTION BAR 2 OF 檔案 DO FORM IITEM
+ON SELECTION BAR 3 OF 檔案 DO FORM IVENDOR
+ON SELECTION BAR 4 OF 檔案 DO FORM IUSER
+ON SELECTION BAR 5 OF 檔案 DO FORM IUNIT
+ON SELECTION BAR 6 OF 檔案 DO FORM INATION
+ON BAR 7 OF 檔案 ACTIVATE POPUP 系統變數
+ON SELECTION BAR 8 OF 檔案 DO FORM ZREINDEX
+ON SELECTION BAR 9 OF 檔案 DO FORM IPASSAGE
+ON SELECTION BAR 10 OF 檔案 DO FORM IPVHIST
+
+DEFINE POPUP 系統變數 MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF 系統變數 PROMPT "主要變數"
+DEFINE BAR 2 OF 系統變數 PROMPT "分紅比率"
+DEFINE BAR 3 OF 系統變數 PROMPT "領袖分紅基數"
+ON SELECTION BAR 1 OF 系統變數 do form ipara
+ON SELECTION BAR 2 OF 系統變數 do form ipayrate
+ON SELECTION BAR 3 OF 系統變數 do form ileaderpay
+
+DEFINE POPUP _rz308k6hh MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF _rz308k6hh PROMPT "輸入收貨資料"
+DEFINE BAR 2 OF _rz308k6hh PROMPT "輸入出入貨調整"
+ON SELECTION BAR 1 OF _rz308k6hh DO FORM ISTKINHD
+ON SELECTION BAR 2 OF _rz308k6hh DO FORM ISTKADJ
+
+DEFINE POPUP 查詢 MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF 查詢 PROMPT "上線及推薦人"
+DEFINE BAR 2 OF 查詢 PROMPT "積分狀況"
+DEFINE BAR 3 OF 查詢 PROMPT "檢查資料"
+DEFINE BAR 4 OF 查詢 PROMPT "銷售資料"
+DEFINE BAR 5 OF 查詢 PROMPT "PV 過往記錄"
+DEFINE BAR 6 OF 查詢 PROMPT "52%"
+ON SELECTION BAR 1 OF 查詢 DO FORM ESPONSOR
+ON SELECTION BAR 2 OF 查詢 DO FORM EPVSTAT
+ON SELECTION BAR 3 OF 查詢 DO FORM ZCHKERR
+ON SELECTION BAR 4 OF 查詢 DO FORM ESALEDT
+ON SELECTION BAR 5 OF 查詢 DO FORM EPVHIST
+ON SELECTION BAR 6 OF 查詢 DO FORM EPAYDIFF
+
+DEFINE POPUP 報表 MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF 報表 PROMPT "每日營業銷售報表 - 收據編號次序"
+DEFINE BAR 2 OF 報表 PROMPT "每日營業銷售報表 - 貨品編號次序"
+DEFINE BAR 3 OF 報表 PROMPT "每月營業銷售報表 - 日期排列"
+DEFINE BAR 4 OF 報表 PROMPT "每月營業銷售報表 - 貨品編號次序"
+DEFINE BAR 5 OF 報表 PROMPT "貨品狀況報表"
+DEFINE BAR 6 OF 報表 PROMPT "郵遞標籤"
+DEFINE BAR 7 OF 報表 PROMPT "酬金報表 (草稿)"
+DEFINE BAR 8 OF 報表 PROMPT "酬金報表"
+DEFINE BAR 9 OF 報表 PROMPT "酬金月結單"
+DEFINE BAR 10 OF 報表 PROMPT "組織分佈圖"
+DEFINE BAR 11 OF 報表 PROMPT "資訊費到期通知書"
+DEFINE BAR 12 OF 報表 PROMPT "新會員報表"
+DEFINE BAR 13 OF 報表 PROMPT "列印刪除銷售資料記錄"
+DEFINE BAR 14 OF 報表 PROMPT "列印詳細酬金報表"
+DEFINE BAR 15 OF 報表 PROMPT "lb"
+ON SELECTION BAR 1 OF 報表 DO FORM PSALEBYDAY
+ON SELECTION BAR 2 OF 報表 DO FORM PSALEBYITM
+ON SELECTION BAR 3 OF 報表 DO FORM PMSABYDAY
+ON SELECTION BAR 4 OF 報表 DO FORM PMSABYITM
+ON SELECTION BAR 5 OF 報表 DO FORM PSTKSTAT
+ON SELECTION BAR 6 OF 報表 DO FORM PLABEL
+ON SELECTION BAR 7 OF 報表 DO FORM PCOMMRPT2
+ON SELECTION BAR 8 OF 報表 DO FORM PCOMMRPT
+ON SELECTION BAR 9 OF 報表 DO FORM PCOMSTMT
+ON SELECTION BAR 10 OF 報表 DO FORM PSPONMAP
+ON SELECTION BAR 11 OF 報表 do form pjfremind
+ON SELECTION BAR 12 OF 報表 do form pnewjoin
+ON SELECTION BAR 13 OF 報表 do form pdeltxn
+ON SELECTION BAR 14 OF 報表 do form pstmt
+ON SELECTION BAR 15 OF 報表 do uwlprev.prg
+
+
+*       *********************************************************
+*       *                                                         
+*       * _08O11YP0T  ON SELECTION PAD                            
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  PSAMENU.MPR,            Record:   53        
+*       * Called By:  ON SELECTION PAD                            
+*       * Prompt:     離開                                        
+*       * Snippet:    1                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _08o11yp0t
+DONE=.T.
+?? CHR(7)
+IF MESSAGEBOX("離開此系統?",4+32,"汎薰芳傳銷及倉存管理系統")=6
+     CLEAR READ ALL
+     CLOSE DATABASE
+     CLOSE ALL
+     CLEAR EVENTS
+     SET SYSMENU TO DEFAULT
+     _SCREEN.CLS
+     _SCREEN.REFRESH
+ENDIF
+

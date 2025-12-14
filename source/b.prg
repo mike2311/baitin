@@ -1,0 +1,1 @@
+elect a.inv_no, a.date, b.ship_no, b.item_no, b.qty, c.qty, b.cntr_no from minvdt b  inner join minvhd a on a.inv_no=b.inv_no  inner join mso c on b.ship_no=c.so_no where between(a.date, ctod('01/01/2009'), ctod('01/01/2011')) and b.head = .t.
