@@ -2,7 +2,13 @@ site_name: BAITIN System Documentation
 
 site_url: https://mike2311.github.io/baitin/
 repo_url: https://github.com/mike2311/baitin
-edit_uri: edit/main/docs/
+edit_uri: edit/main/docs/source/
+
+# Documentation structure:
+# - docs/source/ - Source system documentation (legacy system)
+# - docs/planning/ - Implementation planning (PoC, MVP, etc.)
+# - docs/modernization-strategy/ - Modernization strategy documentation
+docs_dir: docs/source
 
 theme:
   name: material
@@ -52,7 +58,7 @@ markdown_extensions:
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-  - javascripts/mermaid-init.js
+  - ../javascripts/mermaid-init.js
 
 nav:
   - Home: README.md
@@ -114,23 +120,23 @@ nav:
     - Known Issues: 09-technical-details/known-issues.md
     - Phased Out Modules: 09-technical-details/phased-out-modules.md
   - Modernization Strategy:
-    - Overview: modernization-strategy/README.md
+    - Overview: ../modernization-strategy/README.md
     - Planning and Assessment:
-      - Executive Summary: modernization-strategy/01-executive-summary/executive-summary.md
-      - Current State Assessment: modernization-strategy/02-current-state-assessment/current-state-assessment.md
-      - Resource and Timeline: modernization-strategy/14-resource-timeline/resource-timeline.md
-      - Risk Management: modernization-strategy/12-risk-management/risk-management.md
-      - Success Metrics: modernization-strategy/13-success-metrics/success-metrics.md
+      - Executive Summary: ../modernization-strategy/01-executive-summary/executive-summary.md
+      - Current State Assessment: ../modernization-strategy/02-current-state-assessment/current-state-assessment.md
+      - Resource and Timeline: ../modernization-strategy/14-resource-timeline/resource-timeline.md
+      - Risk Management: ../modernization-strategy/12-risk-management/risk-management.md
+      - Success Metrics: ../modernization-strategy/13-success-metrics/success-metrics.md
     - Architecture and Design:
-      - Target State Architecture: modernization-strategy/03-target-state-architecture/target-state-architecture.md
-      - Application Modernization: modernization-strategy/05-application-modernization/application-modernization.md
-      - UX/UI Strategy: modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
-      - Security and Compliance: modernization-strategy/07-security-compliance/security-compliance.md
+      - Target State Architecture: ../modernization-strategy/03-target-state-architecture/target-state-architecture.md
+      - Application Modernization: ../modernization-strategy/05-application-modernization/application-modernization.md
+      - UX/UI Strategy: ../modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
+      - Security and Compliance: ../modernization-strategy/07-security-compliance/security-compliance.md
     - Implementation:
-      - Phased Delivery Plan: modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md
-      - PoC Strategy: modernization-strategy/15-poc-strategy/poc-strategy.md
-      - Data Migration Strategy: modernization-strategy/04-data-migration-strategy/data-migration-strategy.md
-      - Integration Strategy: modernization-strategy/08-integration-strategy/integration-strategy.md
-      - Reporting and Analytics: modernization-strategy/09-reporting-analytics/reporting-analytics.md
+      - Phased Delivery Plan: ../modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md
+      - PoC Strategy: ../modernization-strategy/15-poc-strategy/poc-strategy.md
+      - Data Migration Strategy: ../modernization-strategy/04-data-migration-strategy/data-migration-strategy.md
+      - Integration Strategy: ../modernization-strategy/08-integration-strategy/integration-strategy.md
+      - Reporting and Analytics: ../modernization-strategy/09-reporting-analytics/reporting-analytics.md
     - Operations:
-      - Deployment and Operations: modernization-strategy/10-deployment-operations/deployment-operations.md
+      - Deployment and Operations: ../modernization-strategy/10-deployment-operations/deployment-operations.md

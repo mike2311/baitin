@@ -6,6 +6,7 @@
 *.CDX
 *.IDX
 *.NTX
+*.TBK
 
 # FoxPro Compiled/Binary Files - DO NOT COMMIT
 # These are generated from source and can be rebuilt
@@ -25,6 +26,10 @@
 # User-specific work directories (contain user data/exports)
 *work/
 *work\*
+
+# Root source directory (FoxPro source code - should not be committed)
+/source/
+source/
 
 # Excel files (often contain data exports or user work)
 *.XLS
