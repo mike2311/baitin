@@ -94,13 +94,13 @@ This document defines the Proof of Concept (PoC) strategy for the BAITIN moderni
 
 #### Frontend
 - **Framework:** React 18+ with TypeScript
-- **UI Library:** Material-UI or Ant Design
-- **Data Grid:** AG Grid Enterprise
+- **UI Library:** shadcn/ui
+- **Data Grid:** React Data Grid (Adazzle) - Free (Top choice), AG Grid Community Edition
 - **State Management:** React Query + Context API
 - **Form Management:** React Hook Form
 
 #### Backend
-- **Framework:** .NET 8+ (C#) or NestJS (TypeScript)
+- **Framework:** NestJS (TypeScript)
 - **Database:** PostgreSQL
 - **ORM:** Entity Framework Core or TypeORM
 - **Authentication:** Basic JWT (OIDC in production)

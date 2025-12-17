@@ -1,11 +1,15 @@
 name: Deploy Documentation
 
+# This workflow builds and deploys source documentation from docs/ folder
+# Planning files (planning/) are tracked separately and not included in documentation build
+# Modernization strategy is in docs/modernization-strategy/ and IS included in docs
+
 on:
   push:
     branches:
       - main
     paths:
-      - 'docs/**'
+      - 'docs/**'  # Source documentation only
       - 'mkdocs.yml'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
