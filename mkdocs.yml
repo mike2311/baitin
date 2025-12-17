@@ -58,7 +58,7 @@ markdown_extensions:
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-  - ../javascripts/mermaid-init.js
+  - javascripts/mermaid-init.js
 
 nav:
   - Home: README.md
@@ -140,3 +140,76 @@ nav:
       - Reporting and Analytics: ../modernization-strategy/09-reporting-analytics/reporting-analytics.md
     - Operations:
       - Deployment and Operations: ../modernization-strategy/10-deployment-operations/deployment-operations.md
+  - Implementation Planning:
+    - PoC Implementation Plan:
+      - Overview: ../planning/poc_planning/README.md
+      - Implementation Summary: ../planning/poc_planning/IMPLEMENTATION_SUMMARY.md
+      - "Phase 0: Foundation":
+        - Overview: ../planning/poc_planning/00-phase-0-foundation/README.md
+        - Infrastructure Setup:
+          - Development Environment: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-01-development-environment.md
+          - Database Setup: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-02-database-setup.md
+          - Git and CI/CD: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-03-git-and-cicd.md
+        - Core Components:
+          - Authentication Setup: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-01-authentication-setup.md
+          - API Foundation: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-02-api-foundation.md
+          - Frontend Foundation: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-03-frontend-foundation.md
+        - Database Schema:
+          - Master Data Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-01-master-data-tables.md
+          - OE Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-02-oe-tables-schema.md
+          - Reference Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-03-reference-tables-schema.md
+        - UX Kernel:
+          - Text Input Component: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-01-text-input-component.md
+          - Lookup Component: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component.md
+          - Data Grid Setup: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup.md
+          - Form Layout Components: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components.md
+      - "Phase 1: Master Data":
+        - Overview: ../planning/poc_planning/01-phase-1-master-data/README.md
+        - Item Master:
+          - Item Entry Form: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-01-item-entry-form.md
+          - Item Lookup: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-02-item-lookup.md
+          - Item List: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-03-item-list.md
+        - Customer Master:
+          - Customer Entry Form: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-01-customer-entry-form.md
+          - Customer Lookup: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-02-customer-lookup.md
+          - Customer List: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-03-customer-list.md
+        - Vendor Master:
+          - Vendor Entry Form: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-01-vendor-entry-form.md
+          - Vendor Lookup: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-02-vendor-lookup.md
+          - Vendor List: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-03-vendor-list.md
+      - "Phase 2: Order Enquiry":
+        - Overview: ../planning/poc_planning/02-phase-2-order-enquiry/README.md
+        - OE Control:
+          - OE Control Entry Form: ../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-01-oe-control-entry-form.md
+          - OE Control Search: ../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-02-oe-control-search.md
+        - OE Manual Entry:
+          - OE Header Form: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-01-oe-header-form.md
+          - OE Detail Grid: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-02-oe-detail-grid.md
+          - OE Auto-Save: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-03-oe-auto-save.md
+        - OE Enquiry List:
+          - OE List View: ../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-01-oe-list-view.md
+          - OE Search and Filter: ../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-02-oe-search-filter.md
+      - "Phase 3: Excel Import":
+        - Overview: ../planning/poc_planning/03-phase-3-excel-import/README.md
+        - File Upload:
+          - File Upload Component: ../planning/poc_planning/03-phase-3-excel-import/01-file-upload/task-01-01-file-upload-component.md
+        - Field Mapping:
+          - Field Mapping Interface: ../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-01-field-mapping-interface.md
+          - Auto-Detect Mapping: ../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-02-auto-detect-mapping.md
+        - Validation and Import:
+          - Data Validation: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-01-data-validation.md
+          - Error Reporting: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-02-error-reporting.md
+          - Import Execution: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-03-import-execution.md
+      - "Phase 4: Integration and Testing":
+        - Overview: ../planning/poc_planning/04-phase-4-integration-testing/README.md
+        - Integration:
+          - End-to-End Workflow: ../planning/poc_planning/04-phase-4-integration-testing/01-integration/task-01-01-end-to-end-workflow.md
+        - Testing:
+          - Unit Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-01-unit-tests.md
+          - Integration Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-02-integration-tests.md
+          - E2E Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-03-e2e-tests.md
+          - Performance Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-04-performance-tests.md
+        - Demo Preparation:
+          - Demo Script: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-01-demo-script.md
+          - Demo Data: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-02-demo-data.md
+          - Presentation: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-03-presentation.md
