@@ -28,8 +28,8 @@
 *work\*
 
 # Root source directory (FoxPro source code - should not be committed)
-/source/
-source/
+# Only ignore root-level source/, not docs/source/
+/^source/
 
 # Excel files (often contain data exports or user work)
 *.XLS
