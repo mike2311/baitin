@@ -2,13 +2,13 @@ site_name: BAITIN System Documentation
 
 site_url: https://mike2311.github.io/baitin/
 repo_url: https://github.com/mike2311/baitin
-edit_uri: edit/main/docs/source/
+edit_uri: edit/main/docs/
 
 # Documentation structure:
 # - docs/source/ - Source system documentation (legacy system)
 # - docs/planning/ - Implementation planning (PoC, MVP, etc.)
 # - docs/modernization-strategy/ - Modernization strategy documentation
-docs_dir: docs/source
+docs_dir: docs
 
 theme:
   name: material
@@ -58,158 +58,158 @@ markdown_extensions:
 
 extra_javascript:
   - https://unpkg.com/mermaid@10/dist/mermaid.min.js
-  - javascripts/mermaid-init.js
+  - source/javascripts/mermaid-init.js
 
 nav:
-  - Home: README.md
+  - Home: source/README.md
   - Overview:
-    - System Summary: 00-overview/system-summary.md
-    - Technology Stack: 00-overview/technology-stack.md
-    - User Roles: 00-overview/user-roles.md
+    - System Summary: source/00-overview/system-summary.md
+    - Technology Stack: source/00-overview/technology-stack.md
+    - User Roles: source/00-overview/user-roles.md
   - Data Architecture:
-    - Database Overview: 01-data-architecture/database-overview.md
-    - Entity Relationships: 01-data-architecture/entity-relationships.md
-    - Table Inventory: 01-data-architecture/table-inventory.md
-    - Indexes and Keys: 01-data-architecture/indexes-and-keys.md
+    - Database Overview: source/01-data-architecture/database-overview.md
+    - Entity Relationships: source/01-data-architecture/entity-relationships.md
+    - Table Inventory: source/01-data-architecture/table-inventory.md
+    - Indexes and Keys: source/01-data-architecture/indexes-and-keys.md
     - Table Details:
-      - Master Data Tables: 01-data-architecture/table-details/master-data-tables.md
-      - Supporting Tables: 01-data-architecture/table-details/supporting-tables.md
-      - Transaction Tables: 01-data-architecture/table-details/transaction-tables.md
+      - Master Data Tables: source/01-data-architecture/table-details/master-data-tables.md
+      - Supporting Tables: source/01-data-architecture/table-details/supporting-tables.md
+      - Transaction Tables: source/01-data-architecture/table-details/transaction-tables.md
   - Business Processes:
-    - Workflow Overview: 02-business-processes/workflow-overview.md
-    - Order Enquiry Process: 02-business-processes/order-enquiry-process.md
-    - Order Confirmation Process: 02-business-processes/order-confirmation-process.md
-    - Contract Process: 02-business-processes/contract-process.md
-    - Shipping Process: 02-business-processes/shipping-process.md
-    - Delivery Note Process: 02-business-processes/delivery-note-process.md
-    - Invoice Process: 02-business-processes/invoice-process.md
-    - Master Data Management: 02-business-processes/master-data-management.md
+    - Workflow Overview: source/02-business-processes/workflow-overview.md
+    - Order Enquiry Process: source/02-business-processes/order-enquiry-process.md
+    - Order Confirmation Process: source/02-business-processes/order-confirmation-process.md
+    - Contract Process: source/02-business-processes/contract-process.md
+    - Shipping Process: source/02-business-processes/shipping-process.md
+    - Delivery Note Process: source/02-business-processes/delivery-note-process.md
+    - Invoice Process: source/02-business-processes/invoice-process.md
+    - Master Data Management: source/02-business-processes/master-data-management.md
   - Application Modules:
-    - Module Inventory: 03-application-modules/module-inventory.md
-    - Order Enquiry Module: 03-application-modules/order-enquiry-module.md
+    - Module Inventory: source/03-application-modules/module-inventory.md
+    - Order Enquiry Module: source/03-application-modules/order-enquiry-module.md
   - Forms and Screens:
-    - Form Inventory: 04-forms-and-screens/form-inventory.md
-    - Form Logic Patterns: 04-forms-and-screens/form-logic-patterns.md
-    - Authentication Forms: 04-forms-and-screens/authentication-forms.md
-    - Master Data Forms: 04-forms-and-screens/master-data-forms.md
-    - Order Enquiry Forms: 04-forms-and-screens/order-enquiry-forms.md
-    - Order Confirmation Forms: 04-forms-and-screens/order-confirmation-forms.md
-    - Contract Forms: 04-forms-and-screens/contract-forms.md
-    - Shipping Order Forms: 04-forms-and-screens/shipping-order-forms.md
-    - Delivery Note Forms: 04-forms-and-screens/delivery-note-forms.md
-    - Invoice Forms: 04-forms-and-screens/invoice-forms.md
-    - Enquiry Forms: 04-forms-and-screens/enquiry-forms.md
-    - Report Forms: 04-forms-and-screens/report-forms.md
-    - Utility Forms: 04-forms-and-screens/utility-forms.md
-    - Form Layouts: 04-forms-and-screens/form-layouts.md
-    - Form Process Mapping: 04-forms-and-screens/form-process-mapping.md
-    - Validation Catalog: 04-forms-and-screens/validation-catalog.md
+    - Form Inventory: source/04-forms-and-screens/form-inventory.md
+    - Form Logic Patterns: source/04-forms-and-screens/form-logic-patterns.md
+    - Authentication Forms: source/04-forms-and-screens/authentication-forms.md
+    - Master Data Forms: source/04-forms-and-screens/master-data-forms.md
+    - Order Enquiry Forms: source/04-forms-and-screens/order-enquiry-forms.md
+    - Order Confirmation Forms: source/04-forms-and-screens/order-confirmation-forms.md
+    - Contract Forms: source/04-forms-and-screens/contract-forms.md
+    - Shipping Order Forms: source/04-forms-and-screens/shipping-order-forms.md
+    - Delivery Note Forms: source/04-forms-and-screens/delivery-note-forms.md
+    - Invoice Forms: source/04-forms-and-screens/invoice-forms.md
+    - Enquiry Forms: source/04-forms-and-screens/enquiry-forms.md
+    - Report Forms: source/04-forms-and-screens/report-forms.md
+    - Utility Forms: source/04-forms-and-screens/utility-forms.md
+    - Form Layouts: source/04-forms-and-screens/form-layouts.md
+    - Form Process Mapping: source/04-forms-and-screens/form-process-mapping.md
+    - Validation Catalog: source/04-forms-and-screens/validation-catalog.md
   - Business Logic:
-    - Program Inventory: 05-business-logic/program-inventory.md
-    - Excel Import Logic: 05-business-logic/excel-import-logic.md
-    - Core Algorithms: 05-business-logic/core-algorithms.md
+    - Program Inventory: source/05-business-logic/program-inventory.md
+    - Excel Import Logic: source/05-business-logic/excel-import-logic.md
+    - Core Algorithms: source/05-business-logic/core-algorithms.md
   - Reporting:
-    - Report Inventory: 06-reporting/report-inventory.md
+    - Report Inventory: source/06-reporting/report-inventory.md
   - Integration:
-    - Excel Integration: 07-integration/excel-integration.md
+    - Excel Integration: source/07-integration/excel-integration.md
   - Security:
-    - Authentication: 08-security/authentication.md
+    - Authentication: source/08-security/authentication.md
   - Technical Details:
-    - Configuration: 09-technical-details/configuration.md
-    - File Structure: 09-technical-details/file-structure.md
-    - Known Issues: 09-technical-details/known-issues.md
-    - Phased Out Modules: 09-technical-details/phased-out-modules.md
+    - Configuration: source/09-technical-details/configuration.md
+    - File Structure: source/09-technical-details/file-structure.md
+    - Known Issues: source/09-technical-details/known-issues.md
+    - Phased Out Modules: source/09-technical-details/phased-out-modules.md
   - Modernization Strategy:
-    - Overview: ../modernization-strategy/README.md
+    - Overview: modernization-strategy/README.md
     - Planning and Assessment:
-      - Executive Summary: ../modernization-strategy/01-executive-summary/executive-summary.md
-      - Current State Assessment: ../modernization-strategy/02-current-state-assessment/current-state-assessment.md
-      - Resource and Timeline: ../modernization-strategy/14-resource-timeline/resource-timeline.md
-      - Risk Management: ../modernization-strategy/12-risk-management/risk-management.md
-      - Success Metrics: ../modernization-strategy/13-success-metrics/success-metrics.md
+      - Executive Summary: modernization-strategy/01-executive-summary/executive-summary.md
+      - Current State Assessment: modernization-strategy/02-current-state-assessment/current-state-assessment.md
+      - Resource and Timeline: modernization-strategy/14-resource-timeline/resource-timeline.md
+      - Risk Management: modernization-strategy/12-risk-management/risk-management.md
+      - Success Metrics: modernization-strategy/13-success-metrics/success-metrics.md
     - Architecture and Design:
-      - Target State Architecture: ../modernization-strategy/03-target-state-architecture/target-state-architecture.md
-      - Application Modernization: ../modernization-strategy/05-application-modernization/application-modernization.md
-      - UX/UI Strategy: ../modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
-      - Security and Compliance: ../modernization-strategy/07-security-compliance/security-compliance.md
+      - Target State Architecture: modernization-strategy/03-target-state-architecture/target-state-architecture.md
+      - Application Modernization: modernization-strategy/05-application-modernization/application-modernization.md
+      - UX/UI Strategy: modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
+      - Security and Compliance: modernization-strategy/07-security-compliance/security-compliance.md
     - Implementation:
-      - Phased Delivery Plan: ../modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md
-      - PoC Strategy: ../modernization-strategy/15-poc-strategy/poc-strategy.md
-      - Data Migration Strategy: ../modernization-strategy/04-data-migration-strategy/data-migration-strategy.md
-      - Integration Strategy: ../modernization-strategy/08-integration-strategy/integration-strategy.md
-      - Reporting and Analytics: ../modernization-strategy/09-reporting-analytics/reporting-analytics.md
+      - Phased Delivery Plan: modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md
+      - PoC Strategy: modernization-strategy/15-poc-strategy/poc-strategy.md
+      - Data Migration Strategy: modernization-strategy/04-data-migration-strategy/data-migration-strategy.md
+      - Integration Strategy: modernization-strategy/08-integration-strategy/integration-strategy.md
+      - Reporting and Analytics: modernization-strategy/09-reporting-analytics/reporting-analytics.md
     - Operations:
-      - Deployment and Operations: ../modernization-strategy/10-deployment-operations/deployment-operations.md
+      - Deployment and Operations: modernization-strategy/10-deployment-operations/deployment-operations.md
   - Implementation Planning:
     - PoC Implementation Plan:
-      - Overview: ../planning/poc_planning/README.md
-      - Implementation Summary: ../planning/poc_planning/IMPLEMENTATION_SUMMARY.md
+      - Overview: planning/poc_planning/README.md
+      - Implementation Summary: planning/poc_planning/IMPLEMENTATION_SUMMARY.md
       - "Phase 0: Foundation":
-        - Overview: ../planning/poc_planning/00-phase-0-foundation/README.md
+        - Overview: planning/poc_planning/00-phase-0-foundation/README.md
         - Infrastructure Setup:
-          - Development Environment: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-01-development-environment.md
-          - Database Setup: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-02-database-setup.md
-          - Git and CI/CD: ../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-03-git-and-cicd.md
+          - Development Environment: planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-01-development-environment.md
+          - Database Setup: planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-02-database-setup.md
+          - Git and CI/CD: planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-03-git-and-cicd.md
         - Core Components:
-          - Authentication Setup: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-01-authentication-setup.md
-          - API Foundation: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-02-api-foundation.md
-          - Frontend Foundation: ../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-03-frontend-foundation.md
+          - Authentication Setup: planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-01-authentication-setup.md
+          - API Foundation: planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-02-api-foundation.md
+          - Frontend Foundation: planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-03-frontend-foundation.md
         - Database Schema:
-          - Master Data Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-01-master-data-tables.md
-          - OE Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-02-oe-tables-schema.md
-          - Reference Tables: ../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-03-reference-tables-schema.md
+          - Master Data Tables: planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-01-master-data-tables.md
+          - OE Tables: planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-02-oe-tables-schema.md
+          - Reference Tables: planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-03-reference-tables-schema.md
         - UX Kernel:
-          - Text Input Component: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-01-text-input-component.md
-          - Lookup Component: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component.md
-          - Data Grid Setup: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup.md
-          - Form Layout Components: ../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components.md
+          - Text Input Component: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-01-text-input-component.md
+          - Lookup Component: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component.md
+          - Data Grid Setup: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup.md
+          - Form Layout Components: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components.md
       - "Phase 1: Master Data":
-        - Overview: ../planning/poc_planning/01-phase-1-master-data/README.md
+        - Overview: planning/poc_planning/01-phase-1-master-data/README.md
         - Item Master:
-          - Item Entry Form: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-01-item-entry-form.md
-          - Item Lookup: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-02-item-lookup.md
-          - Item List: ../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-03-item-list.md
+          - Item Entry Form: planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-01-item-entry-form.md
+          - Item Lookup: planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-02-item-lookup.md
+          - Item List: planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-03-item-list.md
         - Customer Master:
-          - Customer Entry Form: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-01-customer-entry-form.md
-          - Customer Lookup: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-02-customer-lookup.md
-          - Customer List: ../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-03-customer-list.md
+          - Customer Entry Form: planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-01-customer-entry-form.md
+          - Customer Lookup: planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-02-customer-lookup.md
+          - Customer List: planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-03-customer-list.md
         - Vendor Master:
-          - Vendor Entry Form: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-01-vendor-entry-form.md
-          - Vendor Lookup: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-02-vendor-lookup.md
-          - Vendor List: ../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-03-vendor-list.md
+          - Vendor Entry Form: planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-01-vendor-entry-form.md
+          - Vendor Lookup: planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-02-vendor-lookup.md
+          - Vendor List: planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-03-vendor-list.md
       - "Phase 2: Order Enquiry":
-        - Overview: ../planning/poc_planning/02-phase-2-order-enquiry/README.md
+        - Overview: planning/poc_planning/02-phase-2-order-enquiry/README.md
         - OE Control:
-          - OE Control Entry Form: ../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-01-oe-control-entry-form.md
-          - OE Control Search: ../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-02-oe-control-search.md
+          - OE Control Entry Form: planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-01-oe-control-entry-form.md
+          - OE Control Search: planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-02-oe-control-search.md
         - OE Manual Entry:
-          - OE Header Form: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-01-oe-header-form.md
-          - OE Detail Grid: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-02-oe-detail-grid.md
-          - OE Auto-Save: ../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-03-oe-auto-save.md
+          - OE Header Form: planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-01-oe-header-form.md
+          - OE Detail Grid: planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-02-oe-detail-grid.md
+          - OE Auto-Save: planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-03-oe-auto-save.md
         - OE Enquiry List:
-          - OE List View: ../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-01-oe-list-view.md
-          - OE Search and Filter: ../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-02-oe-search-filter.md
+          - OE List View: planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-01-oe-list-view.md
+          - OE Search and Filter: planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-02-oe-search-filter.md
       - "Phase 3: Excel Import":
-        - Overview: ../planning/poc_planning/03-phase-3-excel-import/README.md
+        - Overview: planning/poc_planning/03-phase-3-excel-import/README.md
         - File Upload:
-          - File Upload Component: ../planning/poc_planning/03-phase-3-excel-import/01-file-upload/task-01-01-file-upload-component.md
+          - File Upload Component: planning/poc_planning/03-phase-3-excel-import/01-file-upload/task-01-01-file-upload-component.md
         - Field Mapping:
-          - Field Mapping Interface: ../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-01-field-mapping-interface.md
-          - Auto-Detect Mapping: ../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-02-auto-detect-mapping.md
+          - Field Mapping Interface: planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-01-field-mapping-interface.md
+          - Auto-Detect Mapping: planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-02-auto-detect-mapping.md
         - Validation and Import:
-          - Data Validation: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-01-data-validation.md
-          - Error Reporting: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-02-error-reporting.md
-          - Import Execution: ../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-03-import-execution.md
+          - Data Validation: planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-01-data-validation.md
+          - Error Reporting: planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-02-error-reporting.md
+          - Import Execution: planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-03-import-execution.md
       - "Phase 4: Integration and Testing":
-        - Overview: ../planning/poc_planning/04-phase-4-integration-testing/README.md
+        - Overview: planning/poc_planning/04-phase-4-integration-testing/README.md
         - Integration:
-          - End-to-End Workflow: ../planning/poc_planning/04-phase-4-integration-testing/01-integration/task-01-01-end-to-end-workflow.md
+          - End-to-End Workflow: planning/poc_planning/04-phase-4-integration-testing/01-integration/task-01-01-end-to-end-workflow.md
         - Testing:
-          - Unit Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-01-unit-tests.md
-          - Integration Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-02-integration-tests.md
-          - E2E Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-03-e2e-tests.md
-          - Performance Tests: ../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-04-performance-tests.md
+          - Unit Tests: planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-01-unit-tests.md
+          - Integration Tests: planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-02-integration-tests.md
+          - E2E Tests: planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-03-e2e-tests.md
+          - Performance Tests: planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-04-performance-tests.md
         - Demo Preparation:
-          - Demo Script: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-01-demo-script.md
-          - Demo Data: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-02-demo-data.md
-          - Presentation: ../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-03-presentation.md
+          - Demo Script: planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-01-demo-script.md
+          - Demo Data: planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-02-demo-data.md
+          - Presentation: planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-03-presentation.md
