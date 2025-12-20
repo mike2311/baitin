@@ -18,19 +18,25 @@ This folder contains the detailed implementation plan for the Proof of Concept (
 - Customer Master (Entry form, Lookup, List)
 - Vendor Master (Entry form, Lookup, List)
 
-### Phase 2: Order Enquiry Module (Weeks 7-8)
+### Phase 1.5: Legacy Data Migration (Week 7)
+- Migrate relevant legacy FoxPro data into PostgreSQL (PoC database)
+- Validate migrated data (counts, relationships, sampling)
+- Provide repeatable reset/reload scripts for PoC demos and testing
+- **Gate**: PoC is not considered complete by stakeholders unless relevant legacy data is migrated
+
+### Phase 2: Order Enquiry Module (Weeks 8-9)
 - OE Control (Create, Search/View, Validation)
 - OE Manual Entry (Header form, Detail grid, Item lookup, Auto-save, Validation)
 - OE Enquiry List (Search/Filter, View details, Basic reporting)
 
-### Phase 3: Excel Import (Weeks 9-10)
+### Phase 3: Excel Import (Weeks 10-11)
 - File upload and validation
 - Field mapping (auto-detect + manual override)
 - Data validation
 - Error reporting
 - Import execution
 
-### Phase 4: Integration and Testing (Weeks 11-12)
+### Phase 4: Integration and Testing (Weeks 12-13)
 - End-to-end integration
 - Testing (Unit, Integration, E2E, Performance)
 - Demo preparation
@@ -84,6 +90,7 @@ This folder contains the detailed implementation plan for the Proof of Concept (
 ### Data Architecture
 - **Table Details**: `../../docs/01-data-architecture/table-details/`
 - **Master Data Tables**: `../../docs/01-data-architecture/table-details/master-data-tables.md`
+- **Data Migration Strategy**: `../../docs/modernization-strategy/04-data-migration-strategy/data-migration-strategy.md`
 
 ### Validation & Forms
 - **Validation Catalog**: `../../docs/04-forms-and-screens/validation-catalog.md`
@@ -129,6 +136,7 @@ Each phase must meet its success criteria before proceeding to next phase:
 
 - **Phase 0**: Development environment operational, core components working
 - **Phase 1**: All master data modules functional with validation
+- **Phase 1.5**: Relevant legacy data migrated to PostgreSQL and reconciled (counts + integrity checks)
 - **Phase 2**: OE module complete with keyboard-first navigation
 - **Phase 3**: Excel import working with error handling
 - **Phase 4**: End-to-end workflow functional, demo ready
@@ -156,11 +164,12 @@ Each phase must meet its success criteria before proceeding to next phase:
 
 - **Week 1-4**: Phase 0 - Foundation
 - **Week 5-6**: Phase 1 - Master Data Module
-- **Week 7-8**: Phase 2 - Order Enquiry Module
-- **Week 9-10**: Phase 3 - Excel Import
-- **Week 11-12**: Phase 4 - Integration and Testing
+- **Week 7**: Phase 1.5 - Legacy Data Migration
+- **Week 8-9**: Phase 2 - Order Enquiry Module
+- **Week 10-11**: Phase 3 - Excel Import
+- **Week 12-13**: Phase 4 - Integration and Testing
 
-**Total Duration**: 12 weeks
+**Total Duration**: 13 weeks
 
 ## Code Quality Standards
 
@@ -212,16 +221,16 @@ Every significant function/component MUST include:
 
 ## Next Steps
 
-1. Review this implementation plan
-2. Get stakeholder approval
-3. Begin Phase 0: Foundation
+1. Review this implementation plan (updated to include Phase 1.5: Legacy Data Migration)
+2. Confirm the list of “relevant legacy data” tables with the owner (PoC scope)
+3. Execute Phase 1.5 in the PoC PostgreSQL database and validate reconciliation
 4. Regular progress reviews (weekly)
-5. Demo preparation (Week 11-12)
+5. Demo preparation (Week 12-13)
 
 ---
 
-**Last Updated**: 2025-01-XX
-**Version**: 1.0
-**Status**: Planning
+**Last Updated**: 2025-12-19
+**Version**: 1.1
+**Status**: Active (Phase 0-1 complete; Phase 1.5 next)
 **Owner**: Development Team
 

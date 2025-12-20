@@ -24,19 +24,27 @@ planning/poc_planning/
 │   ├── 02-customer-master/           # 3 tasks
 │   └── 03-vendor-master/             # 3 tasks
 │
-├── 02-phase-2-order-enquiry/         # Weeks 7-8
+├── 01.5-phase-1-data-migration/      # Week 7
+│   ├── README.md
+│   ├── task-01-01-scope-and-table-mapping.md
+│   ├── task-01-02-legacy-extract.md
+│   ├── task-01-03-load-to-postgresql.md
+│   ├── task-01-04-validation-and-reconciliation.md
+│   └── task-01-05-repeatable-reset-seeding.md
+│
+├── 02-phase-2-order-enquiry/         # Weeks 8-9
 │   ├── README.md
 │   ├── 01-oe-control/                # 2 tasks
 │   ├── 02-oe-manual-entry/           # 3 tasks
 │   └── 03-oe-enquiry-list/           # 2 tasks
 │
-├── 03-phase-3-excel-import/          # Weeks 9-10
+├── 03-phase-3-excel-import/          # Weeks 10-11
 │   ├── README.md
 │   ├── 01-file-upload/               # 1 task
 │   ├── 02-field-mapping/             # 2 tasks
 │   └── 03-validation-import/         # 3 tasks
 │
-└── 04-phase-4-integration-testing/   # Weeks 11-12
+└── 04-phase-4-integration-testing/   # Weeks 12-13
     ├── README.md
     ├── 01-integration/               # 1 task
     ├── 02-testing/                   # 4 tasks
@@ -49,10 +57,11 @@ planning/poc_planning/
 |-------|-------|----------|
 | Phase 0: Foundation | 13 tasks | 4 weeks |
 | Phase 1: Master Data | 9 tasks | 2 weeks |
+| Phase 1.5: Legacy Data Migration | 5 tasks | 1 week |
 | Phase 2: Order Enquiry | 7 tasks | 2 weeks |
 | Phase 3: Excel Import | 6 tasks | 2 weeks |
 | Phase 4: Integration & Testing | 8 tasks | 2 weeks |
-| **Total** | **43 tasks** | **12 weeks** |
+| **Total** | **48 tasks** | **13 weeks** |
 
 ## Key Deliverables by Phase
 
@@ -68,19 +77,24 @@ planning/poc_planning/
 - Customer Master (CRUD, lookup, list)
 - Vendor Master (CRUD, lookup, list)
 
-### Phase 2: Order Enquiry (Weeks 7-8)
+### Phase 1.5: Legacy Data Migration (Week 7)
+- Migrate relevant legacy FoxPro data into PoC PostgreSQL
+- Validate and reconcile migrated data
+- Provide repeatable reset/reload scripts for demos and testing
+
+### Phase 2: Order Enquiry (Weeks 8-9)
 - OE Control (create, search)
 - OE Manual Entry (header + detail grid)
 - OE Enquiry List (search, filter, view)
 
-### Phase 3: Excel Import (Weeks 9-10)
+### Phase 3: Excel Import (Weeks 10-11)
 - File upload
 - Field mapping (auto-detect + manual)
 - Data validation
 - Error reporting
 - Import execution
 
-### Phase 4: Integration & Testing (Weeks 11-12)
+### Phase 4: Integration & Testing (Weeks 12-13)
 - End-to-end integration
 - Comprehensive testing
 - Demo preparation
@@ -129,6 +143,8 @@ Phase 0 (Foundation)
     ↓
 Phase 1 (Master Data)
     ↓
+Phase 1.5 (Legacy Data Migration)
+    ↓
 Phase 2 (Order Enquiry)
     ↓
 Phase 3 (Excel Import)
@@ -140,9 +156,10 @@ Phase 4 (Integration & Testing)
 
 - **Week 4**: Foundation complete, ready for business logic
 - **Week 6**: Master Data complete, demonstrates core patterns
-- **Week 8**: Order Enquiry complete, demonstrates complex UX
-- **Week 10**: Excel Import complete, demonstrates file handling
-- **Week 12**: PoC complete, demo ready
+- **Week 7**: Legacy data migrated and reconciled (PoC database)
+- **Week 9**: Order Enquiry complete, demonstrates complex UX
+- **Week 11**: Excel Import complete, demonstrates file handling
+- **Week 13**: PoC complete, demo ready
 
 ## Success Criteria
 
@@ -208,7 +225,7 @@ Phase 4 (Integration & Testing)
 
 ---
 
-**Last Updated**: 2025-01-XX
-**Status**: Complete - Ready for Review and Approval
-**Version**: 1.0
+**Last Updated**: 2025-12-19
+**Status**: Active - Phase 0-1 complete; Phase 1.5 added as next gate
+**Version**: 1.1
 
