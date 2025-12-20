@@ -85,7 +85,7 @@ Phase 1 implements the Master Data Management module, including Item Master, Cus
 
 ## Next Phase
 
-After Phase 1 completion, proceed to **Phase 2: Order Enquiry Module**
+After Phase 1 completion, proceed to **Phase 1.5: Legacy Data Migration** (required stakeholder acceptance gate)
 
 ## Document References
 
