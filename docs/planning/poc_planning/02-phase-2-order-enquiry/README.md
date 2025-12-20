@@ -6,7 +6,7 @@ Phase 2 implements the Order Enquiry (OE) module, which is the entry point of th
 
 ## Duration
 
-**Weeks 7-8** (2 weeks)
+**Weeks 8-9** (2 weeks)
 
 ## Objectives
 
@@ -55,6 +55,12 @@ Phase 2 implements the Order Enquiry (OE) module, which is the entry point of th
 - [ ] Auto-save works
 - [ ] All validation rules implemented
 - [ ] OE Enquiry List functional
+
+## Dependencies
+
+- Phase 0 complete (database schema created)
+- Phase 1 complete (master data available)
+- Phase 1.5 complete (legacy data migrated and validated in PostgreSQL)
 
 ## Tasks
 

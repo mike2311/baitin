@@ -12,6 +12,9 @@
 
 Prepare realistic, clean demo data for stakeholder demonstration.
 
+> Note: Stakeholders require **relevant legacy data migrated into PostgreSQL** for PoC acceptance.
+> Demo data preparation should therefore be based on migrated legacy data (Phase 1.5), optionally curated into a stable demo subset.
+
 ## Demo Data Requirements
 
 ### Master Data
@@ -67,7 +70,8 @@ Prepare realistic, clean demo data for stakeholder demonstration.
 - [ ] Data can be reset quickly
 
 ## Notes
-- Prepare reset script to reload demo data
+- Prefer using Phase 1.5 reset/reload scripts to restore the demo baseline
+- Prepare reset script to reload demo data (if additional demo-only curation is needed)
 - Keep backup of demo data
 - Document data structure
 - Ensure data demonstrates all features
