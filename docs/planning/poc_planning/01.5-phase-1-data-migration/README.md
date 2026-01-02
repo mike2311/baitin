@@ -81,5 +81,6 @@ This phase MUST be implemented as a **production-bound migration tool**, not one
 - **Data Migration Strategy**: `../../modernization-strategy/04-data-migration-strategy/data-migration-strategy.md`
 - **Master Data Tables**: `../../source/01-data-architecture/table-details/master-data-tables.md`
 - **Validation Catalog**: `../../04-forms-and-screens/validation-catalog.md`
+- **Migration CLI (Runbook)**: `../../../migration-cli/SCRIPT_USAGE.md` (how to run extract/load/validate, FK soft/strict, data quality reporting)
 
 

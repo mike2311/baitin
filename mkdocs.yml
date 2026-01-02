@@ -119,6 +119,11 @@ nav:
     - File Structure: source/09-technical-details/file-structure.md
     - Known Issues: source/09-technical-details/known-issues.md
     - Phased Out Modules: source/09-technical-details/phased-out-modules.md
+  - Tooling and Runbooks:
+    - Migration CLI:
+      - Script Usage Guide: migration-cli/SCRIPT_USAGE.md
+      - Data Quality Workflow: migration-cli/data-quality-workflow.md
+      - Data Quality Report: migration-cli/data-quality-report.md
   - Modernization Strategy:
     - Overview: modernization-strategy/README.md
     - Planning and Assessment:
@@ -171,10 +176,6 @@ nav:
         - Load to PostgreSQL: planning/poc_planning/01.5-phase-1-data-migration/task-01-03-load-to-postgresql.md
         - Validation: planning/poc_planning/01.5-phase-1-data-migration/task-01-04-validation-and-reconciliation.md
         - Reset and Seeding: planning/poc_planning/01.5-phase-1-data-migration/task-01-05-repeatable-reset-seeding.md
-        - Migration CLI:
-          - Script Usage Guide: migration-cli/SCRIPT_USAGE.md
-          - Data Quality Workflow: migration-cli/data-quality-workflow.md
-          - Data Quality Report: migration-cli/data-quality-report.md
       - "Phase 1: Master Data":
         - Overview: planning/poc_planning/01-phase-1-master-data/README.md
         - Item Master:
