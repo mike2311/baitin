@@ -124,6 +124,10 @@ nav:
       - Script Usage Guide: migration-cli/SCRIPT_USAGE.md
       - Data Quality Workflow: migration-cli/data-quality-workflow.md
       - Data Quality Report: migration-cli/data-quality-report.md
+    - Testing:
+      - Testing Summary: runbooks/testing/testing-summary.md
+      - Testing Status: runbooks/testing/testing-status.md
+      - Test Cases: runbooks/testing/test-cases.md
   - Modernization Strategy:
     - Overview: modernization-strategy/README.md
     - Planning and Assessment:

@@ -77,4 +77,5 @@ Phase 4 focuses on end-to-end integration, comprehensive testing, and demo prepa
 ## Document References
 
 - **PoC Strategy**: `../../docs/modernization-strategy/15-poc-strategy/poc-strategy.md` (Success Criteria, Demo Strategy)
+- **Testing Runbook (Operational)**: `../../../runbooks/testing/testing-summary.md` (status, checklist, and test cases)
 

@@ -8,31 +8,74 @@
 4. **Feature Parity**: Maintain 100% feature parity with the original FoxPro system
 5. **Phased Delivery**: Follow the phased delivery plan and current phase requirements
 
+## Database Configuration
+
+### Supabase PostgreSQL Connection
+
+**CRITICAL**: Always use the **MCP baitin** server for all Supabase PostgreSQL operations. Do NOT use other MCP servers (e.g., crystal, supabase) for database operations.
+
+- **Connection String**: `postgresql://postgres:[YOUR-PASSWORD]@db.tvntlxdninziiievjgzx.supabase.co:5432/postgres`
+- **Database Name**: `postgres` (Supabase default database)
+- **Project Ref**: `tvntlxdninziiievjgzx`
+- **MCP Server**: Use `mcp_baitin_*` functions (e.g., `mcp_baitin_execute_sql`, `mcp_baitin_apply_migration`, `mcp_baitin_list_tables`)
+
+**Backend .env Configuration**:
+```
+DATABASE_HOST=db.tvntlxdninziiievjgzx.supabase.co
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=Jujruddo1
+DATABASE_NAME=postgres
+```
+
+**When performing database operations**:
+- ✅ Use: `mcp_baitin_execute_sql`, `mcp_baitin_apply_migration`, `mcp_baitin_list_tables`
+- ❌ DO NOT use: `mcp_supabase_*` or `mcp_crystal_*` functions for database operations
+
+**Current Tables in Database**:
+- `users` - User authentication (1 admin user: admin/password123)
+- `zstdcode` - Standard codes reference (27 rows)
+- `zorigin` - Origin codes reference (4 rows)
+- BAITIN application tables will be created via TypeORM migrations
+
 ## Documentation Structure Reference
 
 ### Primary Documentation Locations
-- **System Documentation**: `docs/00-overview/` through `docs/09-technical-details/`
+- **System Documentation (Legacy System Analysis)**: `docs/source/`
 - **Modernization Strategy**: `docs/modernization-strategy/`
-- **Business Processes**: `docs/02-business-processes/`
-- **Data Architecture**: `docs/01-data-architecture/`
-- **Forms & Screens**: `docs/04-forms-and-screens/`
-- **Business Logic**: `docs/05-business-logic/`
+- **Implementation Planning (Phased PoC/MVP Plan)**: `docs/planning/`
+- **Tooling & Runbooks (Operational Docs)**: `docs/runbooks/`
+
+### MkDocs Navigation Philosophy (CRITICAL)
+
+We use MkDocs to publish documentation from the `docs/` directory. To keep the site usable long-term:
+
+1. **Separate planning vs operational docs**
+   - **Planning docs** live under `docs/planning/` and describe scope, tasks, acceptance criteria, and decisions.
+   - **Operational docs (runbooks)** live under `docs/runbooks/` and describe how to run tools, scripts, procedures, troubleshooting.
+
+2. **Single-source navigation**
+   - A runbook **must appear only once** in the MkDocs nav (e.g., under **Tooling and Runbooks**).
+   - Planning pages should **link to runbooks** instead of duplicating them in the nav.
+
+3. **Code-adjacent docs**
+   - If a tool keeps docs in its own folder (e.g., `backend/migration-cli/docs/`), mirror them into `docs/` for MkDocs (e.g., `docs/migration-cli/`), and reference the MkDocs copy as the published source.
 
 ### Key Documents to Always Reference
 
 #### Before Starting Any Task:
-1. **System Summary**: `docs/00-overview/system-summary.md` - Understand overall system
+1. **System Summary**: `docs/source/00-overview/system-summary.md` - Understand overall system
 2. **Current State Assessment**: `docs/modernization-strategy/02-current-state-assessment/current-state-assessment.md`
 3. **Target Architecture**: `docs/modernization-strategy/03-target-state-architecture/target-state-architecture.md`
 4. **Phased Delivery Plan**: `docs/modernization-strategy/11-phased-delivery-plan/phased-delivery-plan.md`
 
 #### For Specific Modules:
-- **Order Enquiry**: `docs/02-business-processes/order-enquiry-process.md`, `docs/03-application-modules/order-enquiry-module.md`
-- **Master Data**: `docs/02-business-processes/master-data-management.md`
-- **Workflows**: `docs/02-business-processes/workflow-overview.md`
-- **Data Models**: `docs/01-data-architecture/table-details/`
-- **Validation Rules**: `docs/04-forms-and-screens/validation-catalog.md`
-- **Form Logic**: `docs/04-forms-and-screens/form-logic-patterns.md`
+- **Order Enquiry**: `docs/source/02-business-processes/order-enquiry-process.md`, `docs/source/03-application-modules/order-enquiry-module.md`
+- **Master Data**: `docs/source/02-business-processes/master-data-management.md`
+- **Workflows**: `docs/source/02-business-processes/workflow-overview.md`
+- **Data Models**: `docs/source/01-data-architecture/table-details/`
+- **Validation Rules**: `docs/source/04-forms-and-screens/validation-catalog.md`
+- **Form Logic**: `docs/source/04-forms-and-screens/form-logic-patterns.md`
 
 ## Mandatory Pre-Implementation Checklist
 
@@ -256,6 +299,57 @@ Before implementing any feature:
 - Reporting
 - All remaining modules
 
+## File Write Restrictions
+
+### CRITICAL: File Write Policy
+
+**DO NOT write files to disk unless explicitly requested by the user.**
+
+When you need to output information or show results:
+- ✅ **Use dialogs/messages**: Display information in a dialog or message to the user instead of writing files
+- ❌ **DO NOT use Write-Host or console output**: NEVER use Write-Host, console.log, or any console output statements
+- ❌ **DO NOT write files** for temporary output, logs, or informational content
+- ❌ **DO NOT create files** unless the user explicitly requests file creation
+
+**Exceptions (when file writes are allowed):**
+- User explicitly requests file creation
+- Code implementation files (source code, configs, etc.) that are part of the actual implementation
+- Database migrations and schema files
+- Documentation files when explicitly requested
+
+**When in doubt**: Show a message in a dialog instead of writing a file.
+
+## Console Output Restrictions
+
+### CRITICAL: DO NOT USE Write-Host
+
+**NEVER use Write-Host, console.log, console.error, console.warn, or any console output statements.**
+
+This includes:
+- ❌ **NO Write-Host** - Do not use PowerShell Write-Host for status messages, migration completions, or any output
+- ❌ **NO console.log** - Do not use console.log, console.error, console.warn, or any console methods
+- ❌ **NO terminal output** - Do not output status messages, progress, or informational text to the terminal/console
+- ❌ **NO formatted output** - Do not create formatted status messages, completion messages, or progress indicators
+
+**What to do instead:**
+- ✅ **Use dialogs/messages**: Show information in a dialog or message interface
+- ✅ **Return structured data**: Return data structures that can be displayed in the UI
+- ✅ **Silent operations**: Complete operations silently without output unless the user explicitly requests status
+
+**Examples of what NOT to do:**
+```powershell
+# ❌ DO NOT DO THIS
+Write-Host "Migration complete" -ForegroundColor Green
+Write-Host "✅ Database updated successfully"
+console.log("Operation completed")
+console.error("Error occurred")
+```
+
+**When you complete operations:**
+- Complete them silently
+- Return results as structured data
+- Let the UI display the information to the user
+
 ## Anti-Patterns (DO NOT DO)
 
 1. **DO NOT** implement features without checking documentation first
@@ -268,6 +362,8 @@ Before implementing any feature:
 8. **DO NOT** implement without preserving original data relationships
 9. **DO NOT** create new business rules without approval
 10. **DO NOT** skip testing against original logic
+11. **DO NOT** write files for temporary output or logs - use dialogs/messages instead
+12. **DO NOT** use Write-Host, console.log, or any console output statements - NEVER output status messages or progress to the terminal
 
 ## When in Doubt
 
