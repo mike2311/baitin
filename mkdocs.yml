@@ -163,6 +163,18 @@ nav:
           - Lookup Component: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component.md
           - Data Grid Setup: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup.md
           - Form Layout Components: planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components.md
+      - "Phase 1.5: Data Migration":
+        - Overview: planning/poc_planning/01.5-phase-1-data-migration/README.md
+        - Scope: planning/poc_planning/01.5-phase-1-data-migration/SCOPE.md
+        - Table Mapping: planning/poc_planning/01.5-phase-1-data-migration/task-01-01-scope-and-table-mapping.md
+        - Legacy Extract: planning/poc_planning/01.5-phase-1-data-migration/task-01-02-legacy-extract.md
+        - Load to PostgreSQL: planning/poc_planning/01.5-phase-1-data-migration/task-01-03-load-to-postgresql.md
+        - Validation: planning/poc_planning/01.5-phase-1-data-migration/task-01-04-validation-and-reconciliation.md
+        - Reset and Seeding: planning/poc_planning/01.5-phase-1-data-migration/task-01-05-repeatable-reset-seeding.md
+        - Migration CLI:
+          - Script Usage Guide: migration-cli/SCRIPT_USAGE.md
+          - Data Quality Workflow: migration-cli/data-quality-workflow.md
+          - Data Quality Report: migration-cli/data-quality-report.md
       - "Phase 1: Master Data":
         - Overview: planning/poc_planning/01-phase-1-master-data/README.md
         - Item Master:
