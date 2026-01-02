@@ -47,7 +47,7 @@ export function ItemMasterPage() {
   /**
    * Handle form success (create or update)
    */
-  const handleFormSuccess = (item: Item) => {
+  const handleFormSuccess = () => {
     setViewMode('list')
     setSelectedItemNo(undefined)
   }

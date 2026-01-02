@@ -1,4 +1,4 @@
-import { useAuth } from '../store/contexts/AuthContext'
+import { useAuth } from '../store/contexts/useAuth'
 import { useNavigate } from 'react-router-dom'
 
 /**
@@ -61,6 +61,14 @@ export default function DashboardPage() {
             >
               <h3 className="text-lg font-semibold mb-2">🏭 Vendor Master</h3>
               <p className="text-gray-600 text-sm">Manage vendor and supplier data</p>
+            </button>
+
+            <button
+              onClick={() => navigate('/reference')}
+              className="p-6 bg-white border-2 border-indigo-300 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left border-dashed"
+            >
+              <h3 className="text-lg font-semibold mb-2">📋 Reference Data (Migration)</h3>
+              <p className="text-gray-600 text-sm">View migrated reference data for validation</p>
             </button>
           </div>
         </div>

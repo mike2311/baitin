@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormProvider, useForm, UseFormReturn } from 'react-hook-form'
+import { FormProvider, useForm, FieldValues, DefaultValues, SubmitHandler } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -10,20 +10,20 @@ import { cn } from '@/lib/utils'
  * 
  * Reference: Task 04-04 - Form Layout Components
  */
-export interface FormContainerProps {
+export interface FormContainerProps<TFieldValues extends FieldValues = FieldValues> {
   children: React.ReactNode
-  onSubmit: (data: any) => void | Promise<void>
-  defaultValues?: any
+  onSubmit: SubmitHandler<TFieldValues>
+  defaultValues?: DefaultValues<TFieldValues>
   className?: string
 }
 
-export function FormContainer({
+export function FormContainer<TFieldValues extends FieldValues = FieldValues>({
   children,
   onSubmit,
   defaultValues,
   className,
-}: FormContainerProps) {
-  const methods = useForm({ defaultValues })
+}: FormContainerProps<TFieldValues>) {
+  const methods = useForm<TFieldValues>({ defaultValues })
 
   return (
     <FormProvider {...methods}>

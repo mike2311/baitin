@@ -1,15 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 import { authApi, User } from '../../services/api/auth'
-
-interface AuthContextType {
-  user: User | null
-  loading: boolean
-  login: (username: string, password: string, company?: string) => Promise<void>
-  logout: () => Promise<void>
-  isAuthenticated: boolean
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+import { AuthContext } from './authContextValue'
 
 /**
  * Authentication Context Provider
@@ -33,15 +24,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const userData = JSON.parse(storedUser)
         setUser(userData)
         // Validate token with backend (but don't block if it fails)
-        authApi.getMe().catch((err) => {
-          console.warn('Token validation failed:', err)
+        authApi.getMe().catch(() => {
           // Token invalid, clear storage
           localStorage.removeItem('token')
           localStorage.removeItem('user')
           setUser(null)
         })
       } catch (err) {
-        console.error('Error parsing stored user:', err)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
       }
@@ -50,18 +39,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = async (username: string, password: string, company?: string) => {
-    try {
-      const response = await authApi.login({ username, password, company })
-      if (response.access_token && response.user) {
-        localStorage.setItem('token', response.access_token)
-        localStorage.setItem('user', JSON.stringify(response.user))
-        setUser(response.user)
-      } else {
-        throw new Error('Invalid login response')
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-      throw error
+    const response = await authApi.login({ username, password, company })
+    if (response.access_token && response.user) {
+      localStorage.setItem('token', response.access_token)
+      localStorage.setItem('user', JSON.stringify(response.user))
+      setUser(response.user)
+    } else {
+      throw new Error('Invalid login response')
     }
   }
 
@@ -84,13 +68,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   )
 }
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
-}
-
 

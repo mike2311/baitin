@@ -48,7 +48,6 @@ export function VendorLookup({ onSelect, onChange, ...props }: VendorLookupProps
         description: vendor.description,
       }))
     } catch (error) {
-      console.error('Error searching vendors:', error)
       return []
     }
   }
@@ -76,5 +75,6 @@ export function VendorLookup({ onSelect, onChange, ...props }: VendorLookupProps
     />
   )
 }
+
 
 

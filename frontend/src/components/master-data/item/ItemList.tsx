@@ -53,12 +53,12 @@ export function ItemList({ onSelectItem, onCreateNew }: ItemListProps) {
       setItems(response.items || [])
       setTotal(response.total || 0)
       setTotalPages(response.totalPages || 1)
-    } catch (err: any) {
-      console.error('Error loading items:', err)
-      if (err.response?.status === 401) {
+    } catch (err: unknown) {
+      const e = err as { response?: { status?: number; data?: { message?: string } }; message?: string }
+      if (e?.response?.status === 401) {
         setError('Authentication failed. Please login again.')
       } else {
-        setError(err.response?.data?.message || err.message || 'Failed to load items')
+        setError(e?.response?.data?.message || e?.message || 'Failed to load items')
       }
       setItems([])
       setTotal(0)

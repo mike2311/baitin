@@ -37,7 +37,7 @@ export function CustomerMasterPage() {
     setViewMode('edit')
   }
 
-  const handleFormSuccess = (customer: Customer) => {
+  const handleFormSuccess = () => {
     setViewMode('list')
     setSelectedCustNo(undefined)
   }

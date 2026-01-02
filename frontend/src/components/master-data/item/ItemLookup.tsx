@@ -44,7 +44,6 @@ export function ItemLookup({ onSelect, onChange, ...props }: ItemLookupProps) {
         description: item.description,
       }))
     } catch (error) {
-      console.error('Error searching items:', error)
       return []
     }
   }

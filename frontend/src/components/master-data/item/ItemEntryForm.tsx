@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextInput } from '@/components/forms/TextInput'
-import { ItemLookup } from './ItemLookup'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Item, CreateItemDto, UpdateItemDto, createItem, updateItem, getItem } from '@/services/api/items'
@@ -46,20 +44,23 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
-    watch,
     reset,
   } = useForm<CreateItemDto>()
 
   const [loading, setLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
+  const getErrorMessage = useCallback((error: unknown, fallback: string) => {
+    const err = error as { response?: { data?: { message?: string } } }
+    return err?.response?.data?.message || fallback
+  }, [])
+
   // Load existing item if in edit mode
   useEffect(() => {
     if (mode === 'edit' && itemNo) {
       loadItem(itemNo)
     }
-  }, [mode, itemNo])
+  }, [mode, itemNo, loadItem])
 
   /**
    * Load existing item data
@@ -71,7 +72,7 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
    * 1. User selects existing item (via lookup or search)
    * 2. Load item data into form
    */
-  const loadItem = async (itemNo: string) => {
+  const loadItem = useCallback(async (itemNo: string) => {
     try {
       setLoading(true)
       const item = await getItem(itemNo)
@@ -104,12 +105,12 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
         dim: item.dim,
         duty: item.duty,
       })
-    } catch (error: any) {
-      setSubmitError(error.response?.data?.message || 'Failed to load item')
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to load item'))
     } finally {
       setLoading(false)
     }
-  }
+  }, [getErrorMessage, reset])
 
   /**
    * Handle form submission
@@ -140,25 +141,9 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
         const updatedItem = await updateItem(itemNo, data as UpdateItemDto)
         onSuccess?.(updatedItem)
       }
-    } catch (error: any) {
-      // Handle validation errors from backend
-      const message = error.response?.data?.message || 'Failed to save item'
-      setSubmitError(message)
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to save item'))
     }
-  }
-
-  /**
-   * Handle origin lookup selection
-   */
-  const handleOriginSelect = (item: any) => {
-    setValue('origin', item.code)
-  }
-
-  /**
-   * Handle standard code lookup selection
-   */
-  const handleStdCodeSelect = (item: any) => {
-    setValue('stdCode', item.code)
   }
 
   if (loading) {
@@ -397,7 +382,7 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold border-b pb-2">Packing Information</h3>
         
-        {[1, 2, 3, 4].map((level) => (
+        {([1, 2, 3, 4] as const).map((level) => (
           <div key={level} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor={`packPc${level}`}>Pack PC {level}</Label>
@@ -405,7 +390,7 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
                 id={`packPc${level}`}
                 type="number"
                 className="w-full px-3 py-2 border rounded-md"
-                {...register(`packPc${level}` as any, { valueAsNumber: true })}
+                {...register(`packPc${level}` as const, { valueAsNumber: true })}
               />
             </div>
             <div>
@@ -414,7 +399,7 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
                 id={`packDesp${level}`}
                 type="text"
                 className="w-full px-3 py-2 border rounded-md"
-                {...register(`packDesp${level}` as any)}
+                {...register(`packDesp${level}` as const)}
               />
             </div>
           </div>

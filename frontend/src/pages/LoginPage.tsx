@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../store/contexts/AuthContext'
+import { useAuth } from '../store/contexts/useAuth'
 
 /**
  * Login Page Component
@@ -26,8 +26,9 @@ export default function LoginPage() {
     try {
       await login(username, password, company)
       navigate('/')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed')
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } }
+      setError(e?.response?.data?.message || 'Login failed')
     } finally {
       setLoading(false)
     }

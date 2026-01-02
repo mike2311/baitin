@@ -37,7 +37,7 @@ export function VendorMasterPage() {
     setViewMode('edit')
   }
 
-  const handleFormSuccess = (vendor: Vendor) => {
+  const handleFormSuccess = () => {
     setViewMode('list')
     setSelectedVendorNo(undefined)
   }

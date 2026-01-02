@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -29,23 +29,28 @@ export function VendorEntryForm({ vendorNo, mode = 'create', onSuccess, onCancel
   const [loading, setLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
+  const getErrorMessage = useCallback((error: unknown, fallback: string) => {
+    const err = error as { response?: { data?: { message?: string } } }
+    return err?.response?.data?.message || fallback
+  }, [])
+
+  const loadVendor = useCallback(async (vendorCode: string) => {
+    try {
+      setLoading(true)
+      const vendor = await getVendor(vendorCode)
+      reset(vendor)
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to load vendor'))
+    } finally {
+      setLoading(false)
+    }
+  }, [getErrorMessage, reset])
+
   useEffect(() => {
     if (mode === 'edit' && vendorNo) {
       loadVendor(vendorNo)
     }
-  }, [mode, vendorNo])
-
-  const loadVendor = async (vendorNo: string) => {
-    try {
-      setLoading(true)
-      const vendor = await getVendor(vendorNo)
-      reset(vendor)
-    } catch (error: any) {
-      setSubmitError(error.response?.data?.message || 'Failed to load vendor')
-    } finally {
-      setLoading(false)
-    }
-  }
+  }, [mode, vendorNo, loadVendor])
 
   const onSubmit = async (data: CreateVendorDto) => {
     try {
@@ -58,8 +63,8 @@ export function VendorEntryForm({ vendorNo, mode = 'create', onSuccess, onCancel
         const updatedVendor = await updateVendor(vendorNo, data as UpdateVendorDto)
         onSuccess?.(updatedVendor)
       }
-    } catch (error: any) {
-      setSubmitError(error.response?.data?.message || 'Failed to save vendor')
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to save vendor'))
     }
   }
 
@@ -149,10 +154,15 @@ export function VendorEntryForm({ vendorNo, mode = 'create', onSuccess, onCancel
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold border-b pb-2">Address</h3>
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i}>
-            <Label htmlFor={`addr${i}`}>Address Line {i}</Label>
-            <input id={`addr${i}`} type="text" className="w-full px-3 py-2 border rounded-md" {...register(`addr${i}` as any)} />
+        {(['addr1', 'addr2', 'addr3', 'addr4'] as const).map((field, idx) => (
+          <div key={field}>
+            <Label htmlFor={field}>Address Line {idx + 1}</Label>
+            <input
+              id={field}
+              type="text"
+              className="w-full px-3 py-2 border rounded-md"
+              {...register(field)}
+            />
           </div>
         ))}
       </div>

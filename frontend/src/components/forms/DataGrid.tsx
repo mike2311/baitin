@@ -22,7 +22,7 @@ export interface CustomDataGridProps<T extends Row> {
   columns: Column<T>[]
   rows: T[]
   onRowsChange?: (rows: T[]) => void
-  onCellClick?: (args: any) => void
+  onCellClick?: (args: unknown) => void
   selectedRows?: Set<number>
   height?: number
   className?: string

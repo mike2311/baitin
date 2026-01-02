@@ -48,7 +48,6 @@ export function CustomerLookup({ onSelect, onChange, ...props }: CustomerLookupP
         description: customer.description,
       }))
     } catch (error) {
-      console.error('Error searching customers:', error)
       return []
     }
   }
@@ -76,5 +75,6 @@ export function CustomerLookup({ onSelect, onChange, ...props }: CustomerLookupP
     />
   )
 }
+
 
 

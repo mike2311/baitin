@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../store/contexts/AuthContext'
+import { useAuth } from '../store/contexts/useAuth'
 
 /**
  * Protected Route Component
@@ -14,7 +14,7 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated, loading, user } = useAuth()
+  const { isAuthenticated, loading } = useAuth()
 
   if (loading) {
     return (

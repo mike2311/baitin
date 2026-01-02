@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -29,23 +29,28 @@ export function CustomerEntryForm({ custNo, mode = 'create', onSuccess, onCancel
   const [loading, setLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
+  const getErrorMessage = useCallback((error: unknown, fallback: string) => {
+    const err = error as { response?: { data?: { message?: string } } }
+    return err?.response?.data?.message || fallback
+  }, [])
+
+  const loadCustomer = useCallback(async (customerNo: string) => {
+    try {
+      setLoading(true)
+      const customer = await getCustomer(customerNo)
+      reset(customer)
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to load customer'))
+    } finally {
+      setLoading(false)
+    }
+  }, [getErrorMessage, reset])
+
   useEffect(() => {
     if (mode === 'edit' && custNo) {
       loadCustomer(custNo)
     }
-  }, [mode, custNo])
-
-  const loadCustomer = async (custNo: string) => {
-    try {
-      setLoading(true)
-      const customer = await getCustomer(custNo)
-      reset(customer)
-    } catch (error: any) {
-      setSubmitError(error.response?.data?.message || 'Failed to load customer')
-    } finally {
-      setLoading(false)
-    }
-  }
+  }, [mode, custNo, loadCustomer])
 
   const onSubmit = async (data: CreateCustomerDto) => {
     try {
@@ -58,8 +63,8 @@ export function CustomerEntryForm({ custNo, mode = 'create', onSuccess, onCancel
         const updatedCustomer = await updateCustomer(custNo, data as UpdateCustomerDto)
         onSuccess?.(updatedCustomer)
       }
-    } catch (error: any) {
-      setSubmitError(error.response?.data?.message || 'Failed to save customer')
+    } catch (error: unknown) {
+      setSubmitError(getErrorMessage(error, 'Failed to save customer'))
     }
   }
 
@@ -153,14 +158,14 @@ export function CustomerEntryForm({ custNo, mode = 'create', onSuccess, onCancel
       <div className="space-y-4">
         <h3 className="text-lg font-semibold border-b pb-2">Address</h3>
         
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i}>
-            <Label htmlFor={`addr${i}`}>Address Line {i}</Label>
+        {(['addr1', 'addr2', 'addr3', 'addr4'] as const).map((field, idx) => (
+          <div key={field}>
+            <Label htmlFor={field}>Address Line {idx + 1}</Label>
             <input
-              id={`addr${i}`}
+              id={field}
               type="text"
               className="w-full px-3 py-2 border rounded-md"
-              {...register(`addr${i}` as any)}
+              {...register(field)}
             />
           </div>
         ))}

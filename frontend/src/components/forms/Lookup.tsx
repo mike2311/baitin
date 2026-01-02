@@ -12,7 +12,7 @@ export interface LookupItem {
   code: string
   name: string
   description?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**
@@ -72,6 +72,13 @@ export function Lookup({
   const resultsRef = useRef<HTMLDivElement>(null)
 
   const debouncedQuery = useDebounce(searchQuery, debounceMs)
+
+  // Keep input display in sync with controlled value
+  useEffect(() => {
+    if (!open) {
+      setSearchQuery(value || '')
+    }
+  }, [value, open])
 
   useEffect(() => {
     if (debouncedQuery.length >= minSearchLength && open) {

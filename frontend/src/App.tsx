@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage'
 import { ItemMasterPage } from './pages/ItemMasterPage'
 import { CustomerMasterPage } from './pages/CustomerMasterPage'
 import { VendorMasterPage } from './pages/VendorMasterPage'
+import { ReferenceDataPage } from './pages/ReferenceDataPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const queryClient = new QueryClient({
@@ -53,6 +54,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <VendorMasterPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reference"
+              element={
+                <ProtectedRoute>
+                  <ReferenceDataPage />
                 </ProtectedRoute>
               }
             />

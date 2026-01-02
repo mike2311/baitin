@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { getCustomers, Customer } from '@/services/api/customers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,11 +27,13 @@ export function CustomerList({ onSelectCustomer, onCreateNew }: CustomerListProp
 
   const debouncedFilter = useDebounce(filter, 300)
 
-  useEffect(() => {
-    loadCustomers()
-  }, [page, debouncedFilter])
+  const getErrorMessage = useCallback((error: unknown, fallback: string) => {
+    const err = error as { response?: { status?: number; data?: { message?: string } }; message?: string }
+    if (err?.response?.status === 401) return 'Authentication failed. Please login again.'
+    return err?.response?.data?.message || err?.message || fallback
+  }, [])
 
-  const loadCustomers = async () => {
+  const loadCustomers = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
@@ -39,20 +41,19 @@ export function CustomerList({ onSelectCustomer, onCreateNew }: CustomerListProp
       setCustomers(response.customers || [])
       setTotal(response.total || 0)
       setTotalPages(response.totalPages || 1)
-    } catch (err: any) {
-      console.error('Error loading customers:', err)
-      if (err.response?.status === 401) {
-        setError('Authentication failed. Please login again.')
-      } else {
-        setError(err.response?.data?.message || err.message || 'Failed to load customers')
-      }
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'Failed to load customers'))
       setCustomers([])
       setTotal(0)
       setTotalPages(1)
     } finally {
       setLoading(false)
     }
-  }
+  }, [page, limit, debouncedFilter, getErrorMessage])
+
+  useEffect(() => {
+    void loadCustomers()
+  }, [loadCustomers])
 
   return (
     <div className="space-y-4 p-6">
