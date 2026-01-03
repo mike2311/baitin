@@ -1,0 +1,25 @@
+{
+  "name": "baitin-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BAITIN Trading Management System - Monorepo",
+  "scripts": {
+    "prepare": "husky install",
+    "pre-commit-check": "node scripts/pre-commit-check.js",
+    "pre-push-check": "node scripts/pre-push-check.js"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.5.2"
+  },
+  "lint-staged": {
+    "frontend/**/*.{ts,tsx}": [
+      "cd frontend && npm run lint -- --fix",
+      "cd frontend && npm run type-check"
+    ],
+    "backend/**/*.ts": [
+      "cd backend && npm run lint -- --fix",
+      "cd backend && npm run build"
+    ]
+  }
+}

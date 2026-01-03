@@ -187,6 +187,8 @@ All validation rules documented in `docs/04-forms-and-screens/validation-catalog
 
 ### Before Submitting Code:
 
+**MANDATORY**: Pre-commit and pre-push hooks will automatically validate your code. These checks MUST pass before commit/push.
+
 1. **Logic Validation**:
    - [ ] Verify all original business rules are implemented
    - [ ] Test all validation rules match original system
@@ -208,6 +210,97 @@ All validation rules documented in `docs/04-forms-and-screens/validation-catalog
    - [ ] Meets security requirements
    - [ ] Aligns with integration strategy
    - [ ] Follows deployment operations plan
+
+## Mandatory Pre-Commit and Pre-Push Checks
+
+### CRITICAL: Automated Git Hooks (MUST NOT BYPASS)
+
+**Pre-commit and pre-push hooks are automatically enforced via Husky.** These checks MUST pass before any commit or push. **NEVER skip or bypass these hooks** (e.g., `git commit --no-verify` or `git push --no-verify`).
+
+### Pre-Commit Hook (Fast Checks)
+
+Runs automatically on `git commit`:
+- **Lint-staged**: Lints and auto-fixes only staged files
+  - Frontend: `npm run lint -- --fix` + `npm run type-check` for `*.ts,*.tsx`
+  - Backend: `npm run lint -- --fix` + `npm run build` for `*.ts`
+
+**What it does:**
+- Fast checks on changed files only
+- Auto-fixes lint issues where possible
+- Blocks commit if errors remain
+
+**Location**: `.husky/pre-commit` → calls `scripts/pre-commit-check.js`
+
+### Pre-Push Hook (Full CI Checks)
+
+Runs automatically on `git push`:
+- **Full CI validation**: Mirrors GitHub Actions CI pipeline exactly
+  1. **Lint Job**: `npm ci` + `npm run lint` (frontend + backend)
+  2. **Type-Check Job**: `npm run type-check` (frontend) + `npm run build` (backend)
+  3. **Build Job**: `npm run build` (frontend + backend)
+
+**What it does:**
+- Ensures code will pass CI before pushing
+- Validates dependencies install correctly (`npm ci`)
+- Verifies TypeScript compilation succeeds
+- Confirms all builds complete successfully
+
+**Location**: `.husky/pre-push` → calls `scripts/pre-push-check.js`
+
+### Manual Alternative (PowerShell)
+
+If Husky hooks don't work (e.g., Windows Git Bash issues), run manually:
+```powershell
+# Pre-commit (fast check)
+.\scripts\pre-commit-check.ps1
+
+# Pre-push (full CI check)
+.\scripts\pre-push-check.ps1
+```
+
+### Bypassing Hooks (EMERGENCY ONLY)
+
+**⚠️ WARNING**: Only bypass hooks in emergency situations (e.g., hotfix deployment). You MUST:
+1. Document why hooks were bypassed in commit message
+2. Create follow-up commit to fix issues immediately
+3. Never bypass hooks for regular development work
+
+**Never use these flags in normal workflow:**
+- ❌ `git commit --no-verify`
+- ❌ `git push --no-verify`
+
+### Setup and Maintenance
+
+**Initial Setup** (already done):
+- Husky installed in root `package.json`
+- Hooks created in `.husky/` directory
+- Scripts in `scripts/` directory
+
+**If hooks stop working:**
+```bash
+# Reinstall hooks
+npm run prepare  # or: npx husky install
+
+# Verify hooks exist
+ls .husky/pre-commit .husky/pre-push
+```
+
+**Configuration Files:**
+- `package.json` - Husky config + lint-staged config
+- `.husky/pre-commit` - Pre-commit hook script
+- `.husky/pre-push` - Pre-push hook script
+- `scripts/pre-commit-check.js` - Pre-commit logic
+- `scripts/pre-push-check.js` - Pre-push logic
+
+### Integration with CI/CD
+
+The pre-push hook **exactly mirrors** `.github/workflows/ci.yml`:
+- Same commands
+- Same Node version (18)
+- Same dependency installation (`npm ci`)
+- Same validation steps
+
+**If pre-push passes locally, CI should pass** (assuming environment parity).
 
 ## Code Comments and Documentation
 
