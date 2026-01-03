@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getVendors, Vendor } from '@/services/api/vendors'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

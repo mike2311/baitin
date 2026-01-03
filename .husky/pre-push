@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Run pre-push checks first
 node scripts/pre-push-check.js
+# Exit code from the script determines if push continues
+exit $?

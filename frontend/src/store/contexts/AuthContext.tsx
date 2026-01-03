@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { authApi, User } from '../../services/api/auth'
 import { AuthContext } from './authContextValue'
 

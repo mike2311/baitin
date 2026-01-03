@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -100,12 +100,14 @@ export function Lookup({
   }, [debouncedQuery, onSearch, minSearchLength, open])
 
   const handleSelect = (item: LookupItem) => {
-    onChange(item[valueField], item)
-    setSearchQuery(item[displayField] || item[valueField])
+    const value = String(item[valueField] ?? '')
+    onChange(value, item)
+    const displayValue = item[displayField] ? String(item[displayField]) : value
+    setSearchQuery(displayValue)
     setOpen(false)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: { key: string; preventDefault: () => void }) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev))
@@ -164,21 +166,25 @@ export function Lookup({
           )}
           {!loading && results.length > 0 && (
             <div ref={resultsRef} className="max-h-[300px] overflow-auto">
-              {results.map((item, index) => (
-                <div
-                  key={item[valueField]}
-                  onClick={() => handleSelect(item)}
-                  className={cn(
-                    'px-4 py-2 cursor-pointer hover:bg-accent',
-                    selectedIndex === index && 'bg-accent'
-                  )}
-                >
-                  <div className="font-medium">{item[valueField]}</div>
-                  {item[displayField] && (
-                    <div className="text-sm text-muted-foreground">{item[displayField]}</div>
-                  )}
-                </div>
-              ))}
+              {results.map((item, index) => {
+                const value = String(item[valueField] ?? '')
+                const display = item[displayField] ? String(item[displayField]) : null
+                return (
+                  <div
+                    key={value}
+                    onClick={() => handleSelect(item)}
+                    className={cn(
+                      'px-4 py-2 cursor-pointer hover:bg-accent',
+                      selectedIndex === index && 'bg-accent'
+                    )}
+                  >
+                    <div className="font-medium">{value}</div>
+                    {display && (
+                      <div className="text-sm text-muted-foreground">{display}</div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </PopoverContent>

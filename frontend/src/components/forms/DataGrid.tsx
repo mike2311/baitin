@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+// @ts-expect-error - react-data-grid has type resolution issues with package.json exports
 import DataGridLib, { Column, Row } from 'react-data-grid'
 import 'react-data-grid/lib/styles.css'
 

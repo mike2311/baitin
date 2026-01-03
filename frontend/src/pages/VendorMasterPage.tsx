@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { VendorList } from '@/components/master-data/vendor/VendorList'
 import { VendorEntryForm } from '@/components/master-data/vendor/VendorEntryForm'
 import { Vendor } from '@/services/api/vendors'

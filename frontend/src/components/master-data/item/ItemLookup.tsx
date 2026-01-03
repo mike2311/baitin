@@ -1,4 +1,3 @@
-import React from 'react'
 import { Lookup, LookupItem, LookupProps } from '@/components/forms/Lookup'
 import { searchItems } from '@/services/api/items'
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { CustomerList } from '@/components/master-data/customer/CustomerList'
 import { CustomerEntryForm } from '@/components/master-data/customer/CustomerEntryForm'
 import { Customer } from '@/services/api/customers'

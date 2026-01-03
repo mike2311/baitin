@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -55,13 +55,6 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
     return err?.response?.data?.message || fallback
   }, [])
 
-  // Load existing item if in edit mode
-  useEffect(() => {
-    if (mode === 'edit' && itemNo) {
-      loadItem(itemNo)
-    }
-  }, [mode, itemNo, loadItem])
-
   /**
    * Load existing item data
    * 
@@ -111,6 +104,13 @@ export function ItemEntryForm({ itemNo, mode = 'create', onSuccess, onCancel }: 
       setLoading(false)
     }
   }, [getErrorMessage, reset])
+
+  // Load existing item if in edit mode
+  useEffect(() => {
+    if (mode === 'edit' && itemNo) {
+      loadItem(itemNo)
+    }
+  }, [mode, itemNo, loadItem])
 
   /**
    * Handle form submission
