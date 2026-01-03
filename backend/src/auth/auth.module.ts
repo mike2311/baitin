@@ -1,19 +1,19 @@
-import { Module } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
-import { PassportModule } from '@nestjs/passport'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { AuthService } from './auth.service'
-import { AuthController } from './auth.controller'
-import { JwtStrategy } from './strategies/jwt.strategy'
-import { LocalStrategy } from './strategies/local.strategy'
-import { UsersModule } from '../users/users.module'
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { UsersModule } from '../users/users.module';
 
 /**
  * Authentication Module
- * 
+ *
  * Provides JWT-based authentication with login, token generation,
  * and authentication guards.
- * 
+ *
  * Reference: Task 02-01 - Authentication Framework Setup
  */
 @Module({
@@ -36,5 +36,3 @@ import { UsersModule } from '../users/users.module'
   exports: [AuthService],
 })
 export class AuthModule {}
-
-

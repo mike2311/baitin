@@ -5,21 +5,21 @@ import {
   IsEmail,
   IsNotEmpty,
   MinLength,
-} from 'class-validator'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * Create Customer DTO
- * 
+ *
  * Original Logic Reference:
  * - FoxPro: Customer entry form
  * - Documentation: docs/source/02-business-processes/master-data-management.md lines 164-290
  * - Data Model: docs/source/01-data-architecture/table-details/master-data-tables.md lines 136-177
- * 
+ *
  * Validation Rules:
  * - cust_no must be unique (checked in service)
  * - Customer name required
- * 
+ *
  * Reference: Task 02-01 - Customer Entry Form
  */
 export class CreateCustomerDto {
@@ -30,7 +30,7 @@ export class CreateCustomerDto {
   @IsNotEmpty({ message: 'Customer Number is required' })
   @IsString()
   @MinLength(1, { message: 'Customer Number cannot be empty' })
-  custNo: string
+  custNo: string;
 
   @ApiPropertyOptional({
     description: 'English name',
@@ -38,7 +38,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  ename?: string
+  ename?: string;
 
   @ApiPropertyOptional({
     description: 'Short name',
@@ -46,7 +46,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  sname?: string
+  sname?: string;
 
   @ApiPropertyOptional({
     description: 'Chinese name',
@@ -54,7 +54,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  cname?: string
+  cname?: string;
 
   @ApiPropertyOptional({
     description: 'Address line 1',
@@ -62,7 +62,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  addr1?: string
+  addr1?: string;
 
   @ApiPropertyOptional({
     description: 'Address line 2',
@@ -70,7 +70,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  addr2?: string
+  addr2?: string;
 
   @ApiPropertyOptional({
     description: 'Address line 3',
@@ -78,7 +78,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  addr3?: string
+  addr3?: string;
 
   @ApiPropertyOptional({
     description: 'Address line 4',
@@ -86,7 +86,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  addr4?: string
+  addr4?: string;
 
   @ApiPropertyOptional({
     description: 'Contact name',
@@ -94,7 +94,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  contName?: string
+  contName?: string;
 
   @ApiPropertyOptional({
     description: 'Telephone',
@@ -102,7 +102,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  tel?: string
+  tel?: string;
 
   @ApiPropertyOptional({
     description: 'Telephone 2',
@@ -110,7 +110,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  tel2?: string
+  tel2?: string;
 
   @ApiPropertyOptional({
     description: 'Fax',
@@ -118,7 +118,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  fax?: string
+  fax?: string;
 
   @ApiPropertyOptional({
     description: 'Fax 2',
@@ -126,7 +126,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsString()
-  fax2?: string
+  fax2?: string;
 
   @ApiPropertyOptional({
     description: 'Email',
@@ -134,7 +134,7 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsEmail({}, { message: 'Invalid email address' })
-  email?: string
+  email?: string;
 
   @ApiPropertyOptional({
     description: 'Show sub item detail flag',
@@ -142,6 +142,5 @@ export class CreateCustomerDto {
   })
   @IsOptional()
   @IsBoolean()
-  showSubItemDetail?: boolean
+  showSubItemDetail?: boolean;
 }
-

@@ -39,3 +39,7 @@ CREATE TRIGGER trg_data_quality_audit_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_data_quality_audit_updated_at();
 
+
+
+
+

@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common';
 
 /**
  * Root Application Service
- * 
+ *
  * Provides basic application services.
- * 
+ *
  * Reference: Task 02-02 - API Foundation
  */
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'BAITIN PoC API is running'
+    return 'BAITIN PoC API is running';
   }
 
   getHealth() {
@@ -18,8 +18,6 @@ export class AppService {
       status: 'ok',
       timestamp: new Date().toISOString(),
       service: 'baitin-poc-api',
-    }
+    };
   }
 }
-
-

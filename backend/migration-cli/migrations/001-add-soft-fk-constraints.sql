@@ -51,3 +51,7 @@ DEFERRABLE INITIALLY DEFERRED;
 -- FROM pg_constraint 
 -- WHERE conname LIKE '%_soft';
 
+
+
+
+

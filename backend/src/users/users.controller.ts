@@ -1,15 +1,15 @@
-import { Controller, Get, UseGuards } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger'
-import { UsersService } from './users.service'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
-import { CurrentUser } from '../auth/decorators/current-user.decorator'
-import { User } from './entities/user.entity'
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { UsersService } from './users.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from './entities/user.entity';
 
 /**
  * Users Controller
- * 
+ *
  * Provides user-related endpoints.
- * 
+ *
  * Reference: Task 02-01 - Authentication Framework Setup
  */
 @ApiTags('Users')
@@ -27,8 +27,6 @@ export class UsersController {
       username: user.username,
       role: user.userRight,
       company: user.companyCode,
-    }
+    };
   }
 }
-
-

@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Param,
-  Body,
-  UseGuards,
-} from '@nestjs/common'
+import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -13,17 +6,17 @@ import {
   ApiBearerAuth,
   ApiParam,
   ApiBody,
-} from '@nestjs/swagger'
-import { ReferenceService } from './reference.service'
-import { Zstdcode } from './entities/zstdcode.entity'
-import { Zorigin } from './entities/zorigin.entity'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+} from '@nestjs/swagger';
+import { ReferenceService } from './reference.service';
+import { Zstdcode } from './entities/zstdcode.entity';
+import { Zorigin } from './entities/zorigin.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Reference Controller
- * 
+ *
  * Implements REST API endpoints for reference data (lookup tables).
- * 
+ *
  * Reference: Task 03-03 - Reference Tables Schema
  */
 @ApiTags('reference')
@@ -41,7 +34,7 @@ export class ReferenceController {
     type: [Zstdcode],
   })
   async getStandardCodes(): Promise<Zstdcode[]> {
-    return await this.referenceService.findAllStandardCodes()
+    return await this.referenceService.findAllStandardCodes();
   }
 
   @Get('standard-codes/:stdCode')
@@ -60,7 +53,7 @@ export class ReferenceController {
     description: 'Standard code not found',
   })
   async getStandardCode(@Param('stdCode') stdCode: string): Promise<Zstdcode> {
-    return await this.referenceService.findStandardCodeByCode(stdCode)
+    return await this.referenceService.findStandardCodeByCode(stdCode);
   }
 
   @Get('origins')
@@ -71,7 +64,7 @@ export class ReferenceController {
     type: [Zorigin],
   })
   async getOrigins(): Promise<Zorigin[]> {
-    return await this.referenceService.findAllOrigins()
+    return await this.referenceService.findAllOrigins();
   }
 
   @Get('origins/:origin')
@@ -90,7 +83,7 @@ export class ReferenceController {
     description: 'Origin not found',
   })
   async getOrigin(@Param('origin') origin: string): Promise<Zorigin> {
-    return await this.referenceService.findOriginByCode(origin)
+    return await this.referenceService.findOriginByCode(origin);
   }
 
   @Post('origins')
@@ -120,8 +113,12 @@ export class ReferenceController {
     status: 409,
     description: 'Origin code already exists',
   })
-  async createOrigin(@Body() createDto: { origin: string; description?: string }): Promise<Zorigin> {
-    return await this.referenceService.createOrigin(createDto.origin, createDto.description)
+  async createOrigin(
+    @Body() createDto: { origin: string; description?: string },
+  ): Promise<Zorigin> {
+    return await this.referenceService.createOrigin(
+      createDto.origin,
+      createDto.description,
+    );
   }
 }
-

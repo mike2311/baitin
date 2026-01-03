@@ -4,29 +4,27 @@ import {
   Column,
   CreateDateColumn,
   Index,
-} from 'typeorm'
+} from 'typeorm';
 
 /**
  * Standard Code Reference Entity
- * 
+ *
  * Reference table for standard codes used in item master.
- * 
+ *
  * Reference: Task 03-01 - Master Data Tables Schema
  */
 @Entity('zstdcode')
 @Index(['stdCode'], { unique: true })
 export class Zstdcode {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ name: 'std_code', type: 'varchar', length: 50, unique: true })
-  stdCode: string
+  stdCode: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  description: string
+  description: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date
+  createdAt: Date;
 }
-
-

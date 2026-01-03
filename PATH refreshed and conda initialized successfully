@@ -1,0 +1,25 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/src/database/database.module.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/src/main.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'backend/tsconfig.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/src/App.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/vite.config.ts', LF will be replaced by CRLF the next time Git touches it
+ PHASE_1_COMPLETE.md                                |   1 [32m+[m
+ README.md                                          | 119 [32m+++++++++++++++++++++[m
+ backend/package.json                               |   6 [32m+[m[31m-[m
+ backend/scripts/update-admin-password.sql          |   1 [32m+[m
+ backend/src/database/database.module.ts            |   2 [32m+[m[31m-[m
+ backend/src/main.ts                                |   2 [32m+[m[31m-[m
+ backend/tsconfig.json                              |   7 [32m+[m[31m-[m
+ backend/update-password.js                         |   1 [32m+[m
+ frontend/package-lock.json                         |  92 [32m+++++++++++[m[31m-----[m
+ frontend/package.json                              |   2 [32m+[m[31m-[m
+ frontend/src/App.tsx                               |   9 [32m++[m
+ .../master-data/customer/CustomerLookup.tsx        |   1 [32m+[m
+ .../components/master-data/vendor/VendorLookup.tsx |   1 [32m+[m
+ frontend/src/pages/DashboardPage.tsx               |   8 [32m++[m
+ frontend/vite.config.ts                            |   3 [32m+[m[31m-[m
+ 15 files changed, 222 insertions(+), 33 deletions(-)

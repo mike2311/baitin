@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "description": "Baseline dataset configuration for PoC",
+  "created": "2025-01-XX",
+  "baselineType": "full",
+  "filters": {
+    "company": [],
+    "dateRange": null
+  },
+  "notes": "Full relevant dataset migration. No filters applied for PoC baseline."
+}
+
+

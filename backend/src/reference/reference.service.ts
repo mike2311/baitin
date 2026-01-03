@@ -2,17 +2,17 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
-} from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { Zstdcode } from './entities/zstdcode.entity'
-import { Zorigin } from './entities/zorigin.entity'
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Zstdcode } from './entities/zstdcode.entity';
+import { Zorigin } from './entities/zorigin.entity';
 
 /**
  * Reference Service
- * 
+ *
  * Implements reference data (lookup tables) read operations.
- * 
+ *
  * Reference: Task 03-03 - Reference Tables Schema
  */
 @Injectable()
@@ -30,7 +30,7 @@ export class ReferenceService {
   async findAllStandardCodes(): Promise<Zstdcode[]> {
     return await this.zstdcodeRepository.find({
       order: { stdCode: 'ASC' },
-    })
+    });
   }
 
   /**
@@ -39,13 +39,13 @@ export class ReferenceService {
   async findStandardCodeByCode(stdCode: string): Promise<Zstdcode> {
     const code = await this.zstdcodeRepository.findOne({
       where: { stdCode },
-    })
-    
+    });
+
     if (!code) {
-      throw new NotFoundException(`Standard code '${stdCode}' not found`)
+      throw new NotFoundException(`Standard code '${stdCode}' not found`);
     }
-    
-    return code
+
+    return code;
   }
 
   /**
@@ -54,7 +54,7 @@ export class ReferenceService {
   async findAllOrigins(): Promise<Zorigin[]> {
     return await this.zoriginRepository.find({
       order: { origin: 'ASC' },
-    })
+    });
   }
 
   /**
@@ -63,13 +63,13 @@ export class ReferenceService {
   async findOriginByCode(origin: string): Promise<Zorigin> {
     const originCode = await this.zoriginRepository.findOne({
       where: { origin },
-    })
-    
+    });
+
     if (!originCode) {
-      throw new NotFoundException(`Origin '${origin}' not found`)
+      throw new NotFoundException(`Origin '${origin}' not found`);
     }
-    
-    return originCode
+
+    return originCode;
   }
 
   /**
@@ -79,18 +79,17 @@ export class ReferenceService {
     // Check if origin already exists
     const existing = await this.zoriginRepository.findOne({
       where: { origin },
-    })
+    });
 
     if (existing) {
-      throw new ConflictException(`Origin code '${origin}' already exists`)
+      throw new ConflictException(`Origin code '${origin}' already exists`);
     }
 
     const newOrigin = this.zoriginRepository.create({
       origin,
       description: description || null,
-    })
+    });
 
-    return await this.zoriginRepository.save(newOrigin)
+    return await this.zoriginRepository.save(newOrigin);
   }
 }
-

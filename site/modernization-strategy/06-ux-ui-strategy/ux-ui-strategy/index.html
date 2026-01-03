@@ -1,0 +1,8162 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://mike2311.github.io/baitin/modernization-strategy/06-ux-ui-strategy/ux-ui-strategy/">
+      
+      
+        <link rel="prev" href="../../05-application-modernization/application-modernization/">
+      
+      
+        <link rel="next" href="../../07-security-compliance/security-compliance/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>UX/UI Strategy - BAITIN System Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#uxui-strategy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="BAITIN System Documentation" class="md-header__button md-logo" aria-label="BAITIN System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BAITIN System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              UX/UI Strategy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mike2311/baitin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BAITIN System Documentation" class="md-nav__button md-logo" aria-label="BAITIN System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BAITIN System Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mike2311/baitin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/system-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/technology-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/user-roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/database-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/entity-relationships/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Relationships
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/indexes-and-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexes and Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Table Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/master-data-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/supporting-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supporting Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/transaction-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transaction Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Business Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/workflow-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/order-enquiry-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/order-confirmation-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Confirmation Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/contract-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contract Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/shipping-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shipping Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/delivery-note-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivery Note Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/invoice-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/master-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Application Modules
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Application Modules
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/03-application-modules/module-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/03-application-modules/order-enquiry-module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms and Screens
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Forms and Screens
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-logic-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Logic Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/authentication-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/master-data-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/order-enquiry-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/order-confirmation-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Confirmation Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/contract-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contract Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/shipping-order-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shipping Order Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/delivery-note-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivery Note Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/invoice-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/enquiry-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enquiry Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/report-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/utility-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utility Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-process-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Process Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/validation-catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Logic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Business Logic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/program-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Program Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/excel-import-logic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel Import Logic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/core-algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reporting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/06-reporting/report-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/07-integration/excel-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/08-security/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/file-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/known-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Known Issues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/phased-out-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phased Out Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modernization Strategy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modernization Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_2" id="__nav_12_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and Assessment
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and Assessment
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-executive-summary/executive-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-current-state-assessment/current-state-assessment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current State Assessment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-resource-timeline/resource-timeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource and Timeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-risk-management/risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-success-metrics/success-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Success Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture and Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture and Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-target-state-architecture/target-state-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Target State Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-application-modernization/application-modernization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Application Modernization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX/UI Strategy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX/UI Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ux-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UX Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-keyboard-first-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Keyboard-First Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fast-data-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fast Data Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-excel-like-grid-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Excel-Like Grid Experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-minimal-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Minimal Latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-error-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Error Prevention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#number-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lookupselect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lookup/Select
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-grid-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Grid Component
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Grid Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ag-grid-enterprise-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AG Grid Enterprise Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Form Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-form-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Form Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#field-layout-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Layout Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Scheme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Color Scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-colors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Colors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typography
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Typography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#font-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Font Family
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-specific-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module-Specific Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module-Specific Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#screen-by-screen-ux-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Screen-by-Screen UX Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Screen-by-Screen UX Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-login-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Login Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Login Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-order-enquiry-entry-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Order Enquiry Entry Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Order Enquiry Entry Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detail Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#item-lookup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Item Lookup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantity-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantity Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#price-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-Save
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-master-data-entry-itemcustomervendor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Master Data Entry (Item/Customer/Vendor)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Master Data Entry (Item/Customer/Vendor)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lookup-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lookup Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-excel-import-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Excel Import Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Excel Import Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-enquirylist-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Enquiry/List Screens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Enquiry/List Screens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Targets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perceived-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perceived Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessibility Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wcag-21-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WCAG 2.1 Compliance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-training-and-change-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Training and Change Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Training and Change Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-security-compliance/security-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security and Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-phased-delivery-plan/phased-delivery-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phased Delivery Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-poc-strategy/poc-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PoC Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-data-migration-strategy/data-migration-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Migration Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-integration-strategy/integration-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-reporting-analytics/reporting-analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting and Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-deployment-operations/deployment-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment and Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PoC Implementation Plan
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PoC Implementation Plan
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/IMPLEMENTATION_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3" id="__nav_13_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 0: Foundation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 0: Foundation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_2" id="__nav_13_1_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-01-development-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-02-database-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-03-git-and-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git and CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_3" id="__nav_13_1_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-01-authentication-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-02-api-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-03-frontend-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_4" id="__nav_13_1_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Schema
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database Schema
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-01-master-data-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-02-oe-tables-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-03-reference-tables-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_5" id="__nav_13_1_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX Kernel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    UX Kernel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-01-text-input-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text Input Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lookup Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Grid Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Layout Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4" id="__nav_13_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1: Master Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 1: Master Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_2" id="__nav_13_1_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Item Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-01-item-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-02-item-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-03-item-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_3" id="__nav_13_1_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Customer Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-01-customer-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-02-customer-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-03-customer-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_4" id="__nav_13_1_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vendor Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-01-vendor-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-02-vendor-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-03-vendor-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5" id="__nav_13_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2: Order Enquiry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 2: Order Enquiry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_2" id="__nav_13_1_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-01-oe-control-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-02-oe-control-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_3" id="__nav_13_1_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Manual Entry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Manual Entry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-01-oe-header-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Header Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-02-oe-detail-grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Detail Grid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-03-oe-auto-save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Auto-Save
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_4" id="__nav_13_1_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Enquiry List
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Enquiry List
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-01-oe-list-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE List View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-02-oe-search-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Search and Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6" id="__nav_13_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3: Excel Import
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 3: Excel Import
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_2" id="__nav_13_1_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File Upload
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/01-file-upload/task-01-01-file-upload-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_3" id="__nav_13_1_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Mapping
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-01-field-mapping-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Mapping Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-02-auto-detect-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Detect Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_4" id="__nav_13_1_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation and Import
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation and Import
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-01-data-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-02-error-reporting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Reporting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-03-import-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Import Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7" id="__nav_13_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4: Integration and Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 4: Integration and Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_2" id="__nav_13_1_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/01-integration/task-01-01-end-to-end-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-End Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_3" id="__nav_13_1_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-01-unit-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-02-integration-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-03-e2e-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E2E Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-04-performance-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_4" id="__nav_13_1_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Preparation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Demo Preparation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-01-demo-script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-02-demo-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-03-presentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ux-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UX Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UX Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-keyboard-first-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Keyboard-First Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fast-data-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fast Data Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-excel-like-grid-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Excel-Like Grid Experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-minimal-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Minimal Latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-error-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Error Prevention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Consistency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design System
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#number-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lookupselect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lookup/Select
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-grid-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Grid Component
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Grid Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ag-grid-enterprise-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AG Grid Enterprise Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Form Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-form-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Form Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#field-layout-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Layout Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-scheme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color Scheme
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Color Scheme">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-colors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Colors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typography
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Typography">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#font-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Font Family
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-specific-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module-Specific Shortcuts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Module-Specific Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#screen-by-screen-ux-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Screen-by-Screen UX Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Screen-by-Screen UX Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-login-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Login Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Login Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-order-enquiry-entry-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Order Enquiry Entry Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Order Enquiry Entry Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detail Grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#item-lookup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Item Lookup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantity-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantity Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#price-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Price Entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-Save
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-master-data-entry-itemcustomervendor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Master Data Entry (Item/Customer/Vendor)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Master Data Entry (Item/Customer/Vendor)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lookup-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lookup Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-excel-import-screen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Excel Import Screen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Excel Import Screen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-enquirylist-screens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Enquiry/List Screens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Enquiry/List Screens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layout_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-behavior_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Targets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-times" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Response Times
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perceived-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perceived Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessibility Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wcag-21-compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WCAG 2.1 Compliance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-training-and-change-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Training and Change Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Training and Change Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#training-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="uxui-strategy">UX/UI Strategy</h1>
+<h2 id="overview">Overview</h2>
+<p>This document defines the user experience and user interface strategy for the modernized BAITIN system. The primary goal is to deliver a <strong>Windows-like fast input experience</strong> in a web application, with keyboard-first navigation, shortcuts, and automatic field progression that users are accustomed to in desktop applications.</p>
+<h2 id="ux-principles">UX Principles</h2>
+<h3 id="1-keyboard-first-design">1. Keyboard-First Design</h3>
+<ul>
+<li><strong>Primary Input Method:</strong> Keyboard, not mouse</li>
+<li><strong>Shortcuts:</strong> Global shortcuts for all major actions</li>
+<li><strong>Navigation:</strong> Tab/Enter navigation between fields</li>
+<li><strong>Type-to-Search:</strong> Instant search in lookups</li>
+</ul>
+<h3 id="2-fast-data-entry">2. Fast Data Entry</h3>
+<ul>
+<li><strong>Auto-Advance:</strong> Automatic focus to next field on Enter</li>
+<li><strong>Auto-Complete:</strong> Smart autocomplete for codes and names</li>
+<li><strong>Inline Validation:</strong> Real-time validation without blocking</li>
+<li><strong>Bulk Operations:</strong> Copy/paste, multi-row operations</li>
+</ul>
+<h3 id="3-excel-like-grid-experience">3. Excel-Like Grid Experience</h3>
+<ul>
+<li><strong>Grid Navigation:</strong> Arrow keys, Tab, Enter navigation</li>
+<li><strong>Copy/Paste:</strong> Excel-style copy/paste support</li>
+<li><strong>Multi-Select:</strong> Shift/Ctrl for multi-row selection</li>
+<li><strong>Inline Editing:</strong> Direct cell editing</li>
+</ul>
+<h3 id="4-minimal-latency">4. Minimal Latency</h3>
+<ul>
+<li><strong>Client-Side Validation:</strong> Instant feedback</li>
+<li><strong>Optimistic Updates:</strong> Update UI immediately, sync later</li>
+<li><strong>Debounced Search:</strong> Fast search without lag</li>
+<li><strong>Cached Lookups:</strong> Master data cached for instant access</li>
+</ul>
+<h3 id="5-error-prevention">5. Error Prevention</h3>
+<ul>
+<li><strong>Inline Validation:</strong> Show errors as user types</li>
+<li><strong>Smart Defaults:</strong> Pre-fill common values</li>
+<li><strong>Confirmation Dialogs:</strong> Only for destructive actions</li>
+<li><strong>Undo/Redo:</strong> Support undo for data entry</li>
+</ul>
+<h3 id="6-consistency">6. Consistency</h3>
+<ul>
+<li><strong>Pattern Reuse:</strong> Same patterns across all screens</li>
+<li><strong>Shortcut Consistency:</strong> Same shortcuts for same actions</li>
+<li><strong>Layout Consistency:</strong> Consistent form layouts</li>
+<li><strong>Terminology:</strong> Consistent terminology throughout</li>
+</ul>
+<h2 id="design-system">Design System</h2>
+<h3 id="component-library">Component Library</h3>
+<h4 id="input-components">Input Components</h4>
+<h5 id="text-input">Text Input</h5>
+<ul>
+<li><strong>Keyboard:</strong> Tab to focus, Enter to submit/next</li>
+<li><strong>Auto-Advance:</strong> Move to next field on Enter (if valid)</li>
+<li><strong>Validation:</strong> Show error inline, don't block typing</li>
+<li><strong>Autocomplete:</strong> Show suggestions as user types</li>
+</ul>
+<h5 id="number-input">Number Input</h5>
+<ul>
+<li><strong>Formatting:</strong> Auto-format on blur (e.g., 1000 → 1,000.00)</li>
+<li><strong>Validation:</strong> Real-time validation (min/max, decimals)</li>
+<li><strong>Keyboard:</strong> Arrow keys for increment/decrement</li>
+</ul>
+<h5 id="date-input">Date Input</h5>
+<ul>
+<li><strong>Format:</strong> Consistent date format (MM/DD/YYYY)</li>
+<li><strong>Keyboard:</strong> Type date directly or use date picker</li>
+<li><strong>Shortcuts:</strong> Today (T), Clear (C)</li>
+</ul>
+<h5 id="lookupselect">Lookup/Select</h5>
+<ul>
+<li><strong>Type-to-Search:</strong> Instant search as user types</li>
+<li><strong>Keyboard:</strong> Arrow keys to navigate, Enter to select</li>
+<li><strong>Display:</strong> Show code and description</li>
+<li><strong>Recent:</strong> Show recently used items first</li>
+</ul>
+<h4 id="data-grid-component">Data Grid Component</h4>
+<h5 id="ag-grid-enterprise-features">AG Grid Enterprise Features</h5>
+<ul>
+<li><strong>Keyboard Navigation:</strong></li>
+<li>Arrow keys: Move between cells</li>
+<li>Tab/Enter: Move to next cell</li>
+<li>Shift+Tab: Move to previous cell</li>
+<li>Ctrl+C/Ctrl+V: Copy/paste</li>
+<li>Ctrl+A: Select all</li>
+<li>F2: Edit cell</li>
+<li>
+<p>Escape: Cancel edit</p>
+</li>
+<li>
+<p><strong>Excel-Like Features:</strong></p>
+</li>
+<li>Copy/paste from Excel</li>
+<li>Multi-row selection</li>
+<li>Inline editing</li>
+<li>Auto-save on cell change</li>
+<li>
+<p>Row-level validation</p>
+</li>
+<li>
+<p><strong>Performance:</strong></p>
+</li>
+<li>Virtual scrolling for large datasets</li>
+<li>Lazy loading</li>
+<li>Client-side filtering/sorting</li>
+</ul>
+<h4 id="form-layout">Form Layout</h4>
+<h5 id="standard-form-pattern">Standard Form Pattern</h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│ Header Section                          │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│ [Field 1] [Field 2] [Field 3]         │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│                                         │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│ Detail Grid Section                     │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│ ┌─────────────────────────────────────┐ │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│ │ Item | Qty | Price | Total | ...   │ │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│ │ [Grid with keyboard navigation]     │ │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│ └─────────────────────────────────────┘ │
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│                                         │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│ Footer Section                          │
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│ [Save] [Cancel] [Print] [Export]      │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└─────────────────────────────────────────┘
+</code></pre></div>
+<h5 id="field-layout-rules">Field Layout Rules</h5>
+<ul>
+<li><strong>Grouping:</strong> Related fields grouped together</li>
+<li><strong>Labels:</strong> Clear, concise labels</li>
+<li><strong>Placeholders:</strong> Helpful placeholder text</li>
+<li><strong>Help Text:</strong> Contextual help available</li>
+<li><strong>Errors:</strong> Inline error messages</li>
+</ul>
+<h3 id="color-scheme">Color Scheme</h3>
+<h4 id="primary-colors">Primary Colors</h4>
+<ul>
+<li><strong>Primary:</strong> Indigo/Blue (matches current system)</li>
+<li><strong>Secondary:</strong> Gray for secondary actions</li>
+<li><strong>Success:</strong> Green for success messages</li>
+<li><strong>Error:</strong> Red for errors</li>
+<li><strong>Warning:</strong> Orange for warnings</li>
+<li><strong>Info:</strong> Blue for informational messages</li>
+</ul>
+<h4 id="accessibility">Accessibility</h4>
+<ul>
+<li><strong>Contrast:</strong> WCAG AA compliance (4.5:1 contrast ratio)</li>
+<li><strong>Color Blind:</strong> Don't rely solely on color</li>
+<li><strong>Focus Indicators:</strong> Clear focus indicators</li>
+</ul>
+<h3 id="typography">Typography</h3>
+<h4 id="font-family">Font Family</h4>
+<ul>
+<li><strong>Primary:</strong> System font stack (fast rendering)</li>
+<li><strong>Monospace:</strong> For codes, numbers</li>
+<li><strong>Sizes:</strong> 14px base, 12px small, 16px large</li>
+</ul>
+<h4 id="hierarchy">Hierarchy</h4>
+<ul>
+<li><strong>Headings:</strong> Clear heading hierarchy</li>
+<li><strong>Body:</strong> Readable body text</li>
+<li><strong>Labels:</strong> Clear field labels</li>
+</ul>
+<h2 id="keyboard-shortcuts">Keyboard Shortcuts</h2>
+<h3 id="global-shortcuts">Global Shortcuts</h3>
+<h4 id="navigation">Navigation</h4>
+<ul>
+<li><strong>Alt+F:</strong> File menu</li>
+<li><strong>Alt+O:</strong> Order Enquiry</li>
+<li><strong>Alt+C:</strong> Order Confirmation / Contract</li>
+<li><strong>Alt+S:</strong> Shipping Order</li>
+<li><strong>Alt+D:</strong> Delivery Note</li>
+<li><strong>Alt+I:</strong> Invoice</li>
+<li><strong>Alt+E:</strong> Enquiry / Exit</li>
+<li><strong>Alt+R:</strong> Report</li>
+<li><strong>Alt+A:</strong> Acrobat File</li>
+<li><strong>Alt+L:</strong> Logout</li>
+</ul>
+<h4 id="common-actions">Common Actions</h4>
+<ul>
+<li><strong>Ctrl+N:</strong> New record</li>
+<li><strong>Ctrl+S:</strong> Save</li>
+<li><strong>Ctrl+E:</strong> Edit</li>
+<li><strong>Ctrl+D:</strong> Delete</li>
+<li><strong>Ctrl+P:</strong> Print</li>
+<li><strong>Ctrl+F:</strong> Find/Search</li>
+<li><strong>Ctrl+Z:</strong> Undo</li>
+<li><strong>Ctrl+Y:</strong> Redo</li>
+<li><strong>Escape:</strong> Cancel/Close</li>
+<li><strong>F1:</strong> Help</li>
+</ul>
+<h4 id="data-entry">Data Entry</h4>
+<ul>
+<li><strong>Enter:</strong> Submit/Next field</li>
+<li><strong>Tab:</strong> Next field</li>
+<li><strong>Shift+Tab:</strong> Previous field</li>
+<li><strong>Arrow Keys:</strong> Navigate grid/options</li>
+<li><strong>Ctrl+Enter:</strong> Save and New</li>
+<li><strong>F2:</strong> Edit current cell/field</li>
+</ul>
+<h3 id="module-specific-shortcuts">Module-Specific Shortcuts</h3>
+<h4 id="order-enquiry">Order Enquiry</h4>
+<ul>
+<li><strong>Ctrl+I:</strong> Import from Excel</li>
+<li><strong>Ctrl+E:</strong> Export to Excel</li>
+<li><strong>F5:</strong> Refresh data</li>
+<li><strong>Ctrl+B:</strong> Quantity Breakdown</li>
+</ul>
+<h4 id="master-data">Master Data</h4>
+<ul>
+<li><strong>Ctrl+F:</strong> Find item/customer/vendor</li>
+<li><strong>Ctrl+C:</strong> Copy code</li>
+<li><strong>F3:</strong> Duplicate record</li>
+</ul>
+<h2 id="screen-by-screen-ux-specifications">Screen-by-Screen UX Specifications</h2>
+<h3 id="1-login-screen">1. Login Screen</h3>
+<h4 id="layout">Layout</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│     BAITIN Trading System          │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│                                     │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│     [Username Input]                │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│     [Password Input]                │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│     [Company Select]                │
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│                                     │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│     [Login Button]                  │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>└─────────────────────────────────────┘
+</code></pre></div>
+<h4 id="keyboard-behavior">Keyboard Behavior</h4>
+<ul>
+<li><strong>Tab:</strong> Username → Password → Company → Login</li>
+<li><strong>Enter:</strong> Submit login (when on Login button)</li>
+<li><strong>Escape:</strong> Cancel/Close</li>
+</ul>
+<h4 id="validation">Validation</h4>
+<ul>
+<li><strong>Real-time:</strong> Validate as user types</li>
+<li><strong>Error Display:</strong> Show error below field</li>
+<li><strong>Focus:</strong> Auto-focus on username on load</li>
+</ul>
+<h3 id="2-order-enquiry-entry-screen">2. Order Enquiry Entry Screen</h3>
+<h4 id="layout_1">Layout</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌─────────────────────────────────────────────────────┐
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│ Order Enquiry Entry                    [X]          │
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│ Header Section                                      │
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│ OE No: [____]  Date: [____]  Customer: [____]      │
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│ PO No: [____]  Status: [____]                       │
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│                                                     │
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│ Detail Grid                                         │
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│ ┌─────────────────────────────────────────────────┐ │
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│ │ Item No │ Description │ Qty │ Price │ Total │   │ │
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│ │ [____]  │ [________]   │ [__]│ [____]│ [____]│   │ │
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│ │ [____]  │ [________]   │ [__]│ [____]│ [____]│   │ │
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│ │ [____]  │ [________]   │ [__]│ [____]│ [____]│   │ │
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│ └─────────────────────────────────────────────────┘ │
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>│                                                     │
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>│ [Save] [Cancel] [Import Excel] [Print] [Export]   │
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>└─────────────────────────────────────────────────────┘
+</code></pre></div>
+<h4 id="keyboard-behavior_1">Keyboard Behavior</h4>
+<h5 id="header-fields">Header Fields</h5>
+<ul>
+<li><strong>OE No:</strong> Tab → Date → Customer → PO No → Status</li>
+<li><strong>Enter:</strong> Move to next field (if valid)</li>
+<li><strong>Lookup:</strong> F2 or type to search (for Customer)</li>
+</ul>
+<h5 id="detail-grid">Detail Grid</h5>
+<ul>
+<li><strong>Tab/Enter:</strong> Move to next cell</li>
+<li><strong>Arrow Keys:</strong> Navigate between cells</li>
+<li><strong>F2:</strong> Edit current cell</li>
+<li><strong>Ctrl+Enter:</strong> Add new row</li>
+<li><strong>Delete:</strong> Delete selected row(s)</li>
+<li><strong>Ctrl+C/Ctrl+V:</strong> Copy/paste from Excel</li>
+</ul>
+<h5 id="item-lookup">Item Lookup</h5>
+<ul>
+<li><strong>Type:</strong> Auto-search as user types</li>
+<li><strong>Arrow Keys:</strong> Navigate suggestions</li>
+<li><strong>Enter:</strong> Select item, auto-fill description, move to Qty</li>
+<li><strong>Escape:</strong> Cancel lookup</li>
+</ul>
+<h5 id="quantity-entry">Quantity Entry</h5>
+<ul>
+<li><strong>Enter:</strong> Calculate Total, move to Price</li>
+<li><strong>Auto-Calculate:</strong> Total = Qty × Price</li>
+</ul>
+<h5 id="price-entry">Price Entry</h5>
+<ul>
+<li><strong>Enter:</strong> Calculate Total, move to next row Item No</li>
+<li><strong>Auto-Add Row:</strong> Add new row if at last row</li>
+</ul>
+<h4 id="validation_1">Validation</h4>
+<ul>
+<li><strong>Item No:</strong> Validate exists, show error if not found</li>
+<li><strong>Qty:</strong> Must be &gt; 0, show error if invalid</li>
+<li><strong>Price:</strong> Must be &gt;= 0, show error if invalid</li>
+<li><strong>Total:</strong> Auto-calculated, read-only</li>
+</ul>
+<h4 id="auto-save">Auto-Save</h4>
+<ul>
+<li><strong>Trigger:</strong> Auto-save on field blur or every 30 seconds</li>
+<li><strong>Indicator:</strong> Show "Saving..." / "Saved" indicator</li>
+<li><strong>Error:</strong> Show error if save fails, allow retry</li>
+</ul>
+<h3 id="3-master-data-entry-itemcustomervendor">3. Master Data Entry (Item/Customer/Vendor)</h3>
+<h4 id="layout_2">Layout</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌─────────────────────────────────────────────────────┐
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ Item Entry                            [X]           │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│ Item No: [____]  [Find]                            │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│ Description: [________________________________]     │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│ Standard Code: [____]  Origin: [____]               │
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│ Price: [____]  Cost: [____]  Unit: [____]           │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│                                                     │
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│ [Additional Fields...]                              │
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│                                                     │
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│ [Save] [Cancel] [New] [Delete] [Print]             │
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>└─────────────────────────────────────────────────────┘
+</code></pre></div>
+<h4 id="keyboard-behavior_2">Keyboard Behavior</h4>
+<ul>
+<li><strong>Tab:</strong> Navigate through fields</li>
+<li><strong>Enter:</strong> Move to next field (if valid)</li>
+<li><strong>F2:</strong> Find/Lookup (opens search dialog)</li>
+<li><strong>Ctrl+S:</strong> Save</li>
+<li><strong>Ctrl+N:</strong> New record</li>
+<li><strong>Ctrl+D:</strong> Delete (with confirmation)</li>
+<li><strong>Escape:</strong> Cancel/Close</li>
+</ul>
+<h4 id="lookup-dialog">Lookup Dialog</h4>
+<ul>
+<li><strong>Type-to-Search:</strong> Instant search as user types</li>
+<li><strong>Arrow Keys:</strong> Navigate results</li>
+<li><strong>Enter:</strong> Select and close, populate field</li>
+<li><strong>Escape:</strong> Cancel</li>
+</ul>
+<h3 id="4-excel-import-screen">4. Excel Import Screen</h3>
+<h4 id="layout_3">Layout</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────────────────────────────────────────────────────┐
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│ Import Order Enquiry from Excel        [X]          │
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│ [Select File] [browse...]                           │
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│                                                     │
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│ File: orders.xlsx                                  │
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│ Format: [Standard Format ▼]                         │
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│                                                     │
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│ Field Mapping                                       │
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│ Excel Column → System Field                         │
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>│ ┌─────────────────────────────────────────────────┐ │
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>│ │ ITEM → Item No                                  │ │
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>│ │ QTY → Quantity                                   │ │
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>│ │ PRICE → Price                                   │ │
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>│ │ [Auto-detected or manual mapping]               │ │
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>│ └─────────────────────────────────────────────────┘ │
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>│                                                     │
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>│ [Import] [Cancel] [Preview]                         │
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>│                                                     │
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>│ Progress: [████████░░] 50%                          │
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>│ Status: Importing...                               │
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>│                                                     │
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>│ Results:                                            │
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>│ ✅ 100 records imported                            │
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>│ ⚠️  5 records with warnings                        │
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>│ ❌ 2 records failed                                 │
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>│                                                     │
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>│ [View Errors] [Export Error Report]                │
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>└─────────────────────────────────────────────────────┘
+</code></pre></div>
+<h4 id="keyboard-behavior_3">Keyboard Behavior</h4>
+<ul>
+<li><strong>Tab:</strong> Navigate through controls</li>
+<li><strong>Enter:</strong> Start import (when on Import button)</li>
+<li><strong>Escape:</strong> Cancel/Close</li>
+</ul>
+<h4 id="import-process">Import Process</h4>
+<ul>
+<li><strong>Upload:</strong> Drag-drop or browse</li>
+<li><strong>Auto-Detect:</strong> Auto-detect field mapping</li>
+<li><strong>Preview:</strong> Show preview of first 10 rows</li>
+<li><strong>Progress:</strong> Real-time progress indicator</li>
+<li><strong>Results:</strong> Summary with error details</li>
+<li><strong>Error Report:</strong> Export errors to Excel</li>
+</ul>
+<h3 id="5-enquirylist-screens">5. Enquiry/List Screens</h3>
+<h4 id="layout_4">Layout</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌─────────────────────────────────────────────────────┐
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ Order Enquiry List                    [X]           │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│ Filters                                             │
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│ OE No: [____]  Customer: [____]  Date: [____]     │
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│ [Search] [Clear] [Export]                          │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│                                                     │
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│ Results Grid                                        │
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│ ┌─────────────────────────────────────────────────┐ │
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│ │ OE No │ Date │ Customer │ Items │ Status │     │ │
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│ │ 12345 │ ...  │ ABC Co   │   10  │ Active │     │ │
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│ │ 12346 │ ...  │ XYZ Inc  │    5  │ Posted │     │ │
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│ └─────────────────────────────────────────────────┘ │
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>│                                                     │
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>│ [New] [Edit] [Delete] [Print] [Export]             │
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>└─────────────────────────────────────────────────────┘
+</code></pre></div>
+<h4 id="keyboard-behavior_4">Keyboard Behavior</h4>
+<ul>
+<li><strong>Tab:</strong> Navigate filters</li>
+<li><strong>Enter:</strong> Execute search (when on Search button)</li>
+<li><strong>Arrow Keys:</strong> Navigate grid rows</li>
+<li><strong>Enter:</strong> Open selected record</li>
+<li><strong>Ctrl+F:</strong> Focus search/filter</li>
+<li><strong>F5:</strong> Refresh data</li>
+</ul>
+<h4 id="grid-features">Grid Features</h4>
+<ul>
+<li><strong>Sorting:</strong> Click header to sort</li>
+<li><strong>Filtering:</strong> Inline filters on columns</li>
+<li><strong>Selection:</strong> Single or multi-select</li>
+<li><strong>Pagination:</strong> Page through results</li>
+</ul>
+<h2 id="performance-targets">Performance Targets</h2>
+<h3 id="response-times">Response Times</h3>
+<ul>
+<li><strong>Page Load:</strong> &lt; 2 seconds (first load)</li>
+<li><strong>Navigation:</strong> &lt; 500ms (between pages)</li>
+<li><strong>API Response:</strong> &lt; 500ms (p95)</li>
+<li><strong>Data Entry:</strong> &lt; 100ms (client-side validation)</li>
+<li><strong>Lookup Search:</strong> &lt; 200ms (cached lookups)</li>
+<li><strong>Excel Import:</strong> &lt; 30 seconds (1000 rows)</li>
+<li><strong>Report Generation:</strong> &lt; 10 seconds (standard reports)</li>
+</ul>
+<h3 id="perceived-performance">Perceived Performance</h3>
+<ul>
+<li><strong>Optimistic Updates:</strong> Update UI immediately</li>
+<li><strong>Loading States:</strong> Show loading indicators for &gt; 500ms operations</li>
+<li><strong>Skeleton Screens:</strong> Show skeleton while loading</li>
+<li><strong>Progressive Loading:</strong> Load critical content first</li>
+</ul>
+<h2 id="accessibility-requirements">Accessibility Requirements</h2>
+<h3 id="wcag-21-compliance">WCAG 2.1 Compliance</h3>
+<ul>
+<li><strong>Level:</strong> AA compliance</li>
+<li><strong>Keyboard Navigation:</strong> Full keyboard accessibility</li>
+<li><strong>Screen Readers:</strong> ARIA labels, semantic HTML</li>
+<li><strong>Focus Indicators:</strong> Clear focus indicators</li>
+<li><strong>Color Contrast:</strong> 4.5:1 contrast ratio</li>
+</ul>
+<h3 id="keyboard-accessibility">Keyboard Accessibility</h3>
+<ul>
+<li><strong>Tab Order:</strong> Logical tab order</li>
+<li><strong>Skip Links:</strong> Skip to main content</li>
+<li><strong>Focus Management:</strong> Proper focus management</li>
+<li><strong>Keyboard Traps:</strong> No keyboard traps</li>
+</ul>
+<h2 id="user-training-and-change-management">User Training and Change Management</h2>
+<h3 id="training-approach">Training Approach</h3>
+<ul>
+<li><strong>Interactive Tutorials:</strong> In-app tutorials for new users</li>
+<li><strong>Video Guides:</strong> Video guides for common tasks</li>
+<li><strong>Quick Reference:</strong> Keyboard shortcut cheat sheet</li>
+<li><strong>Contextual Help:</strong> F1 help on every screen</li>
+</ul>
+<h3 id="change-management">Change Management</h3>
+<ul>
+<li><strong>Phased Rollout:</strong> Gradual rollout to users</li>
+<li><strong>Feedback Collection:</strong> Collect user feedback</li>
+<li><strong>Iterative Improvement:</strong> Continuous UX improvements</li>
+<li><strong>User Support:</strong> Dedicated support during transition</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>The UX/UI strategy delivers a Windows-like fast input experience in a web application. Key features include keyboard-first navigation, Excel-like grids, auto-advance fields, and minimal latency. The design system ensures consistency across all screens while maintaining accessibility and performance.</p>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li><strong>Create Design Mockups:</strong> Visual mockups for key screens</li>
+<li><strong>Build Component Library:</strong> Implement reusable components</li>
+<li><strong>Develop Prototype:</strong> Interactive prototype for validation</li>
+<li><strong>User Testing:</strong> Test with actual users</li>
+<li><strong>Iterate:</strong> Refine based on feedback</li>
+</ol>
+<h2 id="document-references">Document References</h2>
+<ul>
+<li><strong>Application Modernization:</strong> <code>../05-application-modernization/</code></li>
+<li><strong>Phased Delivery Plan:</strong> <code>../11-phased-delivery-plan/</code></li>
+<li><strong>PoC Strategy:</strong> <code>../15-poc-strategy/</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.instant", "navigation.tracking", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../source/javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

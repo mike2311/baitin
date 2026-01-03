@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 /**
  * Database Module
- * 
+ *
  * Configures database connection and provides database services.
- * 
+ *
  * Reference: Task 01-02 - Database Setup
  */
 @Module({
@@ -19,11 +19,9 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       database: process.env.DATABASE_NAME || 'baitin_poc_dev',
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
-      synchronize: process.env.NODE_ENV === 'development',
+      synchronize: false, // Disabled - use migrations instead to avoid startup delays
       logging: process.env.NODE_ENV === 'development',
     }),
   ],
 })
 export class DatabaseModule {}
-
-

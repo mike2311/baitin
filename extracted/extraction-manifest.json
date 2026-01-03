@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "timestamp": "2025-12-20T09:45:49.693Z",
+  "sourceDirectory": "C:\\github\\baitin\\source",
+  "outputDirectory": "C:\\github\\baitin\\extracted",
+  "results": [
+    {
+      "table": "mitem",
+      "rowCount": 41450,
+      "timestamp": "2025-12-20T09:45:49.691Z",
+      "sourcePath": "C:\\github\\baitin\\source\\mitem.dbf",
+      "outputPath": "C:\\github\\baitin\\extracted\\mitem.csv",
+      "checksum": "8f35fe886e2b0fc06452778a8018252a4af042dbc25188f7defa308c3333bf2d",
+      "rejectedCount": 0
+    }
+  ],
+  "totalTables": 1,
+  "totalRows": 41450
+}

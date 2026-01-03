@@ -63,3 +63,5 @@ if (-not (Run-Command "npm run build" "$rootDir\backend" "Backend build")) { exi
 Write-Host "✅ All pre-push checks passed! Safe to push.`n" -ForegroundColor Green
 exit 0
 
+
+

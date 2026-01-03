@@ -1,0 +1,329 @@
+{
+  "timestamp": "2025-12-28T16:19:29.948Z",
+  "overall": false,
+  "results": {
+    "zstdcode": {
+      "table": "zstdcode",
+      "checks": {
+        "rowCount": {
+          "passed": true,
+          "extracted": 27,
+          "loaded": 27,
+          "difference": 0
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 27
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": true
+    },
+    "zorigin": {
+      "table": "zorigin",
+      "checks": {
+        "rowCount": {
+          "passed": true,
+          "extracted": 4,
+          "loaded": 4,
+          "difference": 0
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 4
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": true
+    },
+    "item": {
+      "table": "item",
+      "checks": {
+        "rowCount": {
+          "passed": false,
+          "extracted": 197122,
+          "loaded": 41145,
+          "difference": 155977
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "foreignKeys": {
+          "passed": false,
+          "orphanedCount": 1,
+          "details": [
+            "origin → zorigin: 27 orphaned"
+          ]
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 41145
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": false
+    },
+    "customer": {
+      "table": "customer",
+      "checks": {
+        "rowCount": {
+          "passed": true,
+          "extracted": 601,
+          "loaded": 601,
+          "difference": 0
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 601
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": true
+    },
+    "vendor": {
+      "table": "vendor",
+      "checks": {
+        "rowCount": {
+          "passed": false,
+          "extracted": 250,
+          "loaded": 249,
+          "difference": 1
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 249
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": false
+    },
+    "order_enquiry_control": {
+      "table": "order_enquiry_control",
+      "checks": {
+        "rowCount": {
+          "passed": false,
+          "extracted": 18376,
+          "loaded": 18362,
+          "difference": 14
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "foreignKeys": {
+          "passed": false,
+          "orphanedCount": 1,
+          "details": [
+            "custNo → customer: 8 orphaned"
+          ]
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 18362
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": false
+    },
+    "order_enquiry_header": {
+      "table": "order_enquiry_header",
+      "checks": {
+        "rowCount": {
+          "passed": false,
+          "extracted": 19782,
+          "loaded": 19432,
+          "difference": 350
+        },
+        "primaryKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "foreignKeys": {
+          "passed": false,
+          "orphanedCount": 1,
+          "details": [
+            "custNo → customer: 7 orphaned"
+          ]
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 19432
+          }
+        },
+        "businessRules": {
+          "passed": true,
+          "details": []
+        }
+      },
+      "overall": false
+    },
+    "order_enquiry_detail": {
+      "table": "order_enquiry_detail",
+      "checks": {
+        "rowCount": {
+          "passed": false,
+          "extracted": 557202,
+          "loaded": 156835,
+          "difference": 400367
+        },
+        "primaryKeyUniqueness": {
+          "passed": false,
+          "duplicates": 10
+        },
+        "compositeKeyUniqueness": {
+          "passed": true,
+          "duplicates": 0
+        },
+        "requiredFields": {
+          "passed": true,
+          "missingCount": 0,
+          "missingFields": []
+        },
+        "foreignKeys": {
+          "passed": false,
+          "orphanedCount": 3,
+          "details": [
+            "oeNo → order_enquiry_header: 200 orphaned",
+            "itemNo → item: 198 orphaned",
+            "vendorNo → vendor: 6 orphaned"
+          ]
+        },
+        "sampleComparison": {
+          "passed": true,
+          "differences": []
+        },
+        "statistics": {
+          "passed": true,
+          "details": {
+            "distinctPrimaryKeys": 19632,
+            "lineNoStats": {
+              "min_line_no": 1,
+              "max_line_no": 863,
+              "avg_line_no": "45.6735486339146236",
+              "distinct_oe_nos": "19632",
+              "total_rows": "156835"
+            }
+          }
+        },
+        "businessRules": {
+          "passed": false,
+          "details": [
+            "200 OE detail record(s) have no corresponding header"
+          ]
+        }
+      },
+      "overall": false
+    }
+  }
+}

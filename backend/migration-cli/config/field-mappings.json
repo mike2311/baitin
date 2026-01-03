@@ -1,0 +1,822 @@
+{
+  "zstdcode": {
+    "STD_CODE": {
+      "target": "std_code",
+      "type": "string",
+      "required": true
+    },
+    "STD_DESP": {
+      "target": "description",
+      "type": "string",
+      "required": false
+    }
+  },
+  "zorigin": {
+    "ORIGIN": {
+      "target": "origin",
+      "type": "string",
+      "required": true
+    },
+    "ORIGIN_COD": {
+      "target": "description",
+      "type": "string",
+      "required": false
+    }
+  },
+  "mitem": {
+    "item_no": {
+      "target": "itemNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "item_type": {
+      "target": "itemType",
+      "type": "string",
+      "required": false,
+      "length": 20
+    },
+    "date": {
+      "target": "date",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "short_name": {
+      "target": "shortName",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "desp": {
+      "target": "desp",
+      "type": "text",
+      "required": false,
+      "source": "fpt"
+    },
+    "origin": {
+      "target": "origin",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "grp_code": {
+      "target": "grpCode",
+      "type": "string",
+      "required": false,
+      "length": 20
+    },
+    "material": {
+      "target": "material",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "upc_no": {
+      "target": "upcNo",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "htc_no": {
+      "target": "htcNo",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "std_code": {
+      "target": "stdCode",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "price": {
+      "target": "price",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "price_cur": {
+      "target": "priceCur",
+      "type": "string",
+      "required": false,
+      "length": 3
+    },
+    "cost": {
+      "target": "cost",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "pack_pc_1": {
+      "target": "packPc1",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_1": {
+      "target": "packDesp1",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_2": {
+      "target": "packPc2",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_2": {
+      "target": "packDesp2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_3": {
+      "target": "packPc3",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_3": {
+      "target": "packDesp3",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_4": {
+      "target": "packPc4",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_4": {
+      "target": "packDesp4",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "wt": {
+      "target": "wt",
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "scale": 2
+    },
+    "net": {
+      "target": "net",
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "scale": 2
+    },
+    "cube": {
+      "target": "cube",
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "scale": 2
+    },
+    "dim": {
+      "target": "dim",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "duty": {
+      "target": "duty",
+      "type": "number",
+      "required": false,
+      "length": 10,
+      "scale": 4
+    },
+    "suspend_flag": {
+      "target": "suspendFlag",
+      "type": "boolean",
+      "required": false,
+      "trueValue": ".T.",
+      "falseValue": ".F.",
+      "defaultValue": false
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  },
+  "mcustom": {
+    "cust_no": {
+      "target": "custNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "ename": {
+      "target": "ename",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "sname": {
+      "target": "sname",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "cname": {
+      "target": "cname",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr1": {
+      "target": "addr1",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr2": {
+      "target": "addr2",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr3": {
+      "target": "addr3",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr4": {
+      "target": "addr4",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "cont_name": {
+      "target": "contName",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "tel": {
+      "target": "tel",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "tel2": {
+      "target": "tel2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "fax": {
+      "target": "fax",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "fax2": {
+      "target": "fax2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "email": {
+      "target": "email",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "show_sub_item_detail": {
+      "target": "showSubItemDetail",
+      "type": "boolean",
+      "required": false,
+      "trueValue": ".T.",
+      "falseValue": ".F.",
+      "defaultValue": false
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  },
+  "mvendor": {
+    "vendor_no": {
+      "target": "vendorNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "ename": {
+      "target": "ename",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "sname": {
+      "target": "sname",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "addr1": {
+      "target": "addr1",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr2": {
+      "target": "addr2",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr3": {
+      "target": "addr3",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "addr4": {
+      "target": "addr4",
+      "type": "string",
+      "required": false,
+      "length": 200
+    },
+    "cont_name": {
+      "target": "contName",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "tel": {
+      "target": "tel",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "tel2": {
+      "target": "tel2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "fax": {
+      "target": "fax",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "fax2": {
+      "target": "fax2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "type": {
+      "target": "type",
+      "type": "number",
+      "required": false
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  },
+  "moectrl": {
+    "oe_no": {
+      "target": "oeNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "cust_no": {
+      "target": "custNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "oe_date": {
+      "target": "oeDate",
+      "type": "date",
+      "required": true,
+      "format": "foxpro"
+    },
+    "status": {
+      "target": "status",
+      "type": "string",
+      "required": false,
+      "length": 20
+    },
+    "po_no": {
+      "target": "poNo",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "remark": {
+      "target": "remark",
+      "type": "text",
+      "required": false,
+      "source": "fpt"
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  },
+  "moehd": {
+    "oe_no": {
+      "target": "oeNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "cust_no": {
+      "target": "custNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "oe_date": {
+      "target": "oeDate",
+      "type": "date",
+      "required": true,
+      "format": "foxpro"
+    },
+    "po_no": {
+      "target": "poNo",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "status": {
+      "target": "status",
+      "type": "number",
+      "required": false,
+      "defaultValue": 0
+    },
+    "comp_code": {
+      "target": "compCode",
+      "type": "string",
+      "required": false,
+      "length": 10
+    },
+    "total_amount": {
+      "target": "totalAmount",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 2
+    },
+    "remark": {
+      "target": "remark",
+      "type": "text",
+      "required": false,
+      "source": "fpt"
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  },
+  "moe": {
+    "oe_no": {
+      "target": "oeNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "line_no": {
+      "target": "lineNo",
+      "type": "number",
+      "required": true
+    },
+    "item_no": {
+      "target": "itemNo",
+      "type": "string",
+      "required": true,
+      "length": 50
+    },
+    "cust_no": {
+      "target": "custNo",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "qty": {
+      "target": "qty",
+      "type": "number",
+      "required": true,
+      "length": 18,
+      "scale": 4
+    },
+    "price": {
+      "target": "price",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "amount": {
+      "target": "amount",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 2
+    },
+    "unit": {
+      "target": "unit",
+      "type": "string",
+      "required": false,
+      "length": 20
+    },
+    "ctn": {
+      "target": "ctn",
+      "type": "number",
+      "required": false
+    },
+    "head": {
+      "target": "head",
+      "type": "boolean",
+      "required": false,
+      "trueValue": ".T.",
+      "falseValue": ".F.",
+      "defaultValue": false
+    },
+    "vendor_no": {
+      "target": "vendorNo",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "maker": {
+      "target": "maker",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "skn_no": {
+      "target": "sknNo",
+      "type": "string",
+      "required": false,
+      "length": 100
+    },
+    "item_desc": {
+      "target": "itemDesc",
+      "type": "text",
+      "required": false,
+      "source": "fpt"
+    },
+    "pack_pc_1": {
+      "target": "packPc1",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_1": {
+      "target": "packDesp1",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_2": {
+      "target": "packPc2",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_2": {
+      "target": "packDesp2",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_3": {
+      "target": "packPc3",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_3": {
+      "target": "packDesp3",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "pack_pc_4": {
+      "target": "packPc4",
+      "type": "number",
+      "required": false
+    },
+    "pack_desp_4": {
+      "target": "packDesp4",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "del_from": {
+      "target": "delFrom",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "del_to": {
+      "target": "delTo",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cost": {
+      "target": "cost",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "retail1": {
+      "target": "retail1",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "retail2": {
+      "target": "retail2",
+      "type": "number",
+      "required": false,
+      "length": 18,
+      "scale": 4
+    },
+    "remark": {
+      "target": "remark",
+      "type": "text",
+      "required": false,
+      "source": "fpt"
+    },
+    "comp_code": {
+      "target": "compCode",
+      "type": "string",
+      "required": false,
+      "length": 10
+    },
+    "cre_date": {
+      "target": "creDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "cre_user": {
+      "target": "creUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "mod_date": {
+      "target": "modDate",
+      "type": "date",
+      "required": false,
+      "format": "foxpro"
+    },
+    "mod_user": {
+      "target": "modUser",
+      "type": "string",
+      "required": false,
+      "length": 50
+    },
+    "user_id": {
+      "target": "userId",
+      "type": "string",
+      "required": false,
+      "length": 50
+    }
+  }
+}
+
+

@@ -1,0 +1,9047 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://mike2311.github.io/baitin/modernization-strategy/04-data-migration-strategy/data-migration-strategy/">
+      
+      
+        <link rel="prev" href="../../15-poc-strategy/poc-strategy/">
+      
+      
+        <link rel="next" href="../../08-integration-strategy/integration-strategy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Data Migration Strategy - BAITIN System Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-migration-strategy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="BAITIN System Documentation" class="md-header__button md-logo" aria-label="BAITIN System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BAITIN System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Data Migration Strategy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mike2311/baitin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BAITIN System Documentation" class="md-nav__button md-logo" aria-label="BAITIN System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BAITIN System Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mike2311/baitin" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/system-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/technology-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technology Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/00-overview/user-roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/database-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/entity-relationships/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entity Relationships
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/indexes-and-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indexes and Keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Table Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Table Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/master-data-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/supporting-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supporting Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/01-data-architecture/table-details/transaction-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transaction Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Processes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Business Processes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/workflow-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/order-enquiry-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/order-confirmation-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Confirmation Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/contract-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contract Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/shipping-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shipping Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/delivery-note-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivery Note Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/invoice-process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/02-business-processes/master-data-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Application Modules
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Application Modules
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/03-application-modules/module-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/03-application-modules/order-enquiry-module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms and Screens
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Forms and Screens
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-logic-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Logic Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/authentication-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/master-data-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/order-enquiry-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Enquiry Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/order-confirmation-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Order Confirmation Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/contract-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contract Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/shipping-order-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shipping Order Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/delivery-note-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Delivery Note Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/invoice-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Invoice Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/enquiry-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enquiry Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/report-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/utility-forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utility Forms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-layouts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Layouts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/form-process-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Process Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/04-forms-and-screens/validation-catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Business Logic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Business Logic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/program-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Program Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/excel-import-logic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel Import Logic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/05-business-logic/core-algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reporting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/06-reporting/report-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/07-integration/excel-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/08-security/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/file-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/known-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Known Issues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../source/09-technical-details/phased-out-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phased Out Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modernization Strategy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modernization Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_2" id="__nav_12_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planning and Assessment
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planning and Assessment
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-executive-summary/executive-summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executive Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-current-state-assessment/current-state-assessment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current State Assessment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-resource-timeline/resource-timeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource and Timeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12-risk-management/risk-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13-success-metrics/success-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Success Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_3" id="__nav_12_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture and Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture and Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-target-state-architecture/target-state-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Target State Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-application-modernization/application-modernization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Application Modernization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-ux-ui-strategy/ux-ui-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX/UI Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-security-compliance/security-compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security and Compliance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12_4" id="__nav_12_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11-phased-delivery-plan/phased-delivery-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phased Delivery Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../15-poc-strategy/poc-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PoC Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Migration Strategy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Migration Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Objectives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secondary-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secondary Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Approach
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phased-migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phased Migration Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phased Migration Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-big-bang-migration-recommended-for-pocmvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Big-Bang Migration (Recommended for PoC/MVP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-phased-module-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Phased Module Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-mapping-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Mapping Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Mapping Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transaction-tables-headerdetail-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction Tables (Header/Detail Pattern)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transaction Tables (Header/Detail Pattern)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shipping-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shipping Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delivery-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delivery Note
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invoice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-data-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Data Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Master Data Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Items
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#referencelookup-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference/Lookup Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#field-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-type-conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Type Conversions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-field-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special Field Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Special Field Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memo-fields-fpt-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memo Fields (FPT Files)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numeric Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#character-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Character Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foreign-key-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Foreign Key Relationships
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Foreign Key Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-confirmation-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Confirmation Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Preparation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1: Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-data-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Data Assessment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-schema-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Schema Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-migration-tools-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Migration Tools Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Extraction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Extraction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-dbf-file-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 DBF File Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-fpt-file-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 FPT File Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-data-extraction-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Data Extraction Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Transformation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3: Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-data-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Data Cleaning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Data Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-business-rule-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Business Rule Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4: Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-staging-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Staging Area
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-load-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Load Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-load-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Load Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-validation-and-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Validation and Reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5: Validation and Reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-record-count-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Record Count Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-data-integrity-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Data Integrity Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-data-accuracy-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Data Accuracy Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-reconciliation-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Reconciliation Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etl-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETL Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ETL Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-custom-net-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Custom .NET Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-python-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Python Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-commercial-etl-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Commercial ETL Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-script-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Script Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-quality-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Fixes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Fixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-migration-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Migration Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-time-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration-Time Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cutover-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutover Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutover Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Cutover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-Cutover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#final-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cutover-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutover Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutover Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-big-bang-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Big-Bang Cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-phased-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Phased Cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Cutover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Cutover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rollback Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rollback-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Timeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Timeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-preparation-weeks-1-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Preparation (Weeks 1-4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-development-migration-weeks-5-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Development Migration (Weeks 5-8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-test-migration-weeks-9-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Test Migration (Weeks 9-12)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-production-cutover-week-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Production Cutover (Week 13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-integration-strategy/integration-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-reporting-analytics/reporting-analytics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reporting and Analytics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_12_5" id="__nav_12_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_12_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-deployment-operations/deployment-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment and Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Planning
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementation Planning
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1" id="__nav_13_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PoC Implementation Plan
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PoC Implementation Plan
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/IMPLEMENTATION_SUMMARY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3" id="__nav_13_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 0: Foundation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 0: Foundation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_2" id="__nav_13_1_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-01-development-environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-02-database-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/01-infrastructure-setup/task-01-03-git-and-cicd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git and CI/CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_3" id="__nav_13_1_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-01-authentication-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-02-api-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/02-core-components/task-02-03-frontend-foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_4" id="__nav_13_1_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Schema
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database Schema
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-01-master-data-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Data Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-02-oe-tables-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/03-database-schema/task-03-03-reference-tables-schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_3_5" id="__nav_13_1_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UX Kernel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    UX Kernel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-01-text-input-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text Input Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-02-lookup-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lookup Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-03-data-grid-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Grid Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/00-phase-0-foundation/04-ux-kernel/task-04-04-form-layout-components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Form Layout Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4" id="__nav_13_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 1: Master Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 1: Master Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_2" id="__nav_13_1_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Item Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-01-item-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-02-item-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/01-item-master/task-01-03-item-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_3" id="__nav_13_1_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Customer Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-01-customer-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-02-customer-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/02-customer-master/task-02-03-customer-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_4_4" id="__nav_13_1_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Master
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vendor Master
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-01-vendor-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-02-vendor-lookup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor Lookup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/01-phase-1-master-data/03-vendor-master/task-03-03-vendor-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vendor List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5" id="__nav_13_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2: Order Enquiry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 2: Order Enquiry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_2" id="__nav_13_1_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Control
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-01-oe-control-entry-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control Entry Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/01-oe-control/task-01-02-oe-control-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Control Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_3" id="__nav_13_1_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Manual Entry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Manual Entry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-01-oe-header-form/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Header Form
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-02-oe-detail-grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Detail Grid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/02-oe-manual-entry/task-02-03-oe-auto-save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Auto-Save
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_5_4" id="__nav_13_1_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Enquiry List
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OE Enquiry List
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-01-oe-list-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE List View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/02-phase-2-order-enquiry/03-oe-enquiry-list/task-03-02-oe-search-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OE Search and Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6" id="__nav_13_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 3: Excel Import
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 3: Excel Import
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_2" id="__nav_13_1_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File Upload
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/01-file-upload/task-01-01-file-upload-component/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Upload Component
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_3" id="__nav_13_1_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Mapping
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Mapping
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-01-field-mapping-interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Mapping Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/02-field-mapping/task-02-02-auto-detect-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-Detect Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_6_4" id="__nav_13_1_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation and Import
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation and Import
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-01-data-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-02-error-reporting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Reporting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/03-phase-3-excel-import/03-validation-import/task-03-03-import-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Import Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7" id="__nav_13_1_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 4: Integration and Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_13_1_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Phase 4: Integration and Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_2" id="__nav_13_1_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/01-integration/task-01-01-end-to-end-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-End Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_3" id="__nav_13_1_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-01-unit-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-02-integration-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-03-e2e-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E2E Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/02-testing/task-02-04-performance-tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_1_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_1_7_4" id="__nav_13_1_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Preparation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_13_1_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_1_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Demo Preparation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-01-demo-script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Script
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-02-demo-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planning/poc_planning/04-phase-4-integration-testing/03-demo-preparation/task-03-03-presentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Objectives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primary-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primary Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secondary-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secondary Objectives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Approach
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phased-migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phased Migration Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phased Migration Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-big-bang-migration-recommended-for-pocmvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Big-Bang Migration (Recommended for PoC/MVP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-phased-module-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Phased Module Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-mapping-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Mapping Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Mapping Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#table-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Table Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transaction-tables-headerdetail-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction Tables (Header/Detail Pattern)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transaction Tables (Header/Detail Pattern)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Confirmation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shipping-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shipping Order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delivery-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Delivery Note
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invoice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#master-data-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master Data Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Master Data Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Items
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#referencelookup-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference/Lookup Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#field-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-type-conversions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Type Conversions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-field-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Special Field Handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Special Field Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memo-fields-fpt-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memo Fields (FPT Files)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#date-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numeric-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numeric Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#character-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Character Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relationship-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship Mapping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relationship Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#foreign-key-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Foreign Key Relationships
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Foreign Key Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#order-enquiry-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Enquiry Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-confirmation-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Order Confirmation Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contract Relationships
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Process
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Preparation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1: Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-data-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Data Assessment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-schema-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Schema Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-migration-tools-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Migration Tools Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Extraction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Extraction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-dbf-file-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 DBF File Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-fpt-file-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 FPT File Reading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-data-extraction-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Data Extraction Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Transformation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3: Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-data-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Data Cleaning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Data Transformation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-business-rule-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Business Rule Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4: Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-staging-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Staging Area
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-load-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Load Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-load-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Load Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-validation-and-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Validation and Reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5: Validation and Reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-record-count-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Record Count Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-data-integrity-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Data Integrity Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-data-accuracy-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Data Accuracy Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-reconciliation-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Reconciliation Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etl-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ETL Pipeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ETL Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-custom-net-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Custom .NET Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-python-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Python Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-commercial-etl-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Commercial ETL Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-script-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Script Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-quality-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-quality-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Quality Fixes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Quality Fixes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-migration-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Migration Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-time-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration-Time Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cutover-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutover Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutover Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Cutover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-Cutover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#final-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Final Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cutover-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutover Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutover Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-big-bang-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Big-Bang Cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-phased-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Phased Cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-Cutover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Cutover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Rollback Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rollback-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rollback Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Timeline
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Timeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-preparation-weeks-1-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Preparation (Weeks 1-4)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-development-migration-weeks-5-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Development Migration (Weeks 5-8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-test-migration-weeks-9-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Test Migration (Weeks 9-12)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-production-cutover-week-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Production Cutover (Week 13)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Criteria
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Success Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="data-migration-strategy">Data Migration Strategy</h1>
+<h2 id="overview">Overview</h2>
+<p>This document outlines the comprehensive strategy for migrating data from the legacy Visual FoxPro DBF file-based database to the modern PostgreSQL relational database. The migration involves 186 tables, complex relationships, and large data volumes (some tables &gt; 100MB).</p>
+<h2 id="migration-objectives">Migration Objectives</h2>
+<h3 id="primary-objectives">Primary Objectives</h3>
+<ol>
+<li><strong>Zero Data Loss:</strong> 100% data migration with no data loss</li>
+<li><strong>Data Integrity:</strong> Maintain referential integrity and business rules</li>
+<li><strong>Minimal Downtime:</strong> Minimize business disruption during migration</li>
+<li><strong>Verification:</strong> Comprehensive validation and reconciliation</li>
+<li><strong>Rollback Capability:</strong> Ability to rollback if issues occur</li>
+</ol>
+<h3 id="secondary-objectives">Secondary Objectives</h3>
+<ol>
+<li><strong>Performance:</strong> Optimized migration process</li>
+<li><strong>Documentation:</strong> Complete migration documentation</li>
+<li><strong>Audit Trail:</strong> Track all migration activities</li>
+<li><strong>Data Quality:</strong> Identify and fix data quality issues</li>
+</ol>
+<h2 id="migration-approach">Migration Approach</h2>
+<h3 id="phased-migration-strategy">Phased Migration Strategy</h3>
+<h4 id="option-a-big-bang-migration-recommended-for-pocmvp">Option A: Big-Bang Migration (Recommended for PoC/MVP)</h4>
+<ul>
+<li><strong>Approach:</strong> Migrate all data in single cutover</li>
+<li><strong>Timeline:</strong> 1-2 days downtime</li>
+<li><strong>Pros:</strong> Simpler, faster, single validation point</li>
+<li><strong>Cons:</strong> Higher risk, requires extensive testing</li>
+<li><strong>Use Case:</strong> PoC, MVP, or when business can accept downtime</li>
+</ul>
+<h4 id="option-b-phased-module-migration">Option B: Phased Module Migration</h4>
+<ul>
+<li><strong>Approach:</strong> Migrate by module (Master Data → OE → OC → etc.)</li>
+<li><strong>Timeline:</strong> 2-4 weeks with parallel run</li>
+<li><strong>Pros:</strong> Lower risk, incremental validation</li>
+<li><strong>Cons:</strong> More complex, longer timeline, dual maintenance</li>
+<li><strong>Use Case:</strong> Production migration with minimal risk tolerance</li>
+</ul>
+<p><strong>Recommendation:</strong> Start with Big-Bang for PoC/MVP, consider Phased for production cutover.</p>
+<h2 id="data-mapping-strategy">Data Mapping Strategy</h2>
+<h3 id="table-mapping">Table Mapping</h3>
+<h4 id="transaction-tables-headerdetail-pattern">Transaction Tables (Header/Detail Pattern)</h4>
+<h5 id="order-enquiry">Order Enquiry</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>moehd</code></td>
+<td><code>order_enquiry_header</code></td>
+<td><code>oe_no</code> → <code>oe_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>moe</code></td>
+<td><code>order_enquiry_detail</code></td>
+<td><code>oe_no</code> + <code>item_no</code> → <code>header_id</code> + <code>item_no</code></td>
+</tr>
+<tr>
+<td><code>moectrl</code></td>
+<td><code>order_enquiry_control</code></td>
+<td><code>oe_no</code> → <code>oe_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>mqtybrk</code></td>
+<td><code>order_enquiry_quantity_breakdown</code></td>
+<td><code>oe_no</code> + <code>item_no</code> → foreign keys</td>
+</tr>
+<tr>
+<td><code>moebom</code></td>
+<td><code>order_enquiry_bom</code></td>
+<td><code>oe_no</code> + <code>item_no</code> → foreign keys</td>
+</tr>
+</tbody>
+</table>
+<h5 id="order-confirmation">Order Confirmation</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mordhd</code></td>
+<td><code>order_confirmation_header</code></td>
+<td><code>conf_no</code> → <code>conf_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>morddt</code></td>
+<td><code>order_confirmation_detail</code></td>
+<td><code>conf_no</code> + <code>item_no</code> → <code>header_id</code> + <code>item_no</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="contract">Contract</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mconthd</code></td>
+<td><code>contract_header</code></td>
+<td><code>cont_no</code> → <code>cont_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>mcontdt</code></td>
+<td><code>contract_detail</code></td>
+<td><code>cont_no</code> + <code>item_no</code> → <code>header_id</code> + <code>item_no</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="shipping-order">Shipping Order</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mso</code></td>
+<td><code>shipping_order</code></td>
+<td><code>so_no</code> → <code>so_no</code> (unique)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="delivery-note">Delivery Note</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mdnhd</code></td>
+<td><code>delivery_note_header</code></td>
+<td><code>dn_no</code> → <code>dn_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>mdndt</code></td>
+<td><code>delivery_note_detail</code></td>
+<td><code>dn_no</code> + <code>item_no</code> → <code>header_id</code> + <code>item_no</code></td>
+</tr>
+<tr>
+<td><code>mdnbrk</code></td>
+<td><code>delivery_note_breakdown</code></td>
+<td><code>dn_no</code> + <code>item_no</code> → foreign keys</td>
+</tr>
+</tbody>
+</table>
+<h5 id="invoice">Invoice</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>minvhd</code></td>
+<td><code>invoice_header</code></td>
+<td><code>inv_no</code> → <code>inv_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>minvdt</code></td>
+<td><code>invoice_detail</code></td>
+<td><code>inv_no</code> + <code>item_no</code> → <code>header_id</code> + <code>item_no</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="master-data-tables">Master Data Tables</h4>
+<h5 id="items">Items</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mitem</code></td>
+<td><code>item</code></td>
+<td><code>item_no</code> → <code>item_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>mitemmftr</code></td>
+<td><code>item_manufacturer</code></td>
+<td><code>item_no</code> + <code>mftr_no</code> → foreign keys</td>
+</tr>
+<tr>
+<td><code>mitemven</code></td>
+<td><code>item_vendor</code></td>
+<td><code>item_no</code> + <code>vendor_no</code> → foreign keys</td>
+</tr>
+<tr>
+<td><code>mprodbom</code></td>
+<td><code>product_bom</code></td>
+<td><code>item_no</code> + <code>sub_item</code> → foreign keys</td>
+</tr>
+</tbody>
+</table>
+<h5 id="customers">Customers</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcustom</code></td>
+<td><code>customer</code></td>
+<td><code>cust_no</code> → <code>cust_no</code> (unique)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="vendors">Vendors</h5>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mvendor</code></td>
+<td><code>vendor</code></td>
+<td><code>vendor_no</code> → <code>vendor_no</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zmftr</code></td>
+<td><code>manufacturer</code></td>
+<td><code>mftr_no</code> → <code>mftr_no</code> (unique)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="referencelookup-tables">Reference/Lookup Tables</h4>
+<table>
+<thead>
+<tr>
+<th>Legacy Table</th>
+<th>New Table</th>
+<th>Key Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>zstdcode</code></td>
+<td><code>standard_code</code></td>
+<td><code>std_code</code> → <code>std_code</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zorigin</code></td>
+<td><code>country_of_origin</code></td>
+<td><code>origin_code</code> → <code>origin_code</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zfobport</code></td>
+<td><code>fob_port</code></td>
+<td><code>port_code</code> → <code>port_code</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zpayterm</code></td>
+<td><code>payment_term</code></td>
+<td><code>payterm_code</code> → <code>payterm_code</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zfobterm</code></td>
+<td><code>fob_term</code></td>
+<td><code>fobterm_code</code> → <code>fobterm_code</code> (unique)</td>
+</tr>
+<tr>
+<td><code>zcurcode</code></td>
+<td><code>currency_code</code></td>
+<td><code>cur_code</code> → <code>cur_code</code> (unique)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="field-mapping">Field Mapping</h3>
+<h4 id="data-type-conversions">Data Type Conversions</h4>
+<table>
+<thead>
+<tr>
+<th>FoxPro Type</th>
+<th>PostgreSQL Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Character (C)</td>
+<td>VARCHAR(n) or TEXT</td>
+<td>Based on field length</td>
+</tr>
+<tr>
+<td>Numeric (N)</td>
+<td>DECIMAL(p,s) or INTEGER</td>
+<td>Based on precision</td>
+</tr>
+<tr>
+<td>Date (D)</td>
+<td>DATE</td>
+<td>Direct mapping</td>
+</tr>
+<tr>
+<td>DateTime (T)</td>
+<td>TIMESTAMP</td>
+<td>Direct mapping</td>
+</tr>
+<tr>
+<td>Logical (L)</td>
+<td>BOOLEAN</td>
+<td>.T. → true, .F. → false</td>
+</tr>
+<tr>
+<td>Memo (M)</td>
+<td>TEXT or JSONB</td>
+<td>FPT file content</td>
+</tr>
+</tbody>
+</table>
+<h4 id="special-field-handling">Special Field Handling</h4>
+<h5 id="memo-fields-fpt-files">Memo Fields (FPT Files)</h5>
+<ul>
+<li><strong>Strategy:</strong> Extract memo content from FPT files</li>
+<li><strong>Storage:</strong> TEXT type in PostgreSQL</li>
+<li><strong>Large Memos:</strong> Use TEXT (unlimited) or JSONB for structured data</li>
+<li><strong>Examples:</strong></li>
+<li><code>mitem.desp</code> (24MB) → <code>item.description</code> (TEXT)</li>
+<li><code>mcustom</code> notes → <code>customer.notes</code> (TEXT)</li>
+<li><code>mcontdt</code> details (75MB) → <code>contract_detail.remarks</code> (TEXT)</li>
+</ul>
+<h5 id="date-fields">Date Fields</h5>
+<ul>
+<li><strong>Format:</strong> Convert from FoxPro date format to PostgreSQL DATE</li>
+<li><strong>Validation:</strong> Check for valid dates, handle invalid dates</li>
+<li><strong>Null Handling:</strong> Empty dates → NULL</li>
+</ul>
+<h5 id="numeric-fields">Numeric Fields</h5>
+<ul>
+<li><strong>Precision:</strong> Preserve decimal precision</li>
+<li><strong>Validation:</strong> Check for valid numbers, handle invalid values</li>
+<li><strong>Null Handling:</strong> Empty numerics → NULL or 0 (based on business rules)</li>
+</ul>
+<h5 id="character-fields">Character Fields</h5>
+<ul>
+<li><strong>Encoding:</strong> Handle character encoding (UTF-8)</li>
+<li><strong>Trimming:</strong> Trim whitespace</li>
+<li><strong>Null Handling:</strong> Empty strings → NULL or '' (based on business rules)</li>
+</ul>
+<h3 id="relationship-mapping">Relationship Mapping</h3>
+<h4 id="foreign-key-relationships">Foreign Key Relationships</h4>
+<h5 id="order-enquiry-relationships">Order Enquiry Relationships</h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- Header to Detail</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">order_enquiry_detail</span><span class="p">.</span><span class="n">header_id</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">-- Detail to Master Data</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">order_enquiry_detail</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">item_no</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">order_enquiry_header</span><span class="p">.</span><span class="n">cust_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">customer</span><span class="p">.</span><span class="n">cust_no</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">-- Control to Header</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">order_enquiry_control</span><span class="p">.</span><span class="n">oe_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="p">.</span><span class="n">oe_no</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1">-- Breakdown to Detail</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">order_enquiry_quantity_breakdown</span><span class="p">.</span><span class="n">oe_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="p">.</span><span class="n">oe_no</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">order_enquiry_quantity_breakdown</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_enquiry_detail</span><span class="p">.</span><span class="n">item_no</span>
+</code></pre></div>
+<h5 id="order-confirmation-relationships">Order Confirmation Relationships</h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">-- Header to Detail</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">order_confirmation_detail</span><span class="p">.</span><span class="n">header_id</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_confirmation_header</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">-- Detail to OE</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">order_confirmation_detail</span><span class="p">.</span><span class="n">oe_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="p">.</span><span class="n">oe_no</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">-- Detail to Master Data</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">order_confirmation_detail</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">item_no</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">order_confirmation_header</span><span class="p">.</span><span class="n">cust_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">customer</span><span class="p">.</span><span class="n">cust_no</span>
+</code></pre></div>
+<h5 id="contract-relationships">Contract Relationships</h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">-- Header to Detail</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">contract_detail</span><span class="p">.</span><span class="n">header_id</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">contract_header</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">-- Contract to OC</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">contract_header</span><span class="p">.</span><span class="n">conf_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">order_confirmation_header</span><span class="p">.</span><span class="n">conf_no</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">-- Detail to Master Data</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">contract_detail</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">item</span><span class="p">.</span><span class="n">item_no</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">contract_detail</span><span class="p">.</span><span class="n">vendor_no</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">vendor</span><span class="p">.</span><span class="n">vendor_no</span>
+</code></pre></div>
+<h2 id="migration-process">Migration Process</h2>
+<h3 id="phase-1-preparation">Phase 1: Preparation</h3>
+<h4 id="11-data-assessment">1.1 Data Assessment</h4>
+<ul>
+<li><strong>Inventory:</strong> Complete inventory of all 186 tables</li>
+<li><strong>Data Volume:</strong> Calculate data volumes per table</li>
+<li><strong>Data Quality:</strong> Identify data quality issues</li>
+<li><strong>Dependencies:</strong> Map table dependencies</li>
+</ul>
+<h4 id="12-schema-design">1.2 Schema Design</h4>
+<ul>
+<li><strong>Database Schema:</strong> Design PostgreSQL schema</li>
+<li><strong>Indexes:</strong> Plan indexes for performance</li>
+<li><strong>Constraints:</strong> Define foreign keys, check constraints</li>
+<li><strong>Migrations:</strong> Create database migration scripts</li>
+</ul>
+<h4 id="13-migration-tools-development">1.3 Migration Tools Development</h4>
+<ul>
+<li><strong>ETL Pipeline:</strong> Develop extraction, transformation, load pipeline</li>
+<li><strong>Validation Tools:</strong> Data validation and reconciliation tools</li>
+<li><strong>Monitoring:</strong> Migration progress monitoring</li>
+</ul>
+<h3 id="phase-2-extraction">Phase 2: Extraction</h3>
+<h4 id="21-dbf-file-reading">2.1 DBF File Reading</h4>
+<ul>
+<li><strong>Tool:</strong> Use DBF library (e.g., <code>dbf</code> npm package, <code>dbfread</code> Python, or custom .NET library)</li>
+<li><strong>Process:</strong> Read all DBF files from <code>C:\batwork</code></li>
+<li><strong>Output:</strong> Raw data in structured format (CSV, JSON, or direct database insert)</li>
+</ul>
+<h4 id="22-fpt-file-reading">2.2 FPT File Reading</h4>
+<ul>
+<li><strong>Tool:</strong> Use FPT library or custom parser</li>
+<li><strong>Process:</strong> Read memo content from FPT files</li>
+<li><strong>Mapping:</strong> Map memo content to corresponding DBF records</li>
+<li><strong>Output:</strong> Memo content linked to records</li>
+</ul>
+<h4 id="23-data-extraction-script">2.3 Data Extraction Script</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example extraction script structure</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="n">table_list</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="c1"># Read DBF file</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">dbf_data</span> <span class="o">=</span> <span class="n">read_dbf</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">batwork</span><span class="se">\\</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.dbf&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="c1"># Read FPT file if exists</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">batwork</span><span class="se">\\</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.fpt&quot;</span><span class="p">):</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="n">memo_data</span> <span class="o">=</span> <span class="n">read_fpt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">batwork</span><span class="se">\\</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">.fpt&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="n">merge_memos</span><span class="p">(</span><span class="n">dbf_data</span><span class="p">,</span> <span class="n">memo_data</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="c1"># Export to staging format</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">export_to_staging</span><span class="p">(</span><span class="n">dbf_data</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="phase-3-transformation">Phase 3: Transformation</h3>
+<h4 id="31-data-cleaning">3.1 Data Cleaning</h4>
+<ul>
+<li><strong>Trim Whitespace:</strong> Remove leading/trailing spaces</li>
+<li><strong>Normalize Encoding:</strong> Convert to UTF-8</li>
+<li><strong>Fix Invalid Data:</strong> Handle invalid dates, numbers, etc.</li>
+<li><strong>Deduplicate:</strong> Identify and handle duplicates</li>
+</ul>
+<h4 id="32-data-transformation">3.2 Data Transformation</h4>
+<ul>
+<li><strong>Type Conversion:</strong> Convert FoxPro types to PostgreSQL types</li>
+<li><strong>Date Formatting:</strong> Convert date formats</li>
+<li><strong>Null Handling:</strong> Handle empty values appropriately</li>
+<li><strong>Relationship Mapping:</strong> Map manual relationships to foreign keys</li>
+</ul>
+<h4 id="33-business-rule-application">3.3 Business Rule Application</h4>
+<ul>
+<li><strong>Validation:</strong> Apply business rules</li>
+<li><strong>Calculations:</strong> Calculate derived fields</li>
+<li><strong>Defaults:</strong> Apply default values where appropriate</li>
+</ul>
+<h3 id="phase-4-loading">Phase 4: Loading</h3>
+<h4 id="41-staging-area">4.1 Staging Area</h4>
+<ul>
+<li><strong>Purpose:</strong> Load data to staging tables first</li>
+<li><strong>Benefits:</strong> Validation before production, ability to retry</li>
+<li><strong>Structure:</strong> Mirror production schema</li>
+</ul>
+<h4 id="42-load-sequence">4.2 Load Sequence</h4>
+<ol>
+<li><strong>Reference Data:</strong> Load lookup tables first</li>
+<li><strong>Master Data:</strong> Load items, customers, vendors</li>
+<li><strong>Transaction Headers:</strong> Load OE, OC, Contract headers</li>
+<li><strong>Transaction Details:</strong> Load detail records</li>
+<li><strong>Supporting Data:</strong> Load breakdowns, BOMs, etc.</li>
+</ol>
+<h4 id="43-load-process">4.3 Load Process</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- Example load process</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">BEGIN</span><span class="w"> </span><span class="k">TRANSACTION</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">-- Load reference data</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">standard_code</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">standard_code</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">-- Load master data</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">item</span><span class="p">;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">customer</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">customer</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">vendor</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">vendor</span><span class="p">;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">-- Load transaction headers</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">order_enquiry_header</span><span class="p">;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">-- Load transaction details</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">order_enquiry_detail</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">staging</span><span class="p">.</span><span class="n">order_enquiry_detail</span><span class="p">;</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="k">COMMIT</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="phase-5-validation-and-reconciliation">Phase 5: Validation and Reconciliation</h3>
+<h4 id="51-record-count-validation">5.1 Record Count Validation</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">-- Compare record counts</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">SELECT</span><span class="w"> </span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="s1">&#39;moehd&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">legacy_table</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">legacy_count</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">legacy</span><span class="p">.</span><span class="n">moehd</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">SELECT</span><span class="w"> </span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="s1">&#39;order_enquiry_header&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">new_count</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="52-data-integrity-validation">5.2 Data Integrity Validation</h4>
+<ul>
+<li><strong>Foreign Keys:</strong> Verify all foreign keys are valid</li>
+<li><strong>Required Fields:</strong> Check required fields are populated</li>
+<li><strong>Business Rules:</strong> Validate business rules are satisfied</li>
+</ul>
+<h4 id="53-data-accuracy-validation">5.3 Data Accuracy Validation</h4>
+<ul>
+<li><strong>Sample Comparison:</strong> Compare sample records</li>
+<li><strong>Total Validation:</strong> Compare totals (quantities, amounts)</li>
+<li><strong>Key Field Validation:</strong> Verify key fields match</li>
+</ul>
+<h4 id="54-reconciliation-report">5.4 Reconciliation Report</h4>
+<ul>
+<li><strong>Summary:</strong> Overall migration statistics</li>
+<li><strong>Issues:</strong> List of data quality issues</li>
+<li><strong>Recommendations:</strong> Recommendations for fixing issues</li>
+</ul>
+<h2 id="migration-tools">Migration Tools</h2>
+<h3 id="etl-pipeline">ETL Pipeline</h3>
+<h4 id="option-a-custom-net-application">Option A: Custom .NET Application</h4>
+<ul>
+<li><strong>Language:</strong> C# (.NET)</li>
+<li><strong>DBF Library:</strong> Custom library or third-party</li>
+<li><strong>Database:</strong> Entity Framework Core for PostgreSQL</li>
+<li><strong>Benefits:</strong> Type safety, performance, integration with backend</li>
+</ul>
+<h4 id="option-b-python-script">Option B: Python Script</h4>
+<ul>
+<li><strong>Language:</strong> Python</li>
+<li><strong>DBF Library:</strong> <code>dbfread</code> or <code>dbf</code> package</li>
+<li><strong>Database:</strong> <code>psycopg2</code> or SQLAlchemy</li>
+<li><strong>Benefits:</strong> Rapid development, good libraries</li>
+</ul>
+<h4 id="option-c-commercial-etl-tool">Option C: Commercial ETL Tool</h4>
+<ul>
+<li><strong>Tools:</strong> Talend, Informatica, SSIS</li>
+<li><strong>Benefits:</strong> GUI-based, built-in connectors</li>
+<li><strong>Cons:</strong> Cost, learning curve</li>
+</ul>
+<p><strong>Recommendation:</strong> Custom .NET application for control and integration.</p>
+<h3 id="migration-script-structure">Migration Script Structure</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>migration/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── extract/
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│   ├── dbf-reader.cs        # DBF file reader
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   ├── fpt-reader.cs        # FPT file reader
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│   └── extractor.cs         # Main extraction logic
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>├── transform/
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>│   ├── data-cleaner.cs      # Data cleaning
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>│   ├── type-converter.cs    # Type conversion
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>│   └── transformer.cs       # Main transformation logic
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>├── load/
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>│   ├── staging-loader.cs    # Load to staging
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>│   ├── production-loader.cs # Load to production
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>│   └── loader.cs            # Main load logic
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>├── validate/
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>│   ├── record-counter.cs    # Record count validation
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>│   ├── integrity-checker.cs # Integrity validation
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>│   └── reconciler.cs       # Reconciliation
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>└── main/
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    └── migration-orchestrator.cs # Main migration orchestrator
+</code></pre></div>
+<h2 id="data-quality-strategy">Data Quality Strategy</h2>
+<h3 id="data-quality-issues">Data Quality Issues</h3>
+<h4 id="known-issues">Known Issues</h4>
+<ol>
+<li><strong>Orphaned Records:</strong> Detail records without headers</li>
+<li><strong>Invalid References:</strong> Invalid customer/item/vendor codes</li>
+<li><strong>Missing Required Fields:</strong> Empty required fields</li>
+<li><strong>Invalid Data:</strong> Invalid dates, negative quantities</li>
+<li><strong>Duplicates:</strong> Duplicate OE/OC/Invoice numbers</li>
+</ol>
+<h3 id="data-quality-rules">Data Quality Rules</h3>
+<h4 id="validation-rules">Validation Rules</h4>
+<ul>
+<li><strong>Required Fields:</strong> All required fields must be populated</li>
+<li><strong>Data Types:</strong> Values must match expected data types</li>
+<li><strong>Ranges:</strong> Numeric values within valid ranges</li>
+<li><strong>Formats:</strong> Dates, codes in correct format</li>
+<li><strong>Relationships:</strong> All foreign keys must be valid</li>
+</ul>
+<h4 id="data-quality-checks">Data Quality Checks</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">-- Example data quality checks</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1">-- Check for orphaned detail records</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_enquiry_detail</span><span class="w"> </span><span class="n">d</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">order_enquiry_header</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">header_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">h</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1">-- Check for invalid item references</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_enquiry_detail</span><span class="w"> </span><span class="n">d</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">item_no</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">item_no</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1">-- Check for missing required fields</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">order_enquiry_header</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">oe_no</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="n">cust_no</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="data-quality-fixes">Data Quality Fixes</h3>
+<h4 id="pre-migration-fixes">Pre-Migration Fixes</h4>
+<ul>
+<li><strong>Identify Issues:</strong> Run data quality checks</li>
+<li><strong>Fix Issues:</strong> Fix issues in source system (if possible)</li>
+<li><strong>Document:</strong> Document all fixes</li>
+</ul>
+<h4 id="migration-time-fixes">Migration-Time Fixes</h4>
+<ul>
+<li><strong>Default Values:</strong> Apply defaults for missing required fields</li>
+<li><strong>Data Cleaning:</strong> Clean invalid data during transformation</li>
+<li><strong>Flag Issues:</strong> Flag data quality issues for review</li>
+</ul>
+<h2 id="cutover-strategy">Cutover Strategy</h2>
+<h3 id="pre-cutover">Pre-Cutover</h3>
+<h4 id="final-validation">Final Validation</h4>
+<ul>
+<li><strong>Data Validation:</strong> Complete data validation</li>
+<li><strong>Reconciliation:</strong> Final reconciliation report</li>
+<li><strong>User Acceptance:</strong> User acceptance testing</li>
+<li><strong>Backup:</strong> Complete backup of legacy system</li>
+</ul>
+<h4 id="preparation">Preparation</h4>
+<ul>
+<li><strong>Communication:</strong> Notify all users</li>
+<li><strong>Training:</strong> Complete user training</li>
+<li><strong>Support:</strong> Prepare support team</li>
+<li><strong>Rollback Plan:</strong> Prepare rollback procedures</li>
+</ul>
+<h3 id="cutover-execution">Cutover Execution</h3>
+<h4 id="option-a-big-bang-cutover">Option A: Big-Bang Cutover</h4>
+<ol>
+<li><strong>Stop Legacy System:</strong> Stop all users from accessing legacy system</li>
+<li><strong>Final Data Extract:</strong> Extract final data snapshot</li>
+<li><strong>Data Migration:</strong> Execute migration</li>
+<li><strong>Validation:</strong> Validate migrated data</li>
+<li><strong>Go Live:</strong> Enable new system</li>
+<li><strong>Monitor:</strong> Monitor for issues</li>
+</ol>
+<h4 id="option-b-phased-cutover">Option B: Phased Cutover</h4>
+<ol>
+<li><strong>Module 1:</strong> Migrate and enable first module</li>
+<li><strong>Validation:</strong> Validate first module</li>
+<li><strong>Module 2:</strong> Migrate and enable next module</li>
+<li><strong>Repeat:</strong> Continue for all modules</li>
+<li><strong>Final Cutover:</strong> Complete cutover</li>
+</ol>
+<h3 id="post-cutover">Post-Cutover</h3>
+<h4 id="monitoring">Monitoring</h4>
+<ul>
+<li><strong>Data Validation:</strong> Continuous data validation</li>
+<li><strong>Performance:</strong> Monitor system performance</li>
+<li><strong>User Feedback:</strong> Collect user feedback</li>
+<li><strong>Issue Tracking:</strong> Track and resolve issues</li>
+</ul>
+<h4 id="support">Support</h4>
+<ul>
+<li><strong>Help Desk:</strong> Enhanced support during transition</li>
+<li><strong>Documentation:</strong> User guides and FAQs</li>
+<li><strong>Training:</strong> Additional training as needed</li>
+</ul>
+<h2 id="rollback-strategy">Rollback Strategy</h2>
+<h3 id="rollback-triggers">Rollback Triggers</h3>
+<ul>
+<li><strong>Critical Data Loss:</strong> Significant data loss detected</li>
+<li><strong>System Failure:</strong> System failure preventing operations</li>
+<li><strong>User Rejection:</strong> Users cannot use new system</li>
+<li><strong>Business Impact:</strong> Significant negative business impact</li>
+</ul>
+<h3 id="rollback-procedure">Rollback Procedure</h3>
+<ol>
+<li><strong>Stop New System:</strong> Immediately stop new system</li>
+<li><strong>Restore Legacy:</strong> Restore legacy system access</li>
+<li><strong>Data Recovery:</strong> Recover any data changes made in new system</li>
+<li><strong>Communication:</strong> Notify all stakeholders</li>
+<li><strong>Root Cause:</strong> Analyze root cause of rollback</li>
+<li><strong>Remediation:</strong> Fix issues before retry</li>
+</ol>
+<h3 id="rollback-testing">Rollback Testing</h3>
+<ul>
+<li><strong>Test Rollback:</strong> Test rollback procedure</li>
+<li><strong>Documentation:</strong> Document rollback steps</li>
+<li><strong>Training:</strong> Train team on rollback procedure</li>
+</ul>
+<h2 id="migration-timeline">Migration Timeline</h2>
+<h3 id="phase-1-preparation-weeks-1-4">Phase 1: Preparation (Weeks 1-4)</h3>
+<ul>
+<li>Data assessment</li>
+<li>Schema design</li>
+<li>Migration tools development</li>
+<li>Test migration on sample data</li>
+</ul>
+<h3 id="phase-2-development-migration-weeks-5-8">Phase 2: Development Migration (Weeks 5-8)</h3>
+<ul>
+<li>Full migration in development environment</li>
+<li>Validation and reconciliation</li>
+<li>Fix issues and refine process</li>
+</ul>
+<h3 id="phase-3-test-migration-weeks-9-12">Phase 3: Test Migration (Weeks 9-12)</h3>
+<ul>
+<li>Migration in test environment</li>
+<li>User acceptance testing</li>
+<li>Performance testing</li>
+<li>Final validation</li>
+</ul>
+<h3 id="phase-4-production-cutover-week-13">Phase 4: Production Cutover (Week 13)</h3>
+<ul>
+<li>Production migration execution</li>
+<li>Validation</li>
+<li>Go live</li>
+<li>Monitoring and support</li>
+</ul>
+<p><strong>Total Timeline:</strong> ~13 weeks from start to production cutover</p>
+<h2 id="success-criteria">Success Criteria</h2>
+<h3 id="migration-success-metrics">Migration Success Metrics</h3>
+<ul>
+<li>✅ 100% of records migrated</li>
+<li>✅ Zero data loss</li>
+<li>✅ All foreign keys valid</li>
+<li>✅ All business rules satisfied</li>
+<li>✅ Reconciliation report shows 100% match</li>
+<li>✅ User acceptance testing passed</li>
+<li>✅ Performance meets targets</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>The data migration strategy provides a comprehensive approach to migrating 186 tables from Visual FoxPro DBF files to PostgreSQL. The strategy emphasizes data integrity, validation, and minimal business disruption. The phased approach allows for thorough testing and validation before production cutover.</p>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li><strong>Develop Migration Tools:</strong> Build ETL pipeline</li>
+<li><strong>Test on Sample Data:</strong> Validate approach with sample data</li>
+<li><strong>Design Database Schema:</strong> Finalize PostgreSQL schema</li>
+<li><strong>Plan Cutover:</strong> Detailed cutover planning</li>
+<li><strong>Execute Migration:</strong> Begin migration process</li>
+</ol>
+<h2 id="document-references">Document References</h2>
+<ul>
+<li><strong>Target Architecture:</strong> <code>../03-target-state-architecture/</code></li>
+<li><strong>Application Modernization:</strong> <code>../05-application-modernization/</code></li>
+<li><strong>Phased Delivery Plan:</strong> <code>../11-phased-delivery-plan/</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.instant", "navigation.tracking", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../../source/javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

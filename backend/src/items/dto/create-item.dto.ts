@@ -6,24 +6,24 @@ import {
   MinLength,
   Min,
   IsNotEmpty,
-} from 'class-validator'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * Create Item DTO
- * 
+ *
  * Original Logic Reference:
  * - FoxPro Form: iitem.scx (Input Item Detail)
  * - Documentation: docs/source/02-business-processes/master-data-management.md lines 9-163
  * - Data Model: docs/source/01-data-architecture/table-details/master-data-tables.md lines 5-49
- * 
+ *
  * Validation Rules:
  * - item_no must be unique (checked in service)
  * - price must be >= 0
  * - cost must be >= 0
  * - std_code must exist in zstdcode table (checked in service)
  * - origin must exist in zorigin table (checked in service)
- * 
+ *
  * Reference: Task 01-01 - Item Entry Form
  */
 export class CreateItemDto {
@@ -34,7 +34,7 @@ export class CreateItemDto {
   @IsNotEmpty({ message: 'Item Number is required' })
   @IsString()
   @MinLength(1, { message: 'Item Number cannot be empty' })
-  itemNo: string
+  itemNo: string;
 
   @ApiPropertyOptional({
     description: 'Item type/category',
@@ -42,7 +42,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  itemType?: string
+  itemType?: string;
 
   @ApiPropertyOptional({
     description: 'Item creation/update date',
@@ -50,7 +50,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsDateString()
-  date?: string
+  date?: string;
 
   @ApiPropertyOptional({
     description: 'Short item name',
@@ -58,7 +58,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  shortName?: string
+  shortName?: string;
 
   @ApiPropertyOptional({
     description: 'Full description (memo field)',
@@ -66,7 +66,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  desp?: string
+  desp?: string;
 
   @ApiPropertyOptional({
     description: 'Country of origin',
@@ -74,7 +74,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  origin?: string
+  origin?: string;
 
   @ApiPropertyOptional({
     description: 'Group/class code',
@@ -82,7 +82,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  grpCode?: string
+  grpCode?: string;
 
   @ApiPropertyOptional({
     description: 'Material description',
@@ -90,7 +90,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  material?: string
+  material?: string;
 
   @ApiPropertyOptional({
     description: 'UPC barcode number',
@@ -98,7 +98,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  upcNo?: string
+  upcNo?: string;
 
   @ApiPropertyOptional({
     description: 'HTC/Harmonized Tariff Code',
@@ -106,7 +106,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  htcNo?: string
+  htcNo?: string;
 
   @ApiPropertyOptional({
     description: 'Standard code (links to zstdcode)',
@@ -114,7 +114,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  stdCode?: string
+  stdCode?: string;
 
   @ApiPropertyOptional({
     description: 'Standard price',
@@ -123,7 +123,7 @@ export class CreateItemDto {
   @IsOptional()
   @IsNumber()
   @Min(0, { message: 'Price Must Be Positive' })
-  price?: number
+  price?: number;
 
   @ApiPropertyOptional({
     description: 'Price currency code',
@@ -131,16 +131,16 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  priceCur?: string
+  priceCur?: string;
 
   @ApiPropertyOptional({
     description: 'Cost',
-    example: 10.50,
+    example: 10.5,
   })
   @IsOptional()
   @IsNumber()
   @Min(0, { message: 'Cost Must Be Positive' })
-  cost?: number
+  cost?: number;
 
   @ApiPropertyOptional({
     description: 'Pack pieces level 1',
@@ -148,7 +148,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  packPc1?: number
+  packPc1?: number;
 
   @ApiPropertyOptional({
     description: 'Pack description level 1',
@@ -156,7 +156,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  packDesp1?: string
+  packDesp1?: string;
 
   @ApiPropertyOptional({
     description: 'Pack pieces level 2',
@@ -164,7 +164,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  packPc2?: number
+  packPc2?: number;
 
   @ApiPropertyOptional({
     description: 'Pack description level 2',
@@ -172,7 +172,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  packDesp2?: string
+  packDesp2?: string;
 
   @ApiPropertyOptional({
     description: 'Pack pieces level 3',
@@ -180,7 +180,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  packPc3?: number
+  packPc3?: number;
 
   @ApiPropertyOptional({
     description: 'Pack description level 3',
@@ -188,7 +188,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  packDesp3?: string
+  packDesp3?: string;
 
   @ApiPropertyOptional({
     description: 'Pack pieces level 4',
@@ -196,7 +196,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  packPc4?: number
+  packPc4?: number;
 
   @ApiPropertyOptional({
     description: 'Pack description level 4',
@@ -204,7 +204,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  packDesp4?: string
+  packDesp4?: string;
 
   @ApiPropertyOptional({
     description: 'Weight',
@@ -212,7 +212,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  wt?: number
+  wt?: number;
 
   @ApiPropertyOptional({
     description: 'Net weight',
@@ -220,7 +220,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  net?: number
+  net?: number;
 
   @ApiPropertyOptional({
     description: 'Cube measurement',
@@ -228,7 +228,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  cube?: number
+  cube?: number;
 
   @ApiPropertyOptional({
     description: 'Dimensions',
@@ -236,7 +236,7 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsString()
-  dim?: string
+  dim?: string;
 
   @ApiPropertyOptional({
     description: 'Duty rate',
@@ -244,6 +244,5 @@ export class CreateItemDto {
   })
   @IsOptional()
   @IsNumber()
-  duty?: number
+  duty?: number;
 }
-

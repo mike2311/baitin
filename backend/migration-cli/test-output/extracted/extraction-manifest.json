@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "timestamp": "2025-12-21T16:13:22.678Z",
+  "sourceDirectory": "C:\\github\\baitin\\source",
+  "outputDirectory": "test-output/extracted",
+  "results": [
+    {
+      "table": "moe",
+      "rowCount": 156835,
+      "timestamp": "2025-12-21T16:13:22.677Z",
+      "sourcePath": "C:\\github\\baitin\\source\\moe.DBF",
+      "outputPath": "test-output\\extracted\\moe.csv",
+      "checksum": "ae9576502f6b1468e834fa15bfa6d75e3ee8686ba8e36e7ccdb7dab08f018cb4",
+      "rejectedCount": 0
+    }
+  ],
+  "totalTables": 1,
+  "totalRows": 156835
+}

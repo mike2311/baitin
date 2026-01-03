@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { DataQualityController } from './data-quality.controller'
-import { DataQualityService } from './data-quality.service'
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataQualityController } from './data-quality.controller';
+import { DataQualityService } from './data-quality.service';
 
 /**
  * Data Quality Module
- * 
+ *
  * Provides endpoints for data quality management, including:
  * - Tracking orphaned records
  * - Reviewing and resolving data quality issues
@@ -20,4 +20,3 @@ import { DataQualityService } from './data-quality.service'
   exports: [DataQualityService],
 })
 export class DataQualityModule {}
-

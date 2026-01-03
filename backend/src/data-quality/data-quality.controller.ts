@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
   ParseIntPipe,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -17,15 +17,15 @@ import {
   ApiParam,
   ApiQuery,
   ApiBody,
-} from '@nestjs/swagger'
-import { DataQualityService } from './data-quality.service'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+} from '@nestjs/swagger';
+import { DataQualityService } from './data-quality.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Data Quality Controller
- * 
+ *
  * REST API endpoints for data quality management.
- * 
+ *
  * Endpoints:
  * - GET /api/data-quality/summary - Get summary statistics
  * - GET /api/data-quality/issues - List all issues
@@ -47,7 +47,7 @@ export class DataQualityController {
     description: 'Data quality summary',
   })
   async getSummary() {
-    return await this.dataQualityService.getSummary()
+    return await this.dataQualityService.getSummary();
   }
 
   @Get('issues')
@@ -55,14 +55,15 @@ export class DataQualityController {
   @ApiQuery({
     name: 'status',
     required: false,
-    description: 'Filter by status (pending, in_review, resolved, approved_as_is)',
+    description:
+      'Filter by status (pending, in_review, resolved, approved_as_is)',
   })
   @ApiResponse({
     status: 200,
     description: 'List of data quality issues',
   })
   async getIssues(@Query('status') status?: string) {
-    return await this.dataQualityService.getIssues(status)
+    return await this.dataQualityService.getIssues(status);
   }
 
   @Get('issues/:id')
@@ -80,7 +81,7 @@ export class DataQualityController {
     description: 'Issue not found',
   })
   async getIssue(@Param('id', ParseIntPipe) id: number) {
-    return await this.dataQualityService.getIssue(id)
+    return await this.dataQualityService.getIssue(id);
   }
 
   @Put('issues/:id')
@@ -112,14 +113,14 @@ export class DataQualityController {
   })
   async updateIssue(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: { status: string; notes?: string; resolvedBy?: string }
+    @Body() updateDto: { status: string; notes?: string; resolvedBy?: string },
   ) {
     return await this.dataQualityService.updateIssue(
       id,
       updateDto.status,
       updateDto.notes,
-      updateDto.resolvedBy
-    )
+      updateDto.resolvedBy,
+    );
   }
 
   @Post('issues/:id/resolve')
@@ -147,13 +148,12 @@ export class DataQualityController {
   })
   async resolveIssue(
     @Param('id', ParseIntPipe) id: number,
-    @Body() resolveDto: { notes?: string; resolvedBy?: string }
+    @Body() resolveDto: { notes?: string; resolvedBy?: string },
   ) {
     return await this.dataQualityService.resolveIssue(
       id,
       resolveDto.notes,
-      resolveDto.resolvedBy
-    )
+      resolveDto.resolvedBy,
+    );
   }
 }
-

@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
   Request,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -17,23 +17,23 @@ import {
   ApiBearerAuth,
   ApiQuery,
   ApiParam,
-} from '@nestjs/swagger'
-import { ItemsService } from './items.service'
-import { CreateItemDto } from './dto/create-item.dto'
-import { UpdateItemDto } from './dto/update-item.dto'
-import { ItemSearchResponseDto } from './dto/item-search-response.dto'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+} from '@nestjs/swagger';
+import { ItemsService } from './items.service';
+import { CreateItemDto } from './dto/create-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
+import { ItemSearchResponseDto } from './dto/item-search-response.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Items Controller
- * 
+ *
  * Implements REST API endpoints for item master data management.
  * All endpoints require JWT authentication.
- * 
+ *
  * Original Logic Reference:
  * - FoxPro Form: iitem.scx (Input Item Detail)
  * - Documentation: docs/source/02-business-processes/master-data-management.md lines 9-163
- * 
+ *
  * API Endpoints:
  * - GET /api/items - List items with filtering
  * - GET /api/items/search - Search items for lookup
@@ -41,7 +41,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
  * - POST /api/items - Create new item
  * - PUT /api/items/:itemNo - Update existing item
  * - DELETE /api/items/:itemNo - Delete item
- * 
+ *
  * Reference: Task 01-01 - Item Entry Form
  */
 @ApiTags('items')
@@ -53,17 +53,17 @@ export class ItemsController {
 
   /**
    * Create new item
-   * 
+   *
    * Original Logic Reference:
    * - Business Process: docs/source/02-business-processes/master-data-management.md lines 125-137
-   * 
+   *
    * Business Flow:
    * 1. User enters item number
    * 2. System checks uniqueness
    * 3. User enters item details
    * 4. Validates std_code and origin
    * 5. Creates record with audit fields
-   * 
+   *
    * @param createItemDto - Item data
    * @param req - Request object (contains user)
    * @returns Created item
@@ -79,22 +79,22 @@ export class ItemsController {
     description: 'Validation error (e.g., Item Number Already Exists)',
   })
   async create(@Body() createItemDto: CreateItemDto, @Request() req) {
-    const userId = req.user?.username || 'system'
-    return await this.itemsService.create(createItemDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.itemsService.create(createItemDto, userId);
   }
 
   /**
    * Get all items with filtering and pagination
-   * 
+   *
    * Original Logic Reference:
    * - List views in original system
    * - Documentation: Task 01-03 - Item List with Filtering
-   * 
+   *
    * Features:
    * - Filter by item_no, short_name, std_code
    * - Pagination
    * - Sorting by item_no
-   * 
+   *
    * @param page - Page number (default 1)
    * @param limit - Items per page (default 50)
    * @param filter - Search filter
@@ -133,21 +133,21 @@ export class ItemsController {
       page ? Number(page) : 1,
       limit ? Number(limit) : 50,
       filter,
-    )
+    );
   }
 
   /**
    * Search items for lookup/type-to-search
-   * 
+   *
    * Original Logic Reference:
    * - Lookup forms in original system
    * - UX Strategy: docs/modernization-strategy/06-ux-ui-strategy/ux-ui-strategy.md
-   * 
+   *
    * Features:
    * - Type-to-search with debouncing
    * - Display item_no and short_name
    * - Performance: < 200ms response time
-   * 
+   *
    * @param q - Search query
    * @param limit - Max results (default 20)
    * @returns Search results
@@ -172,12 +172,12 @@ export class ItemsController {
     type: [ItemSearchResponseDto],
   })
   async search(@Query('q') query: string, @Query('limit') limit?: number) {
-    return await this.itemsService.search(query, limit ? Number(limit) : 20)
+    return await this.itemsService.search(query, limit ? Number(limit) : 20);
   }
 
   /**
    * Get item by item number
-   * 
+   *
    * @param itemNo - Item number
    * @returns Item details
    */
@@ -197,21 +197,21 @@ export class ItemsController {
     description: 'Item not found',
   })
   async findOne(@Param('itemNo') itemNo: string) {
-    return await this.itemsService.findOne(itemNo)
+    return await this.itemsService.findOne(itemNo);
   }
 
   /**
    * Update item
-   * 
+   *
    * Original Logic Reference:
    * - Business Process: docs/source/02-business-processes/master-data-management.md lines 139-148
-   * 
+   *
    * Business Flow:
    * 1. User selects existing item
    * 2. Modifies fields
    * 3. Validates std_code and origin if changed
    * 4. Updates with mod_date and mod_user
-   * 
+   *
    * @param itemNo - Item number
    * @param updateItemDto - Updated item data
    * @param req - Request object (contains user)
@@ -241,13 +241,13 @@ export class ItemsController {
     @Body() updateItemDto: UpdateItemDto,
     @Request() req,
   ) {
-    const userId = req.user?.username || 'system'
-    return await this.itemsService.update(itemNo, updateItemDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.itemsService.update(itemNo, updateItemDto, userId);
   }
 
   /**
    * Delete item
-   * 
+   *
    * @param itemNo - Item number
    */
   @Delete(':itemNo')
@@ -266,8 +266,7 @@ export class ItemsController {
     description: 'Item not found',
   })
   async remove(@Param('itemNo') itemNo: string) {
-    await this.itemsService.remove(itemNo)
-    return { message: 'Item deleted successfully' }
+    await this.itemsService.remove(itemNo);
+    return { message: 'Item deleted successfully' };
   }
 }
-

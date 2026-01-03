@@ -1,0 +1,79 @@
+{
+  "tables": [
+    {
+      "legacyTable": "zstdcode",
+      "targetTable": "zstdcode",
+      "loadOrder": 1,
+      "loadStrategy": "truncate",
+      "primaryKey": "std_code",
+      "dependencies": [],
+      "notes": "Reference table for standard codes used in item master"
+    },
+    {
+      "legacyTable": "zorigin",
+      "targetTable": "zorigin",
+      "loadOrder": 1,
+      "loadStrategy": "truncate",
+      "primaryKey": "origin",
+      "dependencies": [],
+      "notes": "Reference table for country of origin codes used in item master"
+    },
+    {
+      "legacyTable": "mitem",
+      "targetTable": "item",
+      "loadOrder": 2,
+      "loadStrategy": "truncate",
+      "primaryKey": "item_no",
+      "dependencies": ["zstdcode", "zorigin"],
+      "notes": "Item master data. Includes memo field (desp) stored in FPT file. File size: 11MB DBF + 24MB FPT"
+    },
+    {
+      "legacyTable": "mcustom",
+      "targetTable": "customer",
+      "loadOrder": 2,
+      "loadStrategy": "truncate",
+      "primaryKey": "cust_no",
+      "dependencies": [],
+      "notes": "Customer master data. Includes memo fields stored in FPT file. File size: 576KB DBF + 394KB FPT"
+    },
+    {
+      "legacyTable": "mvendor",
+      "targetTable": "vendor",
+      "loadOrder": 2,
+      "loadStrategy": "truncate",
+      "primaryKey": "vendor_no",
+      "dependencies": [],
+      "notes": "Vendor master data. Type field: 1=Vendor, 2=Maker. File size: 228KB"
+    },
+    {
+      "legacyTable": "moectrl",
+      "targetTable": "order_enquiry_control",
+      "loadOrder": 3,
+      "loadStrategy": "truncate",
+      "primaryKey": "oe_no",
+      "dependencies": ["customer"],
+      "notes": "OE Control - validation checkpoint before OE creation. Special case: INSP company adds 'IN-' prefix automatically"
+    },
+    {
+      "legacyTable": "moehd",
+      "targetTable": "order_enquiry_header",
+      "loadOrder": 3,
+      "loadStrategy": "truncate",
+      "primaryKey": "oe_no",
+      "dependencies": ["customer"],
+      "notes": "Order Enquiry header records. References customer via cust_no"
+    },
+    {
+      "legacyTable": "moe",
+      "targetTable": "order_enquiry_detail",
+      "loadOrder": 3,
+      "loadStrategy": "truncate",
+      "primaryKey": "oe_no",
+      "uniqueKeys": ["oe_no", "line_no"],
+      "dependencies": ["order_enquiry_header", "item", "vendor"],
+      "notes": "Order Enquiry detail/line items. References OE header (oe_no), item (item_no), and vendor (vendor_no). Composite key: oe_no + line_no"
+    }
+  ]
+}
+
+

@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
   Request,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -17,18 +17,18 @@ import {
   ApiBearerAuth,
   ApiQuery,
   ApiParam,
-} from '@nestjs/swagger'
-import { CustomersService } from './customers.service'
-import { CreateCustomerDto } from './dto/create-customer.dto'
-import { UpdateCustomerDto } from './dto/update-customer.dto'
-import { CustomerSearchResponseDto } from './dto/customer-search-response.dto'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+} from '@nestjs/swagger';
+import { CustomersService } from './customers.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CustomerSearchResponseDto } from './dto/customer-search-response.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Customers Controller
- * 
+ *
  * Implements REST API endpoints for customer master data management.
- * 
+ *
  * Reference: Task 02-01 - Customer Entry Form
  */
 @ApiTags('customers')
@@ -49,8 +49,8 @@ export class CustomersController {
     description: 'Validation error',
   })
   async create(@Body() createCustomerDto: CreateCustomerDto, @Request() req) {
-    const userId = req.user?.username || 'system'
-    return await this.customersService.create(createCustomerDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.customersService.create(createCustomerDto, userId);
   }
 
   @Get()
@@ -79,7 +79,7 @@ export class CustomersController {
       page ? Number(page) : 1,
       limit ? Number(limit) : 50,
       filter,
-    )
+    );
   }
 
   @Get('search')
@@ -99,7 +99,10 @@ export class CustomersController {
     type: [CustomerSearchResponseDto],
   })
   async search(@Query('q') query: string, @Query('limit') limit?: number) {
-    return await this.customersService.search(query, limit ? Number(limit) : 20)
+    return await this.customersService.search(
+      query,
+      limit ? Number(limit) : 20,
+    );
   }
 
   @Get(':custNo')
@@ -109,7 +112,7 @@ export class CustomersController {
     description: 'Customer number',
   })
   async findOne(@Param('custNo') custNo: string) {
-    return await this.customersService.findOne(custNo)
+    return await this.customersService.findOne(custNo);
   }
 
   @Put(':custNo')
@@ -123,8 +126,12 @@ export class CustomersController {
     @Body() updateCustomerDto: UpdateCustomerDto,
     @Request() req,
   ) {
-    const userId = req.user?.username || 'system'
-    return await this.customersService.update(custNo, updateCustomerDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.customersService.update(
+      custNo,
+      updateCustomerDto,
+      userId,
+    );
   }
 
   @Delete(':custNo')
@@ -134,8 +141,7 @@ export class CustomersController {
     description: 'Customer number',
   })
   async remove(@Param('custNo') custNo: string) {
-    await this.customersService.remove(custNo)
-    return { message: 'Customer deleted successfully' }
+    await this.customersService.remove(custNo);
+    return { message: 'Customer deleted successfully' };
   }
 }
-

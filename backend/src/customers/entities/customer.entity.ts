@@ -5,22 +5,22 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
-} from 'typeorm'
+} from 'typeorm';
 
 /**
  * Customer Entity
- * 
+ *
  * Represents customer master data in the system.
- * 
+ *
  * Original Logic Reference:
  * - Legacy Table: mcustom (DBF)
  * - Documentation: docs/01-data-architecture/table-details/master-data-tables.md lines 136-177
  * - File Size: 576KB DBF + 394KB FPT
- * 
+ *
  * Business Rules:
  * - cust_no must be unique
  * - Used for validation during OE import
- * 
+ *
  * Reference: Task 03-01 - Master Data Tables Schema
  */
 @Entity('customer')
@@ -28,73 +28,71 @@ import {
 @Index(['ename'])
 export class Customer {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ name: 'cust_no', type: 'varchar', length: 50, unique: true })
-  custNo: string
+  custNo: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  ename: string
+  ename: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  sname: string
+  sname: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  cname: string
+  cname: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  addr1: string
+  addr1: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  addr2: string
+  addr2: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  addr3: string
+  addr3: string;
 
   @Column({ type: 'varchar', length: 200, nullable: true })
-  addr4: string
+  addr4: string;
 
   @Column({ name: 'cont_name', type: 'varchar', length: 100, nullable: true })
-  contName: string
+  contName: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  tel: string
+  tel: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  tel2: string
+  tel2: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  fax: string
+  fax: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  fax2: string
+  fax2: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  email: string
+  email: string;
 
   @Column({ name: 'show_sub_item_detail', type: 'boolean', default: false })
-  showSubItemDetail: boolean
+  showSubItemDetail: boolean;
 
   @Column({ name: 'cre_date', type: 'date', nullable: true })
-  creDate: Date
+  creDate: Date;
 
   @Column({ name: 'cre_user', type: 'varchar', length: 50, nullable: true })
-  creUser: string
+  creUser: string;
 
   @Column({ name: 'mod_date', type: 'date', nullable: true })
-  modDate: Date
+  modDate: Date;
 
   @Column({ name: 'mod_user', type: 'varchar', length: 50, nullable: true })
-  modUser: string
+  modUser: string;
 
   @Column({ name: 'user_id', type: 'varchar', length: 50, nullable: true })
-  userId: string
+  userId: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date
+  updatedAt: Date;
 }
-
-

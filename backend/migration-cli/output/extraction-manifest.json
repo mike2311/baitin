@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "timestamp": "2025-12-20T06:58:34.922Z",
+  "sourceDirectory": "../../source",
+  "outputDirectory": "./output",
+  "results": [
+    {
+      "table": "zstdcode",
+      "rowCount": 27,
+      "timestamp": "2025-12-20T06:58:34.919Z",
+      "sourcePath": "..\\..\\source\\zstdcode.dbf",
+      "outputPath": "output\\zstdcode.csv",
+      "checksum": "a43265da729c22b552fb42405ba5a16f419ad12c3c9625361672923bced4d621",
+      "rejectedCount": 0
+    },
+    {
+      "table": "zorigin",
+      "rowCount": 4,
+      "timestamp": "2025-12-20T06:58:34.922Z",
+      "sourcePath": "..\\..\\source\\zorigin.dbf",
+      "outputPath": "output\\zorigin.csv",
+      "checksum": "937916a5a8c2526525311bcf6f8ebf415431ddadafb74ea3ecc2b6e70b4038b0",
+      "rejectedCount": 0
+    }
+  ],
+  "totalTables": 2,
+  "totalRows": 31
+}

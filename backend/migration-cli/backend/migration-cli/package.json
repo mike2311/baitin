@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "baitin-migration-cli": "file:../.."
+  }
+}

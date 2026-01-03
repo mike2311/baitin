@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
   Request,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -17,18 +17,18 @@ import {
   ApiBearerAuth,
   ApiQuery,
   ApiParam,
-} from '@nestjs/swagger'
-import { VendorsService } from './vendors.service'
-import { CreateVendorDto } from './dto/create-vendor.dto'
-import { UpdateVendorDto } from './dto/update-vendor.dto'
-import { VendorSearchResponseDto } from './dto/vendor-search-response.dto'
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+} from '@nestjs/swagger';
+import { VendorsService } from './vendors.service';
+import { CreateVendorDto } from './dto/create-vendor.dto';
+import { UpdateVendorDto } from './dto/update-vendor.dto';
+import { VendorSearchResponseDto } from './dto/vendor-search-response.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Vendors Controller
- * 
+ *
  * Implements REST API endpoints for vendor master data management.
- * 
+ *
  * Reference: Task 03-01 - Vendor Entry Form
  */
 @ApiTags('vendors')
@@ -41,8 +41,8 @@ export class VendorsController {
   @Post()
   @ApiOperation({ summary: 'Create new vendor' })
   async create(@Body() createVendorDto: CreateVendorDto, @Request() req) {
-    const userId = req.user?.username || 'system'
-    return await this.vendorsService.create(createVendorDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.vendorsService.create(createVendorDto, userId);
   }
 
   @Get()
@@ -62,7 +62,7 @@ export class VendorsController {
       limit ? Number(limit) : 50,
       filter,
       type ? Number(type) : undefined,
-    )
+    );
   }
 
   @Get('search')
@@ -74,14 +74,14 @@ export class VendorsController {
     type: [VendorSearchResponseDto],
   })
   async search(@Query('q') query: string, @Query('limit') limit?: number) {
-    return await this.vendorsService.search(query, limit ? Number(limit) : 20)
+    return await this.vendorsService.search(query, limit ? Number(limit) : 20);
   }
 
   @Get(':vendorNo')
   @ApiOperation({ summary: 'Get vendor by vendor number' })
   @ApiParam({ name: 'vendorNo', description: 'Vendor number' })
   async findOne(@Param('vendorNo') vendorNo: string) {
-    return await this.vendorsService.findOne(vendorNo)
+    return await this.vendorsService.findOne(vendorNo);
   }
 
   @Put(':vendorNo')
@@ -92,16 +92,15 @@ export class VendorsController {
     @Body() updateVendorDto: UpdateVendorDto,
     @Request() req,
   ) {
-    const userId = req.user?.username || 'system'
-    return await this.vendorsService.update(vendorNo, updateVendorDto, userId)
+    const userId = req.user?.username || 'system';
+    return await this.vendorsService.update(vendorNo, updateVendorDto, userId);
   }
 
   @Delete(':vendorNo')
   @ApiOperation({ summary: 'Delete vendor' })
   @ApiParam({ name: 'vendorNo', description: 'Vendor number' })
   async remove(@Param('vendorNo') vendorNo: string) {
-    await this.vendorsService.remove(vendorNo)
-    return { message: 'Vendor deleted successfully' }
+    await this.vendorsService.remove(vendorNo);
+    return { message: 'Vendor deleted successfully' };
   }
 }
-
