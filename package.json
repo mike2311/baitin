@@ -6,20 +6,14 @@
   "scripts": {
     "prepare": "husky install",
     "pre-commit-check": "node scripts/pre-commit-check.js",
-    "pre-push-check": "node scripts/pre-push-check.js"
+    "pre-push-check": "node scripts/pre-push-check.js",
+    "lint:frontend": "cd frontend && npm run lint -- --fix",
+    "type-check:frontend": "cd frontend && npm run type-check",
+    "lint:backend": "cd backend && npm run lint -- --fix",
+    "build:backend": "cd backend && npm run build"
   },
   "devDependencies": {
     "husky": "^8.0.3",
     "lint-staged": "^15.5.2"
-  },
-  "lint-staged": {
-    "frontend/**/*.{ts,tsx}": [
-      "cd frontend && npm run lint -- --fix",
-      "cd frontend && npm run type-check"
-    ],
-    "backend/**/*.ts": [
-      "cd backend && npm run lint -- --fix",
-      "cd backend && npm run build"
-    ]
   }
 }

@@ -1,12 +1,14 @@
-import { Controller, Get } from '@nestjs/common'
-import { AppService } from './app.service'
-import { ApiTags, ApiOperation } from '@nestjs/swagger'
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+
+// Test comment to verify pre-commit hook
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 /**
  * Root Application Controller
- * 
+ *
  * Provides health check and basic API information.
- * 
+ *
  * Reference: Task 02-02 - API Foundation
  */
 @ApiTags('Health')
@@ -17,14 +19,12 @@ export class AppController {
   @Get()
   @ApiOperation({ summary: 'API root endpoint' })
   getHello(): string {
-    return this.appService.getHello()
+    return this.appService.getHello();
   }
 
   @Get('health')
   @ApiOperation({ summary: 'Health check endpoint' })
   getHealth() {
-    return this.appService.getHealth()
+    return this.appService.getHealth();
   }
 }
-
-
