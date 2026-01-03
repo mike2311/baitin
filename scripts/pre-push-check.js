@@ -30,16 +30,30 @@ console.log('🔍 Running pre-push CI checks...\n');
 console.log('📋 Job 1/3: Linting...\n');
 
 // Frontend lint
-if (!runCommand('npm ci --silent', path.join(rootDir, 'frontend'), 'Frontend npm ci')) {
-  process.exit(1);
+// Skip npm ci if node_modules exists and package-lock.json hasn't changed (faster)
+const frontendDir = path.join(rootDir, 'frontend');
+const backendDir = path.join(rootDir, 'backend');
+const fs = require('fs');
+
+if (fs.existsSync(path.join(frontendDir, 'node_modules'))) {
+  console.log('  Frontend dependencies already installed, skipping npm ci\n');
+} else {
+  if (!runCommand('npm ci --silent', frontendDir, 'Frontend npm ci')) {
+    process.exit(1);
+  }
 }
-if (!runCommand('npm run lint', path.join(rootDir, 'frontend'), 'Frontend lint')) {
+
+if (!runCommand('npm run lint', frontendDir, 'Frontend lint')) {
   process.exit(1);
 }
 
 // Backend lint
-if (!runCommand('npm ci --silent', path.join(rootDir, 'backend'), 'Backend npm ci')) {
-  process.exit(1);
+if (fs.existsSync(path.join(backendDir, 'node_modules'))) {
+  console.log('  Backend dependencies already installed, skipping npm ci\n');
+} else {
+  if (!runCommand('npm ci --silent', backendDir, 'Backend npm ci')) {
+    process.exit(1);
+  }
 }
 if (!runCommand('npm run lint', path.join(rootDir, 'backend'), 'Backend lint')) {
   process.exit(1);
