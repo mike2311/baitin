@@ -48,8 +48,11 @@ if (!runCommand('npm run lint', frontendDir, 'Frontend lint')) {
 }
 
 // Backend lint
-// Check if eslint exists (key dependency for linting)
-if (fs.existsSync(path.join(backendDir, 'node_modules', 'eslint'))) {
+// Check if eslint binary exists (more reliable than checking package dir)
+const eslintBin = process.platform === 'win32' 
+  ? path.join(backendDir, 'node_modules', '.bin', 'eslint.cmd')
+  : path.join(backendDir, 'node_modules', '.bin', 'eslint');
+if (fs.existsSync(eslintBin)) {
   console.log('  Backend dependencies already installed, skipping npm ci\n');
 } else {
   if (!runCommand('npm ci --silent', backendDir, 'Backend npm ci')) {
