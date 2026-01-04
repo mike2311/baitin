@@ -70,6 +70,75 @@ export default function DashboardPage() {
               <h3 className="text-lg font-semibold mb-2">📋 Reference Data (Migration)</h3>
               <p className="text-gray-600 text-sm">View migrated reference data for validation</p>
             </button>
+
+            <button
+              onClick={() => navigate('/bom')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">🧩 BOM Management</h3>
+              <p className="text-gray-600 text-sm">Manage product BOM definitions</p>
+            </button>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-6">Order Enquiry</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              onClick={() => navigate('/order-enquiry/qty-breakdown')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">🧮 Qty Breakdown</h3>
+              <p className="text-gray-600 text-sm">Enter and edit OE quantity breakdowns</p>
+            </button>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-6">Order Confirmation</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              onClick={() => navigate('/order-confirmation/post')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">✅ Post OE to OC</h3>
+              <p className="text-gray-600 text-sm">Create Order Confirmations from posted OEs</p>
+            </button>
+            <button
+              onClick={() => navigate('/order-confirmation/entry')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📝 OC Entry</h3>
+              <p className="text-gray-600 text-sm">Create and edit Order Confirmations</p>
+            </button>
+            <button
+              onClick={() => navigate('/order-confirmation/enquiry')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">🔎 OC Enquiry</h3>
+              <p className="text-gray-600 text-sm">Search OCs and view a basic report</p>
+            </button>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-6">Contract</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              onClick={() => navigate('/contract/generate')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📄 Generate Contract</h3>
+              <p className="text-gray-600 text-sm">Generate contracts from OC (group by vendor)</p>
+            </button>
+            <button
+              onClick={() => navigate('/contract/entry')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📝 Contract Entry</h3>
+              <p className="text-gray-600 text-sm">Create and edit contracts</p>
+            </button>
+            <button
+              onClick={() => navigate('/contract/enquiry')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">🔎 Contract Enquiry</h3>
+              <p className="text-gray-600 text-sm">Search contracts and view a basic report</p>
+            </button>
           </div>
         </div>
       </main>

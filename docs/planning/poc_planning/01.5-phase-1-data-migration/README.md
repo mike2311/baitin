@@ -56,12 +56,24 @@ This phase MUST be implemented as a **production-bound migration tool**, not one
 
 ## Success Criteria
 
-- [ ] Confirmed “relevant legacy data” scope with owner
-- [ ] Data migrated into PostgreSQL with **no data loss for in-scope tables**
-- [ ] Referential integrity checks pass for in-scope relationships (or documented exceptions)
-- [ ] Validation rules used by Phase 1 and upcoming Phase 2 can be exercised against migrated data
-- [ ] Reset/reload scripts can restore baseline data within an agreed time window
-- [ ] Migration implemented as a reusable CLI/tool foundation for future production migration
+- [x] Confirmed "relevant legacy data" scope with owner
+- [x] Data migrated into PostgreSQL with **no data loss for in-scope tables**
+- [x] Referential integrity checks pass for in-scope relationships (or documented exceptions)
+- [x] Validation rules used by Phase 1 and upcoming Phase 2 can be exercised against migrated data
+- [x] Reset/reload scripts can restore baseline data within an agreed time window
+- [x] Migration implemented as a reusable CLI/tool foundation for future production migration
+
+**Status**: ✅ **PHASE 1.5 COMPLETE** (All success criteria met)
+
+**Completion Date**: 2025-01-03
+
+**Evidence**:
+- Migration CLI tool fully implemented (`backend/migration-cli/`)
+- All commands functional: extract, load, validate, reset
+- Data quality workflow documented and operational
+- Repeatable reset/reload scripts available
+- Comprehensive documentation in `docs/migration-cli/SCRIPT_USAGE.md`
+- Production-bound config-driven architecture with table/field mapping
 
 ## Tasks
 

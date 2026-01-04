@@ -17,8 +17,18 @@ import { Vendor } from './vendors/entities/vendor.entity';
 import { OrderEnquiryControl } from './order-enquiry/entities/order-enquiry-control.entity';
 import { OrderEnquiryHeader } from './order-enquiry/entities/order-enquiry-header.entity';
 import { OrderEnquiryDetail } from './order-enquiry/entities/order-enquiry-detail.entity';
+import { OrderEnquiryQtyBreakdown } from './order-enquiry/entities/order-enquiry-qty-breakdown.entity';
+import { ProductBom } from './order-enquiry/entities/product-bom.entity';
+import { OrderConfirmationHeader } from './order-confirmation/entities/order-confirmation-header.entity';
+import { OrderConfirmationDetail } from './order-confirmation/entities/order-confirmation-detail.entity';
+import { ContractHeader } from './contract/entities/contract-header.entity';
+import { ContractDetail } from './contract/entities/contract-detail.entity';
 import { Zstdcode } from './reference/entities/zstdcode.entity';
 import { Zorigin } from './reference/entities/zorigin.entity';
+import { OrderEnquiryModule } from './order-enquiry/order-enquiry.module';
+import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
+import { ContractModule } from './contract/contract.module';
+import { BomModule } from './bom/bom.module';
 
 /**
  * Root Application Module
@@ -78,6 +88,12 @@ import { Zorigin } from './reference/entities/zorigin.entity';
             OrderEnquiryControl,
             OrderEnquiryHeader,
             OrderEnquiryDetail,
+            OrderEnquiryQtyBreakdown,
+            ProductBom,
+            OrderConfirmationHeader,
+            OrderConfirmationDetail,
+            ContractHeader,
+            ContractDetail,
             Zstdcode,
             Zorigin,
           ],
@@ -100,6 +116,10 @@ import { Zorigin } from './reference/entities/zorigin.entity';
     VendorsModule,
     ReferenceModule,
     DataQualityModule,
+    OrderEnquiryModule,
+    OrderConfirmationModule,
+    ContractModule,
+    BomModule,
   ],
   controllers: [AppController],
   providers: [AppService],

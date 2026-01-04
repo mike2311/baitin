@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Customer } from '../../customers/entities/customer.entity';
 import { OrderEnquiryDetail } from './order-enquiry-detail.entity';
+import { OrderEnquiryQtyBreakdown } from './order-enquiry-qty-breakdown.entity';
 
 /**
  * Order Enquiry Header Entity
@@ -75,6 +76,11 @@ export class OrderEnquiryHeader {
     cascade: true,
   })
   details: OrderEnquiryDetail[];
+
+  @OneToMany(() => OrderEnquiryQtyBreakdown, (brk) => brk.header, {
+    cascade: false,
+  })
+  qtyBreakdowns: OrderEnquiryQtyBreakdown[];
 
   @Column({ name: 'cre_date', type: 'date', nullable: true })
   creDate: Date;
