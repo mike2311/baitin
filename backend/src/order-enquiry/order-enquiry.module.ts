@@ -9,11 +9,17 @@ import { OrderEnquiryImportController } from './order-enquiry-import.controller'
 import { OrderEnquiryImportService } from './order-enquiry-import.service';
 import { OrderEnquiryQtyBreakdownController } from './order-enquiry-qty-breakdown.controller';
 import { OrderEnquiryQtyBreakdownService } from './order-enquiry-qty-breakdown.service';
+import { OrderEnquiryControlController } from './order-enquiry-control.controller';
+import { OrderEnquiryControlService } from './order-enquiry-control.service';
+import { OrderEnquiryController } from './order-enquiry.controller';
+import { OrderEnquiryService } from './order-enquiry.service';
 import { ExcelImportFormatDetector } from './excel-import/excel-import-format-detector';
 import { ExcelImportParserRegistry } from './excel-import/excel-import-parser-registry';
 import { Csv2013Parser } from './excel-import/parsers/csv-2013.parser';
 import { XlsxGenericParser } from './excel-import/parsers/xlsx-generic.parser';
 import { BomService } from '../shared/services/bom.service';
+import { Customer } from '../customers/entities/customer.entity';
+import { Item } from '../items/entities/item.entity';
 
 @Module({
   imports: [
@@ -23,15 +29,21 @@ import { BomService } from '../shared/services/bom.service';
       OrderEnquiryDetail,
       OrderEnquiryQtyBreakdown,
       ProductBom,
+      Customer,
+      Item,
     ]),
   ],
   controllers: [
     OrderEnquiryImportController,
     OrderEnquiryQtyBreakdownController,
+    OrderEnquiryControlController,
+    OrderEnquiryController,
   ],
   providers: [
     OrderEnquiryImportService,
     OrderEnquiryQtyBreakdownService,
+    OrderEnquiryControlService,
+    OrderEnquiryService,
     BomService,
     ExcelImportFormatDetector,
     ExcelImportParserRegistry,

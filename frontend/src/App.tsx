@@ -15,6 +15,9 @@ import ContractGeneratePage from './pages/ContractGeneratePage'
 import ContractEntryPage from './pages/ContractEntryPage'
 import ContractEnquiryPage from './pages/ContractEnquiryPage'
 import BomManagementPage from './pages/BomManagementPage'
+import OrderEnquiryControlPage from './pages/OrderEnquiryControlPage'
+import OrderEnquiryEntryPage from './pages/OrderEnquiryEntryPage'
+import OrderEnquiryListPage from './pages/OrderEnquiryListPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const queryClient = new QueryClient({
@@ -70,6 +73,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ReferenceDataPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-enquiry/control"
+              element={
+                <ProtectedRoute>
+                  <OrderEnquiryControlPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-enquiry/entry"
+              element={
+                <ProtectedRoute>
+                  <OrderEnquiryEntryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-enquiry/list"
+              element={
+                <ProtectedRoute>
+                  <OrderEnquiryListPage />
                 </ProtectedRoute>
               }
             />

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { DataGrid } from '../components/forms/DataGrid'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
+import { Navigation } from '../components/Navigation'
 import {
   createQtyBreakdown,
   deleteQtyBreakdown,
@@ -171,7 +172,9 @@ export default function OrderEnquiryQtyBreakdownPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-xl font-semibold mb-4">Order Enquiry - Qty Breakdown</h2>
@@ -218,6 +221,7 @@ export default function OrderEnquiryQtyBreakdownPage() {
             height={520}
           />
         </div>
+      </div>
       </div>
     </div>
   )
