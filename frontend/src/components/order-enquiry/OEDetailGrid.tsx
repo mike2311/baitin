@@ -268,7 +268,6 @@ export function OEDetailGrid({
         ),
       },
     ] as Column<OEDetailRow>[]
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, calculateAmount, handleItemNoChange, disabled])
 
   const handleRowsChange = useCallback(
