@@ -51,6 +51,35 @@ import { InvoiceModule } from '../invoice/invoice.module';
 import { EnquiryModule } from '../enquiry/enquiry.module';
 import { ReportingModule } from '../reporting/reporting.module';
 
+const allEntities = [
+  User,
+  Customer,
+  Vendor,
+  Item,
+  ProductBom,
+  OrderEnquiryControl,
+  OrderEnquiryHeader,
+  OrderEnquiryDetail,
+  OrderEnquiryQtyBreakdown,
+  OrderConfirmationHeader,
+  OrderConfirmationDetail,
+  ContractHeader,
+  ContractDetail,
+  Zstdcode,
+  Zorigin,
+  ShippingOrder,
+  SoFormat,
+  DeliveryNoteHeader,
+  DeliveryNoteDetail,
+  DeliveryNoteBreakdown,
+  LoadingMaster,
+  LoadingAdviceHeader,
+  LoadingAdviceDetail,
+  InvoiceHeader,
+  InvoiceDetail,
+  ReportDefinition,
+];
+
 export async function createMinimalTestApp(): Promise<{
   app: INestApplication;
   moduleRef: TestingModule;
@@ -69,35 +98,8 @@ export async function createMinimalTestApp(): Promise<{
         password: 'postgres',
         database: 'baitin_test',
         dropSchema: false, // Never drop schema - maintain it across tests
-        synchronize: false, // Schema created by jest-global-setup.ts
-        entities: [
-          User,
-          Customer,
-          Vendor,
-          Item,
-          ProductBom,
-          OrderEnquiryControl,
-          OrderEnquiryHeader,
-          OrderEnquiryDetail,
-          OrderEnquiryQtyBreakdown,
-          OrderConfirmationHeader,
-          OrderConfirmationDetail,
-          ContractHeader,
-          ContractDetail,
-          Zstdcode,
-          Zorigin,
-          ShippingOrder,
-          SoFormat,
-          DeliveryNoteHeader,
-          DeliveryNoteDetail,
-          DeliveryNoteBreakdown,
-          LoadingMaster,
-          LoadingAdviceHeader,
-          LoadingAdviceDetail,
-          InvoiceHeader,
-          InvoiceDetail,
-          ReportDefinition,
-        ],
+        synchronize: true, // Will create schema only if it doesn't exist
+        entities: allEntities,
         logging: false,
       }),
       PassportModule,
