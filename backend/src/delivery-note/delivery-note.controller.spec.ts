@@ -59,7 +59,7 @@ describe('DeliveryNoteController', () => {
     it('should create a delivery note manually', async () => {
       const createDto: CreateDeliveryNoteDto = {
         dnNo: 'DN001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
         custNo: 'CUST001',
         soNo: 'SO001',
         delAddr: 'Test Address',
@@ -67,7 +67,6 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -93,7 +92,7 @@ describe('DeliveryNoteController', () => {
     it('should handle create errors', async () => {
       const createDto: CreateDeliveryNoteDto = {
         dnNo: 'DN001',
-        date: new Date(),
+        date: '2025-01-20',
         custNo: 'CUST001',
         details: [],
       };
@@ -111,9 +110,9 @@ describe('DeliveryNoteController', () => {
   describe('createFromSo', () => {
     it('should create DN from SO', async () => {
       const createDto: CreateDeliveryNoteFromSoDto = {
-        soNos: ['SO001'],
+        soNo: 'SO001',
         dnNo: 'DN001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
       };
 
       const mockResult = {
@@ -144,9 +143,9 @@ describe('DeliveryNoteController', () => {
 
     it('should handle multiple SO numbers', async () => {
       const createDto: CreateDeliveryNoteFromSoDto = {
-        soNos: ['SO001', 'SO002'],
+        soNo: 'SO001',
         dnNo: 'DN001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
       };
 
       const mockResult = {
@@ -189,7 +188,7 @@ describe('DeliveryNoteController', () => {
 
       mockDeliveryNoteService.findAll.mockResolvedValue(mockResult as any);
 
-      const result = await controller.findAll(1, 10);
+      const result = await controller.search();
 
       expect(result).toEqual(mockResult);
       expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(1, 10);
@@ -203,7 +202,7 @@ describe('DeliveryNoteController', () => {
         limit: 20,
       } as any);
 
-      await controller.findAll(2, 20);
+      await controller.search();
 
       expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(2, 20);
     });
@@ -218,7 +217,7 @@ describe('DeliveryNoteController', () => {
         limit: 10,
       } as any);
 
-      await controller.findAll(1, 10, searchParams);
+      await controller.search(searchParams as any);
 
       expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(
         1,
@@ -239,7 +238,6 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -260,14 +258,14 @@ describe('DeliveryNoteController', () => {
   describe('update', () => {
     it('should update a delivery note', async () => {
       const updateDto: UpdateDeliveryNoteDto = {
-        loadingStatus: 'Confirmed',
-        delAddr: 'Updated Address',
+        soNo: 'SO001',
+        delAddr1: 'Updated Address',
       };
 
       const mockResult = {
         dnNo: 'DN001',
-        loadingStatus: 'Confirmed',
-        delAddr: 'Updated Address',
+        soNo: 'SO001',
+        delAddr1: 'Updated Address',
       };
 
       mockDeliveryNoteService.update.mockResolvedValue(mockResult as any);
@@ -282,16 +280,16 @@ describe('DeliveryNoteController', () => {
     });
 
     it('should handle status transitions', async () => {
-      const updateDto = { loadingStatus: 'Loaded' };
+      const updateDto: any = { soNo: 'SO002' };
 
       mockDeliveryNoteService.update.mockResolvedValue({
         dnNo: 'DN001',
-        loadingStatus: 'Loaded',
+        soNo: 'SO002',
       } as any);
 
       const result = await controller.update('DN001', updateDto);
 
-      expect(result.loadingStatus).toBe('Loaded');
+      expect(result.soNo).toBe('SO002');
     });
   });
 
@@ -343,7 +341,7 @@ describe('DeliveryNoteController', () => {
         mockResult as any,
       );
 
-      const result = await controller.getAvailableSoItems('SO001', 'CUST001');
+      const result = await controller.getAvailableItemsForDn('SO001');
 
       expect(result).toEqual(mockResult);
       expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith(
@@ -359,7 +357,7 @@ describe('DeliveryNoteController', () => {
         mockResult as any,
       );
 
-      const result = await controller.getAvailableSoItems(
+      const result = await controller.getAvailableItemsForDn(
         'SO001,SO002',
         'CUST001',
       );
@@ -376,7 +374,7 @@ describe('DeliveryNoteController', () => {
     it('should handle service errors in create', async () => {
       const createDto: CreateDeliveryNoteDto = {
         dnNo: 'DN001',
-        date: new Date(),
+        date: '2025-01-20',
         custNo: 'CUST001',
         details: [],
       };
@@ -392,9 +390,9 @@ describe('DeliveryNoteController', () => {
 
     it('should handle createFromSo errors', async () => {
       const createDto: CreateDeliveryNoteFromSoDto = {
-        soNos: ['SO001'],
+        soNo: 'SO001',
         dnNo: 'DN001',
-        date: new Date(),
+        date: '2025-01-20',
       };
 
       mockDeliveryNoteService.createFromSo.mockRejectedValue(
@@ -407,7 +405,7 @@ describe('DeliveryNoteController', () => {
     });
 
     it('should handle update errors', async () => {
-      const updateDto = { loadingStatus: 'Invalid' };
+      const updateDto: any = { soNo: 'INVALID' };
 
       mockDeliveryNoteService.update.mockRejectedValue(
         new Error('Invalid status transition'),
