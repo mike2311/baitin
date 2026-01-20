@@ -37,7 +37,6 @@ export class LoadingAdviceHeader {
   date: Date; // Loading advice date
 
   @Column({ type: 'varchar', length: 50, nullable: true })
-  @Index()
   loadingNo?: string; // Loading master number (FK)
 
   @Column({ type: 'varchar', length: 100, nullable: true })

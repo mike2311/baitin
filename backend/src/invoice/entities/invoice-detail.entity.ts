@@ -93,7 +93,6 @@ export class InvoiceDetail {
   confNo?: string; // Order Confirmation number
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   soNo?: string; // Shipping Order number (FK to shipping_order)
 
   @Column({ type: 'boolean', default: true })

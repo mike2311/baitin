@@ -34,15 +34,12 @@ export class InvoiceHeader {
   invNo: string; // Invoice number
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   custNo?: string; // Customer number (FK to customer)
 
   @Column({ type: 'date' })
-  @Index()
   date: Date; // Invoice date
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   ocNo?: string; // Order Confirmation number (FK to order_confirmation_header)
 
   @Column({ type: 'varchar', length: 100, nullable: true })

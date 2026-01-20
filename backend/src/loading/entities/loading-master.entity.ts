@@ -33,7 +33,6 @@ export class LoadingMaster {
   loadingNo: string; // Loading master number
 
   @Column({ type: 'date' })
-  @Index()
   date: Date; // Loading date
 
   @Column({ type: 'varchar', length: 100, nullable: true })
@@ -55,7 +54,6 @@ export class LoadingMaster {
   remarks?: string; // Remarks
 
   @Column({ type: 'varchar', length: 20, default: 'Planned' })
-  @Index()
   status: string; // Planned/In Progress/Completed
 
   @Column({ type: 'varchar', length: 50, nullable: true })

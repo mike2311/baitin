@@ -33,7 +33,6 @@ export class ReportDefinition {
   reportName: string; // Report display name
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  @Index()
   category?: string; // Report category (Transaction, Summary, Analysis, Export)
 
   @Column({ type: 'text', nullable: true })
@@ -49,7 +48,6 @@ export class ReportDefinition {
   formatConfig?: any; // Format configuration (columns, grouping, etc.)
 
   @Column({ type: 'varchar', length: 20, default: 'Active' })
-  @Index()
   status: string; // Active/Inactive/Migrated
 
   @Column({ type: 'varchar', length: 50, nullable: true })
