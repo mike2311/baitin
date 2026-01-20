@@ -16,11 +16,14 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { DeliveryNoteService } from './delivery-note.service';
-import { CreateDeliveryNoteDto, CreateDeliveryNoteFromSoDto } from './dto/create-delivery-note.dto';
+import {
+  CreateDeliveryNoteDto,
+  CreateDeliveryNoteFromSoDto,
+} from './dto/create-delivery-note.dto';
 import { UpdateDeliveryNoteDto } from './dto/update-delivery-note.dto';
 import { DeliveryNoteSearchResponseDto } from './dto/delivery-note-search-response.dto';
 import { DeliveryNoteHeader } from './entities/delivery-note-header.entity';
@@ -66,7 +69,10 @@ export class DeliveryNoteController {
     description: 'Delivery note created successfully',
     type: DeliveryNoteHeader,
   })
-  @ApiResponse({ status: 400, description: 'Bad request - invalid items or quantities' })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - invalid items or quantities',
+  })
   createFromSo(@Body() createFromSoDto: CreateDeliveryNoteFromSoDto) {
     return this.deliveryNoteService.createFromSo(createFromSoDto);
   }
@@ -79,11 +85,31 @@ export class DeliveryNoteController {
     type: [DeliveryNoteSearchResponseDto],
   })
   @ApiQuery({ name: 'dnNo', required: false, description: 'DN number filter' })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
-  @ApiQuery({ name: 'soNo', required: false, description: 'Shipping order number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
-  @ApiQuery({ name: 'loadingStatus', required: false, description: 'Loading status filter' })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
+  @ApiQuery({
+    name: 'soNo',
+    required: false,
+    description: 'Shipping order number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
+  @ApiQuery({
+    name: 'loadingStatus',
+    required: false,
+    description: 'Loading status filter',
+  })
   search(
     @Query('dnNo') dnNo?: string,
     @Query('custNo') custNo?: string,
@@ -152,16 +178,16 @@ export class DeliveryNoteController {
   })
   @ApiResponse({ status: 400, description: 'Invalid status transition' })
   @ApiParam({ name: 'dnNo', description: 'Delivery Note number' })
-  updateStatus(
-    @Param('dnNo') dnNo: string,
-    @Body('status') status: string,
-  ) {
+  updateStatus(@Param('dnNo') dnNo: string, @Body('status') status: string) {
     return this.deliveryNoteService.updateStatus(dnNo, status);
   }
 
   @Delete(':dnNo')
   @ApiOperation({ summary: 'Delete delivery note' })
-  @ApiResponse({ status: 200, description: 'Delivery note deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Delivery note deleted successfully',
+  })
   @ApiResponse({ status: 404, description: 'Delivery note not found' })
   @ApiParam({ name: 'dnNo', description: 'Delivery Note number' })
   remove(@Param('dnNo') dnNo: string) {

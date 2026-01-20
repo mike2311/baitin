@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeliveryNoteController } from './delivery-note.controller';
 import { DeliveryNoteService } from './delivery-note.service';
-import { CreateDeliveryNoteDto, CreateDeliveryNoteFromSoDto } from './dto/create-delivery-note.dto';
+import {
+  CreateDeliveryNoteDto,
+  CreateDeliveryNoteFromSoDto,
+} from './dto/create-delivery-note.dto';
 import { UpdateDeliveryNoteDto } from './dto/update-delivery-note.dto';
 
 /**
@@ -64,7 +67,7 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -95,9 +98,13 @@ describe('DeliveryNoteController', () => {
         details: [],
       };
 
-      mockDeliveryNoteService.create.mockRejectedValue(new Error('Validation error'));
+      mockDeliveryNoteService.create.mockRejectedValue(
+        new Error('Validation error'),
+      );
 
-      await expect(controller.create(createDto)).rejects.toThrow('Validation error');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Validation error',
+      );
     });
   });
 
@@ -130,7 +137,9 @@ describe('DeliveryNoteController', () => {
       const result = await controller.createFromSo(createDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.createFromSo).toHaveBeenCalledWith(createDto);
+      expect(mockDeliveryNoteService.createFromSo).toHaveBeenCalledWith(
+        createDto,
+      );
     });
 
     it('should handle multiple SO numbers', async () => {
@@ -150,7 +159,9 @@ describe('DeliveryNoteController', () => {
       const result = await controller.createFromSo(createDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.createFromSo).toHaveBeenCalledWith(createDto);
+      expect(mockDeliveryNoteService.createFromSo).toHaveBeenCalledWith(
+        createDto,
+      );
     });
   });
 
@@ -158,8 +169,18 @@ describe('DeliveryNoteController', () => {
     it('should return paginated delivery notes', async () => {
       const mockResult = {
         data: [
-          { dnNo: 'DN001', soNo: 'SO001', custNo: 'CUST001', loadingStatus: 'Draft' },
-          { dnNo: 'DN002', soNo: 'SO002', custNo: 'CUST002', loadingStatus: 'Confirmed' },
+          {
+            dnNo: 'DN001',
+            soNo: 'SO001',
+            custNo: 'CUST001',
+            loadingStatus: 'Draft',
+          },
+          {
+            dnNo: 'DN002',
+            soNo: 'SO002',
+            custNo: 'CUST002',
+            loadingStatus: 'Confirmed',
+          },
         ],
         total: 2,
         page: 1,
@@ -175,7 +196,12 @@ describe('DeliveryNoteController', () => {
     });
 
     it('should handle pagination parameters', async () => {
-      mockDeliveryNoteService.findAll.mockResolvedValue({ data: [], total: 0, page: 2, limit: 20 } as any);
+      mockDeliveryNoteService.findAll.mockResolvedValue({
+        data: [],
+        total: 0,
+        page: 2,
+        limit: 20,
+      } as any);
 
       await controller.findAll(2, 20);
 
@@ -185,11 +211,20 @@ describe('DeliveryNoteController', () => {
     it('should handle search filters', async () => {
       const searchParams = { dnNo: 'DN001', custNo: 'CUST001' };
 
-      mockDeliveryNoteService.findAll.mockResolvedValue({ data: [], total: 0, page: 1, limit: 10 } as any);
+      mockDeliveryNoteService.findAll.mockResolvedValue({
+        data: [],
+        total: 0,
+        page: 1,
+        limit: 10,
+      } as any);
 
       await controller.findAll(1, 10, searchParams);
 
-      expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(1, 10, searchParams);
+      expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(
+        1,
+        10,
+        searchParams,
+      );
     });
   });
 
@@ -204,7 +239,7 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -240,7 +275,10 @@ describe('DeliveryNoteController', () => {
       const result = await controller.update('DN001', updateDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.update).toHaveBeenCalledWith('DN001', updateDto);
+      expect(mockDeliveryNoteService.update).toHaveBeenCalledWith(
+        'DN001',
+        updateDto,
+      );
     });
 
     it('should handle status transitions', async () => {
@@ -271,9 +309,7 @@ describe('DeliveryNoteController', () => {
   describe('search', () => {
     it('should search delivery notes', async () => {
       const searchParams = { dnNo: 'DN001', soNo: 'SO001' };
-      const mockResult = [
-        { dnNo: 'DN001', soNo: 'SO001', custNo: 'CUST001' },
-      ];
+      const mockResult = [{ dnNo: 'DN001', soNo: 'SO001', custNo: 'CUST001' }];
 
       mockDeliveryNoteService.search.mockResolvedValue(mockResult as any);
 
@@ -292,7 +328,7 @@ describe('DeliveryNoteController', () => {
           itemNo: 'ITEM001',
           availableQty: 500,
           itemName: 'Test Item',
-          price: 10.50,
+          price: 10.5,
         },
         {
           soNo: 'SO001',
@@ -303,23 +339,36 @@ describe('DeliveryNoteController', () => {
         },
       ];
 
-      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(mockResult as any);
+      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.getAvailableSoItems('SO001', 'CUST001');
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith('SO001', 'CUST001');
+      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith(
+        'SO001',
+        'CUST001',
+      );
     });
 
     it('should handle multiple SO numbers', async () => {
       const mockResult = [];
 
-      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(mockResult as any);
+      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(
+        mockResult as any,
+      );
 
-      const result = await controller.getAvailableSoItems('SO001,SO002', 'CUST001');
+      const result = await controller.getAvailableSoItems(
+        'SO001,SO002',
+        'CUST001',
+      );
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith('SO001,SO002', 'CUST001');
+      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith(
+        'SO001,SO002',
+        'CUST001',
+      );
     });
   });
 
@@ -332,9 +381,13 @@ describe('DeliveryNoteController', () => {
         details: [],
       };
 
-      mockDeliveryNoteService.create.mockRejectedValue(new Error('Service error'));
+      mockDeliveryNoteService.create.mockRejectedValue(
+        new Error('Service error'),
+      );
 
-      await expect(controller.create(createDto)).rejects.toThrow('Service error');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Service error',
+      );
     });
 
     it('should handle createFromSo errors', async () => {
@@ -344,23 +397,35 @@ describe('DeliveryNoteController', () => {
         date: new Date(),
       };
 
-      mockDeliveryNoteService.createFromSo.mockRejectedValue(new Error('SO not found'));
+      mockDeliveryNoteService.createFromSo.mockRejectedValue(
+        new Error('SO not found'),
+      );
 
-      await expect(controller.createFromSo(createDto)).rejects.toThrow('SO not found');
+      await expect(controller.createFromSo(createDto)).rejects.toThrow(
+        'SO not found',
+      );
     });
 
     it('should handle update errors', async () => {
       const updateDto = { loadingStatus: 'Invalid' };
 
-      mockDeliveryNoteService.update.mockRejectedValue(new Error('Invalid status transition'));
+      mockDeliveryNoteService.update.mockRejectedValue(
+        new Error('Invalid status transition'),
+      );
 
-      await expect(controller.update('DN001', updateDto)).rejects.toThrow('Invalid status transition');
+      await expect(controller.update('DN001', updateDto)).rejects.toThrow(
+        'Invalid status transition',
+      );
     });
 
     it('should handle deletion errors', async () => {
-      mockDeliveryNoteService.remove.mockRejectedValue(new Error('Cannot delete loaded DN'));
+      mockDeliveryNoteService.remove.mockRejectedValue(
+        new Error('Cannot delete loaded DN'),
+      );
 
-      await expect(controller.remove('DN001')).rejects.toThrow('Cannot delete loaded DN');
+      await expect(controller.remove('DN001')).rejects.toThrow(
+        'Cannot delete loaded DN',
+      );
     });
   });
 });

@@ -94,7 +94,7 @@ describe('Order Workflow E2E', () => {
           oeNo: 'OE-TEST-001',
           itemNo: 'ITEM001',
           qty: 100,
-          price: 10.50,
+          price: 10.5,
         });
 
       expect(oeDetailResponse.status).toBe(201);

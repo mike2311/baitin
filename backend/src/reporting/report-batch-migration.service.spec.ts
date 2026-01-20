@@ -2,8 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { ReportBatchMigrationService } from './report-batch-migration.service';
-import { ReportDefinition } from './entities/report-definition';
-import { MigrateReportBatchDto, MigrationStatus } from './dto/report-batch-migration.dto';
+import { ReportDefinition } from './entities/report-definition.entity';
+import {
+  MigrateReportBatchDto,
+  MigrationStatus,
+} from './dto/report-batch-migration.dto';
 
 /**
  * Report Batch Migration Service Tests
@@ -51,7 +54,9 @@ describe('ReportBatchMigrationService', () => {
       ],
     }).compile();
 
-    service = module.get<ReportBatchMigrationService>(ReportBatchMigrationService);
+    service = module.get<ReportBatchMigrationService>(
+      ReportBatchMigrationService,
+    );
     reportDefinitionRepository = module.get<Repository<ReportDefinition>>(
       getRepositoryToken(ReportDefinition),
     );
@@ -95,7 +100,9 @@ describe('ReportBatchMigrationService', () => {
         .mockResolvedValueOnce([]) // Performance test data for second report
         .mockResolvedValueOnce([]); // Data consistency check for second report
 
-      mockReportDefinitionRepository.update.mockResolvedValue({ affected: 1 } as any);
+      mockReportDefinitionRepository.update.mockResolvedValue({
+        affected: 1,
+      } as any);
 
       const result = await service.migrateReportBatch(migrateDto);
 
@@ -134,7 +141,9 @@ describe('ReportBatchMigrationService', () => {
         .mockResolvedValueOnce([]) // Good report performance test
         .mockResolvedValueOnce([]); // Good report data consistency
 
-      mockReportDefinitionRepository.update.mockResolvedValue({ affected: 1 } as any);
+      mockReportDefinitionRepository.update.mockResolvedValue({
+        affected: 1,
+      } as any);
 
       const result = await service.migrateReportBatch(migrateDto);
 
@@ -153,7 +162,7 @@ describe('ReportBatchMigrationService', () => {
       };
 
       await expect(service.migrateReportBatch(largeBatch)).rejects.toThrow(
-        'Batch size exceeds maximum of 10 reports'
+        'Batch size exceeds maximum of 10 reports',
       );
     });
 
@@ -163,7 +172,7 @@ describe('ReportBatchMigrationService', () => {
       };
 
       await expect(service.migrateReportBatch(emptyBatch)).rejects.toThrow(
-        'Batch size exceeds maximum of 10 reports'
+        'Batch size exceeds maximum of 10 reports',
       );
     });
   });
@@ -179,7 +188,7 @@ describe('ReportBatchMigrationService', () => {
       expect(result.valid).toBe(true);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('SELECT COUNT(*)'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -237,9 +246,12 @@ describe('ReportBatchMigrationService', () => {
     });
 
     it('should handle string parameters (JSON)', async () => {
-      const parametersString = '{"dateFrom": {"type": "date", "label": "Date From"}}';
+      const parametersString =
+        '{"dateFrom": {"type": "date", "label": "Date From"}}';
 
-      const result = await (service as any).validateParameters(parametersString);
+      const result = await (service as any).validateParameters(
+        parametersString,
+      );
 
       expect(result.valid).toBe(true);
     });
@@ -262,7 +274,9 @@ describe('ReportBatchMigrationService', () => {
       };
 
       const testParams = { param: 'id', value: 1 };
-      const mockData = Array(500).fill({}).map((_, i) => ({ id: i, value: `data${i}` }));
+      const mockData = Array(500)
+        .fill({})
+        .map((_, i) => ({ id: i, value: `data${i}` }));
 
       mockDataSource.query.mockResolvedValue(mockData);
 
@@ -273,7 +287,7 @@ describe('ReportBatchMigrationService', () => {
       expect(result.rowCount).toBe(500);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('LIMIT'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -283,7 +297,9 @@ describe('ReportBatchMigrationService', () => {
         sqlQuery: 'SELECT * FROM large_table',
       };
 
-      const mockLargeData = Array(15000).fill({}).map((_, i) => ({ id: i }));
+      const mockLargeData = Array(15000)
+        .fill({})
+        .map((_, i) => ({ id: i }));
 
       mockDataSource.query.mockResolvedValue(mockLargeData);
 
@@ -292,7 +308,7 @@ describe('ReportBatchMigrationService', () => {
       expect(result.rowCount).toBe(10000); // Limited to maxRowCount
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('LIMIT 10000'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
   });
@@ -384,7 +400,9 @@ describe('ReportBatchMigrationService', () => {
         { reportKey: 'report3' },
       ];
 
-      mockReportDefinitionRepository.find.mockResolvedValue(mockPendingReports as any);
+      mockReportDefinitionRepository.find.mockResolvedValue(
+        mockPendingReports as any,
+      );
 
       const result = await service.getPendingReports(5);
 
@@ -415,7 +433,9 @@ describe('ReportBatchMigrationService', () => {
     it('should create next batch with default priority', async () => {
       const mockPendingReports = ['report1', 'report2', 'report3'];
 
-      jest.spyOn(service, 'getPendingReports').mockResolvedValue(mockPendingReports);
+      jest
+        .spyOn(service, 'getPendingReports')
+        .mockResolvedValue(mockPendingReports);
 
       const result = await service.createNextBatch();
 
@@ -427,7 +447,9 @@ describe('ReportBatchMigrationService', () => {
     it('should create next batch with specified priority', async () => {
       const mockPendingReports = ['report1'];
 
-      jest.spyOn(service, 'getPendingReports').mockResolvedValue(mockPendingReports);
+      jest
+        .spyOn(service, 'getPendingReports')
+        .mockResolvedValue(mockPendingReports);
 
       const result = await service.createNextBatch('high');
 
@@ -438,14 +460,15 @@ describe('ReportBatchMigrationService', () => {
       jest.spyOn(service, 'getPendingReports').mockResolvedValue([]);
 
       await expect(service.createNextBatch()).rejects.toThrow(
-        'No reports pending migration'
+        'No reports pending migration',
       );
     });
   });
 
   describe('extractTestParameters', () => {
     it('should extract parameters from SQL query', async () => {
-      const sqlQuery = 'SELECT * FROM table WHERE date >= :dateFrom AND date <= :dateTo AND customer = :customerNo';
+      const sqlQuery =
+        'SELECT * FROM table WHERE date >= :dateFrom AND date <= :dateTo AND customer = :customerNo';
 
       const result = await (service as any).extractTestParameters(sqlQuery);
 
@@ -455,7 +478,8 @@ describe('ReportBatchMigrationService', () => {
     });
 
     it('should provide appropriate test values', async () => {
-      const sqlQuery = 'SELECT * FROM table WHERE date >= :dateFrom AND customer = :customerNo AND amount > :minAmount';
+      const sqlQuery =
+        'SELECT * FROM table WHERE date >= :dateFrom AND customer = :customerNo AND amount > :minAmount';
 
       const result = await (service as any).extractTestParameters(sqlQuery);
 
@@ -481,14 +505,20 @@ describe('ReportBatchMigrationService', () => {
         sqlQuery: 'SELECT * FROM test_table',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query
         .mockResolvedValueOnce([{ count: 1 }]) // SQL validation
         .mockResolvedValueOnce([]) // Performance test
         .mockResolvedValueOnce([]); // Data consistency
-      mockReportDefinitionRepository.update.mockResolvedValue({ affected: 1 } as any);
+      mockReportDefinitionRepository.update.mockResolvedValue({
+        affected: 1,
+      } as any);
 
-      const result = await (service as any).migrateSingleReport('single_report');
+      const result = await (service as any).migrateSingleReport(
+        'single_report',
+      );
 
       expect(result.reportKey).toBe('single_report');
       expect(result.status).toBe(MigrationStatus.VALIDATED);
@@ -503,10 +533,14 @@ describe('ReportBatchMigrationService', () => {
         sqlQuery: 'INVALID QUERY',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockRejectedValue(new Error('SQL Error'));
 
-      const result = await (service as any).migrateSingleReport('failing_report');
+      const result = await (service as any).migrateSingleReport(
+        'failing_report',
+      );
 
       expect(result.status).toBe(MigrationStatus.FAILED);
       expect(result.errorMessage).toContain('SQL Error');

@@ -66,6 +66,8 @@ export class LoadingAdviceHeader {
   @JoinColumn({ name: 'loadingNo' })
   loadingMaster?: LoadingMaster;
 
-  @OneToMany(() => LoadingAdviceDetail, (detail) => detail.header, { cascade: true })
+  @OneToMany(() => LoadingAdviceDetail, (detail) => detail.header, {
+    cascade: true,
+  })
   details?: LoadingAdviceDetail[];
 }

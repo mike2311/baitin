@@ -1,4 +1,9 @@
-import { Injectable, Logger, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource, EntityManager } from 'typeorm';
 import { ReportDefinition } from './entities/report-definition.entity';
@@ -48,14 +53,22 @@ export class ReportBatchMigrationService {
    * 3. Run performance tests
    * 4. Update migration status
    */
-  async migrateReportBatch(migrateDto: MigrateReportBatchDto): Promise<BatchMigrationStatusDto> {
-    const batchId = migrateDto.batchId || `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  async migrateReportBatch(
+    migrateDto: MigrateReportBatchDto,
+  ): Promise<BatchMigrationStatusDto> {
+    const batchId =
+      migrateDto.batchId ||
+      `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const startTime = new Date();
 
-    this.logger.log(`Starting batch migration ${batchId} with ${migrateDto.reportKeys.length} reports`);
+    this.logger.log(
+      `Starting batch migration ${batchId} with ${migrateDto.reportKeys.length} reports`,
+    );
 
     if (migrateDto.reportKeys.length > this.maxBatchSize) {
-      throw new BadRequestException(`Batch size exceeds maximum of ${this.maxBatchSize} reports`);
+      throw new BadRequestException(
+        `Batch size exceeds maximum of ${this.maxBatchSize} reports`,
+      );
     }
 
     // Initialize batch status
@@ -93,10 +106,16 @@ export class ReportBatchMigrationService {
 
     // Update batch status
     batchStatus.endTime = new Date();
-    batchStatus.status = batchStatus.failedReports === 0 ? 'completed' :
-                         batchStatus.completedReports > 0 ? 'completed' : 'failed';
+    batchStatus.status =
+      batchStatus.failedReports === 0
+        ? 'completed'
+        : batchStatus.completedReports > 0
+          ? 'completed'
+          : 'failed';
 
-    this.logger.log(`Completed batch migration ${batchId}: ${batchStatus.completedReports}/${batchStatus.totalReports} successful`);
+    this.logger.log(
+      `Completed batch migration ${batchId}: ${batchStatus.completedReports}/${batchStatus.totalReports} successful`,
+    );
 
     return batchStatus;
   }
@@ -104,7 +123,9 @@ export class ReportBatchMigrationService {
   /**
    * Migrate a single report with full validation
    */
-  private async migrateSingleReport(reportKey: string): Promise<ReportMigrationStatusDto> {
+  private async migrateSingleReport(
+    reportKey: string,
+  ): Promise<ReportMigrationStatusDto> {
     const startTime = Date.now();
 
     this.logger.log(`Starting migration of report ${reportKey}`);
@@ -127,13 +148,17 @@ export class ReportBatchMigrationService {
       // 2. Validate SQL syntax
       const sqlValidation = await this.validateSqlQuery(report.sqlQuery);
       if (!sqlValidation.valid) {
-        throw new BadRequestException(`SQL validation failed: ${sqlValidation.error}`);
+        throw new BadRequestException(
+          `SQL validation failed: ${sqlValidation.error}`,
+        );
       }
 
       // 3. Validate parameters
       const paramValidation = this.validateParameters(report.parameters);
       if (!paramValidation.valid) {
-        throw new BadRequestException(`Parameter validation failed: ${paramValidation.error}`);
+        throw new BadRequestException(
+          `Parameter validation failed: ${paramValidation.error}`,
+        );
       }
 
       // 4. Run performance test
@@ -148,7 +173,7 @@ export class ReportBatchMigrationService {
         {
           status: 'Migrated',
           modDate: new Date(),
-        }
+        },
       );
 
       const endTime = Date.now();
@@ -164,13 +189,15 @@ export class ReportBatchMigrationService {
         sqlValid: true,
         parametersValid: true,
         dataConsistency: dataConsistency.valid,
-        performanceAcceptable: performanceMetrics.queryTime < this.maxExecutionTime,
+        performanceAcceptable:
+          performanceMetrics.queryTime < this.maxExecutionTime,
       };
       result.migratedAt = new Date();
       result.validatedAt = new Date();
 
-      this.logger.log(`Successfully migrated report ${reportKey} in ${endTime - startTime}ms`);
-
+      this.logger.log(
+        `Successfully migrated report ${reportKey} in ${endTime - startTime}ms`,
+      );
     } catch (error) {
       result.status = MigrationStatus.FAILED;
       result.errorMessage = error.message;
@@ -183,14 +210,19 @@ export class ReportBatchMigrationService {
   /**
    * Validate SQL query syntax and basic structure
    */
-  private async validateSqlQuery(sqlQuery: string): Promise<{ valid: boolean; error?: string }> {
+  private async validateSqlQuery(
+    sqlQuery: string,
+  ): Promise<{ valid: boolean; error?: string }> {
     try {
       // Basic syntax check - try to prepare the query
       const testParams = this.extractTestParameters(sqlQuery);
       const query = this.buildQuery(sqlQuery, testParams);
 
       // Execute with LIMIT 1 to check syntax without heavy processing
-      await this.dataSource.query(`SELECT COUNT(*) as count FROM (${query.query}) sub LIMIT 1`, query.parameters);
+      await this.dataSource.query(
+        `SELECT COUNT(*) as count FROM (${query.query}) sub LIMIT 1`,
+        query.parameters,
+      );
 
       return { valid: true };
     } catch (error) {
@@ -201,7 +233,10 @@ export class ReportBatchMigrationService {
   /**
    * Validate parameter definitions
    */
-  private validateParameters(parameters: any): { valid: boolean; error?: string } {
+  private validateParameters(parameters: any): {
+    valid: boolean;
+    error?: string;
+  } {
     if (!parameters) return { valid: true };
 
     try {
@@ -213,7 +248,8 @@ export class ReportBatchMigrationService {
       }
 
       // Validate parameter structure
-      const params = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
+      const params =
+        typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
       for (const [key, config] of Object.entries(params)) {
         if (!config || typeof config !== 'object') {
           throw new Error(`Invalid parameter configuration for ${key}`);
@@ -224,8 +260,14 @@ export class ReportBatchMigrationService {
           throw new Error(`Parameter ${key} missing type`);
         }
 
-        if (!['string', 'number', 'date', 'boolean', 'select'].includes(paramConfig.type)) {
-          throw new Error(`Invalid parameter type for ${key}: ${paramConfig.type}`);
+        if (
+          !['string', 'number', 'date', 'boolean', 'select'].includes(
+            paramConfig.type,
+          )
+        ) {
+          throw new Error(
+            `Invalid parameter type for ${key}: ${paramConfig.type}`,
+          );
         }
       }
 
@@ -268,24 +310,32 @@ export class ReportBatchMigrationService {
   /**
    * Validate data consistency
    */
-  private async validateDataConsistency(report: ReportDefinition): Promise<{ valid: boolean; error?: string }> {
+  private async validateDataConsistency(
+    report: ReportDefinition,
+  ): Promise<{ valid: boolean; error?: string }> {
     try {
       const testParams = this.extractTestParameters(report.sqlQuery);
       const query = this.buildQuery(report.sqlQuery, testParams);
 
-      const results = await this.dataSource.query(query.query, query.parameters);
+      const results = await this.dataSource.query(
+        query.query,
+        query.parameters,
+      );
 
       // Basic data consistency checks
       if (results.length > 0) {
         const firstRow = results[0];
 
         // Check for null primary keys or essential fields
-        const essentialFields = this.identifyEssentialFields(report.category, report.reportKey);
+        const essentialFields = this.identifyEssentialFields(
+          report.category,
+          report.reportKey,
+        );
         for (const field of essentialFields) {
           if (firstRow[field] === null || firstRow[field] === undefined) {
             return {
               valid: false,
-              error: `Essential field '${field}' is null or undefined in results`
+              error: `Essential field '${field}' is null or undefined in results`,
             };
           }
         }
@@ -322,7 +372,8 @@ export class ReportBatchMigrationService {
     });
 
     // Calculate progress
-    const overallProgress = totalReports > 0 ? (migratedReports / totalReports) * 100 : 0;
+    const overallProgress =
+      totalReports > 0 ? (migratedReports / totalReports) * 100 : 0;
 
     return {
       batchId: 'overall_progress',
@@ -346,13 +397,15 @@ export class ReportBatchMigrationService {
       order: { creDate: 'ASC' }, // Oldest first
     });
 
-    return pendingReports.map(r => r.reportKey);
+    return pendingReports.map((r) => r.reportKey);
   }
 
   /**
    * Create next batch for migration
    */
-  async createNextBatch(priority: 'high' | 'medium' | 'low' = 'medium'): Promise<MigrateReportBatchDto> {
+  async createNextBatch(
+    priority: 'high' | 'medium' | 'low' = 'medium',
+  ): Promise<MigrateReportBatchDto> {
     const pendingReports = await this.getPendingReports(this.maxBatchSize);
 
     if (pendingReports.length === 0) {
@@ -379,11 +432,17 @@ export class ReportBatchMigrationService {
     for (const match of paramMatches) {
       const paramName = match.substring(1); // Remove :
 
-      if (paramName.toLowerCase().includes('date') || paramName.toLowerCase().includes('from')) {
+      if (
+        paramName.toLowerCase().includes('date') ||
+        paramName.toLowerCase().includes('from')
+      ) {
         params[paramName] = new Date('2024-01-01');
       } else if (paramName.toLowerCase().includes('to')) {
         params[paramName] = new Date('2024-12-31');
-      } else if (paramName.toLowerCase().includes('cust') || paramName.toLowerCase().includes('customer')) {
+      } else if (
+        paramName.toLowerCase().includes('cust') ||
+        paramName.toLowerCase().includes('customer')
+      ) {
         params[paramName] = 'CUST001';
       } else if (paramName.toLowerCase().includes('item')) {
         params[paramName] = 'ITEM001';
@@ -395,7 +454,10 @@ export class ReportBatchMigrationService {
     return params;
   }
 
-  private buildQuery(sqlTemplate: string, parameters: Record<string, any>): { query: string; parameters: any[] } {
+  private buildQuery(
+    sqlTemplate: string,
+    parameters: Record<string, any>,
+  ): { query: string; parameters: any[] } {
     let query = sqlTemplate;
     const paramArray: any[] = [];
     let paramIndex = 1;
@@ -414,16 +476,19 @@ export class ReportBatchMigrationService {
 
   private async simulateDataProcessing(results: any[]): Promise<void> {
     // Simulate typical data processing operations
-    await new Promise(resolve => setTimeout(resolve, 10)); // Small delay
+    await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay
   }
 
-  private identifyEssentialFields(category?: string, reportKey?: string): string[] {
+  private identifyEssentialFields(
+    category?: string,
+    reportKey?: string,
+  ): string[] {
     // Define essential fields based on report category
     const essentials: Record<string, string[]> = {
-      'Transaction': ['id', 'date', 'no'],
-      'Summary': ['total', 'count'],
-      'Analysis': ['period', 'value'],
-      'Export': ['id', 'code', 'name'],
+      Transaction: ['id', 'date', 'no'],
+      Summary: ['total', 'count'],
+      Analysis: ['period', 'value'],
+      Export: ['id', 'code', 'name'],
     };
 
     return essentials[category || ''] || ['id'];

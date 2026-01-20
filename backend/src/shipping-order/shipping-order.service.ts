@@ -1,11 +1,22 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { ShippingOrder } from './entities/shipping-order.entity';
 import { SoFormat } from './entities/so-format.entity';
-import { CreateShippingOrderDto, CreateShippingOrderFromSourceDto } from './dto/create-shipping-order.dto';
+import {
+  CreateShippingOrderDto,
+  CreateShippingOrderFromSourceDto,
+} from './dto/create-shipping-order.dto';
 import { UpdateShippingOrderDto } from './dto/update-shipping-order.dto';
-import { ShippingOrderSearchResponseDto, AvailableItemsForSoResponseDto } from './dto/shipping-order-search-response.dto';
+import {
+  ShippingOrderSearchResponseDto,
+  AvailableItemsForSoResponseDto,
+} from './dto/shipping-order-search-response.dto';
 
 /**
  * Shipping Order Service
@@ -39,13 +50,18 @@ export class ShippingOrderService {
    * Original Logic Reference:
    * - Legacy Form: isetso (manual entry)
    */
-  async create(createDto: CreateShippingOrderDto, userId?: string): Promise<ShippingOrder> {
+  async create(
+    createDto: CreateShippingOrderDto,
+    userId?: string,
+  ): Promise<ShippingOrder> {
     // Validate SO number uniqueness
     const existing = await this.shippingOrderRepository.findOne({
       where: { soNo: createDto.soNo },
     });
     if (existing) {
-      throw new ConflictException(`Shipping Order ${createDto.soNo} already exists`);
+      throw new ConflictException(
+        `Shipping Order ${createDto.soNo} already exists`,
+      );
     }
 
     // Validate references if provided
@@ -59,7 +75,9 @@ export class ShippingOrderService {
 
     // Apply customer ship mark if not provided
     if (!createDto.shipMark && createDto.confNo) {
-      createDto.shipMark = await this.getCustomerShipMarkFromOc(createDto.confNo);
+      createDto.shipMark = await this.getCustomerShipMarkFromOc(
+        createDto.confNo,
+      );
     }
 
     const shippingOrder = this.shippingOrderRepository.create({
@@ -81,7 +99,10 @@ export class ShippingOrderService {
    *   - Check item availability
    *   - Create SO records for selected items
    */
-  async createFromSource(createDto: CreateShippingOrderFromSourceDto, userId?: string): Promise<ShippingOrder[]> {
+  async createFromSource(
+    createDto: CreateShippingOrderFromSourceDto,
+    userId?: string,
+  ): Promise<ShippingOrder[]> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -98,38 +119,53 @@ export class ShippingOrderService {
       // Validate selected items
       for (const selectedItem of createDto.selectedItems) {
         const availableItem = availableItems.find(
-          item => item.itemNo === selectedItem.itemNo
+          (item) => item.itemNo === selectedItem.itemNo,
         );
 
         if (!availableItem) {
           throw new BadRequestException(
-            `Item ${selectedItem.itemNo} not available in ${createDto.sourceType.toUpperCase()} ${createDto.sourceNo}`
+            `Item ${selectedItem.itemNo} not available in ${createDto.sourceType.toUpperCase()} ${createDto.sourceNo}`,
           );
         }
 
         if (selectedItem.qty > availableItem.remainingQty) {
           throw new BadRequestException(
-            `Requested quantity ${selectedItem.qty} exceeds available quantity ${availableItem.remainingQty} for item ${selectedItem.itemNo}`
+            `Requested quantity ${selectedItem.qty} exceeds available quantity ${availableItem.remainingQty} for item ${selectedItem.itemNo}`,
           );
         }
 
         // Create SO record
         const shippingOrder = queryRunner.manager.create(ShippingOrder, {
           soNo: createDto.soNo,
-          confNo: createDto.sourceType === 'oc' ? createDto.sourceNo : undefined,
-          contNo: createDto.sourceType === 'contract' ? createDto.sourceNo : undefined,
+          confNo:
+            createDto.sourceType === 'oc' ? createDto.sourceNo : undefined,
+          contNo:
+            createDto.sourceType === 'contract'
+              ? createDto.sourceNo
+              : undefined,
           itemNo: selectedItem.itemNo,
           qty: selectedItem.qty,
           ctn: selectedItem.ctn,
           poNo: selectedItem.poNo,
-          shipDate: selectedItem.shipDate ? new Date(selectedItem.shipDate) : undefined,
-          shipMark: await this.getCustomerShipMarkFromSource(createDto.sourceType, createDto.sourceNo),
-          fobPort: await this.getFobPortFromSource(createDto.sourceType, createDto.sourceNo),
+          shipDate: selectedItem.shipDate
+            ? new Date(selectedItem.shipDate)
+            : undefined,
+          shipMark: await this.getCustomerShipMarkFromSource(
+            createDto.sourceType,
+            createDto.sourceNo,
+          ),
+          fobPort: await this.getFobPortFromSource(
+            createDto.sourceType,
+            createDto.sourceNo,
+          ),
           creUser: userId || createDto.userId,
           userId: userId || createDto.userId,
         });
 
-        const savedOrder = await queryRunner.manager.save(ShippingOrder, shippingOrder);
+        const savedOrder = await queryRunner.manager.save(
+          ShippingOrder,
+          shippingOrder,
+        );
         shippingOrders.push(savedOrder);
       }
 
@@ -161,7 +197,11 @@ export class ShippingOrderService {
   /**
    * Update shipping order
    */
-  async update(soNo: string, updateDto: UpdateShippingOrderDto, userId?: string): Promise<ShippingOrder> {
+  async update(
+    soNo: string,
+    updateDto: UpdateShippingOrderDto,
+    userId?: string,
+  ): Promise<ShippingOrder> {
     const shippingOrder = await this.findOne(soNo);
 
     // Validate references if being updated
@@ -235,10 +275,14 @@ export class ShippingOrderService {
       qb.andWhere('so.itemNo ILIKE :itemNo', { itemNo: `%${query.itemNo}%` });
     }
     if (query?.shipDateFrom) {
-      qb.andWhere('so.shipDate >= :shipDateFrom', { shipDateFrom: query.shipDateFrom });
+      qb.andWhere('so.shipDate >= :shipDateFrom', {
+        shipDateFrom: query.shipDateFrom,
+      });
     }
     if (query?.shipDateTo) {
-      qb.andWhere('so.shipDate <= :shipDateTo', { shipDateTo: query.shipDateTo });
+      qb.andWhere('so.shipDate <= :shipDateTo', {
+        shipDateTo: query.shipDateTo,
+      });
     }
 
     const results = await qb.getRawMany();
@@ -331,13 +375,18 @@ export class ShippingOrderService {
   /**
    * Get customer ship mark from OC
    */
-  private async getCustomerShipMarkFromOc(confNo: string): Promise<string | undefined> {
-    const result = await this.dataSource.query(`
+  private async getCustomerShipMarkFromOc(
+    confNo: string,
+  ): Promise<string | undefined> {
+    const result = await this.dataSource.query(
+      `
       SELECT c.shipmark
       FROM customer c
       JOIN order_confirmation_header och ON c.cust_no = och.cust_no
       WHERE och.conf_no = $1
-    `, [confNo]);
+    `,
+      [confNo],
+    );
 
     return result[0]?.shipmark;
   }
@@ -345,15 +394,22 @@ export class ShippingOrderService {
   /**
    * Get customer ship mark from source
    */
-  private async getCustomerShipMarkFromSource(sourceType: 'oc' | 'contract', sourceNo: string): Promise<string | undefined> {
-    const result = await this.dataSource.query(`
+  private async getCustomerShipMarkFromSource(
+    sourceType: 'oc' | 'contract',
+    sourceNo: string,
+  ): Promise<string | undefined> {
+    const result = await this.dataSource.query(
+      `
       SELECT c.shipmark
       FROM customer c
-      ${sourceType === 'oc'
-        ? 'JOIN order_confirmation_header och ON c.cust_no = och.cust_no WHERE och.conf_no = $1'
-        : 'JOIN contract_header ch ON c.cust_no = ch.cust_no WHERE ch.cont_no = $1'
+      ${
+        sourceType === 'oc'
+          ? 'JOIN order_confirmation_header och ON c.cust_no = och.cust_no WHERE och.conf_no = $1'
+          : 'JOIN contract_header ch ON c.cust_no = ch.cust_no WHERE ch.cont_no = $1'
       }
-    `, [sourceNo]);
+    `,
+      [sourceNo],
+    );
 
     return result[0]?.shipmark;
   }
@@ -361,11 +417,17 @@ export class ShippingOrderService {
   /**
    * Get FOB port from source
    */
-  private async getFobPortFromSource(sourceType: 'oc' | 'contract', sourceNo: string): Promise<string | undefined> {
+  private async getFobPortFromSource(
+    sourceType: 'oc' | 'contract',
+    sourceNo: string,
+  ): Promise<string | undefined> {
     if (sourceType === 'contract') {
-      const result = await this.dataSource.query(`
+      const result = await this.dataSource.query(
+        `
         SELECT fob_port FROM contract_header WHERE cont_no = $1
-      `, [sourceNo]);
+      `,
+        [sourceNo],
+      );
       return result[0]?.fob_port;
     }
     return undefined;
@@ -377,7 +439,7 @@ export class ShippingOrderService {
   private async validateOrderConfirmationExists(confNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM order_confirmation_header WHERE conf_no = $1',
-      [confNo]
+      [confNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Order Confirmation ${confNo} not found`);
@@ -390,7 +452,7 @@ export class ShippingOrderService {
   private async validateContractExists(contNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM contract_header WHERE cont_no = $1',
-      [contNo]
+      [contNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Contract ${contNo} not found`);
@@ -403,7 +465,7 @@ export class ShippingOrderService {
   private async validateItemExists(itemNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM item WHERE item_no = $1',
-      [itemNo]
+      [itemNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Item ${itemNo} not found`);

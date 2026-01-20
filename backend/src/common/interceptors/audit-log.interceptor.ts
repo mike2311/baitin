@@ -19,8 +19,8 @@ import { AUDIT_LOG_KEY } from '../decorators/audit-log.decorator';
  * - Documentation: docs/source/08-security/audit-trail.md
  * - Business Rules:
  *   - Log all create/update/delete operations
-   *   - Track user and timestamp
-   *
+ *   - Track user and timestamp
+ *
  * Reference: Phase 3 - Hardening
  */
 @Injectable()
@@ -29,7 +29,10 @@ export class AuditLogInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
-    const action = this.reflector.get<string>(AUDIT_LOG_KEY, context.getHandler());
+    const action = this.reflector.get<string>(
+      AUDIT_LOG_KEY,
+      context.getHandler(),
+    );
     const user = request.user; // From JWT guard
 
     const method = request.method;
@@ -39,14 +42,18 @@ export class AuditLogInterceptor implements NestInterceptor {
     // Log action
     // TODO: Write to audit log table (mactivity equivalent)
     if (action && user) {
-      console.log(`[AUDIT] ${action} - User: ${user.username}, Method: ${method}, URL: ${url}, Time: ${timestamp.toISOString()}`);
+      console.log(
+        `[AUDIT] ${action} - User: ${user.username}, Method: ${method}, URL: ${url}, Time: ${timestamp.toISOString()}`,
+      );
     }
 
     return next.handle().pipe(
       tap(() => {
         // Log successful completion
         if (action && user) {
-          console.log(`[AUDIT] ${action} completed - User: ${user.username}, Time: ${new Date().toISOString()}`);
+          console.log(
+            `[AUDIT] ${action} completed - User: ${user.username}, Time: ${new Date().toISOString()}`,
+          );
         }
       }),
     );

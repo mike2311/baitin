@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 
 /**
@@ -21,7 +22,7 @@ describe('Phase 2 Regression Tests', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -59,7 +60,7 @@ describe('Phase 2 Regression Tests', () => {
 
     it('should create OE Header', async () => {
       const oeNo = `OE-HDR-${Date.now()}`;
-      
+
       // Create control first
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
@@ -84,7 +85,7 @@ describe('Phase 2 Regression Tests', () => {
 
     it('should create OE Detail', async () => {
       const oeNo = `OE-DTL-${Date.now()}`;
-      
+
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
         .set('Authorization', `Bearer ${authToken}`)
@@ -101,7 +102,7 @@ describe('Phase 2 Regression Tests', () => {
           oeNo,
           itemNo: 'ITEM001',
           qty: 100,
-          price: 10.50,
+          price: 10.5,
         });
 
       expect(response.status).toBe(201);
@@ -124,7 +125,7 @@ describe('Phase 2 Regression Tests', () => {
   describe('Order Confirmation (OC) Module', () => {
     it('should post OE to OC', async () => {
       const oeNo = `OE-OC-${Date.now()}`;
-      
+
       // Create OE first
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
@@ -162,7 +163,7 @@ describe('Phase 2 Regression Tests', () => {
   describe('Contract Module', () => {
     it('should generate Contract from OC', async () => {
       const oeNo = `OE-CONT-${Date.now()}`;
-      
+
       // Create OE and OC first
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
@@ -310,7 +311,7 @@ describe('Phase 2 Regression Tests', () => {
   describe('Cross-Phase Integration', () => {
     it('should maintain OE → OC → Contract → SO workflow', async () => {
       const oeNo = `OE-WORKFLOW-${Date.now()}`;
-      
+
       // Create OE
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')

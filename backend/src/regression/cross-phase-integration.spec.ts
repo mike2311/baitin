@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 
 /**
@@ -20,7 +21,7 @@ describe('Cross-Phase Integration', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -45,7 +46,7 @@ describe('Cross-Phase Integration', () => {
   describe('Phase 2 → Phase 3 Data Flow', () => {
     it('should create SO from OC created in Phase 2', async () => {
       const oeNo = `OE-PHASE2-${Date.now()}`;
-      
+
       // Phase 2: Create OE
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
@@ -82,7 +83,7 @@ describe('Cross-Phase Integration', () => {
 
     it('should create Invoice from Contract created in Phase 2', async () => {
       const oeNo = `OE-INV-${Date.now()}`;
-      
+
       // Phase 2: Create OE → OC → Contract
       await request(app.getHttpServer())
         .post('/api/order-enquiry/control')
@@ -128,7 +129,7 @@ describe('Cross-Phase Integration', () => {
   describe('Shared Master Data Consistency', () => {
     it('should use same Customer master data across phases', async () => {
       const custNo = `CUST-SHARED-${Date.now()}`;
-      
+
       // Create customer
       await request(app.getHttpServer())
         .post('/api/customers')
@@ -166,7 +167,7 @@ describe('Cross-Phase Integration', () => {
 
     it('should use same Item master data across phases', async () => {
       const itemNo = `ITEM-SHARED-${Date.now()}`;
-      
+
       // Create item
       await request(app.getHttpServer())
         .post('/api/items')
@@ -195,7 +196,7 @@ describe('Cross-Phase Integration', () => {
           oeNo,
           itemNo,
           qty: 100,
-          price: 10.50,
+          price: 10.5,
         });
 
       // Phase 3: Use in Invoice
@@ -210,7 +211,7 @@ describe('Cross-Phase Integration', () => {
             {
               itemNo,
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });

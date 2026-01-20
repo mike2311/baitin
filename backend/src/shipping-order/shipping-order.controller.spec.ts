@@ -4,7 +4,10 @@ import { ShippingOrderService } from './shipping-order.service';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { CreateShippingOrderDto } from './dto/create-shipping-order.dto';
 import { UpdateShippingOrderDto } from './dto/update-shipping-order.dto';
-import { GenerateSoDocumentDto, SoDocumentType } from './dto/generate-so-document.dto';
+import {
+  GenerateSoDocumentDto,
+  SoDocumentType,
+} from './dto/generate-so-document.dto';
 
 /**
  * Shipping Order Controller Tests
@@ -58,7 +61,9 @@ describe('ShippingOrderController', () => {
 
     controller = module.get<ShippingOrderController>(ShippingOrderController);
     service = module.get<ShippingOrderService>(ShippingOrderService);
-    documentService = module.get<ShippingOrderDocumentService>(ShippingOrderDocumentService);
+    documentService = module.get<ShippingOrderDocumentService>(
+      ShippingOrderDocumentService,
+    );
   });
 
   it('should be defined', () => {
@@ -94,9 +99,13 @@ describe('ShippingOrderController', () => {
         qty: 100,
       };
 
-      mockShippingOrderService.create.mockRejectedValue(new Error('Database error'));
+      mockShippingOrderService.create.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(controller.create(createDto)).rejects.toThrow('Database error');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Database error',
+      );
     });
   });
 
@@ -121,7 +130,12 @@ describe('ShippingOrderController', () => {
     });
 
     it('should handle pagination parameters', async () => {
-      mockShippingOrderService.findAll.mockResolvedValue({ data: [], total: 0, page: 2, limit: 20 } as any);
+      mockShippingOrderService.findAll.mockResolvedValue({
+        data: [],
+        total: 0,
+        page: 2,
+        limit: 20,
+      } as any);
 
       await controller.findAll(2, 20);
 
@@ -150,14 +164,14 @@ describe('ShippingOrderController', () => {
     it('should update a shipping order', async () => {
       const updateDto: UpdateShippingOrderDto = {
         qty: 150,
-        price: 11.00,
+        price: 11.0,
       };
 
       const mockResult = {
         soNo: 'SO001',
         itemNo: 'ITEM001',
         qty: 150,
-        price: 11.00,
+        price: 11.0,
       };
 
       mockShippingOrderService.update.mockResolvedValue(mockResult as any);
@@ -165,7 +179,10 @@ describe('ShippingOrderController', () => {
       const result = await controller.update('SO001', updateDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.update).toHaveBeenCalledWith('SO001', updateDto);
+      expect(mockShippingOrderService.update).toHaveBeenCalledWith(
+        'SO001',
+        updateDto,
+      );
     });
   });
 
@@ -183,16 +200,16 @@ describe('ShippingOrderController', () => {
   describe('search', () => {
     it('should search shipping orders', async () => {
       const searchParams = { soNo: 'SO001', itemNo: 'ITEM001' };
-      const mockResult = [
-        { soNo: 'SO001', itemNo: 'ITEM001', qty: 100 },
-      ];
+      const mockResult = [{ soNo: 'SO001', itemNo: 'ITEM001', qty: 100 }];
 
       mockShippingOrderService.search.mockResolvedValue(mockResult as any);
 
       const result = await controller.search(searchParams);
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.search).toHaveBeenCalledWith(searchParams);
+      expect(mockShippingOrderService.search).toHaveBeenCalledWith(
+        searchParams,
+      );
     });
   });
 
@@ -203,20 +220,37 @@ describe('ShippingOrderController', () => {
         { itemNo: 'ITEM002', availableQty: 300, itemName: 'Another Item' },
       ];
 
-      mockShippingOrderService.getAvailableItems.mockResolvedValue(mockResult as any);
+      mockShippingOrderService.getAvailableItems.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.getAvailableItems('OC001', 'CUST001');
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.getAvailableItems).toHaveBeenCalledWith('OC001', 'CUST001');
+      expect(mockShippingOrderService.getAvailableItems).toHaveBeenCalledWith(
+        'OC001',
+        'CUST001',
+      );
     });
   });
 
   describe('getSoFormat', () => {
     it('should return SO format configuration', async () => {
       const mockResult = [
-        { soKey: 'DEFAULT', uniqueid: 'company', vpos: 1, hpos: 1, data: 'Company Name' },
-        { soKey: 'DEFAULT', uniqueid: 'so_no', vpos: 2, hpos: 1, data: 'SO Number' },
+        {
+          soKey: 'DEFAULT',
+          uniqueid: 'company',
+          vpos: 1,
+          hpos: 1,
+          data: 'Company Name',
+        },
+        {
+          soKey: 'DEFAULT',
+          uniqueid: 'so_no',
+          vpos: 2,
+          hpos: 1,
+          data: 'SO Number',
+        },
       ];
 
       mockShippingOrderService.getSoFormat.mockResolvedValue(mockResult as any);
@@ -224,7 +258,9 @@ describe('ShippingOrderController', () => {
       const result = await controller.getSoFormat('DEFAULT');
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.getSoFormat).toHaveBeenCalledWith('DEFAULT');
+      expect(mockShippingOrderService.getSoFormat).toHaveBeenCalledWith(
+        'DEFAULT',
+      );
     });
   });
 
@@ -253,7 +289,9 @@ describe('ShippingOrderController', () => {
       const result = await controller.previewSoDocument(generateDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockDocumentService.previewSoDocument).toHaveBeenCalledWith(generateDto);
+      expect(mockDocumentService.previewSoDocument).toHaveBeenCalledWith(
+        generateDto,
+      );
     });
   });
 
@@ -283,12 +321,26 @@ describe('ShippingOrderController', () => {
         send: jest.fn(),
       };
 
-      const result = await controller.generateSoDocument(generateDto, mockRes as any);
+      const result = await controller.generateSoDocument(
+        generateDto,
+        mockRes as any,
+      );
 
-      expect(mockDocumentService.generateSoDocument).toHaveBeenCalledWith(generateDto);
-      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Disposition', `attachment; filename="${mockResult.fileName}"`);
-      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Length', mockResult.fileSize.toString());
+      expect(mockDocumentService.generateSoDocument).toHaveBeenCalledWith(
+        generateDto,
+      );
+      expect(mockRes.setHeader).toHaveBeenCalledWith(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      expect(mockRes.setHeader).toHaveBeenCalledWith(
+        'Content-Disposition',
+        `attachment; filename="${mockResult.fileName}"`,
+      );
+      expect(mockRes.setHeader).toHaveBeenCalledWith(
+        'Content-Length',
+        mockResult.fileSize.toString(),
+      );
       expect(mockRes.send).toHaveBeenCalledWith(mockResult.fileBuffer);
     });
 
@@ -315,8 +367,14 @@ describe('ShippingOrderController', () => {
 
       await controller.generateSoDocument(generateDto, mockRes as any);
 
-      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/pdf');
-      expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Disposition', `attachment; filename="${mockResult.fileName}"`);
+      expect(mockRes.setHeader).toHaveBeenCalledWith(
+        'Content-Type',
+        'application/pdf',
+      );
+      expect(mockRes.setHeader).toHaveBeenCalledWith(
+        'Content-Disposition',
+        `attachment; filename="${mockResult.fileName}"`,
+      );
     });
   });
 
@@ -328,9 +386,13 @@ describe('ShippingOrderController', () => {
         qty: 100,
       };
 
-      mockShippingOrderService.create.mockRejectedValue(new Error('Service error'));
+      mockShippingOrderService.create.mockRejectedValue(
+        new Error('Service error'),
+      );
 
-      await expect(controller.create(createDto)).rejects.toThrow('Service error');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Service error',
+      );
     });
 
     it('should handle document service errors', async () => {
@@ -340,14 +402,18 @@ describe('ShippingOrderController', () => {
         outputFormat: 'excel',
       };
 
-      mockDocumentService.generateSoDocument.mockRejectedValue(new Error('Document generation failed'));
+      mockDocumentService.generateSoDocument.mockRejectedValue(
+        new Error('Document generation failed'),
+      );
 
       const mockRes = {
         setHeader: jest.fn(),
         send: jest.fn(),
       };
 
-      await expect(controller.generateSoDocument(generateDto, mockRes as any)).rejects.toThrow('Document generation failed');
+      await expect(
+        controller.generateSoDocument(generateDto, mockRes as any),
+      ).rejects.toThrow('Document generation failed');
     });
   });
 });

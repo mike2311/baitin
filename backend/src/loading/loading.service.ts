@@ -1,10 +1,18 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { LoadingMaster } from './entities/loading-master.entity';
 import { LoadingAdviceHeader } from './entities/loading-advice-header.entity';
 import { LoadingAdviceDetail } from './entities/loading-advice-detail.entity';
-import { CreateLoadingMasterDto, CreateLoadingAdviceDto } from './dto/create-loading-master.dto';
+import {
+  CreateLoadingMasterDto,
+  CreateLoadingAdviceDto,
+} from './dto/create-loading-master.dto';
 // Note: Not importing DeliveryNoteService to avoid circular dependency
 // DN status updates done via direct DataSource queries
 
@@ -40,13 +48,18 @@ export class LoadingService {
    * Original Logic Reference:
    * - Legacy Form: iload
    */
-  async createLoadingMaster(createDto: CreateLoadingMasterDto, userId?: string): Promise<LoadingMaster> {
+  async createLoadingMaster(
+    createDto: CreateLoadingMasterDto,
+    userId?: string,
+  ): Promise<LoadingMaster> {
     // Validate loading number uniqueness
     const existing = await this.loadingMasterRepository.findOne({
       where: { loadingNo: createDto.loadingNo },
     });
     if (existing) {
-      throw new ConflictException(`Loading Master ${createDto.loadingNo} already exists`);
+      throw new ConflictException(
+        `Loading Master ${createDto.loadingNo} already exists`,
+      );
     }
 
     const queryRunner = this.dataSource.createQueryRunner();
@@ -69,7 +82,10 @@ export class LoadingService {
         userId: userId || createDto.userId,
       });
 
-      const savedMaster = await queryRunner.manager.save(LoadingMaster, loadingMaster);
+      const savedMaster = await queryRunner.manager.save(
+        LoadingMaster,
+        loadingMaster,
+      );
 
       // Update DN statuses if DNs provided
       if (createDto.dnNos && createDto.dnNos.length > 0) {
@@ -77,7 +93,7 @@ export class LoadingService {
           // Update DN status to Loading and assign loading number
           await queryRunner.manager.query(
             `UPDATE delivery_note_header SET loading_status = 'Loading', loading_no = $1 WHERE dn_no = $2`,
-            [createDto.loadingNo, dnNo]
+            [createDto.loadingNo, dnNo],
           );
         }
       }
@@ -98,13 +114,18 @@ export class LoadingService {
    * Original Logic Reference:
    * - Legacy Form: isetla
    */
-  async createLoadingAdvice(createDto: CreateLoadingAdviceDto, userId?: string): Promise<LoadingAdviceHeader> {
+  async createLoadingAdvice(
+    createDto: CreateLoadingAdviceDto,
+    userId?: string,
+  ): Promise<LoadingAdviceHeader> {
     // Validate loading master exists
     const loadingMaster = await this.loadingMasterRepository.findOne({
       where: { loadingNo: createDto.loadingNo },
     });
     if (!loadingMaster) {
-      throw new NotFoundException(`Loading Master ${createDto.loadingNo} not found`);
+      throw new NotFoundException(
+        `Loading Master ${createDto.loadingNo} not found`,
+      );
     }
 
     // Validate LA number uniqueness
@@ -112,7 +133,9 @@ export class LoadingService {
       where: { laNo: createDto.laNo },
     });
     if (existing) {
-      throw new ConflictException(`Loading Advice ${createDto.laNo} already exists`);
+      throw new ConflictException(
+        `Loading Advice ${createDto.laNo} already exists`,
+      );
     }
 
     const queryRunner = this.dataSource.createQueryRunner();
@@ -132,7 +155,10 @@ export class LoadingService {
         userId: userId || createDto.userId,
       });
 
-      const savedHeader = await queryRunner.manager.save(LoadingAdviceHeader, header);
+      const savedHeader = await queryRunner.manager.save(
+        LoadingAdviceHeader,
+        header,
+      );
 
       // Create loading advice details
       for (const detailDto of createDto.details) {
@@ -225,13 +251,19 @@ export class LoadingService {
   /**
    * Update loading master status
    */
-  async updateLoadingMasterStatus(loadingNo: string, status: string, userId?: string): Promise<LoadingMaster> {
+  async updateLoadingMasterStatus(
+    loadingNo: string,
+    status: string,
+    userId?: string,
+  ): Promise<LoadingMaster> {
     const master = await this.findLoadingMaster(loadingNo);
 
     // Validate status transition
     const validStatuses = ['Planned', 'In Progress', 'Completed'];
     if (!validStatuses.includes(status)) {
-      throw new BadRequestException(`Invalid status: ${status}. Valid statuses: ${validStatuses.join(', ')}`);
+      throw new BadRequestException(
+        `Invalid status: ${status}. Valid statuses: ${validStatuses.join(', ')}`,
+      );
     }
 
     master.status = status;
@@ -246,7 +278,11 @@ export class LoadingService {
    * Original Logic Reference:
    * - Legacy Form: iload (assign DNs)
    */
-  async assignDnsToLoading(loadingNo: string, dnNos: string[], userId?: string): Promise<void> {
+  async assignDnsToLoading(
+    loadingNo: string,
+    dnNos: string[],
+    userId?: string,
+  ): Promise<void> {
     const master = await this.findLoadingMaster(loadingNo);
 
     const queryRunner = this.dataSource.createQueryRunner();
@@ -258,7 +294,7 @@ export class LoadingService {
         // Validate DN exists
         const dn = await queryRunner.manager.query(
           'SELECT 1 FROM delivery_note_header WHERE dn_no = $1',
-          [dnNo]
+          [dnNo],
         );
         if (dn.length === 0) {
           throw new NotFoundException(`Delivery Note ${dnNo} not found`);
@@ -269,7 +305,7 @@ export class LoadingService {
           `UPDATE delivery_note_header 
            SET loading_status = 'Loading', loading_no = $1, mod_date = CURRENT_TIMESTAMP
            WHERE dn_no = $2`,
-          [loadingNo, dnNo]
+          [loadingNo, dnNo],
         );
       }
 
@@ -294,7 +330,9 @@ export class LoadingService {
     const qb = this.loadingMasterRepository.createQueryBuilder('lm');
 
     if (query?.loadingNo) {
-      qb.andWhere('lm.loadingNo ILIKE :loadingNo', { loadingNo: `%${query.loadingNo}%` });
+      qb.andWhere('lm.loadingNo ILIKE :loadingNo', {
+        loadingNo: `%${query.loadingNo}%`,
+      });
     }
     if (query?.dateFrom) {
       qb.andWhere('lm.date >= :dateFrom', { dateFrom: query.dateFrom });
@@ -312,7 +350,7 @@ export class LoadingService {
   private async validateItemExists(itemNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM item WHERE item_no = $1',
-      [itemNo]
+      [itemNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Item ${itemNo} not found`);

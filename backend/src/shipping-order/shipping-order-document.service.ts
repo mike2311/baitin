@@ -1,10 +1,17 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { ShippingOrder } from './entities/shipping-order.entity';
 import { SoFormat } from './entities/so-format.entity';
 import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
-import { SoDocumentPreviewResponseDto, SoDocumentGenerationResponseDto } from './dto/so-document-response.dto';
+import {
+  SoDocumentPreviewResponseDto,
+  SoDocumentGenerationResponseDto,
+} from './dto/so-document-response.dto';
 // Using xlsx library (already in package.json dependencies)
 const XLSX = require('xlsx');
 
@@ -39,12 +46,16 @@ export class ShippingOrderDocumentService {
    *
    * Returns preview data without generating file
    */
-  async previewSoDocument(generateDto: GenerateSoDocumentDto): Promise<SoDocumentPreviewResponseDto> {
+  async previewSoDocument(
+    generateDto: GenerateSoDocumentDto,
+  ): Promise<SoDocumentPreviewResponseDto> {
     // Load SO data
     const soData = await this.loadSoData(generateDto.soNos);
-    
+
     if (soData.length === 0) {
-      throw new NotFoundException('No shipping orders found for the specified SO numbers');
+      throw new NotFoundException(
+        'No shipping orders found for the specified SO numbers',
+      );
     }
 
     // Get format configuration if specified
@@ -69,14 +80,18 @@ export class ShippingOrderDocumentService {
    *   - Generate PDF or Excel file
    *   - Apply format customizations
    */
-  async generateSoDocument(generateDto: GenerateSoDocumentDto): Promise<SoDocumentGenerationResponseDto> {
+  async generateSoDocument(
+    generateDto: GenerateSoDocumentDto,
+  ): Promise<SoDocumentGenerationResponseDto> {
     const format = generateDto.outputFormat || 'pdf';
 
     // Load SO data
     const soData = await this.loadSoData(generateDto.soNos);
-    
+
     if (soData.length === 0) {
-      throw new NotFoundException('No shipping orders found for the specified SO numbers');
+      throw new NotFoundException(
+        'No shipping orders found for the specified SO numbers',
+      );
     }
 
     // Get format configuration if specified
@@ -91,11 +106,15 @@ export class ShippingOrderDocumentService {
 
     if (format === 'excel') {
       const excelData = await this.generateExcel(soData, formatConfig);
-      fileName = generateDto.fileName || `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      fileName =
+        generateDto.fileName ||
+        `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
       fileBuffer = excelData;
     } else if (format === 'pdf') {
       const pdfData = await this.generatePdf(soData, formatConfig);
-      fileName = generateDto.fileName || `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      fileName =
+        generateDto.fileName ||
+        `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.pdf`;
       fileBuffer = pdfData;
     } else {
       throw new BadRequestException(`Unsupported output format: ${format}`);
@@ -268,7 +287,7 @@ export class ShippingOrderDocumentService {
     }
 
     // Transform to format config object
-    return formats.map(format => ({
+    return formats.map((format) => ({
       uniqueid: format.uniqueid,
       fieldName: format.fieldName,
       name: format.name,
@@ -293,7 +312,10 @@ export class ShippingOrderDocumentService {
    *   - Format columns appropriately
    *   - Include all SO data
    */
-  private async generateExcel(soData: any[], formatConfig: any): Promise<Buffer> {
+  private async generateExcel(
+    soData: any[],
+    formatConfig: any,
+  ): Promise<Buffer> {
     const workbook = XLSX.utils.book_new();
 
     // Create a worksheet for each SO or combine into one
@@ -336,8 +358,19 @@ export class ShippingOrderDocumentService {
 
     // Items section
     data.push(['Items:']);
-    data.push(['Item No', 'Description', 'Qty', 'Cartons', 'Ship Mark', 'PO No', 'Ship To', 'Loading Port', 'Destination', 'FOB Port']);
-    
+    data.push([
+      'Item No',
+      'Description',
+      'Qty',
+      'Cartons',
+      'Ship Mark',
+      'PO No',
+      'Ship To',
+      'Loading Port',
+      'Destination',
+      'FOB Port',
+    ]);
+
     so.items.forEach((item: any) => {
       data.push([
         item.itemNo,
@@ -361,7 +394,8 @@ export class ShippingOrderDocumentService {
     if (so.discharge) data.push(['Discharge:', so.discharge]);
     if (so.delivery) data.push(['Delivery:', so.delivery]);
     if (so.paymentTerms) data.push(['Payment Terms:', so.paymentTerms]);
-    if (so.shipDate) data.push(['Ship Date:', new Date(so.shipDate).toLocaleDateString()]);
+    if (so.shipDate)
+      data.push(['Ship Date:', new Date(so.shipDate).toLocaleDateString()]);
     if (so.remarks) data.push(['Remarks:', so.remarks]);
 
     return XLSX.utils.aoa_to_sheet(data);
@@ -374,10 +408,21 @@ export class ShippingOrderDocumentService {
     const data: any[][] = [];
 
     // Header row
-    data.push(['SO No', 'Date', 'Customer', 'Item No', 'Description', 'Qty', 'Cartons', 'Ship Mark', 'PO No', 'Ship Date']);
+    data.push([
+      'SO No',
+      'Date',
+      'Customer',
+      'Item No',
+      'Description',
+      'Qty',
+      'Cartons',
+      'Ship Mark',
+      'PO No',
+      'Ship Date',
+    ]);
 
     // Data rows
-    soData.forEach(so => {
+    soData.forEach((so) => {
       if (so.items.length === 0) {
         data.push([
           so.soNo,
@@ -420,7 +465,7 @@ export class ShippingOrderDocumentService {
    * - Business Rules:
    *   - Format for printing
    *   - Apply format customizations
-   * 
+   *
    * Note: PDF generation will use a PDF library when added
    * For now, returning a simple text-based representation
    */
@@ -438,32 +483,44 @@ export class ShippingOrderDocumentService {
       pdfContent += `SO Number: ${so.soNo}\n`;
       pdfContent += `Date: ${so.date ? new Date(so.date).toLocaleDateString() : ''}\n`;
       pdfContent += `Customer: ${so.customerName || ''}\n`;
-      
+
       if (so.customerAddress) {
-        if (so.customerAddress.addr1) pdfContent += `Address: ${so.customerAddress.addr1}\n`;
-        if (so.customerAddress.addr2) pdfContent += `         ${so.customerAddress.addr2}\n`;
-        if (so.customerAddress.addr3) pdfContent += `         ${so.customerAddress.addr3}\n`;
-        if (so.customerAddress.addr4) pdfContent += `         ${so.customerAddress.addr4}\n`;
+        if (so.customerAddress.addr1)
+          pdfContent += `Address: ${so.customerAddress.addr1}\n`;
+        if (so.customerAddress.addr2)
+          pdfContent += `         ${so.customerAddress.addr2}\n`;
+        if (so.customerAddress.addr3)
+          pdfContent += `         ${so.customerAddress.addr3}\n`;
+        if (so.customerAddress.addr4)
+          pdfContent += `         ${so.customerAddress.addr4}\n`;
       }
 
       pdfContent += '\nItems:\n';
       pdfContent += '-'.repeat(80) + '\n';
-      pdfContent += 'Item No'.padEnd(15) + 'Description'.padEnd(30) + 'Qty'.padEnd(10) + 'Cartons'.padEnd(10) + 'Ship Mark\n';
+      pdfContent +=
+        'Item No'.padEnd(15) +
+        'Description'.padEnd(30) +
+        'Qty'.padEnd(10) +
+        'Cartons'.padEnd(10) +
+        'Ship Mark\n';
       pdfContent += '-'.repeat(80) + '\n';
 
       so.items.forEach((item: any) => {
-        pdfContent += (item.itemNo || '').padEnd(15) +
+        pdfContent +=
+          (item.itemNo || '').padEnd(15) +
           (item.itemDescription || '').substring(0, 28).padEnd(30) +
           (item.qty?.toString() || '').padEnd(10) +
           (item.ctn?.toString() || '').padEnd(10) +
-          (item.shipMark || '') + '\n';
+          (item.shipMark || '') +
+          '\n';
       });
 
       pdfContent += '\n';
       if (so.vessel) pdfContent += `Vessel: ${so.vessel}\n`;
       if (so.loading) pdfContent += `Loading: ${so.loading}\n`;
       if (so.discharge) pdfContent += `Discharge: ${so.discharge}\n`;
-      if (so.shipDate) pdfContent += `Ship Date: ${new Date(so.shipDate).toLocaleDateString()}\n`;
+      if (so.shipDate)
+        pdfContent += `Ship Date: ${new Date(so.shipDate).toLocaleDateString()}\n`;
       if (so.remarks) pdfContent += `Remarks: ${so.remarks}\n`;
     });
 

@@ -3,9 +3,16 @@ import { InvoiceController } from './invoice.controller';
 import { InvoiceService } from './invoice.service';
 import { InvoiceValidationService } from './invoice-validation.service';
 import { InvoiceDocumentService } from './invoice-document.service';
-import { CreateInvoiceDto, CreateInvoiceFromSoDto, SelectInvoiceItemsByContainerDto } from './dto/create-invoice.dto';
+import {
+  CreateInvoiceDto,
+  CreateInvoiceFromSoDto,
+  SelectInvoiceItemsByContainerDto,
+} from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import { GenerateInvoiceDocumentDto, InvoiceDocumentType } from './dto/generate-invoice-document.dto';
+import {
+  GenerateInvoiceDocumentDto,
+  InvoiceDocumentType,
+} from './dto/generate-invoice-document.dto';
 
 /**
  * Invoice Controller Tests
@@ -71,8 +78,12 @@ describe('InvoiceController', () => {
 
     controller = module.get<InvoiceController>(InvoiceController);
     service = module.get<InvoiceService>(InvoiceService);
-    validationService = module.get<InvoiceValidationService>(InvoiceValidationService);
-    documentService = module.get<InvoiceDocumentService>(InvoiceDocumentService);
+    validationService = module.get<InvoiceValidationService>(
+      InvoiceValidationService,
+    );
+    documentService = module.get<InvoiceDocumentService>(
+      InvoiceDocumentService,
+    );
   });
 
   it('should be defined', () => {
@@ -90,7 +101,7 @@ describe('InvoiceController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
           },
         ],
       };
@@ -130,7 +141,9 @@ describe('InvoiceController', () => {
       const result = await controller.createFromSource(createDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockInvoiceService.createFromSource).toHaveBeenCalledWith(createDto);
+      expect(mockInvoiceService.createFromSource).toHaveBeenCalledWith(
+        createDto,
+      );
     });
 
     it('should create invoice from DN', async () => {
@@ -152,7 +165,9 @@ describe('InvoiceController', () => {
       const result = await controller.createFromSource(createDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockInvoiceService.createFromSource).toHaveBeenCalledWith(createDto);
+      expect(mockInvoiceService.createFromSource).toHaveBeenCalledWith(
+        createDto,
+      );
     });
   });
 
@@ -173,12 +188,16 @@ describe('InvoiceController', () => {
         },
       ];
 
-      mockInvoiceService.selectItemsByContainer.mockResolvedValue(mockResult as any);
+      mockInvoiceService.selectItemsByContainer.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.selectItemsByContainer(selectDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockInvoiceService.selectItemsByContainer).toHaveBeenCalledWith(selectDto);
+      expect(mockInvoiceService.selectItemsByContainer).toHaveBeenCalledWith(
+        selectDto,
+      );
     });
   });
 
@@ -213,11 +232,11 @@ describe('InvoiceController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
           },
         ],
         totalQty: 100,
-        totalAmount: 1050.00,
+        totalAmount: 1050.0,
       };
 
       mockInvoiceService.findOne.mockResolvedValue(mockResult as any);
@@ -247,7 +266,10 @@ describe('InvoiceController', () => {
       const result = await controller.update('INV001', updateDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockInvoiceService.update).toHaveBeenCalledWith('INV001', updateDto);
+      expect(mockInvoiceService.update).toHaveBeenCalledWith(
+        'INV001',
+        updateDto,
+      );
     });
   });
 
@@ -265,9 +287,7 @@ describe('InvoiceController', () => {
   describe('search', () => {
     it('should search invoices', async () => {
       const searchParams = { invNo: 'INV001', custNo: 'CUST001' };
-      const mockResult = [
-        { invNo: 'INV001', custNo: 'CUST001' },
-      ];
+      const mockResult = [{ invNo: 'INV001', custNo: 'CUST001' }];
 
       mockInvoiceService.search.mockResolvedValue(mockResult as any);
 
@@ -281,21 +301,23 @@ describe('InvoiceController', () => {
   describe('validation endpoints', () => {
     describe('validateQtyCartonMatch', () => {
       it('should validate qty/carton match', async () => {
-        const items = [
-          { itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 50 },
-        ];
+        const items = [{ itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 50 }];
 
         const mockResult = {
           isValid: true,
           errors: [],
         };
 
-        mockValidationService.validateQtyCartonMatch.mockResolvedValue(mockResult);
+        mockValidationService.validateQtyCartonMatch.mockResolvedValue(
+          mockResult,
+        );
 
         const result = await controller.validateQtyCartonMatch(items);
 
         expect(result).toEqual(mockResult);
-        expect(mockValidationService.validateQtyCartonMatch).toHaveBeenCalledWith(items);
+        expect(
+          mockValidationService.validateQtyCartonMatch,
+        ).toHaveBeenCalledWith(items);
       });
     });
 
@@ -314,7 +336,10 @@ describe('InvoiceController', () => {
         const result = await controller.validateDateRange(fromDate, toDate);
 
         expect(result).toEqual(mockResult);
-        expect(mockValidationService.validateDateRange).toHaveBeenCalledWith(fromDate, toDate);
+        expect(mockValidationService.validateDateRange).toHaveBeenCalledWith(
+          fromDate,
+          toDate,
+        );
       });
     });
 
@@ -328,18 +353,29 @@ describe('InvoiceController', () => {
           errors: [],
         };
 
-        mockValidationService.validateItemAvailability.mockResolvedValue(mockResult);
+        mockValidationService.validateItemAvailability.mockResolvedValue(
+          mockResult,
+        );
 
-        const result = await controller.validateItemAvailability(items, availableItems);
+        const result = await controller.validateItemAvailability(
+          items,
+          availableItems,
+        );
 
         expect(result).toEqual(mockResult);
-        expect(mockValidationService.validateItemAvailability).toHaveBeenCalledWith(items, availableItems);
+        expect(
+          mockValidationService.validateItemAvailability,
+        ).toHaveBeenCalledWith(items, availableItems);
       });
     });
 
     describe('validateCustomerCredit', () => {
       it('should validate customer credit', async () => {
-        const customer = { custNo: 'CUST001', creditLimit: 10000, currentBalance: 5000 };
+        const customer = {
+          custNo: 'CUST001',
+          creditLimit: 10000,
+          currentBalance: 5000,
+        };
         const invoiceTotal = 3000;
 
         const mockResult = {
@@ -347,12 +383,19 @@ describe('InvoiceController', () => {
           errors: [],
         };
 
-        mockValidationService.validateCustomerCredit.mockResolvedValue(mockResult);
+        mockValidationService.validateCustomerCredit.mockResolvedValue(
+          mockResult,
+        );
 
-        const result = await controller.validateCustomerCredit(customer, invoiceTotal);
+        const result = await controller.validateCustomerCredit(
+          customer,
+          invoiceTotal,
+        );
 
         expect(result).toEqual(mockResult);
-        expect(mockValidationService.validateCustomerCredit).toHaveBeenCalledWith(customer, invoiceTotal);
+        expect(
+          mockValidationService.validateCustomerCredit,
+        ).toHaveBeenCalledWith(customer, invoiceTotal);
       });
     });
   });
@@ -378,12 +421,16 @@ describe('InvoiceController', () => {
           ],
         };
 
-        mockDocumentService.previewInvoiceDocument.mockResolvedValue(mockResult);
+        mockDocumentService.previewInvoiceDocument.mockResolvedValue(
+          mockResult,
+        );
 
         const result = await controller.previewInvoiceDocument(generateDto);
 
         expect(result).toEqual(mockResult);
-        expect(mockDocumentService.previewInvoiceDocument).toHaveBeenCalledWith(generateDto);
+        expect(mockDocumentService.previewInvoiceDocument).toHaveBeenCalledWith(
+          generateDto,
+        );
       });
     });
 
@@ -405,7 +452,9 @@ describe('InvoiceController', () => {
           fileBuffer: Buffer.from('mock excel data'),
         };
 
-        mockDocumentService.generateInvoiceDocument.mockResolvedValue(mockResult);
+        mockDocumentService.generateInvoiceDocument.mockResolvedValue(
+          mockResult,
+        );
 
         // Mock Express Response
         const mockRes = {
@@ -413,12 +462,26 @@ describe('InvoiceController', () => {
           send: jest.fn(),
         };
 
-        const result = await controller.generateInvoiceDocument(generateDto, mockRes as any);
+        const result = await controller.generateInvoiceDocument(
+          generateDto,
+          mockRes as any,
+        );
 
-        expect(mockDocumentService.generateInvoiceDocument).toHaveBeenCalledWith(generateDto);
-        expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Disposition', `attachment; filename="${mockResult.fileName}"`);
-        expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Length', mockResult.fileSize.toString());
+        expect(
+          mockDocumentService.generateInvoiceDocument,
+        ).toHaveBeenCalledWith(generateDto);
+        expect(mockRes.setHeader).toHaveBeenCalledWith(
+          'Content-Type',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        );
+        expect(mockRes.setHeader).toHaveBeenCalledWith(
+          'Content-Disposition',
+          `attachment; filename="${mockResult.fileName}"`,
+        );
+        expect(mockRes.setHeader).toHaveBeenCalledWith(
+          'Content-Length',
+          mockResult.fileSize.toString(),
+        );
         expect(mockRes.send).toHaveBeenCalledWith(mockResult.fileBuffer);
       });
 
@@ -436,7 +499,9 @@ describe('InvoiceController', () => {
           fileBuffer: Buffer.from('mock pdf data'),
         };
 
-        mockDocumentService.generateInvoiceDocument.mockResolvedValue(mockResult);
+        mockDocumentService.generateInvoiceDocument.mockResolvedValue(
+          mockResult,
+        );
 
         const mockRes = {
           setHeader: jest.fn(),
@@ -445,8 +510,14 @@ describe('InvoiceController', () => {
 
         await controller.generateInvoiceDocument(generateDto, mockRes as any);
 
-        expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Type', 'application/pdf');
-        expect(mockRes.setHeader).toHaveBeenCalledWith('Content-Disposition', `attachment; filename="${mockResult.fileName}"`);
+        expect(mockRes.setHeader).toHaveBeenCalledWith(
+          'Content-Type',
+          'application/pdf',
+        );
+        expect(mockRes.setHeader).toHaveBeenCalledWith(
+          'Content-Disposition',
+          `attachment; filename="${mockResult.fileName}"`,
+        );
       });
     });
   });
@@ -462,15 +533,21 @@ describe('InvoiceController', () => {
 
       mockInvoiceService.create.mockRejectedValue(new Error('Service error'));
 
-      await expect(controller.create(createDto)).rejects.toThrow('Service error');
+      await expect(controller.create(createDto)).rejects.toThrow(
+        'Service error',
+      );
     });
 
     it('should handle validation service errors', async () => {
       const items = [{ itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 40 }];
 
-      mockValidationService.validateQtyCartonMatch.mockRejectedValue(new Error('Validation error'));
+      mockValidationService.validateQtyCartonMatch.mockRejectedValue(
+        new Error('Validation error'),
+      );
 
-      await expect(controller.validateQtyCartonMatch(items)).rejects.toThrow('Validation error');
+      await expect(controller.validateQtyCartonMatch(items)).rejects.toThrow(
+        'Validation error',
+      );
     });
 
     it('should handle document service errors', async () => {
@@ -480,14 +557,18 @@ describe('InvoiceController', () => {
         outputFormat: 'excel',
       };
 
-      mockDocumentService.generateInvoiceDocument.mockRejectedValue(new Error('Document generation failed'));
+      mockDocumentService.generateInvoiceDocument.mockRejectedValue(
+        new Error('Document generation failed'),
+      );
 
       const mockRes = {
         setHeader: jest.fn(),
         send: jest.fn(),
       };
 
-      await expect(controller.generateInvoiceDocument(generateDto, mockRes as any)).rejects.toThrow('Document generation failed');
+      await expect(
+        controller.generateInvoiceDocument(generateDto, mockRes as any),
+      ).rejects.toThrow('Document generation failed');
     });
   });
 });

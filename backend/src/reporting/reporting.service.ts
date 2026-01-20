@@ -1,9 +1,17 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { ReportDefinition } from './entities/report-definition.entity';
 import { GenerateReportDto } from './dto/generate-report.dto';
-import { ReportDefinitionDto, ReportPreviewResponseDto, ReportGenerationResponseDto } from './dto/report-response.dto';
+import {
+  ReportDefinitionDto,
+  ReportPreviewResponseDto,
+  ReportGenerationResponseDto,
+} from './dto/report-response.dto';
 // Note: ExcelJS and PDFKit will be added as dependencies
 // For now, using basic implementations
 // import * as ExcelJS from 'exceljs';
@@ -40,7 +48,7 @@ export class ReportingService {
       order: { category: 'ASC', reportName: 'ASC' },
     });
 
-    return reports.map(report => ({
+    return reports.map((report) => ({
       reportKey: report.reportKey,
       reportName: report.reportName,
       category: report.category,
@@ -71,21 +79,27 @@ export class ReportingService {
    *
    * Returns preview data without generating file
    */
-  async previewReport(generateDto: GenerateReportDto): Promise<ReportPreviewResponseDto> {
+  async previewReport(
+    generateDto: GenerateReportDto,
+  ): Promise<ReportPreviewResponseDto> {
     const report = await this.getReportDefinition(generateDto.reportKey);
 
     // Execute SQL query with parameters
-    const query = this.buildQuery(report.sqlQuery, generateDto.parameters || {});
+    const query = this.buildQuery(
+      report.sqlQuery,
+      generateDto.parameters || {},
+    );
     const results = await this.dataSource.query(query.query, query.parameters);
 
     // Extract column information from first row
-    const columns = results.length > 0
-      ? Object.keys(results[0]).map(key => ({
-          name: key,
-          label: this.formatColumnLabel(key),
-          type: this.inferColumnType(results[0][key]),
-        }))
-      : [];
+    const columns =
+      results.length > 0
+        ? Object.keys(results[0]).map((key) => ({
+            name: key,
+            label: this.formatColumnLabel(key),
+            type: this.inferColumnType(results[0][key]),
+          }))
+        : [];
 
     // Limit preview to 100 rows
     const previewData = results.slice(0, 100);
@@ -108,12 +122,17 @@ export class ReportingService {
    *   - Generate PDF or Excel file
    *   - Apply formatting from report definition
    */
-  async generateReport(generateDto: GenerateReportDto): Promise<ReportGenerationResponseDto> {
+  async generateReport(
+    generateDto: GenerateReportDto,
+  ): Promise<ReportGenerationResponseDto> {
     const report = await this.getReportDefinition(generateDto.reportKey);
     const format = generateDto.outputFormat || 'pdf';
 
     // Execute SQL query
-    const query = this.buildQuery(report.sqlQuery, generateDto.parameters || {});
+    const query = this.buildQuery(
+      report.sqlQuery,
+      generateDto.parameters || {},
+    );
     const results = await this.dataSource.query(query.query, query.parameters);
 
     if (results.length === 0) {
@@ -126,11 +145,15 @@ export class ReportingService {
 
     if (format === 'excel') {
       const excelData = await this.generateExcel(report, results);
-      fileName = generateDto.fileName || `${report.reportKey}_${new Date().toISOString().split('T')[0]}.xlsx`;
+      fileName =
+        generateDto.fileName ||
+        `${report.reportKey}_${new Date().toISOString().split('T')[0]}.xlsx`;
       fileBuffer = excelData;
     } else if (format === 'pdf') {
       const pdfData = await this.generatePdf(report, results);
-      fileName = generateDto.fileName || `${report.reportKey}_${new Date().toISOString().split('T')[0]}.pdf`;
+      fileName =
+        generateDto.fileName ||
+        `${report.reportKey}_${new Date().toISOString().split('T')[0]}.pdf`;
       fileBuffer = pdfData;
     } else {
       throw new BadRequestException(`Unsupported output format: ${format}`);
@@ -159,13 +182,16 @@ export class ReportingService {
    *   - Format columns appropriately
    *   - Apply styling
    *   - Include headers
-   * 
+   *
    * Note: Using xlsx library (already in dependencies) for Excel generation
    */
-  private async generateExcel(report: ReportDefinition, data: any[]): Promise<Buffer> {
+  private async generateExcel(
+    report: ReportDefinition,
+    data: any[],
+  ): Promise<Buffer> {
     // Using xlsx library (already in package.json)
     const XLSX = require('xlsx');
-    
+
     if (data.length === 0) {
       const workbook = XLSX.utils.book_new();
       return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
@@ -174,8 +200,8 @@ export class ReportingService {
     // Prepare worksheet data
     const headers = Object.keys(data[0]);
     const worksheetData = [
-      headers.map(h => this.formatColumnLabel(h)), // Header row
-      ...data.map(row => headers.map(header => row[header] || '')), // Data rows
+      headers.map((h) => this.formatColumnLabel(h)), // Header row
+      ...data.map((row) => headers.map((header) => row[header] || '')), // Data rows
     ];
 
     const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
@@ -193,11 +219,14 @@ export class ReportingService {
    * - Business Rules:
    *   - Format for printing
    *   - Include headers and data
-   * 
+   *
    * Note: PDF generation will use a PDF library when added
    * For now, returning a simple text-based representation
    */
-  private async generatePdf(report: ReportDefinition, data: any[]): Promise<Buffer> {
+  private async generatePdf(
+    report: ReportDefinition,
+    data: any[],
+  ): Promise<Buffer> {
     // TODO: Implement proper PDF generation with pdfkit or similar library
     // For now, return a simple text representation
     let pdfContent = `Report: ${report.reportName}\n`;
@@ -210,18 +239,21 @@ export class ReportingService {
 
     // Add headers
     const headers = Object.keys(data[0]);
-    pdfContent += headers.map(h => this.formatColumnLabel(h)).join(' | ') + '\n';
+    pdfContent +=
+      headers.map((h) => this.formatColumnLabel(h)).join(' | ') + '\n';
     pdfContent += '-'.repeat(80) + '\n';
 
     // Add data rows (limit to prevent huge PDFs)
     const maxRows = 1000;
     const rowsToShow = data.slice(0, maxRows);
-    
-    rowsToShow.forEach(row => {
-      const rowText = headers.map(h => {
-        const value = row[h];
-        return value !== null && value !== undefined ? String(value) : '';
-      }).join(' | ');
+
+    rowsToShow.forEach((row) => {
+      const rowText = headers
+        .map((h) => {
+          const value = row[h];
+          return value !== null && value !== undefined ? String(value) : '';
+        })
+        .join(' | ');
       pdfContent += rowText + '\n';
     });
 
@@ -235,7 +267,10 @@ export class ReportingService {
   /**
    * Build SQL query with parameters
    */
-  private buildQuery(sqlTemplate: string, parameters: Record<string, any>): { query: string; parameters: any[] } {
+  private buildQuery(
+    sqlTemplate: string,
+    parameters: Record<string, any>,
+  ): { query: string; parameters: any[] } {
     let query = sqlTemplate;
     const paramArray: any[] = [];
     let paramIndex = 1;
@@ -261,7 +296,7 @@ export class ReportingService {
       .replace(/([A-Z])/g, ' $1')
       .trim()
       .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   }
 

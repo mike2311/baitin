@@ -1,8 +1,4 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-} from 'typeorm';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 /**
  * SO Format Entity

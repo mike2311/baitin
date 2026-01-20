@@ -4,7 +4,11 @@ import { Repository, DataSource } from 'typeorm';
 import { InvoiceService } from './invoice.service';
 import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
-import { CreateInvoiceDto, CreateInvoiceFromSoDto, SelectInvoiceItemsByContainerDto } from './dto/create-invoice.dto';
+import {
+  CreateInvoiceDto,
+  CreateInvoiceFromSoDto,
+  SelectInvoiceItemsByContainerDto,
+} from './dto/create-invoice.dto';
 
 /**
  * Invoice Service Tests
@@ -95,7 +99,7 @@ describe('InvoiceService', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             ctn: 2,
             qctn: 50,
           },
@@ -130,18 +134,22 @@ describe('InvoiceService', () => {
         date: new Date('2025-01-15'),
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        custNo: 'CUST001',
-        ocNo: 'OC001',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          price: 10.50,
-          ctn: 2,
-          qctn: 50,
-        }],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          custNo: 'CUST001',
+          ocNo: 'OC001',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              price: 10.5,
+              ctn: 2,
+              qctn: 50,
+            },
+          ],
+        },
+      ];
 
       mockDataSource.query.mockResolvedValue(mockSoData);
       mockInvoiceHeaderRepository.create.mockReturnValue({} as any);
@@ -153,7 +161,7 @@ describe('InvoiceService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM shipping_order'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result.invNo).toBe('INV001');
       expect(result.details).toBeDefined();
@@ -167,17 +175,21 @@ describe('InvoiceService', () => {
         date: new Date('2025-01-15'),
       };
 
-      const mockDnData = [{
-        dnNo: 'DN001',
-        custNo: 'CUST001',
-        soNo: 'SO001',
-        ocNo: 'OC001',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          price: 10.50,
-        }],
-      }];
+      const mockDnData = [
+        {
+          dnNo: 'DN001',
+          custNo: 'CUST001',
+          soNo: 'SO001',
+          ocNo: 'OC001',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              price: 10.5,
+            },
+          ],
+        },
+      ];
 
       mockDataSource.query.mockResolvedValue(mockDnData);
       mockInvoiceHeaderRepository.create.mockReturnValue({} as any);
@@ -189,7 +201,7 @@ describe('InvoiceService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM delivery_note_header'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result.invNo).toBe('INV001');
     });
@@ -201,15 +213,17 @@ describe('InvoiceService', () => {
         custNo: 'CUST001',
       };
 
-      const mockItems = [{
-        itemNo: 'ITEM001',
-        qty: 100,
-        price: 10.50,
-        ctn: 2,
-        qctn: 50,
-        containerNo: 'CONT001',
-        refNo: 'REF001',
-      }];
+      const mockItems = [
+        {
+          itemNo: 'ITEM001',
+          qty: 100,
+          price: 10.5,
+          ctn: 2,
+          qctn: 50,
+          containerNo: 'CONT001',
+          refNo: 'REF001',
+        },
+      ];
 
       mockDataSource.query.mockResolvedValue(mockItems);
 
@@ -218,7 +232,7 @@ describe('InvoiceService', () => {
       expect(result).toEqual(mockItems);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM invoice_select_items'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -235,7 +249,7 @@ describe('InvoiceService', () => {
       } as InvoiceHeader);
 
       await expect(service.create(createDto)).rejects.toThrow(
-        'Invoice INV001 already exists'
+        'Invoice INV001 already exists',
       );
     });
   });
@@ -267,7 +281,13 @@ describe('InvoiceService', () => {
 
     it('should handle override for qty/carton mismatch', async () => {
       const details = [
-        { itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 50, overrideQtyCarton: true }, // Override allowed
+        {
+          itemNo: 'ITEM001',
+          qty: 100,
+          ctn: 2,
+          qctn: 50,
+          overrideQtyCarton: true,
+        }, // Override allowed
       ];
 
       const result = await (service as any).validateQtyCartonMatch(details);
@@ -281,7 +301,10 @@ describe('InvoiceService', () => {
       const invDtFrDate = new Date('2025-01-01');
       const invDtToDate = new Date('2025-01-31');
 
-      const result = await (service as any).validateDateRange(invDtFrDate, invDtToDate);
+      const result = await (service as any).validateDateRange(
+        invDtFrDate,
+        invDtToDate,
+      );
 
       expect(result.isValid).toBe(true);
     });
@@ -290,7 +313,10 @@ describe('InvoiceService', () => {
       const invDtFrDate = new Date('2025-01-31');
       const invDtToDate = new Date('2025-01-01'); // From > To
 
-      const result = await (service as any).validateDateRange(invDtFrDate, invDtToDate);
+      const result = await (service as any).validateDateRange(
+        invDtFrDate,
+        invDtToDate,
+      );
 
       expect(result.isValid).toBe(false);
       expect(result.error).toContain('From date cannot be after To date');
@@ -306,10 +332,15 @@ describe('InvoiceService', () => {
   describe('BOM sub-item handling', () => {
     it('should handle BOM items correctly', async () => {
       const details = [
-        { itemNo: 'BOM001', qty: 10, isBom: true, subItems: [
-          { itemNo: 'SUB001', qty: 20, price: 5.00 },
-          { itemNo: 'SUB002', qty: 15, price: 8.00 },
-        ]},
+        {
+          itemNo: 'BOM001',
+          qty: 10,
+          isBom: true,
+          subItems: [
+            { itemNo: 'SUB001', qty: 20, price: 5.0 },
+            { itemNo: 'SUB002', qty: 15, price: 8.0 },
+          ],
+        },
       ];
 
       const result = await (service as any).processBomItems(details);
@@ -317,13 +348,13 @@ describe('InvoiceService', () => {
       expect(result).toContainEqual({
         itemNo: 'SUB001',
         qty: 20,
-        price: 5.00,
+        price: 5.0,
         parentBom: 'BOM001',
       });
       expect(result).toContainEqual({
         itemNo: 'SUB002',
         qty: 15,
-        price: 8.00,
+        price: 8.0,
         parentBom: 'BOM001',
       });
     });
@@ -347,30 +378,32 @@ describe('InvoiceService', () => {
 
   describe('weight unit conversion', () => {
     it('should convert weights from kg to lbs', async () => {
-      const details = [
-        { itemNo: 'ITEM001', net: 50, wt: 55, unit: 'kg' },
-      ];
+      const details = [{ itemNo: 'ITEM001', net: 50, wt: 55, unit: 'kg' }];
 
       const customer = { custNo: 'CUST001', wt_unit: 2 }; // lbs conversion
 
       mockDataSource.query.mockResolvedValue([customer]);
 
-      const result = await (service as any).applyWeightConversion(details, 'CUST001');
+      const result = await (service as any).applyWeightConversion(
+        details,
+        'CUST001',
+      );
 
       expect(result[0].net).toBe(110); // 50 * 2.2
       expect(result[0].wt).toBe(121); // 55 * 2.2
     });
 
     it('should skip conversion for non-lbs customers', async () => {
-      const details = [
-        { itemNo: 'ITEM001', net: 50, wt: 55, unit: 'kg' },
-      ];
+      const details = [{ itemNo: 'ITEM001', net: 50, wt: 55, unit: 'kg' }];
 
       const customer = { custNo: 'CUST001', wt_unit: 1 }; // no conversion
 
       mockDataSource.query.mockResolvedValue([customer]);
 
-      const result = await (service as any).applyWeightConversion(details, 'CUST001');
+      const result = await (service as any).applyWeightConversion(
+        details,
+        'CUST001',
+      );
 
       expect(result[0].net).toBe(50);
       expect(result[0].wt).toBe(55);
@@ -381,15 +414,28 @@ describe('InvoiceService', () => {
     it('should return paginated invoices', async () => {
       const mockResult = {
         data: [
-          { invNo: 'INV001', custNo: 'CUST001', date: new Date(), plStatus: 'Not Printed' },
-          { invNo: 'INV002', custNo: 'CUST002', date: new Date(), plStatus: 'Printed' },
+          {
+            invNo: 'INV001',
+            custNo: 'CUST001',
+            date: new Date(),
+            plStatus: 'Not Printed',
+          },
+          {
+            invNo: 'INV002',
+            custNo: 'CUST002',
+            date: new Date(),
+            plStatus: 'Printed',
+          },
         ],
         total: 2,
         page: 1,
         limit: 10,
       };
 
-      mockInvoiceHeaderRepository.findAndCount.mockResolvedValue([mockResult.data as any, 2]);
+      mockInvoiceHeaderRepository.findAndCount.mockResolvedValue([
+        mockResult.data as any,
+        2,
+      ]);
 
       const result = await service.findAll(1, 10);
 
@@ -424,13 +470,15 @@ describe('InvoiceService', () => {
         plStatus: 'Not Printed',
       };
 
-      const mockDetails = [{
-        invNo: 'INV001',
-        itemNo: 'ITEM001',
-        qty: 100,
-        price: 10.50,
-        amount: 1050.00,
-      }];
+      const mockDetails = [
+        {
+          invNo: 'INV001',
+          itemNo: 'ITEM001',
+          qty: 100,
+          price: 10.5,
+          amount: 1050.0,
+        },
+      ];
 
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockHeader as any);
       mockInvoiceDetailRepository.find.mockResolvedValue(mockDetails as any);
@@ -449,8 +497,8 @@ describe('InvoiceService', () => {
       };
 
       const mockDetails = [
-        { qty: 100, amount: 1050.00, ctn: 2 },
-        { qty: 200, amount: 1600.00, ctn: 4 },
+        { qty: 100, amount: 1050.0, ctn: 2 },
+        { qty: 200, amount: 1600.0, ctn: 4 },
       ];
 
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockHeader as any);
@@ -459,7 +507,7 @@ describe('InvoiceService', () => {
       const result = await service.findOne('INV001');
 
       expect(result.totalQty).toBe(300);
-      expect(result.totalAmount).toBe(2650.00);
+      expect(result.totalAmount).toBe(2650.0);
       expect(result.totalCartons).toBe(6);
     });
   });
@@ -474,7 +522,10 @@ describe('InvoiceService', () => {
       };
 
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockInvoice as any);
-      mockInvoiceHeaderRepository.save.mockResolvedValue({ ...mockInvoice, ...updateDto } as any);
+      mockInvoiceHeaderRepository.save.mockResolvedValue({
+        ...mockInvoice,
+        ...updateDto,
+      } as any);
 
       const result = await service.update('INV001', updateDto);
 
@@ -492,14 +543,20 @@ describe('InvoiceService', () => {
       };
 
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockInvoice as any);
-      mockInvoiceHeaderRepository.delete.mockResolvedValue({ affected: 1 } as any);
-      mockInvoiceDetailRepository.delete.mockResolvedValue({ affected: 3 } as any);
+      mockInvoiceHeaderRepository.delete.mockResolvedValue({
+        affected: 1,
+      } as any);
+      mockInvoiceDetailRepository.delete.mockResolvedValue({
+        affected: 3,
+      } as any);
 
       const result = await service.remove('INV001');
 
       expect(result.affected).toBe(1);
       expect(mockInvoiceHeaderRepository.delete).toHaveBeenCalledWith('INV001');
-      expect(mockInvoiceDetailRepository.delete).toHaveBeenCalledWith({ invNo: 'INV001' });
+      expect(mockInvoiceDetailRepository.delete).toHaveBeenCalledWith({
+        invNo: 'INV001',
+      });
     });
 
     it('should prevent deletion of printed invoices', async () => {
@@ -511,7 +568,7 @@ describe('InvoiceService', () => {
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockInvoice as any);
 
       await expect(service.remove('INV001')).rejects.toThrow(
-        'Cannot delete printed invoice'
+        'Cannot delete printed invoice',
       );
     });
   });

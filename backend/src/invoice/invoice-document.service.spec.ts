@@ -4,7 +4,10 @@ import { Repository, DataSource } from 'typeorm';
 import { InvoiceDocumentService } from './invoice-document.service';
 import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
-import { GenerateInvoiceDocumentDto, InvoiceDocumentType } from './dto/generate-invoice-document.dto';
+import {
+  GenerateInvoiceDocumentDto,
+  InvoiceDocumentType,
+} from './dto/generate-invoice-document.dto';
 
 /**
  * Invoice Document Service Tests
@@ -73,21 +76,25 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-          ctn: 2,
-          qctn: 50,
-          net: 50,
-          wt: 55,
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          custNo: 'CUST001',
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+              ctn: 2,
+              qctn: 50,
+              net: 50,
+              wt: 55,
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -107,26 +114,33 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        custNo: 'SPENCER',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          head: true, // BOM head item
-        }, {
-          itemNo: 'SUB001',
-          qty: 50,
-          head: false, // BOM sub-item
-          headItem: 'ITEM001',
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          custNo: 'SPENCER',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              head: true, // BOM head item
+            },
+            {
+              itemNo: 'SUB001',
+              qty: 50,
+              head: false, // BOM sub-item
+              headItem: 'ITEM001',
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
       const result = await service.previewInvoiceDocument(generateDto);
 
-      expect(result.documentType).toBe(InvoiceDocumentType.PACKING_LIST_SPENCER);
+      expect(result.documentType).toBe(
+        InvoiceDocumentType.PACKING_LIST_SPENCER,
+      );
       expect(result.data[0]).toHaveProperty('plName');
     });
 
@@ -137,17 +151,21 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        ship: 'By Sea',
-        loading: 'PORT1',
-        dest: 'PORT2',
-        items: [{
-          itemNo: 'ITEM001',
-          shipMark: 'ABC123',
-          poNo: 'PO001',
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          ship: 'By Sea',
+          loading: 'PORT1',
+          dest: 'PORT2',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              shipMark: 'ABC123',
+              poNo: 'PO001',
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -165,18 +183,22 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          price: 10.50,
-          amount: 1050.00,
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          custNo: 'CUST001',
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              price: 10.5,
+              amount: 1050.0,
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -195,11 +217,13 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        items: [],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -220,10 +244,12 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: [],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -240,10 +266,12 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: [],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -260,10 +288,12 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: [],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -280,10 +310,12 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'pdf',
       };
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: [],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
@@ -321,7 +353,9 @@ describe('InvoiceDocumentService', () => {
         outputFormat: 'invalid' as any,
       };
 
-      await expect(service.generateInvoiceDocument(generateDto)).rejects.toThrow('Unsupported output format');
+      await expect(
+        service.generateInvoiceDocument(generateDto),
+      ).rejects.toThrow('Unsupported output format');
     });
 
     it('should handle empty invoice data', async () => {
@@ -333,7 +367,9 @@ describe('InvoiceDocumentService', () => {
 
       jest.spyOn(dataSource, 'query').mockResolvedValue([]);
 
-      await expect(service.generateInvoiceDocument(generateDto)).rejects.toThrow('No invoices found for the specified invoice numbers');
+      await expect(
+        service.generateInvoiceDocument(generateDto),
+      ).rejects.toThrow('No invoices found for the specified invoice numbers');
     });
   });
 
@@ -342,28 +378,35 @@ describe('InvoiceDocumentService', () => {
       const invNos = ['INV001'];
       const documentType = InvoiceDocumentType.PACKING_LIST;
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          ctn: 2,
-          net: 50,
-          wt: 55,
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          custNo: 'CUST001',
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              ctn: 2,
+              net: 50,
+              wt: 55,
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
-      const result = await (service as any).loadInvoiceData(invNos, documentType);
+      const result = await (service as any).loadInvoiceData(
+        invNos,
+        documentType,
+      );
 
       expect(result).toEqual(mockInvData);
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM invoice_header'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -371,19 +414,26 @@ describe('InvoiceDocumentService', () => {
       const invNos = ['INV001'];
       const documentType = InvoiceDocumentType.PACKING_LIST;
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        wt_unit: 2, // lbs conversion
-        items: [{
-          itemNo: 'ITEM001',
-          net: 50, // kg
-          wt: 55, // kg
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          wt_unit: 2, // lbs conversion
+          items: [
+            {
+              itemNo: 'ITEM001',
+              net: 50, // kg
+              wt: 55, // kg
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
-      const result = await (service as any).loadInvoiceData(invNos, documentType);
+      const result = await (service as any).loadInvoiceData(
+        invNos,
+        documentType,
+      );
 
       expect(result[0].items[0].net).toBe(110); // 50 * 2.2
       expect(result[0].items[0].wt).toBe(121); // 55 * 2.2
@@ -393,23 +443,31 @@ describe('InvoiceDocumentService', () => {
       const invNos = ['INV001'];
       const documentType = InvoiceDocumentType.PACKING_LIST_SPENCER;
 
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: [{
-          itemNo: 'BOM001',
-          qty: 10,
-          head: true,
-        }, {
-          itemNo: 'SUB001',
-          qty: 20,
-          head: false,
-          headItem: 'BOM001',
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: [
+            {
+              itemNo: 'BOM001',
+              qty: 10,
+              head: true,
+            },
+            {
+              itemNo: 'SUB001',
+              qty: 20,
+              head: false,
+              headItem: 'BOM001',
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
 
-      const result = await (service as any).loadInvoiceData(invNos, documentType);
+      const result = await (service as any).loadInvoiceData(
+        invNos,
+        documentType,
+      );
 
       expect(result[0].items).toHaveLength(2);
       expect(result[0].items[0].head).toBe(true);
@@ -427,72 +485,93 @@ describe('InvoiceDocumentService', () => {
 
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('AND invd.cntr_no ='),
-        expect.arrayContaining(['CONT001'])
+        expect.arrayContaining(['CONT001']),
       );
     });
   });
 
   describe('generateExcel', () => {
     it('should generate Excel for standard packing list', async () => {
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-          ctn: 2,
-          net: 50,
-          wt: 55,
-          shipMark: 'ABC123',
-        }],
-        totalCartons: 2,
-        totalQty: 100,
-        totalNet: 50,
-        totalWt: 55,
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+              ctn: 2,
+              net: 50,
+              wt: 55,
+              shipMark: 'ABC123',
+            },
+          ],
+          totalCartons: 2,
+          totalQty: 100,
+          totalNet: 50,
+          totalWt: 55,
+        },
+      ];
 
-      const result = await (service as any).generateExcel(mockInvData, InvoiceDocumentType.PACKING_LIST);
+      const result = await (service as any).generateExcel(
+        mockInvData,
+        InvoiceDocumentType.PACKING_LIST,
+      );
 
       expect(result).toBeInstanceOf(Buffer);
       expect(result.length).toBeGreaterThan(0);
     });
 
     it('should generate Excel for Spencer packing list', async () => {
-      const mockInvData = [{
-        invNo: 'INV001',
-        customerName: 'Spencer Corp',
-        plName: 'Packing List',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-          ctn: 2,
-          head: true,
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          customerName: 'Spencer Corp',
+          plName: 'Packing List',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+              ctn: 2,
+              head: true,
+            },
+          ],
+        },
+      ];
 
-      const result = await (service as any).generateExcel(mockInvData, InvoiceDocumentType.PACKING_LIST_SPENCER);
+      const result = await (service as any).generateExcel(
+        mockInvData,
+        InvoiceDocumentType.PACKING_LIST_SPENCER,
+      );
 
       expect(result).toBeInstanceOf(Buffer);
       expect(result.length).toBeGreaterThan(0);
     });
 
     it('should generate Excel for shipment advice', async () => {
-      const mockInvData = [{
-        invNo: 'INV001',
-        ship: 'By Sea',
-        loading: 'PORT1',
-        dest: 'PORT2',
-        items: [{
-          itemNo: 'ITEM001',
-          shipMark: 'ABC123',
-          poNo: 'PO001',
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          ship: 'By Sea',
+          loading: 'PORT1',
+          dest: 'PORT2',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              shipMark: 'ABC123',
+              poNo: 'PO001',
+            },
+          ],
+        },
+      ];
 
-      const result = await (service as any).generateExcel(mockInvData, InvoiceDocumentType.SHIPMENT_ADVICE);
+      const result = await (service as any).generateExcel(
+        mockInvData,
+        InvoiceDocumentType.SHIPMENT_ADVICE,
+      );
 
       expect(result).toBeInstanceOf(Buffer);
       expect(result.length).toBeGreaterThan(0);
@@ -501,7 +580,10 @@ describe('InvoiceDocumentService', () => {
     it('should handle empty invoice data', async () => {
       const mockInvData = [];
 
-      const result = await (service as any).generateExcel(mockInvData, InvoiceDocumentType.PACKING_LIST);
+      const result = await (service as any).generateExcel(
+        mockInvData,
+        InvoiceDocumentType.PACKING_LIST,
+      );
 
       expect(result).toBeInstanceOf(Buffer);
     });
@@ -509,18 +591,25 @@ describe('InvoiceDocumentService', () => {
 
   describe('generatePdf', () => {
     it('should generate PDF document', async () => {
-      const mockInvData = [{
-        invNo: 'INV001',
-        date: new Date('2025-01-15'),
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-        }],
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          date: new Date('2025-01-15'),
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+            },
+          ],
+        },
+      ];
 
-      const result = await (service as any).generatePdf(mockInvData, InvoiceDocumentType.PACKING_LIST);
+      const result = await (service as any).generatePdf(
+        mockInvData,
+        InvoiceDocumentType.PACKING_LIST,
+      );
 
       expect(result).toBeInstanceOf(Buffer);
       expect(result.length).toBeGreaterThan(0);
@@ -530,15 +619,22 @@ describe('InvoiceDocumentService', () => {
     });
 
     it('should limit PDF content for large datasets', async () => {
-      const mockInvData = [{
-        invNo: 'INV001',
-        items: Array(2000).fill({}).map((_, i) => ({
-          itemNo: `ITEM${i}`,
-          qty: 100,
-        })),
-      }];
+      const mockInvData = [
+        {
+          invNo: 'INV001',
+          items: Array(2000)
+            .fill({})
+            .map((_, i) => ({
+              itemNo: `ITEM${i}`,
+              qty: 100,
+            })),
+        },
+      ];
 
-      const result = await (service as any).generatePdf(mockInvData, InvoiceDocumentType.PACKING_LIST);
+      const result = await (service as any).generatePdf(
+        mockInvData,
+        InvoiceDocumentType.PACKING_LIST,
+      );
 
       const content = result.toString();
       expect(content).toContain('(Showing first 1000 of 2000 rows)');

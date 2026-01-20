@@ -76,9 +76,15 @@ describe('ShippingOrderService', () => {
       };
 
       jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(null);
-      jest.spyOn(shippingOrderRepository, 'create').mockReturnValue(mockShippingOrder as any);
-      jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue(mockShippingOrder as any);
-      jest.spyOn(dataSource, 'query').mockResolvedValue([{ item_no: 'ITEM001' }]);
+      jest
+        .spyOn(shippingOrderRepository, 'create')
+        .mockReturnValue(mockShippingOrder as any);
+      jest
+        .spyOn(shippingOrderRepository, 'save')
+        .mockResolvedValue(mockShippingOrder as any);
+      jest
+        .spyOn(dataSource, 'query')
+        .mockResolvedValue([{ item_no: 'ITEM001' }]);
 
       const result = await service.create(createDto);
 
@@ -113,11 +119,11 @@ describe('ShippingOrderService', () => {
       };
 
       const mockOcItems = [
-        { item_no: 'ITEM001', qty: 100, price: 10.50 },
+        { item_no: 'ITEM001', qty: 100, price: 10.5 },
         { item_no: 'ITEM002', qty: 200, price: 8.75 },
       ];
 
-      const mockSoItems = mockOcItems.map(item => ({
+      const mockSoItems = mockOcItems.map((item) => ({
         soNo: 'SO001',
         itemNo: item.item_no,
         qty: item.qty,
@@ -128,14 +134,18 @@ describe('ShippingOrderService', () => {
 
       jest.spyOn(dataSource, 'query').mockResolvedValueOnce(mockOcItems);
       jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(null);
-      jest.spyOn(shippingOrderRepository, 'create').mockImplementation((data) => data as any);
-      jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue(mockSoItems[0] as any);
+      jest
+        .spyOn(shippingOrderRepository, 'create')
+        .mockImplementation((data) => data as any);
+      jest
+        .spyOn(shippingOrderRepository, 'save')
+        .mockResolvedValue(mockSoItems[0] as any);
 
       const result = await service.create(createDto as any);
 
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM order_confirmation_detail'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result).toBeDefined();
     });
@@ -148,19 +158,28 @@ describe('ShippingOrderService', () => {
       };
 
       const mockContractItems = [
-        { item_no: 'ITEM001', qty: 1000, breakdown: [{ port: 'PORT1', qty: 500 }, { port: 'PORT2', qty: 500 }] },
+        {
+          item_no: 'ITEM001',
+          qty: 1000,
+          breakdown: [
+            { port: 'PORT1', qty: 500 },
+            { port: 'PORT2', qty: 500 },
+          ],
+        },
       ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValueOnce(mockContractItems);
       jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(null);
-      jest.spyOn(shippingOrderRepository, 'create').mockImplementation((data) => data as any);
+      jest
+        .spyOn(shippingOrderRepository, 'create')
+        .mockImplementation((data) => data as any);
       jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue({} as any);
 
       const result = await service.create(createDto as any);
 
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM contract_detail'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result).toBeDefined();
     });
@@ -177,7 +196,9 @@ describe('ShippingOrderService', () => {
         { soKey: 'GLOBE', uniqueid: 'so_no', vpos: 2, hpos: 1 },
       ];
 
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockFormat as SoFormat[]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockFormat as SoFormat[]);
       jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(null);
       jest.spyOn(shippingOrderRepository, 'create').mockReturnValue({} as any);
       jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue({} as any);
@@ -200,11 +221,22 @@ describe('ShippingOrderService', () => {
 
       const mockCustomerFormats = [
         { soKey: 'SPENCER_FORMAT', uniqueid: 'logo', vpos: 1, hpos: 1 },
-        { soKey: 'SPENCER_FORMAT', uniqueid: 'customer_name', vpos: 2, hpos: 1 },
+        {
+          soKey: 'SPENCER_FORMAT',
+          uniqueid: 'customer_name',
+          vpos: 2,
+          hpos: 1,
+        },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValueOnce([{ cust_no: 'SPENCER', special_format: 'SPENCER_FORMAT' }]);
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockCustomerFormats as SoFormat[]);
+      jest
+        .spyOn(dataSource, 'query')
+        .mockResolvedValueOnce([
+          { cust_no: 'SPENCER', special_format: 'SPENCER_FORMAT' },
+        ]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockCustomerFormats as SoFormat[]);
       jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(null);
       jest.spyOn(shippingOrderRepository, 'create').mockReturnValue({} as any);
       jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue({} as any);
@@ -213,7 +245,7 @@ describe('ShippingOrderService', () => {
 
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM customer'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(soFormatRepository.find).toHaveBeenCalledWith({
         where: { soKey: 'SPENCER_FORMAT' },
@@ -233,8 +265,12 @@ describe('ShippingOrderService', () => {
         modDate: new Date(),
       };
 
-      jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(mockSo as ShippingOrder);
-      jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue({ ...mockSo, status: 'Confirmed' } as ShippingOrder);
+      jest
+        .spyOn(shippingOrderRepository, 'findOne')
+        .mockResolvedValue(mockSo as ShippingOrder);
+      jest
+        .spyOn(shippingOrderRepository, 'save')
+        .mockResolvedValue({ ...mockSo, status: 'Confirmed' } as ShippingOrder);
 
       const result = await service.update('SO001', updateDto as any);
 
@@ -245,23 +281,27 @@ describe('ShippingOrderService', () => {
     it('should handle SO edit with validation', async () => {
       const updateDto = {
         qty: 150,
-        price: 11.00,
+        price: 11.0,
       };
 
       const mockSo = {
         soNo: 'SO001',
         qty: 100,
-        price: 10.50,
+        price: 10.5,
         modDate: new Date(),
       };
 
-      jest.spyOn(shippingOrderRepository, 'findOne').mockResolvedValue(mockSo as ShippingOrder);
-      jest.spyOn(shippingOrderRepository, 'save').mockResolvedValue({ ...mockSo, ...updateDto } as ShippingOrder);
+      jest
+        .spyOn(shippingOrderRepository, 'findOne')
+        .mockResolvedValue(mockSo as ShippingOrder);
+      jest
+        .spyOn(shippingOrderRepository, 'save')
+        .mockResolvedValue({ ...mockSo, ...updateDto } as ShippingOrder);
 
       const result = await service.update('SO001', updateDto as any);
 
       expect(result.qty).toBe(150);
-      expect(result.price).toBe(11.00);
+      expect(result.price).toBe(11.0);
       expect(shippingOrderRepository.save).toHaveBeenCalled();
     });
   });
@@ -273,7 +313,9 @@ describe('ShippingOrderService', () => {
         { soKey: 'GLOBE', uniqueid: 'field2', vpos: 2, hpos: 1 },
       ];
 
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockFormats as SoFormat[]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockFormats as SoFormat[]);
 
       const result = await service.getSoFormat('GLOBE');
 

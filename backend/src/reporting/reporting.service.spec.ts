@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { ReportingService } from './reporting.service';
-import { ReportDefinition } from './entities/report-definition';
+import { ReportDefinition } from './entities/report-definition.entity';
 import { GenerateReportDto } from './dto/generate-report.dto';
 
 /**
@@ -116,7 +116,9 @@ describe('ReportingService', () => {
         status: 'Active',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
 
       const result = await service.getReportDefinition('sales_analysis');
 
@@ -131,7 +133,7 @@ describe('ReportingService', () => {
       mockReportDefinitionRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getReportDefinition('non_existent')).rejects.toThrow(
-        'Report non_existent not found'
+        'Report non_existent not found',
       );
     });
   });
@@ -149,7 +151,8 @@ describe('ReportingService', () => {
       const mockReport = {
         reportKey: 'sales_analysis',
         reportName: 'Sales Analysis',
-        sqlQuery: 'SELECT customer, SUM(amount) as total FROM sales WHERE date BETWEEN :dateFrom AND :dateTo GROUP BY customer',
+        sqlQuery:
+          'SELECT customer, SUM(amount) as total FROM sales WHERE date BETWEEN :dateFrom AND :dateTo GROUP BY customer',
         parameters: { dateFrom: 'date', dateTo: 'date' },
       };
 
@@ -159,7 +162,9 @@ describe('ReportingService', () => {
         { customer: 'CUST003', total: 18000 },
       ];
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue(mockData);
 
       const result = await service.previewReport(generateDto);
@@ -184,9 +189,13 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM large_table',
       };
 
-      const mockLargeData = Array(150).fill({}).map((_, i) => ({ id: i, value: `data${i}` }));
+      const mockLargeData = Array(150)
+        .fill({})
+        .map((_, i) => ({ id: i, value: `data${i}` }));
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue(mockLargeData);
 
       const result = await service.previewReport(generateDto);
@@ -209,22 +218,44 @@ describe('ReportingService', () => {
         {
           id: 1,
           name: 'Test',
-          price: 25.50,
+          price: 25.5,
           active: true,
           created: new Date('2025-01-01'),
         },
       ];
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue(mockData);
 
       const result = await service.previewReport(generateDto);
 
-      expect(result.columns[0]).toEqual({ name: 'id', label: 'Id', type: 'integer' });
-      expect(result.columns[1]).toEqual({ name: 'name', label: 'Name', type: 'string' });
-      expect(result.columns[2]).toEqual({ name: 'price', label: 'Price', type: 'decimal' });
-      expect(result.columns[3]).toEqual({ name: 'active', label: 'Active', type: 'boolean' });
-      expect(result.columns[4]).toEqual({ name: 'created', label: 'Created', type: 'date' });
+      expect(result.columns[0]).toEqual({
+        name: 'id',
+        label: 'Id',
+        type: 'integer',
+      });
+      expect(result.columns[1]).toEqual({
+        name: 'name',
+        label: 'Name',
+        type: 'string',
+      });
+      expect(result.columns[2]).toEqual({
+        name: 'price',
+        label: 'Price',
+        type: 'decimal',
+      });
+      expect(result.columns[3]).toEqual({
+        name: 'active',
+        label: 'Active',
+        type: 'boolean',
+      });
+      expect(result.columns[4]).toEqual({
+        name: 'created',
+        label: 'Created',
+        type: 'date',
+      });
     });
   });
 
@@ -246,7 +277,9 @@ describe('ReportingService', () => {
         { customer: 'CUST002', amount: 25000 },
       ];
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue(mockData);
 
       const result = await service.generateReport(generateDto);
@@ -271,11 +304,11 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM sales',
       };
 
-      const mockData = [
-        { customer: 'CUST001', amount: 15000 },
-      ];
+      const mockData = [{ customer: 'CUST001', amount: 15000 }];
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue(mockData);
 
       const result = await service.generateReport(generateDto);
@@ -298,7 +331,9 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM sales',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue([]);
 
       const result = await service.generateReport(generateDto);
@@ -318,7 +353,9 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM sales',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue([]);
 
       const result = await service.generateReport(generateDto);
@@ -339,9 +376,13 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM sales',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
 
-      await expect(service.generateReport(generateDto)).rejects.toThrow('Unsupported output format');
+      await expect(service.generateReport(generateDto)).rejects.toThrow(
+        'Unsupported output format',
+      );
     });
 
     it('should throw error when no data found', async () => {
@@ -354,16 +395,21 @@ describe('ReportingService', () => {
         sqlQuery: 'SELECT * FROM empty_table',
       };
 
-      mockReportDefinitionRepository.findOne.mockResolvedValue(mockReport as ReportDefinition);
+      mockReportDefinitionRepository.findOne.mockResolvedValue(
+        mockReport as ReportDefinition,
+      );
       mockDataSource.query.mockResolvedValue([]);
 
-      await expect(service.generateReport(generateDto)).rejects.toThrow('No data found for report generation');
+      await expect(service.generateReport(generateDto)).rejects.toThrow(
+        'No data found for report generation',
+      );
     });
   });
 
   describe('buildQuery', () => {
     it('should replace parameter placeholders correctly', async () => {
-      const sqlTemplate = 'SELECT * FROM sales WHERE date BETWEEN :dateFrom AND :dateTo AND customer = :customer';
+      const sqlTemplate =
+        'SELECT * FROM sales WHERE date BETWEEN :dateFrom AND :dateTo AND customer = :customer';
       const parameters = {
         dateFrom: '2025-01-01',
         dateTo: '2025-01-31',
@@ -372,8 +418,14 @@ describe('ReportingService', () => {
 
       const result = (service as any).buildQuery(sqlTemplate, parameters);
 
-      expect(result.query).toBe('SELECT * FROM sales WHERE date BETWEEN $1 AND $2 AND customer = $3');
-      expect(result.parameters).toEqual(['2025-01-01', '2025-01-31', 'CUST001']);
+      expect(result.query).toBe(
+        'SELECT * FROM sales WHERE date BETWEEN $1 AND $2 AND customer = $3',
+      );
+      expect(result.parameters).toEqual([
+        '2025-01-01',
+        '2025-01-31',
+        'CUST001',
+      ]);
     });
 
     it('should handle parameters not in query', async () => {
@@ -401,8 +453,12 @@ describe('ReportingService', () => {
 
   describe('formatColumnLabel', () => {
     it('should format column names properly', async () => {
-      expect((service as any).formatColumnLabel('customer_name')).toBe('Customer Name');
-      expect((service as any).formatColumnLabel('total_amount')).toBe('Total Amount');
+      expect((service as any).formatColumnLabel('customer_name')).toBe(
+        'Customer Name',
+      );
+      expect((service as any).formatColumnLabel('total_amount')).toBe(
+        'Total Amount',
+      );
       expect((service as any).formatColumnLabel('item_no')).toBe('Item No');
       expect((service as any).formatColumnLabel('id')).toBe('Id');
     });
@@ -485,9 +541,7 @@ describe('ReportingService', () => {
         reportName: 'Test Report',
       };
 
-      const mockData = [
-        { name: 'Item 1', value: 100 },
-      ];
+      const mockData = [{ name: 'Item 1', value: 100 }];
 
       const result = await (service as any).generatePdf(mockReport, mockData);
 
@@ -503,9 +557,14 @@ describe('ReportingService', () => {
         reportName: 'Large Report',
       };
 
-      const mockLargeData = Array(2000).fill({}).map((_, i) => ({ id: i, value: `data${i}` }));
+      const mockLargeData = Array(2000)
+        .fill({})
+        .map((_, i) => ({ id: i, value: `data${i}` }));
 
-      const result = await (service as any).generatePdf(mockReport, mockLargeData);
+      const result = await (service as any).generatePdf(
+        mockReport,
+        mockLargeData,
+      );
 
       const content = result.toString();
       expect(content).toContain('(Showing first 1000 of 2000 rows)');

@@ -21,13 +21,13 @@ import { ReportDefinition } from './entities/report-definition.entity';
  * Reference: Phase 3 - Reporting Module
  */
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      ReportDefinition,
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([ReportDefinition])],
   controllers: [ReportingController, ReportBatchMigrationController],
-  providers: [ReportingService, ReportBatchMigrationService, ReportSeederService],
+  providers: [
+    ReportingService,
+    ReportBatchMigrationService,
+    ReportSeederService,
+  ],
   exports: [ReportingService], // Export for use in other modules
 })
 export class ReportingModule {}

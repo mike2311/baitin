@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from './test-utils/test-helpers';
+import { createMinimalTestApp } from './test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 
 /**
@@ -24,7 +25,7 @@ describe('Phase 3 Cross-Module Integration', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -305,9 +306,17 @@ describe('Phase 3 Cross-Module Integration', () => {
       expect(multiContainerResponse.status).toBe(200);
       // Verify results are filtered correctly
       if (multiContainerResponse.body.length > 0) {
-        const containers = [...new Set(multiContainerResponse.body.map(item => item.containerNo))];
+        const containers = [
+          ...new Set(
+            multiContainerResponse.body.map((item) => item.containerNo),
+          ),
+        ];
         expect(containers.length).toBeLessThanOrEqual(3);
-        expect(containers.every(c => ['CONT001', 'CONT002', 'CONT003'].includes(c))).toBe(true);
+        expect(
+          containers.every((c) =>
+            ['CONT001', 'CONT002', 'CONT003'].includes(c as string),
+          ),
+        ).toBe(true);
       }
     });
 
@@ -332,7 +341,7 @@ describe('Phase 3 Cross-Module Integration', () => {
             invNo: 'INV_CONTAINER_001',
             date: '2025-01-25',
             custNo: 'CUST001',
-            details: availableResponse.body.map(item => ({
+            details: availableResponse.body.map((item) => ({
               itemNo: item.itemNo,
               qty: item.qty,
               price: item.price,
@@ -370,7 +379,9 @@ describe('Phase 3 Cross-Module Integration', () => {
         });
 
       expect(soReportResponse.status).toBe(200);
-      expect(soReportResponse.headers['content-type']).toContain('spreadsheetml');
+      expect(soReportResponse.headers['content-type']).toContain(
+        'spreadsheetml',
+      );
     });
 
     it('should generate sales analysis report with live data', async () => {
@@ -518,7 +529,7 @@ describe('Phase 3 Cross-Module Integration', () => {
         .send({
           itemNo: 'ITEM_MASTER_001',
           shortName: 'Master Test Item',
-          price: 25.00,
+          price: 25.0,
         });
 
       expect(itemResponse.status).toBe(201);
@@ -567,9 +578,7 @@ describe('Phase 3 Cross-Module Integration', () => {
         .send({
           ocNo: 'OC_REF_001',
           contractNo: 'CONT_REF_001',
-          breakdown: [
-            { port: 'PORT_REF_001', qty: 100 },
-          ],
+          breakdown: [{ port: 'PORT_REF_001', qty: 100 }],
         });
 
       expect(contractResponse.status).toBe(201);
@@ -645,7 +654,7 @@ describe('Phase 3 Cross-Module Integration', () => {
       const results = await Promise.all(operations);
 
       // All operations should succeed
-      results.forEach(result => {
+      results.forEach((result) => {
         expect([200, 201]).toContain(result.status);
       });
     });

@@ -14,7 +14,9 @@ import { CreateShippingOrderDto } from './create-shipping-order.dto';
  *
  * Reference: Phase 3 - Shipping Order Module
  */
-export class UpdateShippingOrderDto extends PartialType(CreateShippingOrderDto) {
+export class UpdateShippingOrderDto extends PartialType(
+  CreateShippingOrderDto,
+) {
   // so_no is not allowed to be updated (primary key)
   soNo?: never;
 }

@@ -24,13 +24,12 @@ import { InvoiceDetail } from './entities/invoice-detail.entity';
  * Reference: Phase 3 - Invoice Module
  */
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      InvoiceHeader,
-      InvoiceDetail,
-    ]),
+  imports: [TypeOrmModule.forFeature([InvoiceHeader, InvoiceDetail])],
+  controllers: [
+    InvoiceController,
+    InvoiceValidationController,
+    InvoiceDocumentController,
   ],
-  controllers: [InvoiceController, InvoiceValidationController, InvoiceDocumentController],
   providers: [InvoiceService, InvoiceValidationService, InvoiceDocumentService],
   exports: [InvoiceService], // Export for use in other modules
 })

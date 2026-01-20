@@ -112,7 +112,9 @@ export class InvoiceDetail {
   modDate: Date; // Modification date
 
   // Relations
-  @ManyToOne(() => InvoiceHeader, (header) => header.details, { onDelete: 'CASCADE' })
+  @ManyToOne(() => InvoiceHeader, (header) => header.details, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'invNo' })
   header?: InvoiceHeader;
 

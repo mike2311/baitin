@@ -32,7 +32,6 @@ async function bootstrap() {
     console.log(`📊 Total reports: ${counts.total}`);
     console.log(`📊 Active reports: ${counts.active}`);
     console.log(`📊 Migrated reports: ${counts.migrated}`);
-
   } catch (error) {
     console.error('❌ Report seeding failed:', error);
     process.exit(1);

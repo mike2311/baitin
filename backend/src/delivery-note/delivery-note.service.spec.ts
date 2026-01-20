@@ -5,7 +5,10 @@ import { DeliveryNoteService } from './delivery-note.service';
 import { DeliveryNoteHeader } from './entities/delivery-note-header.entity';
 import { DeliveryNoteDetail } from './entities/delivery-note-detail.entity';
 import { DeliveryNoteBreakdown } from './entities/delivery-note-breakdown.entity';
-import { CreateDeliveryNoteDto, CreateDeliveryNoteFromSoDto } from './dto/create-delivery-note.dto';
+import {
+  CreateDeliveryNoteDto,
+  CreateDeliveryNoteFromSoDto,
+} from './dto/create-delivery-note.dto';
 
 /**
  * Delivery Note Service Tests
@@ -110,7 +113,7 @@ describe('DeliveryNoteService', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -129,8 +132,12 @@ describe('DeliveryNoteService', () => {
         loadingStatus: 'Draft',
       };
 
-      mockDeliveryNoteHeaderRepository.create.mockReturnValue(mockHeader as any);
-      mockDeliveryNoteHeaderRepository.save.mockResolvedValue(mockHeader as any);
+      mockDeliveryNoteHeaderRepository.create.mockReturnValue(
+        mockHeader as any,
+      );
+      mockDeliveryNoteHeaderRepository.save.mockResolvedValue(
+        mockHeader as any,
+      );
       mockDeliveryNoteDetailRepository.create.mockReturnValue({} as any);
       mockDeliveryNoteDetailRepository.save.mockResolvedValue({} as any);
       mockDeliveryNoteBreakdownRepository.create.mockReturnValue({} as any);
@@ -152,26 +159,33 @@ describe('DeliveryNoteService', () => {
         date: new Date('2025-01-15'),
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        custNo: 'CUST001',
-        items: [{
-          itemNo: 'ITEM001',
-          qty: 100,
-          price: 10.50,
-          poNo: 'PO001',
-        }],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          custNo: 'CUST001',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              price: 10.5,
+              poNo: 'PO001',
+            },
+          ],
+        },
+      ];
 
-      const mockOeBreakdown = [{
-        itemNo: 'ITEM001',
-        port: 'PORT1',
-        qty: 50,
-      }, {
-        itemNo: 'ITEM001',
-        port: 'PORT2',
-        qty: 50,
-      }];
+      const mockOeBreakdown = [
+        {
+          itemNo: 'ITEM001',
+          port: 'PORT1',
+          qty: 50,
+        },
+        {
+          itemNo: 'ITEM001',
+          port: 'PORT2',
+          qty: 50,
+        },
+      ];
 
       mockDataSource.query
         .mockResolvedValueOnce(mockSoData) // SO data
@@ -188,11 +202,11 @@ describe('DeliveryNoteService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM shipping_order'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM order_enquiry_detail'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result.dnNo).toBe('DN001');
     });
@@ -205,8 +219,16 @@ describe('DeliveryNoteService', () => {
       };
 
       const mockSoData = [
-        { soNo: 'SO001', custNo: 'CUST001', items: [{ itemNo: 'ITEM001', qty: 100 }] },
-        { soNo: 'SO002', custNo: 'CUST001', items: [{ itemNo: 'ITEM002', qty: 200 }] },
+        {
+          soNo: 'SO001',
+          custNo: 'CUST001',
+          items: [{ itemNo: 'ITEM001', qty: 100 }],
+        },
+        {
+          soNo: 'SO002',
+          custNo: 'CUST001',
+          items: [{ itemNo: 'ITEM002', qty: 200 }],
+        },
       ];
 
       mockDataSource.query.mockResolvedValue(mockSoData);
@@ -220,7 +242,7 @@ describe('DeliveryNoteService', () => {
       expect(result.details).toHaveLength(2);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('so_no = ANY'),
-        [['SO001', 'SO002']]
+        [['SO001', 'SO002']],
       );
     });
 
@@ -237,7 +259,7 @@ describe('DeliveryNoteService', () => {
       } as DeliveryNoteHeader);
 
       await expect(service.create(createDto)).rejects.toThrow(
-        'Delivery Note DN001 already exists'
+        'Delivery Note DN001 already exists',
       );
     });
   });
@@ -246,16 +268,31 @@ describe('DeliveryNoteService', () => {
     it('should return paginated delivery notes', async () => {
       const mockResult = {
         data: [
-          { dnNo: 'DN001', soNo: 'SO001', custNo: 'CUST001', loadingStatus: 'Draft' },
-          { dnNo: 'DN002', soNo: 'SO002', custNo: 'CUST002', loadingStatus: 'Confirmed' },
+          {
+            dnNo: 'DN001',
+            soNo: 'SO001',
+            custNo: 'CUST001',
+            loadingStatus: 'Draft',
+          },
+          {
+            dnNo: 'DN002',
+            soNo: 'SO002',
+            custNo: 'CUST002',
+            loadingStatus: 'Confirmed',
+          },
         ],
         total: 2,
         page: 1,
         limit: 10,
       };
 
-      mockDeliveryNoteHeaderRepository.find.mockResolvedValue(mockResult.data as any);
-      mockDeliveryNoteHeaderRepository.findAndCount.mockResolvedValue([mockResult.data as any, 2]);
+      mockDeliveryNoteHeaderRepository.find.mockResolvedValue(
+        mockResult.data as any,
+      );
+      mockDeliveryNoteHeaderRepository.findAndCount.mockResolvedValue([
+        mockResult.data as any,
+        2,
+      ]);
 
       const result = await service.findAll(1, 10);
 
@@ -272,7 +309,9 @@ describe('DeliveryNoteService', () => {
 
       await service.findAll(1, 10, searchParams);
 
-      expect(mockDeliveryNoteHeaderRepository.findAndCount).toHaveBeenCalledWith({
+      expect(
+        mockDeliveryNoteHeaderRepository.findAndCount,
+      ).toHaveBeenCalledWith({
         where: searchParams,
         skip: 0,
         take: 10,
@@ -290,23 +329,33 @@ describe('DeliveryNoteService', () => {
         loadingStatus: 'Draft',
       };
 
-      const mockDetails = [{
-        dnNo: 'DN001',
-        itemNo: 'ITEM001',
-        qty: 100,
-        price: 10.50,
-      }];
+      const mockDetails = [
+        {
+          dnNo: 'DN001',
+          itemNo: 'ITEM001',
+          qty: 100,
+          price: 10.5,
+        },
+      ];
 
-      const mockBreakdowns = [{
-        dnNo: 'DN001',
-        itemNo: 'ITEM001',
-        port: 'PORT1',
-        qty: 50,
-      }];
+      const mockBreakdowns = [
+        {
+          dnNo: 'DN001',
+          itemNo: 'ITEM001',
+          port: 'PORT1',
+          qty: 50,
+        },
+      ];
 
-      mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockHeader as any);
-      mockDeliveryNoteDetailRepository.find.mockResolvedValue(mockDetails as any);
-      mockDeliveryNoteBreakdownRepository.find.mockResolvedValue(mockBreakdowns as any);
+      mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(
+        mockHeader as any,
+      );
+      mockDeliveryNoteDetailRepository.find.mockResolvedValue(
+        mockDetails as any,
+      );
+      mockDeliveryNoteBreakdownRepository.find.mockResolvedValue(
+        mockBreakdowns as any,
+      );
 
       const result = await service.findOne('DN001');
 
@@ -326,7 +375,10 @@ describe('DeliveryNoteService', () => {
       };
 
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
-      mockDeliveryNoteHeaderRepository.save.mockResolvedValue({ ...mockDn, ...updateDto } as any);
+      mockDeliveryNoteHeaderRepository.save.mockResolvedValue({
+        ...mockDn,
+        ...updateDto,
+      } as any);
 
       const result = await service.update('DN001', updateDto);
 
@@ -344,7 +396,7 @@ describe('DeliveryNoteService', () => {
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
 
       await expect(service.update('DN001', updateDto)).rejects.toThrow(
-        'Invalid status transition'
+        'Invalid status transition',
       );
     });
   });
@@ -357,16 +409,28 @@ describe('DeliveryNoteService', () => {
       };
 
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
-      mockDeliveryNoteHeaderRepository.delete.mockResolvedValue({ affected: 1 } as any);
-      mockDeliveryNoteDetailRepository.delete.mockResolvedValue({ affected: 2 } as any);
-      mockDeliveryNoteBreakdownRepository.delete.mockResolvedValue({ affected: 4 } as any);
+      mockDeliveryNoteHeaderRepository.delete.mockResolvedValue({
+        affected: 1,
+      } as any);
+      mockDeliveryNoteDetailRepository.delete.mockResolvedValue({
+        affected: 2,
+      } as any);
+      mockDeliveryNoteBreakdownRepository.delete.mockResolvedValue({
+        affected: 4,
+      } as any);
 
       const result = await service.remove('DN001');
 
       expect(result.affected).toBe(1);
-      expect(mockDeliveryNoteHeaderRepository.delete).toHaveBeenCalledWith('DN001');
-      expect(mockDeliveryNoteDetailRepository.delete).toHaveBeenCalledWith({ dnNo: 'DN001' });
-      expect(mockDeliveryNoteBreakdownRepository.delete).toHaveBeenCalledWith({ dnNo: 'DN001' });
+      expect(mockDeliveryNoteHeaderRepository.delete).toHaveBeenCalledWith(
+        'DN001',
+      );
+      expect(mockDeliveryNoteDetailRepository.delete).toHaveBeenCalledWith({
+        dnNo: 'DN001',
+      });
+      expect(mockDeliveryNoteBreakdownRepository.delete).toHaveBeenCalledWith({
+        dnNo: 'DN001',
+      });
     });
 
     it('should prevent deletion of loaded DNs', async () => {
@@ -378,7 +442,7 @@ describe('DeliveryNoteService', () => {
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
 
       await expect(service.remove('DN001')).rejects.toThrow(
-        'Cannot delete DN that has been loaded'
+        'Cannot delete DN that has been loaded',
       );
     });
   });
@@ -415,8 +479,9 @@ describe('DeliveryNoteService', () => {
         { port: 'PORT2', qty: 30 }, // Total = 80, should fail validation
       ];
 
-      await expect((service as any).validateBreakdownQuantities(breakdowns, 100))
-        .rejects.toThrow('Breakdown quantities do not match item total');
+      await expect(
+        (service as any).validateBreakdownQuantities(breakdowns, 100),
+      ).rejects.toThrow('Breakdown quantities do not match item total');
     });
 
     it('should calculate breakdown totals correctly', async () => {
@@ -436,7 +501,10 @@ describe('DeliveryNoteService', () => {
       const mockDn = { dnNo: 'DN001', loadingStatus: 'Draft' };
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
 
-      const result = await (service as any).validateStatusTransition('Draft', 'Confirmed');
+      const result = await (service as any).validateStatusTransition(
+        'Draft',
+        'Confirmed',
+      );
 
       expect(result).toBe(true);
     });
@@ -445,19 +513,28 @@ describe('DeliveryNoteService', () => {
       const mockDn = { dnNo: 'DN001', loadingStatus: 'Confirmed' };
       mockDeliveryNoteHeaderRepository.findOne.mockResolvedValue(mockDn as any);
 
-      const result = await (service as any).validateStatusTransition('Confirmed', 'Loaded');
+      const result = await (service as any).validateStatusTransition(
+        'Confirmed',
+        'Loaded',
+      );
 
       expect(result).toBe(true);
     });
 
     it('should prevent invalid transitions', async () => {
-      const result = await (service as any).validateStatusTransition('Draft', 'Loaded');
+      const result = await (service as any).validateStatusTransition(
+        'Draft',
+        'Loaded',
+      );
 
       expect(result).toBe(false);
     });
 
     it('should prevent changes after Loaded', async () => {
-      const result = await (service as any).validateStatusTransition('Loaded', 'Confirmed');
+      const result = await (service as any).validateStatusTransition(
+        'Loaded',
+        'Confirmed',
+      );
 
       expect(result).toBe(false);
     });

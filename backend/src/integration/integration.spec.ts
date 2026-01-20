@@ -8,6 +8,7 @@ import {
   createTestUser,
   ApiTestClient,
 } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
@@ -35,7 +36,7 @@ describe('Integration Tests', () => {
   let ocDetailRepo: Repository<OrderConfirmationDetail>;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef: testModuleRef } = await createTestApp();
+    const { app: testApp, moduleRef: testModuleRef } = await createMinimalTestApp();
     app = testApp;
     moduleRef = testModuleRef;
     jwtService = moduleRef.get(JwtService);

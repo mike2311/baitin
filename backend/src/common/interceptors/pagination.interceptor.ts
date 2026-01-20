@@ -29,7 +29,12 @@ export class PaginationInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         // If data is already paginated, return as-is
-        if (data && typeof data === 'object' && 'data' in data && 'total' in data) {
+        if (
+          data &&
+          typeof data === 'object' &&
+          'data' in data &&
+          'total' in data
+        ) {
           return data;
         }
 

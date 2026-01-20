@@ -15,11 +15,15 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoiceService } from './invoice.service';
-import { CreateInvoiceDto, CreateInvoiceFromSourceDto, SelectInvoiceItemsByContainerDto } from './dto/create-invoice.dto';
+import {
+  CreateInvoiceDto,
+  CreateInvoiceFromSourceDto,
+  SelectInvoiceItemsByContainerDto,
+} from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { InvoiceSearchResponseDto } from './dto/invoice-search-response.dto';
 import { InvoiceHeader } from './entities/invoice-header.entity';
@@ -65,7 +69,10 @@ export class InvoiceController {
     description: 'Invoice created successfully',
     type: InvoiceHeader,
   })
-  @ApiResponse({ status: 400, description: 'Bad request - invalid items or quantities' })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - invalid items or quantities',
+  })
   createFromSource(@Body() createFromSourceDto: CreateInvoiceFromSourceDto) {
     return this.invoiceService.createFromSource(createFromSourceDto);
   }
@@ -89,11 +96,31 @@ export class InvoiceController {
     description: 'Invoices retrieved successfully',
     type: [InvoiceSearchResponseDto],
   })
-  @ApiQuery({ name: 'invNo', required: false, description: 'Invoice number filter' })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
-  @ApiQuery({ name: 'ocNo', required: false, description: 'Order confirmation number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
+  @ApiQuery({
+    name: 'invNo',
+    required: false,
+    description: 'Invoice number filter',
+  })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
+  @ApiQuery({
+    name: 'ocNo',
+    required: false,
+    description: 'Order confirmation number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
   search(
     @Query('invNo') invNo?: string,
     @Query('custNo') custNo?: string,
@@ -112,22 +139,41 @@ export class InvoiceController {
   }
 
   @Get('available-items/:sourceType/:sourceNo')
-  @ApiOperation({ summary: 'Get available items for invoice creation from SO or DN' })
+  @ApiOperation({
+    summary: 'Get available items for invoice creation from SO or DN',
+  })
   @ApiResponse({
     status: 200,
     description: 'Available items retrieved successfully',
   })
-  @ApiParam({ name: 'sourceType', enum: ['so', 'dn'], description: 'Source type' })
+  @ApiParam({
+    name: 'sourceType',
+    enum: ['so', 'dn'],
+    description: 'Source type',
+  })
   @ApiParam({ name: 'sourceNo', description: 'Source number (so_no or dn_no)' })
-  @ApiQuery({ name: 'cntrNo', required: false, description: 'Container number filter' })
-  @ApiQuery({ name: 'refNo', required: false, description: 'Reference number filter' })
+  @ApiQuery({
+    name: 'cntrNo',
+    required: false,
+    description: 'Container number filter',
+  })
+  @ApiQuery({
+    name: 'refNo',
+    required: false,
+    description: 'Reference number filter',
+  })
   getAvailableItemsForInvoice(
     @Param('sourceType') sourceType: 'so' | 'dn',
     @Param('sourceNo') sourceNo: string,
     @Query('cntrNo') cntrNo?: string,
     @Query('refNo') refNo?: string,
   ) {
-    return this.invoiceService.getAvailableItemsForInvoice(sourceType, sourceNo, cntrNo, refNo);
+    return this.invoiceService.getAvailableItemsForInvoice(
+      sourceType,
+      sourceNo,
+      cntrNo,
+      refNo,
+    );
   }
 
   @Get('container-ref-selection/:invNo')
@@ -137,14 +183,26 @@ export class InvoiceController {
     description: 'Container/ref options retrieved successfully',
   })
   @ApiParam({ name: 'invNo', description: 'Invoice number' })
-  @ApiQuery({ name: 'invDtFrDate', required: false, description: 'Invoice date from (ISO date)' })
-  @ApiQuery({ name: 'invDtToDate', required: false, description: 'Invoice date to (ISO date)' })
+  @ApiQuery({
+    name: 'invDtFrDate',
+    required: false,
+    description: 'Invoice date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'invDtToDate',
+    required: false,
+    description: 'Invoice date to (ISO date)',
+  })
   getContainerRefSelection(
     @Param('invNo') invNo: string,
     @Query('invDtFrDate') invDtFrDate?: string,
     @Query('invDtToDate') invDtToDate?: string,
   ) {
-    return this.invoiceService.getContainerRefSelection(invNo, invDtFrDate, invDtToDate);
+    return this.invoiceService.getContainerRefSelection(
+      invNo,
+      invDtFrDate,
+      invDtToDate,
+    );
   }
 
   @Get(':invNo')

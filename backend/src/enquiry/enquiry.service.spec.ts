@@ -57,14 +57,14 @@ describe('EnquiryService', () => {
           customer: 'CUST001',
           customerName: 'Test Customer',
           totalInvoices: 5,
-          totalAmount: 25000.00,
+          totalAmount: 25000.0,
           totalQty: 1000,
         },
         {
           customer: 'CUST002',
           customerName: 'Another Customer',
           totalInvoices: 3,
-          totalAmount: 15000.00,
+          totalAmount: 15000.0,
           totalQty: 600,
         },
       ];
@@ -76,7 +76,7 @@ describe('EnquiryService', () => {
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM invoice_header'),
-        expect.arrayContaining(['2025-01-01', '2025-01-31'])
+        expect.arrayContaining(['2025-01-01', '2025-01-31']),
       );
     });
 
@@ -92,13 +92,13 @@ describe('EnquiryService', () => {
         {
           period: '2025-01',
           totalInvoices: 8,
-          totalAmount: 40000.00,
+          totalAmount: 40000.0,
           totalQty: 1600,
         },
         {
           period: '2025-02',
           totalInvoices: 12,
-          totalAmount: 60000.00,
+          totalAmount: 60000.0,
           totalQty: 2400,
         },
       ];
@@ -109,8 +109,8 @@ describe('EnquiryService', () => {
 
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
-        expect.stringContaining('DATE_TRUNC(\'month\', date)'),
-        expect.any(Array)
+        expect.stringContaining("DATE_TRUNC('month', date)"),
+        expect.any(Array),
       );
     });
 
@@ -126,15 +126,15 @@ describe('EnquiryService', () => {
           itemNo: 'ITEM001',
           itemName: 'Test Item',
           totalQty: 500,
-          totalAmount: 12500.00,
-          avgPrice: 25.00,
+          totalAmount: 12500.0,
+          avgPrice: 25.0,
         },
         {
           itemNo: 'ITEM002',
           itemName: 'Another Item',
           totalQty: 300,
-          totalAmount: 9000.00,
-          avgPrice: 30.00,
+          totalAmount: 9000.0,
+          avgPrice: 30.0,
         },
       ];
 
@@ -145,7 +145,7 @@ describe('EnquiryService', () => {
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM invoice_detail'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -163,7 +163,7 @@ describe('EnquiryService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('AND i.cust_no ='),
-        expect.arrayContaining(['CUST001'])
+        expect.arrayContaining(['CUST001']),
       );
     });
 
@@ -181,7 +181,7 @@ describe('EnquiryService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('AND id.item_no ='),
-        expect.arrayContaining(['ITEM001'])
+        expect.arrayContaining(['ITEM001']),
       );
     });
   });
@@ -200,22 +200,22 @@ describe('EnquiryService', () => {
           itemName: 'Test Item',
           description: 'Test item description',
           totalSold: 500,
-          totalRevenue: 12500.00,
+          totalRevenue: 12500.0,
           lastSoldDate: '2025-01-30',
-          avgPrice: 25.00,
+          avgPrice: 25.0,
           transactions: [
             {
               date: '2025-01-15',
               invoiceNo: 'INV001',
               qty: 100,
-              price: 25.00,
+              price: 25.0,
               customer: 'CUST001',
             },
             {
               date: '2025-01-30',
               invoiceNo: 'INV002',
               qty: 200,
-              price: 25.00,
+              price: 25.0,
               customer: 'CUST002',
             },
           ],
@@ -241,9 +241,9 @@ describe('EnquiryService', () => {
         itemNo: 'ITEM001',
         itemName: 'Test Item',
         totalSold: 1000,
-        totalRevenue: 25000.00,
+        totalRevenue: 25000.0,
         lastSoldDate: '2025-01-30',
-        avgPrice: 25.00,
+        avgPrice: 25.0,
       };
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
@@ -262,13 +262,15 @@ describe('EnquiryService', () => {
         dateTo: '2025-01-31',
       };
 
-      const mockTransactions = Array(200).fill({}).map((_, i) => ({
-        date: `2025-01-${String(i + 1).padStart(2, '0')}`,
-        invoiceNo: `INV${i + 1}`,
-        qty: 10,
-        price: 25.00,
-        customer: 'CUST001',
-      }));
+      const mockTransactions = Array(200)
+        .fill({})
+        .map((_, i) => ({
+          date: `2025-01-${String(i + 1).padStart(2, '0')}`,
+          invoiceNo: `INV${i + 1}`,
+          qty: 10,
+          price: 25.0,
+          customer: 'CUST001',
+        }));
 
       mockDataSource.query.mockResolvedValueOnce({});
       mockDataSource.query.mockResolvedValueOnce(mockTransactions);
@@ -295,18 +297,18 @@ describe('EnquiryService', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
-            amount: 1050.00,
+            price: 10.5,
+            amount: 1050.0,
           },
           {
             itemNo: 'ITEM002',
             qty: 200,
             price: 8.75,
-            amount: 1750.00,
+            amount: 1750.0,
           },
         ],
         totalQty: 300,
-        totalAmount: 2800.00,
+        totalAmount: 2800.0,
       };
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
@@ -317,7 +319,7 @@ describe('EnquiryService', () => {
       expect(result.soNo).toBe('SO001');
       expect(result.items).toHaveLength(2);
       expect(result.totalQty).toBe(300);
-      expect(result.totalAmount).toBe(2800.00);
+      expect(result.totalAmount).toBe(2800.0);
     });
 
     it('should search SOs by customer and date range', async () => {
@@ -328,8 +330,18 @@ describe('EnquiryService', () => {
       };
 
       const mockData = [
-        { soNo: 'SO001', date: '2025-01-15', custNo: 'CUST001', status: 'Draft' },
-        { soNo: 'SO002', date: '2025-01-20', custNo: 'CUST001', status: 'Confirmed' },
+        {
+          soNo: 'SO001',
+          date: '2025-01-15',
+          custNo: 'CUST001',
+          status: 'Draft',
+        },
+        {
+          soNo: 'SO002',
+          date: '2025-01-20',
+          custNo: 'CUST001',
+          status: 'Confirmed',
+        },
       ];
 
       mockDataSource.query.mockResolvedValue(mockData);
@@ -339,7 +351,7 @@ describe('EnquiryService', () => {
       expect(result).toHaveLength(2);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM shipping_order'),
-        expect.arrayContaining(['CUST001', '2025-01-01', '2025-01-31'])
+        expect.arrayContaining(['CUST001', '2025-01-01', '2025-01-31']),
       );
     });
   });
@@ -361,7 +373,7 @@ describe('EnquiryService', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -398,7 +410,7 @@ describe('EnquiryService', () => {
       expect(result).toHaveLength(2);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM delivery_note_header'),
-        expect.arrayContaining(['SO001', 'Confirmed'])
+        expect.arrayContaining(['SO001', 'Confirmed']),
       );
     });
   });
@@ -420,12 +432,12 @@ describe('EnquiryService', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
-            amount: 1050.00,
+            price: 10.5,
+            amount: 1050.0,
           },
         ],
         totalQty: 100,
-        totalAmount: 1050.00,
+        totalAmount: 1050.0,
       };
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
@@ -435,7 +447,7 @@ describe('EnquiryService', () => {
 
       expect(result.invNo).toBe('INV001');
       expect(result.items).toHaveLength(1);
-      expect(result.totalAmount).toBe(1050.00);
+      expect(result.totalAmount).toBe(1050.0);
     });
 
     it('should search invoices by OC and date range', async () => {
@@ -446,8 +458,18 @@ describe('EnquiryService', () => {
       };
 
       const mockData = [
-        { invNo: 'INV001', ocNo: 'OC001', date: '2025-01-15', plStatus: 'Not Printed' },
-        { invNo: 'INV002', ocNo: 'OC001', date: '2025-01-20', plStatus: 'Printed' },
+        {
+          invNo: 'INV001',
+          ocNo: 'OC001',
+          date: '2025-01-15',
+          plStatus: 'Not Printed',
+        },
+        {
+          invNo: 'INV002',
+          ocNo: 'OC001',
+          date: '2025-01-20',
+          plStatus: 'Printed',
+        },
       ];
 
       mockDataSource.query.mockResolvedValue(mockData);
@@ -457,7 +479,7 @@ describe('EnquiryService', () => {
       expect(result).toHaveLength(2);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM invoice_header'),
-        expect.arrayContaining(['OC001', '2025-01-01', '2025-01-31'])
+        expect.arrayContaining(['OC001', '2025-01-01', '2025-01-31']),
       );
     });
   });
@@ -470,13 +492,15 @@ describe('EnquiryService', () => {
         dateTo: '2025-12-31',
       };
 
-      const mockLargeData = Array(1000).fill({}).map((_, i) => ({
-        customer: `CUST${i}`,
-        customerName: `Customer ${i}`,
-        totalInvoices: Math.floor(Math.random() * 10) + 1,
-        totalAmount: Math.random() * 10000,
-        totalQty: Math.floor(Math.random() * 1000) + 100,
-      }));
+      const mockLargeData = Array(1000)
+        .fill({})
+        .map((_, i) => ({
+          customer: `CUST${i}`,
+          customerName: `Customer ${i}`,
+          totalInvoices: Math.floor(Math.random() * 10) + 1,
+          totalAmount: Math.random() * 10000,
+          totalQty: Math.floor(Math.random() * 1000) + 100,
+        }));
 
       mockDataSource.query.mockResolvedValue(mockLargeData);
 
@@ -512,9 +536,13 @@ describe('EnquiryService', () => {
         analysisType: 'by_customer',
       };
 
-      mockDataSource.query.mockRejectedValue(new Error('Database connection failed'));
+      mockDataSource.query.mockRejectedValue(
+        new Error('Database connection failed'),
+      );
 
-      await expect(service.getSalesAnalysis(query)).rejects.toThrow('Database connection failed');
+      await expect(service.getSalesAnalysis(query)).rejects.toThrow(
+        'Database connection failed',
+      );
     });
 
     it('should validate query parameters', async () => {
@@ -522,7 +550,9 @@ describe('EnquiryService', () => {
         analysisType: 'invalid_type',
       };
 
-      await expect(service.getSalesAnalysis(invalidQuery)).rejects.toThrow('Invalid analysis type');
+      await expect(service.getSalesAnalysis(invalidQuery)).rejects.toThrow(
+        'Invalid analysis type',
+      );
     });
 
     it('should handle empty results', async () => {

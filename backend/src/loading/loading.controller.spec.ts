@@ -71,12 +71,16 @@ describe('LoadingController', () => {
         status: 'Draft',
       };
 
-      mockLoadingService.createLoadingMaster.mockResolvedValue(mockResult as any);
+      mockLoadingService.createLoadingMaster.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.createLoadingMaster(createDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.createLoadingMaster).toHaveBeenCalledWith(createDto);
+      expect(mockLoadingService.createLoadingMaster).toHaveBeenCalledWith(
+        createDto,
+      );
     });
 
     it('should handle create errors', async () => {
@@ -86,9 +90,13 @@ describe('LoadingController', () => {
         voyageNo: 'V001',
       };
 
-      mockLoadingService.createLoadingMaster.mockRejectedValue(new Error('Validation error'));
+      mockLoadingService.createLoadingMaster.mockRejectedValue(
+        new Error('Validation error'),
+      );
 
-      await expect(controller.createLoadingMaster(createDto)).rejects.toThrow('Validation error');
+      await expect(controller.createLoadingMaster(createDto)).rejects.toThrow(
+        'Validation error',
+      );
     });
   });
 
@@ -106,12 +114,16 @@ describe('LoadingController', () => {
         containerNo: 'CONT001',
       };
 
-      mockLoadingService.assignDnsToLoading.mockResolvedValue(mockResult as any);
+      mockLoadingService.assignDnsToLoading.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.assignDnsToLoading(assignDto);
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.assignDnsToLoading).toHaveBeenCalledWith(assignDto);
+      expect(mockLoadingService.assignDnsToLoading).toHaveBeenCalledWith(
+        assignDto,
+      );
     });
 
     it('should handle assignment errors', async () => {
@@ -120,9 +132,13 @@ describe('LoadingController', () => {
         dnNos: ['DN001'],
       };
 
-      mockLoadingService.assignDnsToLoading.mockRejectedValue(new Error('DN not confirmed'));
+      mockLoadingService.assignDnsToLoading.mockRejectedValue(
+        new Error('DN not confirmed'),
+      );
 
-      await expect(controller.assignDnsToLoading(assignDto)).rejects.toThrow('DN not confirmed');
+      await expect(controller.assignDnsToLoading(assignDto)).rejects.toThrow(
+        'DN not confirmed',
+      );
     });
   });
 
@@ -141,12 +157,16 @@ describe('LoadingController', () => {
         ],
       };
 
-      mockLoadingService.generateLoadingAdvice.mockResolvedValue(mockResult as any);
+      mockLoadingService.generateLoadingAdvice.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.generateLoadingAdvice('LOAD001');
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.generateLoadingAdvice).toHaveBeenCalledWith('LOAD001');
+      expect(mockLoadingService.generateLoadingAdvice).toHaveBeenCalledWith(
+        'LOAD001',
+      );
     });
   });
 
@@ -171,7 +191,12 @@ describe('LoadingController', () => {
     });
 
     it('should handle pagination parameters', async () => {
-      mockLoadingService.findAll.mockResolvedValue({ data: [], total: 0, page: 2, limit: 20 } as any);
+      mockLoadingService.findAll.mockResolvedValue({
+        data: [],
+        total: 0,
+        page: 2,
+        limit: 20,
+      } as any);
 
       await controller.findAll(2, 20);
 
@@ -181,11 +206,20 @@ describe('LoadingController', () => {
     it('should handle search filters', async () => {
       const searchParams = { loadingNo: 'LOAD001', status: 'Draft' };
 
-      mockLoadingService.findAll.mockResolvedValue({ data: [], total: 0, page: 1, limit: 10 } as any);
+      mockLoadingService.findAll.mockResolvedValue({
+        data: [],
+        total: 0,
+        page: 1,
+        limit: 10,
+      } as any);
 
       await controller.findAll(1, 10, searchParams);
 
-      expect(mockLoadingService.findAll).toHaveBeenCalledWith(1, 10, searchParams);
+      expect(mockLoadingService.findAll).toHaveBeenCalledWith(
+        1,
+        10,
+        searchParams,
+      );
     });
   });
 
@@ -220,18 +254,30 @@ describe('LoadingController', () => {
         status: 'Completed',
       };
 
-      mockLoadingService.updateLoadingStatus.mockResolvedValue(mockResult as any);
+      mockLoadingService.updateLoadingStatus.mockResolvedValue(
+        mockResult as any,
+      );
 
-      const result = await controller.updateLoadingStatus('LOAD001', 'Completed');
+      const result = await controller.updateLoadingStatus(
+        'LOAD001',
+        'Completed',
+      );
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.updateLoadingStatus).toHaveBeenCalledWith('LOAD001', 'Completed');
+      expect(mockLoadingService.updateLoadingStatus).toHaveBeenCalledWith(
+        'LOAD001',
+        'Completed',
+      );
     });
 
     it('should handle status update errors', async () => {
-      mockLoadingService.updateLoadingStatus.mockRejectedValue(new Error('Invalid transition'));
+      mockLoadingService.updateLoadingStatus.mockRejectedValue(
+        new Error('Invalid transition'),
+      );
 
-      await expect(controller.updateLoadingStatus('LOAD001', 'Invalid')).rejects.toThrow('Invalid transition');
+      await expect(
+        controller.updateLoadingStatus('LOAD001', 'Invalid'),
+      ).rejects.toThrow('Invalid transition');
     });
   });
 
@@ -249,9 +295,7 @@ describe('LoadingController', () => {
   describe('search', () => {
     it('should search loading masters', async () => {
       const searchParams = { loadingNo: 'LOAD001', vesselName: 'Test' };
-      const mockResult = [
-        { loadingNo: 'LOAD001', vesselName: 'Test Vessel' },
-      ];
+      const mockResult = [{ loadingNo: 'LOAD001', vesselName: 'Test Vessel' }];
 
       mockLoadingService.search.mockResolvedValue(mockResult as any);
 
@@ -274,12 +318,16 @@ describe('LoadingController', () => {
         },
       ];
 
-      mockLoadingService.getContainerAssignments.mockResolvedValue(mockResult as any);
+      mockLoadingService.getContainerAssignments.mockResolvedValue(
+        mockResult as any,
+      );
 
       const result = await controller.getContainerAssignments('LOAD001');
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.getContainerAssignments).toHaveBeenCalledWith('LOAD001');
+      expect(mockLoadingService.getContainerAssignments).toHaveBeenCalledWith(
+        'LOAD001',
+      );
     });
   });
 
@@ -291,9 +339,13 @@ describe('LoadingController', () => {
         voyageNo: 'V001',
       };
 
-      mockLoadingService.createLoadingMaster.mockRejectedValue(new Error('Service error'));
+      mockLoadingService.createLoadingMaster.mockRejectedValue(
+        new Error('Service error'),
+      );
 
-      await expect(controller.createLoadingMaster(createDto)).rejects.toThrow('Service error');
+      await expect(controller.createLoadingMaster(createDto)).rejects.toThrow(
+        'Service error',
+      );
     });
 
     it('should handle assignment errors', async () => {
@@ -302,27 +354,43 @@ describe('LoadingController', () => {
         dnNos: ['DN001'],
       };
 
-      mockLoadingService.assignDnsToLoading.mockRejectedValue(new Error('Assignment failed'));
+      mockLoadingService.assignDnsToLoading.mockRejectedValue(
+        new Error('Assignment failed'),
+      );
 
-      await expect(controller.assignDnsToLoading(assignDto)).rejects.toThrow('Assignment failed');
+      await expect(controller.assignDnsToLoading(assignDto)).rejects.toThrow(
+        'Assignment failed',
+      );
     });
 
     it('should handle advice generation errors', async () => {
-      mockLoadingService.generateLoadingAdvice.mockRejectedValue(new Error('Generation failed'));
+      mockLoadingService.generateLoadingAdvice.mockRejectedValue(
+        new Error('Generation failed'),
+      );
 
-      await expect(controller.generateLoadingAdvice('LOAD001')).rejects.toThrow('Generation failed');
+      await expect(controller.generateLoadingAdvice('LOAD001')).rejects.toThrow(
+        'Generation failed',
+      );
     });
 
     it('should handle update errors', async () => {
-      mockLoadingService.updateLoadingStatus.mockRejectedValue(new Error('Status update failed'));
+      mockLoadingService.updateLoadingStatus.mockRejectedValue(
+        new Error('Status update failed'),
+      );
 
-      await expect(controller.updateLoadingStatus('LOAD001', 'Active')).rejects.toThrow('Status update failed');
+      await expect(
+        controller.updateLoadingStatus('LOAD001', 'Active'),
+      ).rejects.toThrow('Status update failed');
     });
 
     it('should handle deletion errors', async () => {
-      mockLoadingService.remove.mockRejectedValue(new Error('Cannot delete completed loading'));
+      mockLoadingService.remove.mockRejectedValue(
+        new Error('Cannot delete completed loading'),
+      );
 
-      await expect(controller.remove('LOAD001')).rejects.toThrow('Cannot delete completed loading');
+      await expect(controller.remove('LOAD001')).rejects.toThrow(
+        'Cannot delete completed loading',
+      );
     });
   });
 });

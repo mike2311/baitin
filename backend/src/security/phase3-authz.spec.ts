@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 
 /**
@@ -22,7 +23,7 @@ describe('Phase 3 Authentication & Authorization', () => {
   let regularUserToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -62,8 +63,9 @@ describe('Phase 3 Authentication & Authorization', () => {
 
   describe('JWT Token Validation', () => {
     it('should reject requests without token on SO endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/shipping-orders/enquiry');
+      const response = await request(app.getHttpServer()).get(
+        '/api/shipping-orders/enquiry',
+      );
 
       expect(response.status).toBe(401);
     });
@@ -77,36 +79,41 @@ describe('Phase 3 Authentication & Authorization', () => {
     });
 
     it('should reject requests without token on DN endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/delivery-notes/enquiry');
+      const response = await request(app.getHttpServer()).get(
+        '/api/delivery-notes/enquiry',
+      );
 
       expect(response.status).toBe(401);
     });
 
     it('should reject requests without token on Loading endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/loading/masters');
+      const response = await request(app.getHttpServer()).get(
+        '/api/loading/masters',
+      );
 
       expect(response.status).toBe(401);
     });
 
     it('should reject requests without token on Invoice endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/invoices/enquiry');
+      const response = await request(app.getHttpServer()).get(
+        '/api/invoices/enquiry',
+      );
 
       expect(response.status).toBe(401);
     });
 
     it('should reject requests without token on Enquiry endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/enquiry/sales-analysis');
+      const response = await request(app.getHttpServer()).get(
+        '/api/enquiry/sales-analysis',
+      );
 
       expect(response.status).toBe(401);
     });
 
     it('should reject requests without token on Reporting endpoints', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/reporting/reports');
+      const response = await request(app.getHttpServer()).get(
+        '/api/reporting/reports',
+      );
 
       expect(response.status).toBe(401);
     });
@@ -167,7 +174,7 @@ describe('Phase 3 Authentication & Authorization', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -213,7 +220,7 @@ describe('Phase 3 Authentication & Authorization', () => {
   describe('Audit Logging', () => {
     it('should log SO creation operations', async () => {
       const soNo = `SO-AUDIT-${Date.now()}`;
-      
+
       await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -234,7 +241,7 @@ describe('Phase 3 Authentication & Authorization', () => {
 
     it('should log Invoice creation operations', async () => {
       const invNo = `INV-AUDIT-${Date.now()}`;
-      
+
       await request(app.getHttpServer())
         .post('/api/invoices')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -283,7 +290,7 @@ describe('Phase 3 Authentication & Authorization', () => {
     it('should handle session timeout gracefully', async () => {
       // Simulate session timeout by using an old token
       // In real scenario, token would expire after configured time
-      
+
       // For now, test that expired token is rejected
       const response = await request(app.getHttpServer())
         .get('/api/shipping-orders/enquiry')
@@ -317,8 +324,9 @@ describe('Phase 3 Authentication & Authorization', () => {
     });
 
     it('should prevent unauthorized Invoice access', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/api/invoices/enquiry');
+      const response = await request(app.getHttpServer()).get(
+        '/api/invoices/enquiry',
+      );
 
       expect(response.status).toBe(401);
     });

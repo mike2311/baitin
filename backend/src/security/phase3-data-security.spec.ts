@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 
 /**
@@ -21,7 +22,7 @@ describe('Phase 3 Data Security', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -47,7 +48,7 @@ describe('Phase 3 Data Security', () => {
   describe('SQL Injection Prevention', () => {
     it('should prevent SQL injection in SO search', async () => {
       const sqlInjection = "'; DROP TABLE shipping_order_header; --";
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/shipping-orders/enquiry')
         .set('Authorization', `Bearer ${authToken}`)
@@ -57,7 +58,7 @@ describe('Phase 3 Data Security', () => {
 
       // Should not execute SQL injection, should return 200 or 400 (bad request)
       expect([200, 400]).toContain(response.status);
-      
+
       // Verify table still exists (would need to check database)
       // const tableExists = await dataSource.query("SELECT name FROM sqlite_master WHERE type='table' AND name='shipping_order_header'");
       // expect(tableExists.length).toBeGreaterThan(0);
@@ -65,7 +66,7 @@ describe('Phase 3 Data Security', () => {
 
     it('should prevent SQL injection in Invoice search', async () => {
       const sqlInjection = "1' OR '1'='1";
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/invoices/enquiry')
         .set('Authorization', `Bearer ${authToken}`)
@@ -78,7 +79,7 @@ describe('Phase 3 Data Security', () => {
 
     it('should prevent SQL injection in report parameters', async () => {
       const sqlInjection = "'; DELETE FROM report_definition; --";
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/reporting/generate')
         .set('Authorization', `Bearer ${authToken}`)
@@ -95,7 +96,7 @@ describe('Phase 3 Data Security', () => {
 
     it('should sanitize user input in SO creation', async () => {
       const maliciousInput = "'; DROP TABLE shipping_order_header; --";
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${authToken}`)
@@ -114,7 +115,7 @@ describe('Phase 3 Data Security', () => {
   describe('XSS Prevention', () => {
     it('should prevent XSS in SO remarks field', async () => {
       const xssPayload = '<script>alert("XSS")</script>';
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${authToken}`)
@@ -127,7 +128,7 @@ describe('Phase 3 Data Security', () => {
         });
 
       expect(response.status).toBe(201);
-      
+
       // Verify XSS is sanitized in stored data
       const soResponse = await request(app.getHttpServer())
         .get(`/api/shipping-orders/${response.body.soNo}`)
@@ -164,14 +165,14 @@ describe('Phase 3 Data Security', () => {
         });
 
       expect(docResponse.status).toBe(200);
-      
+
       // Document should not contain executable script tags
       // (Would need to parse document to verify)
     });
 
     it('should prevent XSS in Invoice remarks', async () => {
       const xssPayload = '<img src=x onerror=alert("XSS")>';
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/invoices')
         .set('Authorization', `Bearer ${authToken}`)
@@ -184,7 +185,7 @@ describe('Phase 3 Data Security', () => {
         });
 
       expect(response.status).toBe(201);
-      
+
       // Verify XSS is sanitized
       const invResponse = await request(app.getHttpServer())
         .get(`/api/invoices/${response.body.invNo}`)
@@ -200,7 +201,7 @@ describe('Phase 3 Data Security', () => {
     it('should require CSRF token for state-changing operations if implemented', async () => {
       // CSRF protection is typically handled at framework level
       // Test that state-changing operations require proper headers
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${authToken}`)
@@ -219,7 +220,7 @@ describe('Phase 3 Data Security', () => {
     it('should validate origin header for CSRF protection', async () => {
       // Test that requests from unauthorized origins are rejected
       // This would require CSRF middleware to be configured
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/invoices')
         .set('Authorization', `Bearer ${authToken}`)
@@ -277,7 +278,7 @@ describe('Phase 3 Data Security', () => {
             {
               itemNo: 'ITEM001',
               qty: 'not-a-number',
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -301,7 +302,7 @@ describe('Phase 3 Data Security', () => {
 
     it('should sanitize string inputs to prevent injection', async () => {
       const maliciousString = "'; DROP TABLE; --";
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${authToken}`)
@@ -357,7 +358,7 @@ describe('Phase 3 Data Security', () => {
         });
 
       expect(response.status).toBe(201);
-      
+
       // Verify logs don't contain sensitive data
       // (Would need to check log files or log service)
     });
@@ -399,7 +400,7 @@ describe('Phase 3 Data Security', () => {
     it('should limit file size for uploads', async () => {
       // Create large file
       const largeFile = Buffer.alloc(10 * 1024 * 1024); // 10MB
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/reporting/upload')
         .set('Authorization', `Bearer ${authToken}`)

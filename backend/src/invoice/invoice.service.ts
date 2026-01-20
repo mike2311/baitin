@@ -1,13 +1,29 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
-import { CreateInvoiceDto, CreateInvoiceFromSourceDto, SelectInvoiceItemsByContainerDto } from './dto/create-invoice.dto';
+import {
+  CreateInvoiceDto,
+  CreateInvoiceFromSourceDto,
+  SelectInvoiceItemsByContainerDto,
+} from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import { InvoiceSearchResponseDto, AvailableItemsForInvoiceResponseDto, ContainerRefSelectionResponseDto } from './dto/invoice-search-response.dto';
+import {
+  InvoiceSearchResponseDto,
+  AvailableItemsForInvoiceResponseDto,
+  ContainerRefSelectionResponseDto,
+} from './dto/invoice-search-response.dto';
 import { InvoiceValidationService } from './invoice-validation.service';
-import { ValidateInvoiceItemDto, ValidateInvoiceDateRangeDto } from './dto/validate-invoice-item.dto';
+import {
+  ValidateInvoiceItemDto,
+  ValidateInvoiceDateRangeDto,
+} from './dto/validate-invoice-item.dto';
 
 /**
  * Invoice Service
@@ -41,7 +57,10 @@ export class InvoiceService {
    * Original Logic Reference:
    * - Legacy Form: iinvhd@ (manual entry)
    */
-  async create(createDto: CreateInvoiceDto, userId?: string): Promise<InvoiceHeader> {
+  async create(
+    createDto: CreateInvoiceDto,
+    userId?: string,
+  ): Promise<InvoiceHeader> {
     // Validate invoice number uniqueness
     const existing = await this.invoiceHeaderRepository.findOne({
       where: { invNo: createDto.invNo },
@@ -53,10 +72,14 @@ export class InvoiceService {
     // Validate date range if provided
     if (createDto.invDtFrDate || createDto.invDtToDate) {
       if (!createDto.invDtFrDate || !createDto.invDtToDate) {
-        throw new BadRequestException('Both invoice date from and to must be provided or both empty');
+        throw new BadRequestException(
+          'Both invoice date from and to must be provided or both empty',
+        );
       }
       if (new Date(createDto.invDtToDate) < new Date(createDto.invDtFrDate)) {
-        throw new BadRequestException('Invoice date to must be greater than or equal to invoice date from');
+        throw new BadRequestException(
+          'Invoice date to must be greater than or equal to invoice date from',
+        );
       }
     }
 
@@ -105,7 +128,9 @@ export class InvoiceService {
             lineNo: i + 1,
             qty: detailDto.qty,
             price: detailDto.price,
-            amount: detailDto.amount || (detailDto.price ? detailDto.qty * detailDto.price : undefined),
+            amount:
+              detailDto.amount ||
+              (detailDto.price ? detailDto.qty * detailDto.price : undefined),
             ctn: detailDto.ctn,
             qctn: detailDto.qctn,
             net: detailDto.net,
@@ -146,7 +171,10 @@ export class InvoiceService {
    * Original Logic Reference:
    * - Legacy Form: iinvhd@ (create from SO/DN)
    */
-  async createFromSource(createDto: CreateInvoiceFromSourceDto, userId?: string): Promise<InvoiceHeader> {
+  async createFromSource(
+    createDto: CreateInvoiceFromSourceDto,
+    userId?: string,
+  ): Promise<InvoiceHeader> {
     // Validate invoice number uniqueness
     const existing = await this.invoiceHeaderRepository.findOne({
       where: { invNo: createDto.invNo },
@@ -156,24 +184,37 @@ export class InvoiceService {
     }
 
     // Get source items
-    const sourceItems = await this.getSourceItems(createDto.sourceType, createDto.sourceNo);
+    const sourceItems = await this.getSourceItems(
+      createDto.sourceType,
+      createDto.sourceNo,
+    );
     if (sourceItems.length === 0) {
-      throw new NotFoundException(`No items found in ${createDto.sourceType.toUpperCase()} ${createDto.sourceNo}`);
+      throw new NotFoundException(
+        `No items found in ${createDto.sourceType.toUpperCase()} ${createDto.sourceNo}`,
+      );
     }
 
     // Filter selected items if provided
-    const itemsToInclude = createDto.selectedItemNos && createDto.selectedItemNos.length > 0
-      ? sourceItems.filter(item => createDto.selectedItemNos!.includes(item.item_no))
-      : sourceItems;
+    const itemsToInclude =
+      createDto.selectedItemNos && createDto.selectedItemNos.length > 0
+        ? sourceItems.filter((item) =>
+            createDto.selectedItemNos!.includes(item.item_no),
+          )
+        : sourceItems;
 
     if (itemsToInclude.length === 0) {
       throw new BadRequestException('No items selected for invoice');
     }
 
     // Get source header for customer info
-    const sourceHeader = await this.getSourceHeader(createDto.sourceType, createDto.sourceNo);
+    const sourceHeader = await this.getSourceHeader(
+      createDto.sourceType,
+      createDto.sourceNo,
+    );
     if (!sourceHeader) {
-      throw new NotFoundException(`${createDto.sourceType.toUpperCase()} ${createDto.sourceNo} not found`);
+      throw new NotFoundException(
+        `${createDto.sourceType.toUpperCase()} ${createDto.sourceNo} not found`,
+      );
     }
 
     const queryRunner = this.dataSource.createQueryRunner();
@@ -209,7 +250,9 @@ export class InvoiceService {
           lineNo: i + 1,
           qty: sourceItem.qty,
           price: sourceItem.price,
-          amount: sourceItem.price ? sourceItem.qty * sourceItem.price : undefined,
+          amount: sourceItem.price
+            ? sourceItem.qty * sourceItem.price
+            : undefined,
           ctn: sourceItem.ctn,
           qctn: sourceItem.qctn,
           net: sourceItem.net,
@@ -221,7 +264,10 @@ export class InvoiceService {
           refNo: sourceItem.ref_no,
           ocNo: sourceItem.oc_no,
           confNo: sourceItem.conf_no,
-          soNo: createDto.sourceType === 'so' ? createDto.sourceNo : sourceItem.so_no,
+          soNo:
+            createDto.sourceType === 'so'
+              ? createDto.sourceNo
+              : sourceItem.so_no,
           head: true,
           creUser: userId || createDto.userId,
           userId: userId || createDto.userId,
@@ -230,7 +276,10 @@ export class InvoiceService {
         await queryRunner.manager.save(InvoiceDetail, detail);
 
         // Get item description and OC data
-        const itemData = await this.getItemAndOcData(sourceItem.item_no, sourceItem.conf_no);
+        const itemData = await this.getItemAndOcData(
+          sourceItem.item_no,
+          sourceItem.conf_no,
+        );
         if (itemData) {
           detail.despMemo = itemData.desc_memo;
           detail.price = itemData.price || detail.price;
@@ -332,7 +381,7 @@ export class InvoiceService {
     }
 
     const results = await this.dataSource.query(query, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       sourceType: row.source_type,
       sourceNo: row.source_no,
       itemNo: row.item_no,
@@ -378,7 +427,10 @@ export class InvoiceService {
    *   - Date range filtering
    *   - Item selection and validation
    */
-  async selectItemsByContainer(selectDto: SelectInvoiceItemsByContainerDto, userId?: string): Promise<InvoiceDetail[]> {
+  async selectItemsByContainer(
+    selectDto: SelectInvoiceItemsByContainerDto,
+    userId?: string,
+  ): Promise<InvoiceDetail[]> {
     const header = await this.invoiceHeaderRepository.findOne({
       where: { invNo: selectDto.invNo },
     });
@@ -402,14 +454,17 @@ export class InvoiceService {
       const createdDetails: InvoiceDetail[] = [];
 
       // Filter by selected items if provided
-      const itemsToInclude = selectDto.selectedItemNos && selectDto.selectedItemNos.length > 0
-        ? availableItems.filter(item => selectDto.selectedItemNos!.includes(item.itemNo))
-        : availableItems;
+      const itemsToInclude =
+        selectDto.selectedItemNos && selectDto.selectedItemNos.length > 0
+          ? availableItems.filter((item) =>
+              selectDto.selectedItemNos!.includes(item.itemNo),
+            )
+          : availableItems;
 
       // Get current max line number
       const maxLineResult = await queryRunner.manager.query(
         'SELECT COALESCE(MAX(line_no), 0) as max_line FROM invoice_detail WHERE inv_no = $1',
-        [selectDto.invNo]
+        [selectDto.invNo],
       );
       let lineNo = (maxLineResult[0]?.max_line || 0) + 1;
 
@@ -433,7 +488,10 @@ export class InvoiceService {
           userId: userId,
         });
 
-        const savedDetail = await queryRunner.manager.save(InvoiceDetail, detail);
+        const savedDetail = await queryRunner.manager.save(
+          InvoiceDetail,
+          detail,
+        );
         createdDetails.push(savedDetail);
       }
 
@@ -466,16 +524,24 @@ export class InvoiceService {
   /**
    * Update invoice
    */
-  async update(invNo: string, updateDto: UpdateInvoiceDto, userId?: string): Promise<InvoiceHeader> {
+  async update(
+    invNo: string,
+    updateDto: UpdateInvoiceDto,
+    userId?: string,
+  ): Promise<InvoiceHeader> {
     const header = await this.findOne(invNo);
 
     // Validate date range if being updated
     if (updateDto.invDtFrDate || updateDto.invDtToDate) {
       if (!updateDto.invDtFrDate || !updateDto.invDtToDate) {
-        throw new BadRequestException('Both invoice date from and to must be provided or both empty');
+        throw new BadRequestException(
+          'Both invoice date from and to must be provided or both empty',
+        );
       }
       if (new Date(updateDto.invDtToDate) < new Date(updateDto.invDtFrDate)) {
-        throw new BadRequestException('Invoice date to must be greater than or equal to invoice date from');
+        throw new BadRequestException(
+          'Invoice date to must be greater than or equal to invoice date from',
+        );
       }
     }
 
@@ -493,9 +559,11 @@ export class InvoiceService {
     if (updateDto.ocNo !== undefined) header.ocNo = updateDto.ocNo;
     if (updateDto.ship !== undefined) header.ship = updateDto.ship;
     if (updateDto.delDate) header.delDate = new Date(updateDto.delDate);
-    if (updateDto.loadingPort !== undefined) header.loadingPort = updateDto.loadingPort;
+    if (updateDto.loadingPort !== undefined)
+      header.loadingPort = updateDto.loadingPort;
     if (updateDto.dest !== undefined) header.dest = updateDto.dest;
-    if (updateDto.paymentTerms !== undefined) header.paymentTerms = updateDto.paymentTerms;
+    if (updateDto.paymentTerms !== undefined)
+      header.paymentTerms = updateDto.paymentTerms;
     if (updateDto.remarks !== undefined) header.remarks = updateDto.remarks;
     header.modDate = new Date();
 
@@ -540,7 +608,9 @@ export class InvoiceService {
       ])
       .addSelect('COUNT(DISTINCT invd.itemNo)', 'itemCount')
       .addSelect('COALESCE(SUM(invd.amount), 0)', 'totalAmount')
-      .groupBy('inv.invNo, inv.date, inv.custNo, c.ename, inv.ocNo, inv.ship, inv.delDate, inv.plStatus, inv.plShStatus, inv.creUser, inv.creDate, inv.modDate');
+      .groupBy(
+        'inv.invNo, inv.date, inv.custNo, c.ename, inv.ocNo, inv.ship, inv.delDate, inv.plStatus, inv.plShStatus, inv.creUser, inv.creDate, inv.modDate',
+      );
 
     if (query?.invNo) {
       qb.andWhere('inv.invNo ILIKE :invNo', { invNo: `%${query.invNo}%` });
@@ -559,7 +629,7 @@ export class InvoiceService {
     }
 
     const results = await qb.getRawMany();
-    return results.map(row => ({
+    return results.map((row) => ({
       invNo: row.inv_invNo,
       date: row.inv_date,
       custNo: row.inv_custNo,
@@ -579,7 +649,10 @@ export class InvoiceService {
 
   // Private helper methods
 
-  private async getSourceItems(sourceType: 'so' | 'dn', sourceNo: string): Promise<any[]> {
+  private async getSourceItems(
+    sourceType: 'so' | 'dn',
+    sourceNo: string,
+  ): Promise<any[]> {
     if (sourceType === 'so') {
       const query = `
         SELECT
@@ -625,7 +698,10 @@ export class InvoiceService {
     }
   }
 
-  private async getSourceHeader(sourceType: 'so' | 'dn', sourceNo: string): Promise<any> {
+  private async getSourceHeader(
+    sourceType: 'so' | 'dn',
+    sourceNo: string,
+  ): Promise<any> {
     if (sourceType === 'so') {
       const query = `
         SELECT DISTINCT
@@ -651,7 +727,10 @@ export class InvoiceService {
     }
   }
 
-  private async getItemAndOcData(itemNo: string, confNo?: string): Promise<any> {
+  private async getItemAndOcData(
+    itemNo: string,
+    confNo?: string,
+  ): Promise<any> {
     if (!confNo) return null;
 
     const query = `
@@ -669,7 +748,7 @@ export class InvoiceService {
   private async validateCustomerExists(custNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM customer WHERE cust_no = $1',
-      [custNo]
+      [custNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Customer ${custNo} not found`);
@@ -679,7 +758,7 @@ export class InvoiceService {
   private async validateOrderConfirmationExists(ocNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM order_confirmation_header WHERE conf_no = $1',
-      [ocNo]
+      [ocNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Order Confirmation ${ocNo} not found`);
@@ -689,7 +768,7 @@ export class InvoiceService {
   private async validateItemExists(itemNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM item WHERE item_no = $1',
-      [itemNo]
+      [itemNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Item ${itemNo} not found`);

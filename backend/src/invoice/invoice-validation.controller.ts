@@ -1,19 +1,20 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { InvoiceValidationService } from './invoice-validation.service';
-import { ValidateInvoiceItemDto, ValidateInvoiceDateRangeDto } from './dto/validate-invoice-item.dto';
-import { InvoiceItemValidationResult, InvoiceDateRangeValidationResult } from './dto/validate-invoice-item.dto';
+import {
+  ValidateInvoiceItemDto,
+  ValidateInvoiceDateRangeDto,
+} from './dto/validate-invoice-item.dto';
+import {
+  InvoiceItemValidationResult,
+  InvoiceDateRangeValidationResult,
+} from './dto/validate-invoice-item.dto';
 
 /**
  * Invoice Validation Controller
@@ -78,6 +79,9 @@ export class InvoiceValidationController {
     @Body('validateDto') validateDto: ValidateInvoiceItemDto,
     @Body('overrideConfirmed') overrideConfirmed: boolean = false,
   ) {
-    return this.validationService.validateInvoiceItemWithOverride(validateDto, overrideConfirmed);
+    return this.validationService.validateInvoiceItemWithOverride(
+      validateDto,
+      overrideConfirmed,
+    );
   }
 }

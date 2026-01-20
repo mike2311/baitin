@@ -57,23 +57,12 @@ export async function createTestApp(): Promise<{
   moduleRef: TestingModule;
 }> {
   // Use PostgreSQL for tests (same as production/Supabase)
-  // Read from environment variables, with test-specific defaults
-  const testDbHost =
-    process.env.TEST_DATABASE_HOST || process.env.DATABASE_HOST || 'localhost';
-  const testDbPort = parseInt(
-    process.env.TEST_DATABASE_PORT || process.env.DATABASE_PORT || '5432',
-    10,
-  );
-  const testDbUser =
-    process.env.TEST_DATABASE_USER || process.env.DATABASE_USER || 'postgres';
-  const testDbPassword =
-    process.env.TEST_DATABASE_PASSWORD ||
-    process.env.DATABASE_PASSWORD ||
-    'postgres';
-  const testDbName =
-    process.env.TEST_DATABASE_NAME ||
-    process.env.DATABASE_NAME ||
-    'baitin_test';
+  // HARDCODED for test reliability - matches docker-compose.yml postgres-test service
+  const testDbHost = 'localhost';
+  const testDbPort = 5433; // Docker test database runs on 5433
+  const testDbUser = 'postgres';
+  const testDbPassword = 'postgres';
+  const testDbName = 'baitin_test';
 
   // Create test module - we need to prevent AppModule from creating its own TypeORM connection
   // The simplest approach is to import TypeORM config first, then AppModule
@@ -82,7 +71,7 @@ export async function createTestApp(): Promise<{
     imports: [
       ConfigModule.forRoot({
         isGlobal: true,
-        envFilePath: ['.env'],
+        ignoreEnvFile: true, // Ignore .env file for tests - use environment variables only
         expandVariables: true,
       }),
       // Import our test TypeORM config FIRST - this will be used
@@ -369,7 +358,7 @@ export async function getTestDataSource(
   if (moduleRef) {
     return moduleRef.get<DataSource>(DataSource);
   }
-  
+
   // If no moduleRef provided, create a temporary one
   // This is less efficient but maintains backward compatibility
   const { moduleRef: tempModuleRef } = await createTestApp();

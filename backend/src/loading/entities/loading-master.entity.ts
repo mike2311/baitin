@@ -71,6 +71,8 @@ export class LoadingMaster {
   modDate: Date; // Modification date
 
   // Relations
-  @OneToMany(() => LoadingAdviceHeader, (advice) => advice.loadingMaster, { cascade: true })
+  @OneToMany(() => LoadingAdviceHeader, (advice) => advice.loadingMaster, {
+    cascade: true,
+  })
   adviceHeaders?: LoadingAdviceHeader[];
 }

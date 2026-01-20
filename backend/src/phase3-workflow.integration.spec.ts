@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { getTestDataSource } from './test-utils/test-helpers';
+import { getTestDataSource, createTestApp } from './test-utils/test-helpers';
+import { createMinimalTestApp } from './test-utils/minimal-test-app';
 import * as request from 'supertest';
 import { AppModule } from './app.module';
 import { DataSource } from 'typeorm';
@@ -26,7 +27,7 @@ describe('Phase 3 Complete Workflow Integration', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -94,7 +95,7 @@ describe('Phase 3 Complete Workflow Integration', () => {
           oeNo: oeNo,
           itemNo: 'ITEM001',
           qty: 100,
-          price: 10.50,
+          price: 10.5,
         });
 
       expect(oeDetailResponse.status).toBe(201);
@@ -534,11 +535,13 @@ describe('Phase 3 Complete Workflow Integration', () => {
           date: '2025-01-25',
           custNo: 'CUST001',
           ocNo: 'OC-PL-001',
-          details: [{
-            itemNo: 'ITEM001',
-            qty: 100,
-            price: 10.50,
-          }],
+          details: [
+            {
+              itemNo: 'ITEM001',
+              qty: 100,
+              price: 10.5,
+            },
+          ],
         });
 
       expect(invoiceResponse.status).toBe(201);
@@ -698,19 +701,21 @@ describe('Phase 3 Complete Workflow Integration', () => {
 
     it('should handle concurrent operations', async () => {
       // Test concurrent document generation
-      const promises = Array(5).fill().map((_, i) =>
-        request(app.getHttpServer())
-          .post('/api/invoices/documents/generate')
-          .set('Authorization', `Bearer ${authToken}`)
-          .send({
-            invNos: [`INV-CONCURRENT-${i}`],
-            documentType: 'packing_list',
-            outputFormat: 'excel',
-          })
-      );
+      const promises = Array(5)
+        .fill(null)
+        .map((_, i) =>
+          request(app.getHttpServer())
+            .post('/api/invoices/documents/generate')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+              invNos: [`INV-CONCURRENT-${i}`],
+              documentType: 'packing_list',
+              outputFormat: 'excel',
+            }),
+        );
 
       const results = await Promise.all(promises);
-      results.forEach(result => {
+      results.forEach((result) => {
         expect(result.status).toBe(200);
       });
     });

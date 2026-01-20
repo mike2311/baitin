@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber, IsDateString, IsPositive, Min } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsNumber,
+  IsDateString,
+  IsPositive,
+  Min,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 
 /**
@@ -44,7 +52,7 @@ export class CreateShippingOrderDto {
   ctn?: number; // Carton quantity
 
   @IsOptional()
-  @Transform(({ value }) => value ? new Date(value) : undefined)
+  @Transform(({ value }) => (value ? new Date(value) : undefined))
   @IsDateString()
   shipDate?: string; // Shipping date
 

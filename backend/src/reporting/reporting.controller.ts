@@ -13,12 +13,16 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ReportingService } from './reporting.service';
 import { GenerateReportDto } from './dto/generate-report.dto';
-import { ReportDefinitionDto, ReportPreviewResponseDto, ReportGenerationResponseDto } from './dto/report-response.dto';
+import {
+  ReportDefinitionDto,
+  ReportPreviewResponseDto,
+  ReportGenerationResponseDto,
+} from './dto/report-response.dto';
 
 /**
  * Reporting Controller

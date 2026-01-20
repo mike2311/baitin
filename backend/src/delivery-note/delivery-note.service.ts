@@ -1,12 +1,23 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { DeliveryNoteHeader } from './entities/delivery-note-header.entity';
 import { DeliveryNoteDetail } from './entities/delivery-note-detail.entity';
 import { DeliveryNoteBreakdown } from './entities/delivery-note-breakdown.entity';
-import { CreateDeliveryNoteDto, CreateDeliveryNoteFromSoDto } from './dto/create-delivery-note.dto';
+import {
+  CreateDeliveryNoteDto,
+  CreateDeliveryNoteFromSoDto,
+} from './dto/create-delivery-note.dto';
 import { UpdateDeliveryNoteDto } from './dto/update-delivery-note.dto';
-import { DeliveryNoteSearchResponseDto, AvailableItemsForDnResponseDto } from './dto/delivery-note-search-response.dto';
+import {
+  DeliveryNoteSearchResponseDto,
+  AvailableItemsForDnResponseDto,
+} from './dto/delivery-note-search-response.dto';
 
 /**
  * Delivery Note Service
@@ -40,13 +51,18 @@ export class DeliveryNoteService {
    * Original Logic Reference:
    * - Legacy Form: idn (manual entry)
    */
-  async create(createDto: CreateDeliveryNoteDto, userId?: string): Promise<DeliveryNoteHeader> {
+  async create(
+    createDto: CreateDeliveryNoteDto,
+    userId?: string,
+  ): Promise<DeliveryNoteHeader> {
     // Validate DN number uniqueness
     const existing = await this.dnHeaderRepository.findOne({
       where: { dnNo: createDto.dnNo },
     });
     if (existing) {
-      throw new ConflictException(`Delivery Note ${createDto.dnNo} already exists`);
+      throw new ConflictException(
+        `Delivery Note ${createDto.dnNo} already exists`,
+      );
     }
 
     // Validate references if provided
@@ -79,7 +95,10 @@ export class DeliveryNoteService {
         userId: userId || createDto.userId,
       });
 
-      const savedHeader = await queryRunner.manager.save(DeliveryNoteHeader, header);
+      const savedHeader = await queryRunner.manager.save(
+        DeliveryNoteHeader,
+        header,
+      );
 
       // Create details
       for (let i = 0; i < createDto.details.length; i++) {
@@ -124,8 +143,12 @@ export class DeliveryNoteService {
             port: breakdownDto.port,
             poNo: breakdownDto.poNo,
             qty: breakdownDto.qty,
-            delFrom: breakdownDto.delFrom ? new Date(breakdownDto.delFrom) : undefined,
-            delTo: breakdownDto.delTo ? new Date(breakdownDto.delTo) : undefined,
+            delFrom: breakdownDto.delFrom
+              ? new Date(breakdownDto.delFrom)
+              : undefined,
+            delTo: breakdownDto.delTo
+              ? new Date(breakdownDto.delTo)
+              : undefined,
             creUser: userId || createDto.userId,
             userId: userId || createDto.userId,
           });
@@ -154,25 +177,35 @@ export class DeliveryNoteService {
    *   - Copy breakdowns from OE if available
    *   - Validate quantities don't exceed SO
    */
-  async createFromSo(createDto: CreateDeliveryNoteFromSoDto, userId?: string): Promise<DeliveryNoteHeader> {
+  async createFromSo(
+    createDto: CreateDeliveryNoteFromSoDto,
+    userId?: string,
+  ): Promise<DeliveryNoteHeader> {
     // Validate DN number uniqueness
     const existing = await this.dnHeaderRepository.findOne({
       where: { dnNo: createDto.dnNo },
     });
     if (existing) {
-      throw new ConflictException(`Delivery Note ${createDto.dnNo} already exists`);
+      throw new ConflictException(
+        `Delivery Note ${createDto.dnNo} already exists`,
+      );
     }
 
     // Get SO items
     const soItems = await this.getSoItems(createDto.soNo);
     if (soItems.length === 0) {
-      throw new NotFoundException(`No items found in Shipping Order ${createDto.soNo}`);
+      throw new NotFoundException(
+        `No items found in Shipping Order ${createDto.soNo}`,
+      );
     }
 
     // Filter selected items if provided
-    const itemsToInclude = createDto.selectedItemNos && createDto.selectedItemNos.length > 0
-      ? soItems.filter(item => createDto.selectedItemNos!.includes(item.item_no))
-      : soItems;
+    const itemsToInclude =
+      createDto.selectedItemNos && createDto.selectedItemNos.length > 0
+        ? soItems.filter((item) =>
+            createDto.selectedItemNos!.includes(item.item_no),
+          )
+        : soItems;
 
     if (itemsToInclude.length === 0) {
       throw new BadRequestException('No items selected for delivery note');
@@ -205,7 +238,10 @@ export class DeliveryNoteService {
         userId: userId || createDto.userId,
       });
 
-      const savedHeader = await queryRunner.manager.save(DeliveryNoteHeader, header);
+      const savedHeader = await queryRunner.manager.save(
+        DeliveryNoteHeader,
+        header,
+      );
 
       // Create DN details from SO items
       for (let i = 0; i < itemsToInclude.length; i++) {
@@ -239,19 +275,25 @@ export class DeliveryNoteService {
 
         // Copy breakdowns from OE if requested
         if (createDto.copyBreakdowns && soItem.conf_no) {
-          const breakdowns = await this.getOeBreakdowns(soItem.conf_no, soItem.item_no);
+          const breakdowns = await this.getOeBreakdowns(
+            soItem.conf_no,
+            soItem.item_no,
+          );
           for (const breakdown of breakdowns) {
-            const dnBreakdown = queryRunner.manager.create(DeliveryNoteBreakdown, {
-              dnNo: savedHeader.dnNo,
-              itemNo: soItem.item_no,
-              port: breakdown.port,
-              poNo: breakdown.po_no,
-              qty: breakdown.qty,
-              delFrom: breakdown.del_from,
-              delTo: breakdown.del_to,
-              creUser: userId || createDto.userId,
-              userId: userId || createDto.userId,
-            });
+            const dnBreakdown = queryRunner.manager.create(
+              DeliveryNoteBreakdown,
+              {
+                dnNo: savedHeader.dnNo,
+                itemNo: soItem.item_no,
+                port: breakdown.port,
+                poNo: breakdown.po_no,
+                qty: breakdown.qty,
+                delFrom: breakdown.del_from,
+                delTo: breakdown.del_to,
+                creUser: userId || createDto.userId,
+                userId: userId || createDto.userId,
+              },
+            );
 
             await queryRunner.manager.save(DeliveryNoteBreakdown, dnBreakdown);
           }
@@ -287,7 +329,11 @@ export class DeliveryNoteService {
   /**
    * Update delivery note
    */
-  async update(dnNo: string, updateDto: UpdateDeliveryNoteDto, userId?: string): Promise<DeliveryNoteHeader> {
+  async update(
+    dnNo: string,
+    updateDto: UpdateDeliveryNoteDto,
+    userId?: string,
+  ): Promise<DeliveryNoteHeader> {
     const header = await this.findOne(dnNo);
 
     // Validate references if being updated
@@ -388,7 +434,9 @@ export class DeliveryNoteService {
       ])
       .addSelect('COUNT(DISTINCT dnd.itemNo)', 'itemCount')
       .addSelect('COALESCE(SUM(dnd.qty), 0)', 'totalQty')
-      .groupBy('dn.dnNo, dn.date, dn.custNo, c.ename, dn.soNo, dn.delAddr1, dn.delAddr2, dn.delAddr3, dn.delAddr4, dn.delDate, dn.loadingStatus, dn.loadingNo, dn.creUser, dn.creDate, dn.modDate');
+      .groupBy(
+        'dn.dnNo, dn.date, dn.custNo, c.ename, dn.soNo, dn.delAddr1, dn.delAddr2, dn.delAddr3, dn.delAddr4, dn.delDate, dn.loadingStatus, dn.loadingNo, dn.creUser, dn.creDate, dn.modDate',
+      );
 
     if (query?.dnNo) {
       qb.andWhere('dn.dnNo ILIKE :dnNo', { dnNo: `%${query.dnNo}%` });
@@ -406,11 +454,13 @@ export class DeliveryNoteService {
       qb.andWhere('dn.date <= :dateTo', { dateTo: query.dateTo });
     }
     if (query?.loadingStatus) {
-      qb.andWhere('dn.loadingStatus = :loadingStatus', { loadingStatus: query.loadingStatus });
+      qb.andWhere('dn.loadingStatus = :loadingStatus', {
+        loadingStatus: query.loadingStatus,
+      });
     }
 
     const results = await qb.getRawMany();
-    return results.map(row => ({
+    return results.map((row) => ({
       dnNo: row.dn_dnNo,
       date: row.dn_date,
       custNo: row.dn_custNo,
@@ -437,7 +487,9 @@ export class DeliveryNoteService {
    * Original Logic Reference:
    * - Legacy Form: idn (create from SO)
    */
-  async getAvailableItemsForDn(soNo: string): Promise<AvailableItemsForDnResponseDto[]> {
+  async getAvailableItemsForDn(
+    soNo: string,
+  ): Promise<AvailableItemsForDnResponseDto[]> {
     const query = `
       SELECT
         so.so_no,
@@ -461,7 +513,7 @@ export class DeliveryNoteService {
     `;
 
     const results = await this.dataSource.query(query, [soNo]);
-    return results.map(row => ({
+    return results.map((row) => ({
       soNo: row.so_no,
       itemNo: row.item_no,
       itemDescription: row.item_description,
@@ -478,22 +530,26 @@ export class DeliveryNoteService {
   /**
    * Update DN status
    */
-  async updateStatus(dnNo: string, status: string, userId?: string): Promise<DeliveryNoteHeader> {
+  async updateStatus(
+    dnNo: string,
+    status: string,
+    userId?: string,
+  ): Promise<DeliveryNoteHeader> {
     const header = await this.findOne(dnNo);
 
     // Validate status transition
     const validTransitions: Record<string, string[]> = {
-      'Created': ['Loading', 'Shipped'],
-      'Loading': ['Shipped', 'Delivered'],
-      'Shipped': ['Delivered', 'Invoiced'],
-      'Delivered': ['Invoiced'],
-      'Invoiced': [],
+      Created: ['Loading', 'Shipped'],
+      Loading: ['Shipped', 'Delivered'],
+      Shipped: ['Delivered', 'Invoiced'],
+      Delivered: ['Invoiced'],
+      Invoiced: [],
     };
 
     const allowedStatuses = validTransitions[header.loadingStatus] || [];
     if (!allowedStatuses.includes(status) && status !== header.loadingStatus) {
       throw new BadRequestException(
-        `Cannot transition from ${header.loadingStatus} to ${status}. Allowed transitions: ${allowedStatuses.join(', ')}`
+        `Cannot transition from ${header.loadingStatus} to ${status}. Allowed transitions: ${allowedStatuses.join(', ')}`,
       );
     }
 
@@ -536,7 +592,10 @@ export class DeliveryNoteService {
     return results[0];
   }
 
-  private async getOeBreakdowns(confNo: string, itemNo: string): Promise<any[]> {
+  private async getOeBreakdowns(
+    confNo: string,
+    itemNo: string,
+  ): Promise<any[]> {
     const query = `
       SELECT
         port,
@@ -553,10 +612,12 @@ export class DeliveryNoteService {
     return this.dataSource.query(query, [confNo, itemNo]);
   }
 
-  private async getItemDescription(itemNo: string): Promise<string | undefined> {
+  private async getItemDescription(
+    itemNo: string,
+  ): Promise<string | undefined> {
     const result = await this.dataSource.query(
       'SELECT desp FROM item WHERE item_no = $1',
-      [itemNo]
+      [itemNo],
     );
     return result[0]?.desp;
   }
@@ -564,7 +625,7 @@ export class DeliveryNoteService {
   private async validateCustomerExists(custNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM customer WHERE cust_no = $1',
-      [custNo]
+      [custNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Customer ${custNo} not found`);
@@ -574,7 +635,7 @@ export class DeliveryNoteService {
   private async validateShippingOrderExists(soNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM shipping_order WHERE so_no = $1',
-      [soNo]
+      [soNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Shipping Order ${soNo} not found`);
@@ -584,7 +645,7 @@ export class DeliveryNoteService {
   private async validateItemExists(itemNo: string): Promise<void> {
     const result = await this.dataSource.query(
       'SELECT 1 FROM item WHERE item_no = $1',
-      [itemNo]
+      [itemNo],
     );
     if (result.length === 0) {
       throw new NotFoundException(`Item ${itemNo} not found`);

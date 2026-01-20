@@ -68,7 +68,9 @@ export class LoadingAdviceDetail {
   modDate: Date; // Modification date
 
   // Relations
-  @ManyToOne(() => LoadingAdviceHeader, (header) => header.details, { onDelete: 'CASCADE' })
+  @ManyToOne(() => LoadingAdviceHeader, (header) => header.details, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'laNo' })
   header?: LoadingAdviceHeader;
 

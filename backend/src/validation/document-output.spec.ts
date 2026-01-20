@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 import * as XLSX from 'xlsx';
 
@@ -23,7 +24,7 @@ describe('Document Output Validation', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -59,7 +60,7 @@ describe('Document Output Validation', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -77,12 +78,12 @@ describe('Document Output Validation', () => {
 
       expect(docResponse.status).toBe(200);
       expect(docResponse.body).toHaveProperty('file');
-      
+
       // Validate document structure (if file is returned as buffer)
       if (docResponse.body.file) {
         const workbook = XLSX.read(docResponse.body.file, { type: 'buffer' });
         expect(workbook.SheetNames.length).toBeGreaterThan(0);
-        
+
         // Verify required columns exist
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const data = XLSX.utils.sheet_to_json(sheet);
@@ -104,7 +105,7 @@ describe('Document Output Validation', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -120,7 +121,7 @@ describe('Document Output Validation', () => {
         });
 
       expect(docResponse.status).toBe(200);
-      
+
       // Compare with golden file if available
       // const goldenFile = fs.readFileSync('test/fixtures/golden-files/so-document.xlsx');
       // expect(docResponse.body.file).toEqual(goldenFile);
@@ -159,13 +160,13 @@ describe('Document Output Validation', () => {
         });
 
       expect(plResponse.status).toBe(200);
-      
+
       // Validate structure
       if (plResponse.body.file) {
         const workbook = XLSX.read(plResponse.body.file, { type: 'buffer' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const data = XLSX.utils.sheet_to_json(sheet);
-        
+
         // Verify required fields
         if (data.length > 0) {
           const firstRow = data[0];
@@ -204,7 +205,7 @@ describe('Document Output Validation', () => {
         });
 
       expect(plResponse.status).toBe(200);
-      
+
       // Verify Spencer-specific format elements
       if (plResponse.body.file) {
         const workbook = XLSX.read(plResponse.body.file, { type: 'buffer' });
@@ -242,7 +243,7 @@ describe('Document Output Validation', () => {
         });
 
       expect(plResponse.status).toBe(200);
-      
+
       // Compare with golden file
       // const goldenFile = fs.readFileSync('test/fixtures/golden-files/packing-list.xlsx');
       // expect(plResponse.body.file).toEqual(goldenFile);
@@ -287,12 +288,12 @@ describe('Document Output Validation', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
             {
               itemNo: 'ITEM002',
               qty: 50,
-              price: 20.00,
+              price: 20.0,
             },
           ],
         });
@@ -308,13 +309,13 @@ describe('Document Output Validation', () => {
         });
 
       expect(docResponse.status).toBe(200);
-      
+
       // Verify totals: (100 * 10.50) + (50 * 20.00) = 1050 + 1000 = 2050
       if (docResponse.body.file) {
         const workbook = XLSX.read(docResponse.body.file, { type: 'buffer' });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
         const data = XLSX.utils.sheet_to_json(sheet);
-        
+
         // Find total row and verify calculation
         // (Implementation depends on document structure)
       }
@@ -342,7 +343,7 @@ describe('Document Output Validation', () => {
         });
 
       expect(docResponse.status).toBe(200);
-      
+
       // Verify date format matches legacy format
       // (Implementation depends on date format requirements)
     });

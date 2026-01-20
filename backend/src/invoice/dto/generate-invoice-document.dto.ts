@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, IsArray, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsArray,
+  IsEnum,
+} from 'class-validator';
 
 /**
  * Generate Invoice Document DTO

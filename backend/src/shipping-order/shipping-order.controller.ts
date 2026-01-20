@@ -15,12 +15,15 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuditLog } from '../common/decorators/audit-log.decorator';
 import { ShippingOrderService } from './shipping-order.service';
-import { CreateShippingOrderDto, CreateShippingOrderFromSourceDto } from './dto/create-shipping-order.dto';
+import {
+  CreateShippingOrderDto,
+  CreateShippingOrderFromSourceDto,
+} from './dto/create-shipping-order.dto';
 import { UpdateShippingOrderDto } from './dto/update-shipping-order.dto';
 import { ShippingOrderSearchResponseDto } from './dto/shipping-order-search-response.dto';
 import { ShippingOrder } from './entities/shipping-order.entity';
@@ -66,8 +69,13 @@ export class ShippingOrderController {
     description: 'Shipping orders created successfully',
     type: [ShippingOrder],
   })
-  @ApiResponse({ status: 400, description: 'Bad request - invalid items or quantities' })
-  createFromSource(@Body() createFromSourceDto: CreateShippingOrderFromSourceDto) {
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - invalid items or quantities',
+  })
+  createFromSource(
+    @Body() createFromSourceDto: CreateShippingOrderFromSourceDto,
+  ) {
     return this.shippingOrderService.createFromSource(createFromSourceDto);
   }
 
@@ -79,11 +87,31 @@ export class ShippingOrderController {
     type: [ShippingOrderSearchResponseDto],
   })
   @ApiQuery({ name: 'soNo', required: false, description: 'SO number filter' })
-  @ApiQuery({ name: 'confNo', required: false, description: 'Order confirmation number filter' })
-  @ApiQuery({ name: 'contNo', required: false, description: 'Contract number filter' })
-  @ApiQuery({ name: 'itemNo', required: false, description: 'Item number filter' })
-  @ApiQuery({ name: 'shipDateFrom', required: false, description: 'Ship date from (ISO date)' })
-  @ApiQuery({ name: 'shipDateTo', required: false, description: 'Ship date to (ISO date)' })
+  @ApiQuery({
+    name: 'confNo',
+    required: false,
+    description: 'Order confirmation number filter',
+  })
+  @ApiQuery({
+    name: 'contNo',
+    required: false,
+    description: 'Contract number filter',
+  })
+  @ApiQuery({
+    name: 'itemNo',
+    required: false,
+    description: 'Item number filter',
+  })
+  @ApiQuery({
+    name: 'shipDateFrom',
+    required: false,
+    description: 'Ship date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'shipDateTo',
+    required: false,
+    description: 'Ship date to (ISO date)',
+  })
   search(
     @Query('soNo') soNo?: string,
     @Query('confNo') confNo?: string,
@@ -104,18 +132,30 @@ export class ShippingOrderController {
   }
 
   @Get('available-items/:sourceType/:sourceNo')
-  @ApiOperation({ summary: 'Get available items for SO creation from OC or Contract' })
+  @ApiOperation({
+    summary: 'Get available items for SO creation from OC or Contract',
+  })
   @ApiResponse({
     status: 200,
     description: 'Available items retrieved successfully',
   })
-  @ApiParam({ name: 'sourceType', enum: ['oc', 'contract'], description: 'Source type' })
-  @ApiParam({ name: 'sourceNo', description: 'Source number (conf_no or cont_no)' })
+  @ApiParam({
+    name: 'sourceType',
+    enum: ['oc', 'contract'],
+    description: 'Source type',
+  })
+  @ApiParam({
+    name: 'sourceNo',
+    description: 'Source number (conf_no or cont_no)',
+  })
   getAvailableItemsForSo(
     @Param('sourceType') sourceType: 'oc' | 'contract',
     @Param('sourceNo') sourceNo: string,
   ) {
-    return this.shippingOrderService.getAvailableItemsForSo(sourceType, sourceNo);
+    return this.shippingOrderService.getAvailableItemsForSo(
+      sourceType,
+      sourceNo,
+    );
   }
 
   @Get(':soNo')
@@ -151,7 +191,10 @@ export class ShippingOrderController {
   @Delete(':soNo')
   @AuditLog('DELETE_SHIPPING_ORDER')
   @ApiOperation({ summary: 'Delete shipping order' })
-  @ApiResponse({ status: 200, description: 'Shipping order deleted successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Shipping order deleted successfully',
+  })
   @ApiResponse({ status: 404, description: 'Shipping order not found' })
   @ApiParam({ name: 'soNo', description: 'Shipping order number' })
   remove(@Param('soNo') soNo: string) {

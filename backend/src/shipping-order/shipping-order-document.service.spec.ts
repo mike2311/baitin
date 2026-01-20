@@ -4,7 +4,10 @@ import { Repository, DataSource } from 'typeorm';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { ShippingOrder } from './entities/shipping-order.entity';
 import { SoFormat } from './entities/so-format.entity';
-import { GenerateSoDocumentDto, SoDocumentType } from './dto/generate-so-document.dto';
+import {
+  GenerateSoDocumentDto,
+  SoDocumentType,
+} from './dto/generate-so-document.dto';
 
 /**
  * Shipping Order Document Service Tests
@@ -49,7 +52,9 @@ describe('ShippingOrderDocumentService', () => {
       ],
     }).compile();
 
-    service = module.get<ShippingOrderDocumentService>(ShippingOrderDocumentService);
+    service = module.get<ShippingOrderDocumentService>(
+      ShippingOrderDocumentService,
+    );
     shippingOrderRepository = module.get<Repository<ShippingOrder>>(
       getRepositoryToken(ShippingOrder),
     );
@@ -83,7 +88,7 @@ describe('ShippingOrderDocumentService', () => {
               itemNo: 'ITEM001',
               itemName: 'Test Item',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         },
@@ -108,20 +113,36 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'SPENCER_FORMAT',
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        custNo: 'SPENCER',
-        customerName: 'Spencer Corp',
-        items: [],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          custNo: 'SPENCER',
+          customerName: 'Spencer Corp',
+          items: [],
+        },
+      ];
 
       const mockFormatConfig = [
-        { soKey: 'SPENCER_FORMAT', uniqueid: 'logo', vpos: 1, hpos: 1, data: 'SPENCER_LOGO' },
-        { soKey: 'SPENCER_FORMAT', uniqueid: 'header', vpos: 2, hpos: 1, data: 'SHIPPING ORDER' },
+        {
+          soKey: 'SPENCER_FORMAT',
+          uniqueid: 'logo',
+          vpos: 1,
+          hpos: 1,
+          data: 'SPENCER_LOGO',
+        },
+        {
+          soKey: 'SPENCER_FORMAT',
+          uniqueid: 'header',
+          vpos: 2,
+          hpos: 1,
+          data: 'SHIPPING ORDER',
+        },
       ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockFormatConfig as SoFormat[]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockFormatConfig as SoFormat[]);
 
       const result = await service.previewSoDocument(generateDto);
 
@@ -142,19 +163,23 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'DEFAULT',
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-          price: 10.50,
-          amount: 1050.00,
-        }],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          date: new Date('2025-01-15'),
+          custNo: 'CUST001',
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+              price: 10.5,
+              amount: 1050.0,
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
 
@@ -176,11 +201,13 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'DEFAULT',
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        date: new Date('2025-01-15'),
-        items: [],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          date: new Date('2025-01-15'),
+          items: [],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
 
@@ -222,7 +249,9 @@ describe('ShippingOrderDocumentService', () => {
         outputFormat: 'invalid' as any,
       };
 
-      await expect(service.generateSoDocument(generateDto)).rejects.toThrow('Unsupported output format');
+      await expect(service.generateSoDocument(generateDto)).rejects.toThrow(
+        'Unsupported output format',
+      );
     });
 
     it('should handle empty SO data', async () => {
@@ -234,7 +263,9 @@ describe('ShippingOrderDocumentService', () => {
 
       jest.spyOn(dataSource, 'query').mockResolvedValue([]);
 
-      await expect(service.generateSoDocument(generateDto)).rejects.toThrow('No data found for document generation');
+      await expect(service.generateSoDocument(generateDto)).rejects.toThrow(
+        'No data found for document generation',
+      );
     });
 
     it('should apply format configuration correctly', async () => {
@@ -245,18 +276,34 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'CUSTOM_FORMAT',
       };
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        items: [],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          items: [],
+        },
+      ];
 
       const mockFormatConfig = [
-        { soKey: 'CUSTOM_FORMAT', uniqueid: 'company', vpos: 1, hpos: 1, data: 'Test Company' },
-        { soKey: 'CUSTOM_FORMAT', uniqueid: 'title', vpos: 2, hpos: 1, data: 'SO DOCUMENT' },
+        {
+          soKey: 'CUSTOM_FORMAT',
+          uniqueid: 'company',
+          vpos: 1,
+          hpos: 1,
+          data: 'Test Company',
+        },
+        {
+          soKey: 'CUSTOM_FORMAT',
+          uniqueid: 'title',
+          vpos: 2,
+          hpos: 1,
+          data: 'SO DOCUMENT',
+        },
       ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockFormatConfig as SoFormat[]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockFormatConfig as SoFormat[]);
 
       const result = await service.generateSoDocument(generateDto);
 
@@ -272,18 +319,22 @@ describe('ShippingOrderDocumentService', () => {
     it('should retrieve SO data with customer and item details', async () => {
       const soNos = ['SO001'];
 
-      const mockSoData = [{
-        soNo: 'SO001',
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        customerName: 'Test Customer',
-        items: [{
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          qty: 100,
-          price: 10.50,
-        }],
-      }];
+      const mockSoData = [
+        {
+          soNo: 'SO001',
+          date: new Date('2025-01-15'),
+          custNo: 'CUST001',
+          customerName: 'Test Customer',
+          items: [
+            {
+              itemNo: 'ITEM001',
+              itemName: 'Test Item',
+              qty: 100,
+              price: 10.5,
+            },
+          ],
+        },
+      ];
 
       jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
 
@@ -292,7 +343,7 @@ describe('ShippingOrderDocumentService', () => {
       expect(result).toEqual(mockSoData);
       expect(dataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM shipping_order'),
-        expect.any(Array)
+        expect.any(Array),
       );
     });
 
@@ -323,7 +374,9 @@ describe('ShippingOrderDocumentService', () => {
         { soKey: 'DEFAULT_FORMAT', uniqueid: 'so_no', vpos: 2, hpos: 1 },
       ];
 
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue(mockConfig as SoFormat[]);
+      jest
+        .spyOn(soFormatRepository, 'find')
+        .mockResolvedValue(mockConfig as SoFormat[]);
 
       const result = await (service as any).getFormatConfig(formatKey);
 

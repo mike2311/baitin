@@ -1,22 +1,19 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Res,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Res } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuditLog } from '../common/decorators/audit-log.decorator';
 import { InvoiceDocumentService } from './invoice-document.service';
 import { GenerateInvoiceDocumentDto } from './dto/generate-invoice-document.dto';
-import { InvoiceDocumentPreviewResponseDto, InvoiceDocumentGenerationResponseDto } from './dto/invoice-document-response.dto';
+import {
+  InvoiceDocumentPreviewResponseDto,
+  InvoiceDocumentGenerationResponseDto,
+} from './dto/invoice-document-response.dto';
 
 /**
  * Invoice Document Controller
@@ -58,7 +55,9 @@ export class InvoiceDocumentController {
     description: 'Invoice document generated successfully (file download)',
     content: {
       'application/pdf': { schema: { type: 'string', format: 'binary' } },
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { schema: { type: 'string', format: 'binary' } },
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
+        schema: { type: 'string', format: 'binary' },
+      },
     },
   })
   @ApiResponse({ status: 404, description: 'Invoices not found' })
@@ -67,17 +66,22 @@ export class InvoiceDocumentController {
     @Body() generateDto: GenerateInvoiceDocumentDto,
     @Res() res: Response,
   ) {
-    const result = await this.documentService.generateInvoiceDocument(generateDto);
-    
+    const result =
+      await this.documentService.generateInvoiceDocument(generateDto);
+
     // Set headers for file download
-    const contentType = generateDto.outputFormat === 'excel' 
-      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      : 'application/pdf';
-    
+    const contentType =
+      generateDto.outputFormat === 'excel'
+        ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        : 'application/pdf';
+
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', `attachment; filename="${result.fileName}"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${result.fileName}"`,
+    );
     res.setHeader('Content-Length', result.fileSize.toString());
-    
+
     // Return file buffer
     return res.send(result.fileBuffer);
   }

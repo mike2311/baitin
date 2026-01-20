@@ -14,11 +14,14 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { LoadingService } from './loading.service';
-import { CreateLoadingMasterDto, CreateLoadingAdviceDto } from './dto/create-loading-master.dto';
+import {
+  CreateLoadingMasterDto,
+  CreateLoadingAdviceDto,
+} from './dto/create-loading-master.dto';
 import { LoadingMaster } from './entities/loading-master.entity';
 import { LoadingAdviceHeader } from './entities/loading-advice-header.entity';
 
@@ -75,9 +78,21 @@ export class LoadingController {
     description: 'Loading masters retrieved successfully',
     type: [LoadingMaster],
   })
-  @ApiQuery({ name: 'loadingNo', required: false, description: 'Loading number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
+  @ApiQuery({
+    name: 'loadingNo',
+    required: false,
+    description: 'Loading number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
   @ApiQuery({ name: 'status', required: false, description: 'Status filter' })
   searchLoadingMasters(
     @Query('loadingNo') loadingNo?: string,

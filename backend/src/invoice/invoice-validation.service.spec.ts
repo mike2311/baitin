@@ -52,7 +52,9 @@ describe('InvoiceValidationService', () => {
       const result = await service.validateQtyCartonMatch(items);
 
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Qty/carton mismatch for item ITEM002: expected 120, got 150');
+      expect(result.errors).toContain(
+        'Qty/carton mismatch for item ITEM002: expected 120, got 150',
+      );
     });
 
     it('should allow override for qty/carton mismatch', async () => {
@@ -62,7 +64,7 @@ describe('InvoiceValidationService', () => {
           qty: 150,
           ctn: 3,
           qctn: 40,
-          overrideQtyCarton: true
+          overrideQtyCarton: true,
         },
       ];
 
@@ -148,7 +150,10 @@ describe('InvoiceValidationService', () => {
         { itemNo: 'ITEM002', availableQty: 75 },
       ];
 
-      const result = await service.validateItemAvailability(items, availableItems);
+      const result = await service.validateItemAvailability(
+        items,
+        availableItems,
+      );
 
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
@@ -163,23 +168,31 @@ describe('InvoiceValidationService', () => {
         { itemNo: 'ITEM001', availableQty: 200 }, // Only 200 available
       ];
 
-      const result = await service.validateItemAvailability(items, availableItems);
+      const result = await service.validateItemAvailability(
+        items,
+        availableItems,
+      );
 
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Insufficient quantity for item ITEM001: requested 300, available 200');
+      expect(result.errors).toContain(
+        'Insufficient quantity for item ITEM001: requested 300, available 200',
+      );
     });
 
     it('should handle missing items', async () => {
-      const items = [
-        { itemNo: 'ITEM001', qty: 100 },
-      ];
+      const items = [{ itemNo: 'ITEM001', qty: 100 }];
 
       const availableItems = []; // No items available
 
-      const result = await service.validateItemAvailability(items, availableItems);
+      const result = await service.validateItemAvailability(
+        items,
+        availableItems,
+      );
 
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Item ITEM001 not available for invoicing');
+      expect(result.errors).toContain(
+        'Item ITEM001 not available for invoicing',
+      );
     });
   });
 
@@ -193,7 +206,10 @@ describe('InvoiceValidationService', () => {
 
       const invoiceTotal = 3000; // Total would be 8000, within limit
 
-      const result = await service.validateCustomerCredit(customer, invoiceTotal);
+      const result = await service.validateCustomerCredit(
+        customer,
+        invoiceTotal,
+      );
 
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
@@ -208,10 +224,15 @@ describe('InvoiceValidationService', () => {
 
       const invoiceTotal = 3000; // Total would be 11000, over limit
 
-      const result = await service.validateCustomerCredit(customer, invoiceTotal);
+      const result = await service.validateCustomerCredit(
+        customer,
+        invoiceTotal,
+      );
 
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('Credit limit exceeded for customer CUST001: limit 10000, would be 11000');
+      expect(result.errors).toContain(
+        'Credit limit exceeded for customer CUST001: limit 10000, would be 11000',
+      );
     });
 
     it('should handle unlimited credit', async () => {
@@ -223,7 +244,10 @@ describe('InvoiceValidationService', () => {
 
       const invoiceTotal = 100000;
 
-      const result = await service.validateCustomerCredit(customer, invoiceTotal);
+      const result = await service.validateCustomerCredit(
+        customer,
+        invoiceTotal,
+      );
 
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
@@ -233,7 +257,10 @@ describe('InvoiceValidationService', () => {
       const customer = { creditLimit: 10000, currentBalance: 5000 };
       const invoiceTotal = 3000;
 
-      const projectedBalance = (service as any).calculateProjectedBalance(customer, invoiceTotal);
+      const projectedBalance = (service as any).calculateProjectedBalance(
+        customer,
+        invoiceTotal,
+      );
 
       expect(projectedBalance).toBe(8000);
     });
@@ -247,9 +274,7 @@ describe('InvoiceValidationService', () => {
         date: new Date('2025-01-15'),
         invDtFrDate: new Date('2025-01-01'),
         invDtToDate: new Date('2025-01-31'),
-        details: [
-          { itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 50 },
-        ],
+        details: [{ itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 50 }],
       };
 
       const result = await service.validateInvoiceData(invoiceData);
@@ -275,7 +300,9 @@ describe('InvoiceValidationService', () => {
       expect(result.isValid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(1);
       expect(result.errors).toContain('From date cannot be after To date');
-      expect(result.errors).toContain('Qty/carton mismatch for item ITEM001: expected 100, got 150');
+      expect(result.errors).toContain(
+        'Qty/carton mismatch for item ITEM001: expected 100, got 150',
+      );
     });
   });
 
@@ -319,7 +346,11 @@ describe('InvoiceValidationService', () => {
       const isValid = false;
       const overrideAllowed = true;
 
-      const result = await service.validateWithOverride(validationType, isValid, overrideAllowed);
+      const result = await service.validateWithOverride(
+        validationType,
+        isValid,
+        overrideAllowed,
+      );
 
       expect(result.canProceed).toBe(true);
       expect(result.requiresOverride).toBe(true);
@@ -331,7 +362,11 @@ describe('InvoiceValidationService', () => {
       const isValid = false;
       const overrideAllowed = false;
 
-      const result = await service.validateWithOverride(validationType, isValid, overrideAllowed);
+      const result = await service.validateWithOverride(
+        validationType,
+        isValid,
+        overrideAllowed,
+      );
 
       expect(result.canProceed).toBe(false);
       expect(result.requiresOverride).toBe(true);
@@ -343,7 +378,11 @@ describe('InvoiceValidationService', () => {
       const isValid = true;
       const overrideAllowed = false;
 
-      const result = await service.validateWithOverride(validationType, isValid, overrideAllowed);
+      const result = await service.validateWithOverride(
+        validationType,
+        isValid,
+        overrideAllowed,
+      );
 
       expect(result.canProceed).toBe(true);
       expect(result.requiresOverride).toBe(false);

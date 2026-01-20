@@ -136,7 +136,8 @@ export class Phase3TestDataSeeder {
         reportName: 'Sales Analysis Report',
         category: 'Sales',
         description: 'Sales analysis by customer and date range',
-        sqlQuery: 'SELECT * FROM sales_analysis WHERE date_from = :dateFrom AND date_to = :dateTo',
+        sqlQuery:
+          'SELECT * FROM sales_analysis WHERE date_from = :dateFrom AND date_to = :dateTo',
         parameters: JSON.stringify(['dateFrom', 'dateTo']),
         status: 'Active',
       },
@@ -152,7 +153,9 @@ export class Phase3TestDataSeeder {
     ];
 
     for (const def of reportDefs) {
-      const existing = await repo.findOne({ where: { reportKey: def.reportKey } });
+      const existing = await repo.findOne({
+        where: { reportKey: def.reportKey },
+      });
       if (!existing) {
         const report = repo.create(def);
         const saved = await repo.save(report);
@@ -173,7 +176,7 @@ export class Phase3TestDataSeeder {
     invNo: string;
   }> {
     const timestamp = Date.now();
-    
+
     // Create SO
     const soRepo = this.dataSource.getRepository(ShippingOrder);
     const soNo = `SO-WORKFLOW-${timestamp}`;

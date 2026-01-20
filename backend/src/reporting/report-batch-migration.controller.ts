@@ -46,7 +46,9 @@ export class ReportBatchMigrationController {
 
   @Post('migrate')
   @AuditLog('MIGRATE_REPORT_BATCH')
-  @ApiOperation({ summary: 'Migrate a batch of reports with validation and testing' })
+  @ApiOperation({
+    summary: 'Migrate a batch of reports with validation and testing',
+  })
   @ApiResponse({
     status: 200,
     description: 'Batch migration completed successfully',
@@ -54,13 +56,17 @@ export class ReportBatchMigrationController {
   })
   @ApiResponse({ status: 400, description: 'Invalid batch request' })
   @ApiResponse({ status: 404, description: 'Reports not found' })
-  async migrateReportBatch(@Body() migrateDto: MigrateReportBatchDto): Promise<BatchMigrationStatusDto> {
+  async migrateReportBatch(
+    @Body() migrateDto: MigrateReportBatchDto,
+  ): Promise<BatchMigrationStatusDto> {
     return this.migrationService.migrateReportBatch(migrateDto);
   }
 
   @Post('next-batch')
   @AuditLog('CREATE_NEXT_BATCH')
-  @ApiOperation({ summary: 'Create and return the next batch of reports to migrate' })
+  @ApiOperation({
+    summary: 'Create and return the next batch of reports to migrate',
+  })
   @ApiResponse({
     status: 200,
     description: 'Next batch created successfully',
@@ -68,7 +74,7 @@ export class ReportBatchMigrationController {
   })
   @ApiResponse({ status: 400, description: 'No reports pending migration' })
   async createNextBatch(
-    @Query('priority') priority: 'high' | 'medium' | 'low' = 'medium'
+    @Query('priority') priority: 'high' | 'medium' | 'low' = 'medium',
   ): Promise<MigrateReportBatchDto> {
     return this.migrationService.createNextBatch(priority);
   }
@@ -86,7 +92,12 @@ export class ReportBatchMigrationController {
 
   @Get('pending-reports')
   @ApiOperation({ summary: 'Get list of reports pending migration' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Maximum number of reports to return' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Maximum number of reports to return',
+  })
   @ApiResponse({
     status: 200,
     description: 'Pending reports retrieved successfully',
@@ -148,7 +159,9 @@ export class ReportBatchMigrationController {
       },
     },
   })
-  async runPerformanceTest(@Param('reportKey') reportKey: string): Promise<any> {
+  async runPerformanceTest(
+    @Param('reportKey') reportKey: string,
+  ): Promise<any> {
     // This would call performance test methods from the service
     // For now, return a placeholder response
     return {

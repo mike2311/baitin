@@ -1,23 +1,19 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Res,
-  Header,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Res, Header } from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuditLog } from '../common/decorators/audit-log.decorator';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
-import { SoDocumentPreviewResponseDto, SoDocumentGenerationResponseDto } from './dto/so-document-response.dto';
+import {
+  SoDocumentPreviewResponseDto,
+  SoDocumentGenerationResponseDto,
+} from './dto/so-document-response.dto';
 
 /**
  * Shipping Order Document Controller
@@ -58,7 +54,9 @@ export class ShippingOrderDocumentController {
     description: 'SO document generated successfully (file download)',
     content: {
       'application/pdf': { schema: { type: 'string', format: 'binary' } },
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { schema: { type: 'string', format: 'binary' } },
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
+        schema: { type: 'string', format: 'binary' },
+      },
     },
   })
   @ApiResponse({ status: 404, description: 'Shipping orders not found' })
@@ -68,16 +66,20 @@ export class ShippingOrderDocumentController {
     @Res() res: Response,
   ) {
     const result = await this.documentService.generateSoDocument(generateDto);
-    
+
     // Set headers for file download
-    const contentType = generateDto.outputFormat === 'excel' 
-      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      : 'application/pdf';
-    
+    const contentType =
+      generateDto.outputFormat === 'excel'
+        ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        : 'application/pdf';
+
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', `attachment; filename="${result.fileName}"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${result.fileName}"`,
+    );
     res.setHeader('Content-Length', result.fileSize.toString());
-    
+
     // Return file buffer
     return res.send(result.fileBuffer);
   }

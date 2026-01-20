@@ -1,15 +1,10 @@
-import {
-  Controller,
-  Get,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiQuery,
-  ApiBearerAuth
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { EnquiryService } from './enquiry.service';
@@ -48,11 +43,32 @@ export class EnquiryController {
     description: 'Sales analysis retrieved successfully',
     type: [SalesAnalysisResponseDto],
   })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
-  @ApiQuery({ name: 'itemNo', required: false, description: 'Item number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
-  @ApiQuery({ name: 'groupBy', required: false, enum: ['customer', 'item', 'date'], description: 'Group by option' })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
+  @ApiQuery({
+    name: 'itemNo',
+    required: false,
+    description: 'Item number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
+  @ApiQuery({
+    name: 'groupBy',
+    required: false,
+    enum: ['customer', 'item', 'date'],
+    description: 'Group by option',
+  })
   salesAnalysis(
     @Query('custNo') custNo?: string,
     @Query('itemNo') itemNo?: string,
@@ -77,9 +93,21 @@ export class EnquiryController {
     description: 'Item enquiry retrieved successfully',
     type: [ItemEnquiryResponseDto],
   })
-  @ApiQuery({ name: 'itemNo', required: false, description: 'Item number filter' })
-  @ApiQuery({ name: 'itemDescription', required: false, description: 'Item description filter' })
-  @ApiQuery({ name: 'includeHistory', required: false, description: 'Include order/invoice history' })
+  @ApiQuery({
+    name: 'itemNo',
+    required: false,
+    description: 'Item number filter',
+  })
+  @ApiQuery({
+    name: 'itemDescription',
+    required: false,
+    description: 'Item description filter',
+  })
+  @ApiQuery({
+    name: 'includeHistory',
+    required: false,
+    description: 'Include order/invoice history',
+  })
   itemEnquiry(
     @Query('itemNo') itemNo?: string,
     @Query('itemDescription') itemDescription?: string,
@@ -101,10 +129,26 @@ export class EnquiryController {
     type: [SoEnquiryResponseDto],
   })
   @ApiQuery({ name: 'soNo', required: false, description: 'SO number filter' })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
-  @ApiQuery({ name: 'itemNo', required: false, description: 'Item number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
+  @ApiQuery({
+    name: 'itemNo',
+    required: false,
+    description: 'Item number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
   @ApiQuery({ name: 'status', required: false, description: 'Status filter' })
   soEnquiry(
     @Query('soNo') soNo?: string,
@@ -133,11 +177,27 @@ export class EnquiryController {
     type: [DnEnquiryResponseDto],
   })
   @ApiQuery({ name: 'dnNo', required: false, description: 'DN number filter' })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
   @ApiQuery({ name: 'soNo', required: false, description: 'SO number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
-  @ApiQuery({ name: 'loadingStatus', required: false, description: 'Loading status filter' })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
+  @ApiQuery({
+    name: 'loadingStatus',
+    required: false,
+    description: 'Loading status filter',
+  })
   dnEnquiry(
     @Query('dnNo') dnNo?: string,
     @Query('custNo') custNo?: string,
@@ -164,11 +224,31 @@ export class EnquiryController {
     description: 'Invoice enquiry retrieved successfully',
     type: [InvoiceEnquiryResponseDto],
   })
-  @ApiQuery({ name: 'invNo', required: false, description: 'Invoice number filter' })
-  @ApiQuery({ name: 'custNo', required: false, description: 'Customer number filter' })
-  @ApiQuery({ name: 'ocNo', required: false, description: 'Order confirmation number filter' })
-  @ApiQuery({ name: 'dateFrom', required: false, description: 'Date from (ISO date)' })
-  @ApiQuery({ name: 'dateTo', required: false, description: 'Date to (ISO date)' })
+  @ApiQuery({
+    name: 'invNo',
+    required: false,
+    description: 'Invoice number filter',
+  })
+  @ApiQuery({
+    name: 'custNo',
+    required: false,
+    description: 'Customer number filter',
+  })
+  @ApiQuery({
+    name: 'ocNo',
+    required: false,
+    description: 'Order confirmation number filter',
+  })
+  @ApiQuery({
+    name: 'dateFrom',
+    required: false,
+    description: 'Date from (ISO date)',
+  })
+  @ApiQuery({
+    name: 'dateTo',
+    required: false,
+    description: 'Date to (ISO date)',
+  })
   invoiceEnquiry(
     @Query('invNo') invNo?: string,
     @Query('custNo') custNo?: string,

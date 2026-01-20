@@ -22,12 +22,7 @@ import { SoFormat } from './entities/so-format.entity';
  * Reference: Phase 3 - Shipping Order Module
  */
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      ShippingOrder,
-      SoFormat,
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([ShippingOrder, SoFormat])],
   controllers: [ShippingOrderController, ShippingOrderDocumentController],
   providers: [ShippingOrderService, ShippingOrderDocumentService],
   exports: [ShippingOrderService], // Export for use in other modules

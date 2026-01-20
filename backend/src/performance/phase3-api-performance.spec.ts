@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 import { TestingModule } from '@nestjs/testing';
 
@@ -23,7 +24,7 @@ describe('Phase 3 API Performance', () => {
   let moduleRef: TestingModule;
 
   beforeAll(async () => {
-    const testApp = await createTestApp();
+    const testApp = await createMinimalTestApp();
     app = testApp.app;
     moduleRef = testApp.moduleRef;
 
@@ -51,7 +52,7 @@ describe('Phase 3 API Performance', () => {
   describe('Shipping Order APIs', () => {
     it('should create SO in <500ms', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/shipping-orders')
         .set('Authorization', `Bearer ${authToken}`)
@@ -63,7 +64,7 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         })
@@ -76,7 +77,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(201);
       expect(responseTime).toBeLessThan(500); // p95 target
     });
@@ -84,9 +85,9 @@ describe('Phase 3 API Performance', () => {
     it('should search SOs in <1s with 1000 records', async () => {
       // Seed test data if needed
       // ... (would seed 1000+ SO records)
-      
+
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/shipping-orders/enquiry')
         .set('Authorization', `Bearer ${authToken}`)
@@ -96,7 +97,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(1000); // <1s target
     });
@@ -114,7 +115,7 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -122,7 +123,7 @@ describe('Phase 3 API Performance', () => {
       const soNo = createResponse.body.soNo;
 
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post(`/api/shipping-orders/${soNo}/documents`)
         .set('Authorization', `Bearer ${authToken}`)
@@ -132,7 +133,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(5000); // <5s target for standard documents
     });
@@ -152,7 +153,7 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -160,7 +161,7 @@ describe('Phase 3 API Performance', () => {
       const soNo = soResponse.body.soNo;
 
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/delivery-notes/from-so')
         .set('Authorization', `Bearer ${authToken}`)
@@ -171,7 +172,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(201);
       expect(responseTime).toBeLessThan(500);
     });
@@ -179,7 +180,7 @@ describe('Phase 3 API Performance', () => {
     it('should copy breakdown in <1s', async () => {
       // Create DN with breakdown copy
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/delivery-notes/from-so')
         .set('Authorization', `Bearer ${authToken}`)
@@ -191,14 +192,14 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(201);
       expect(responseTime).toBeLessThan(1000);
     });
 
     it('should search DNs in <1s', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/delivery-notes/enquiry')
         .set('Authorization', `Bearer ${authToken}`)
@@ -208,7 +209,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(1000);
     });
@@ -217,7 +218,7 @@ describe('Phase 3 API Performance', () => {
   describe('Invoice APIs', () => {
     it('should create invoice in <500ms', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/invoices')
         .set('Authorization', `Bearer ${authToken}`)
@@ -229,21 +230,21 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
               ctn: 10,
             },
           ],
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(201);
       expect(responseTime).toBeLessThan(500);
     });
 
     it('should validate invoice in <300ms', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/invoices/validate')
         .set('Authorization', `Bearer ${authToken}`)
@@ -260,7 +261,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(300);
     });
@@ -278,7 +279,7 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -286,7 +287,7 @@ describe('Phase 3 API Performance', () => {
       const invNo = createResponse.body.invNo;
 
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post(`/api/invoices/${invNo}/documents/packing-list`)
         .set('Authorization', `Bearer ${authToken}`)
@@ -296,7 +297,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(5000);
     });
@@ -314,7 +315,7 @@ describe('Phase 3 API Performance', () => {
             {
               itemNo: 'ITEM001',
               qty: 100,
-              price: 10.50,
+              price: 10.5,
             },
           ],
         });
@@ -322,7 +323,7 @@ describe('Phase 3 API Performance', () => {
       const invNo = createResponse.body.invNo;
 
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post(`/api/invoices/${invNo}/documents/packing-list`)
         .set('Authorization', `Bearer ${authToken}`)
@@ -332,7 +333,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(8000); // <8s for complex format
     });
@@ -341,7 +342,7 @@ describe('Phase 3 API Performance', () => {
   describe('Enquiry APIs', () => {
     it('should run sales analysis in <2s', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/enquiry/sales-analysis')
         .set('Authorization', `Bearer ${authToken}`)
@@ -352,14 +353,14 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(2000);
     });
 
     it('should query item history in <2s', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/enquiry/item')
         .set('Authorization', `Bearer ${authToken}`)
@@ -370,14 +371,14 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(2000);
     });
 
     it('should handle large date ranges efficiently', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .get('/api/enquiry/sales-analysis')
         .set('Authorization', `Bearer ${authToken}`)
@@ -387,7 +388,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(3000); // Slightly more lenient for large ranges
     });
@@ -396,7 +397,7 @@ describe('Phase 3 API Performance', () => {
   describe('Reporting APIs', () => {
     it('should preview report in <2s', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/reporting/preview')
         .set('Authorization', `Bearer ${authToken}`)
@@ -409,14 +410,14 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(2000);
     });
 
     it('should generate report in <10s', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/reporting/generate')
         .set('Authorization', `Bearer ${authToken}`)
@@ -430,14 +431,14 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(10000);
     });
 
     it('should handle batch migration efficiently', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/reporting/batch-migration')
         .set('Authorization', `Bearer ${authToken}`)
@@ -446,7 +447,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       // Batch migration can take longer, but should complete reasonably
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(30000); // 30s for batch
@@ -456,7 +457,7 @@ describe('Phase 3 API Performance', () => {
   describe('Loading APIs', () => {
     it('should create loading master in <500ms', async () => {
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post('/api/loading/masters')
         .set('Authorization', `Bearer ${authToken}`)
@@ -471,7 +472,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(201);
       expect(responseTime).toBeLessThan(500);
     });
@@ -491,7 +492,7 @@ describe('Phase 3 API Performance', () => {
       const loadingNo = createResponse.body.loadingNo;
 
       const startTime = Date.now();
-      
+
       const response = await request(app.getHttpServer())
         .post(`/api/loading/${loadingNo}/advice`)
         .set('Authorization', `Bearer ${authToken}`)
@@ -501,7 +502,7 @@ describe('Phase 3 API Performance', () => {
         });
 
       const responseTime = Date.now() - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(5000);
     });
@@ -514,7 +515,7 @@ describe('Phase 3 API Performance', () => {
 
       for (let i = 0; i < iterations; i++) {
         const startTime = Date.now();
-        
+
         await request(app.getHttpServer())
           .get('/api/shipping-orders/enquiry')
           .set('Authorization', `Bearer ${authToken}`)
@@ -537,7 +538,7 @@ describe('Phase 3 API Performance', () => {
 
       for (let i = 0; i < iterations; i++) {
         const startTime = Date.now();
-        
+
         await request(app.getHttpServer())
           .post('/api/shipping-orders')
           .set('Authorization', `Bearer ${authToken}`)
@@ -549,7 +550,7 @@ describe('Phase 3 API Performance', () => {
               {
                 itemNo: 'ITEM001',
                 qty: 100,
-                price: 10.50,
+                price: 10.5,
               },
             ],
           });

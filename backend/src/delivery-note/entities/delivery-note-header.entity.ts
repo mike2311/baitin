@@ -84,7 +84,9 @@ export class DeliveryNoteHeader {
   modDate: Date; // Modification date
 
   // Relations
-  @OneToMany(() => DeliveryNoteDetail, (detail) => detail.header, { cascade: true })
+  @OneToMany(() => DeliveryNoteDetail, (detail) => detail.header, {
+    cascade: true,
+  })
   details?: DeliveryNoteDetail[];
 
   // Relations (will be added when related entities are available)

@@ -33,7 +33,9 @@ export class InvoiceValidationService {
    *   - Check if qty matches SO qty
    *   - Return validation result with override requirement
    */
-  async validateInvoiceItemQty(validateDto: ValidateInvoiceItemDto): Promise<InvoiceItemValidationResult> {
+  async validateInvoiceItemQty(
+    validateDto: ValidateInvoiceItemDto,
+  ): Promise<InvoiceItemValidationResult> {
     if (!validateDto.confNo) {
       // No SO to validate against
       return { isValid: true, requiresOverride: false };
@@ -46,7 +48,10 @@ export class InvoiceValidationService {
       WHERE conf_no = $1 AND item_no = $2
       LIMIT 1
     `;
-    const soResults = await this.dataSource.query(soQuery, [validateDto.confNo, validateDto.itemNo]);
+    const soResults = await this.dataSource.query(soQuery, [
+      validateDto.confNo,
+      validateDto.itemNo,
+    ]);
 
     if (soResults.length === 0) {
       // No SO found - allow
@@ -57,7 +62,10 @@ export class InvoiceValidationService {
     const soCtn = soResults[0].ctn ? parseFloat(soResults[0].ctn) : undefined;
 
     // Check if quantity changed
-    if (validateDto.originalQty !== undefined && validateDto.qty === validateDto.originalQty) {
+    if (
+      validateDto.originalQty !== undefined &&
+      validateDto.qty === validateDto.originalQty
+    ) {
       // No change - valid
       return { isValid: true, requiresOverride: false };
     }
@@ -87,7 +95,9 @@ export class InvoiceValidationService {
    *   - Check if ctn matches SO ctn
    *   - Return validation result with override requirement
    */
-  async validateInvoiceItemCarton(validateDto: ValidateInvoiceItemDto): Promise<InvoiceItemValidationResult> {
+  async validateInvoiceItemCarton(
+    validateDto: ValidateInvoiceItemDto,
+  ): Promise<InvoiceItemValidationResult> {
     if (!validateDto.confNo || validateDto.ctn === undefined) {
       // No SO to validate against or no carton specified
       return { isValid: true, requiresOverride: false };
@@ -100,7 +110,10 @@ export class InvoiceValidationService {
       WHERE conf_no = $1 AND item_no = $2
       LIMIT 1
     `;
-    const soResults = await this.dataSource.query(soQuery, [validateDto.confNo, validateDto.itemNo]);
+    const soResults = await this.dataSource.query(soQuery, [
+      validateDto.confNo,
+      validateDto.itemNo,
+    ]);
 
     if (soResults.length === 0) {
       // No SO found - allow
@@ -110,7 +123,10 @@ export class InvoiceValidationService {
     const soCtn = soResults[0].ctn ? parseFloat(soResults[0].ctn) : undefined;
 
     // Check if carton changed
-    if (validateDto.originalCtn !== undefined && validateDto.ctn === validateDto.originalCtn) {
+    if (
+      validateDto.originalCtn !== undefined &&
+      validateDto.ctn === validateDto.originalCtn
+    ) {
       // No change - valid
       return { isValid: true, requiresOverride: false };
     }
@@ -139,7 +155,9 @@ export class InvoiceValidationService {
    *   - Both empty or both filled
    *   - To date >= From date
    */
-  validateInvoiceDateRange(validateDto: ValidateInvoiceDateRangeDto): InvoiceDateRangeValidationResult {
+  validateInvoiceDateRange(
+    validateDto: ValidateInvoiceDateRangeDto,
+  ): InvoiceDateRangeValidationResult {
     const frDate = validateDto.invDtFrDate;
     const toDate = validateDto.invDtToDate;
 
@@ -147,7 +165,8 @@ export class InvoiceValidationService {
     if ((!frDate && toDate) || (frDate && !toDate)) {
       return {
         isValid: false,
-        message: 'Invalid Date ! Both invoice date from and to must be empty or both filled',
+        message:
+          'Invalid Date ! Both invoice date from and to must be empty or both filled',
       };
     }
 
@@ -159,7 +178,8 @@ export class InvoiceValidationService {
       if (toDateObj < fromDate) {
         return {
           isValid: false,
-          message: 'Invalid Date ! Invoice date to must be greater than or equal to invoice date from',
+          message:
+            'Invalid Date ! Invoice date to must be greater than or equal to invoice date from',
         };
       }
     }

@@ -41,7 +41,9 @@ export class EnquiryService {
    *   - Aggregate sales by customer, item, or date
    *   - Calculate totals and counts
    */
-  async salesAnalysis(query: SalesAnalysisQuery): Promise<SalesAnalysisResponseDto[]> {
+  async salesAnalysis(
+    query: SalesAnalysisQuery,
+  ): Promise<SalesAnalysisResponseDto[]> {
     let sqlQuery: string;
     const parameters: any[] = [];
     let paramIndex = 1;
@@ -118,7 +120,7 @@ export class EnquiryService {
     sqlQuery += ` ORDER BY total_amount DESC`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       custNo: row.cust_no,
       customerName: row.customer_name,
       itemNo: row.item_no,
@@ -139,7 +141,9 @@ export class EnquiryService {
    * - Business Rules:
    *   - Item details with order/invoice history
    */
-  async itemEnquiry(query: ItemEnquiryQuery): Promise<ItemEnquiryResponseDto[]> {
+  async itemEnquiry(
+    query: ItemEnquiryQuery,
+  ): Promise<ItemEnquiryResponseDto[]> {
     let sqlQuery = `
       SELECT
         i.item_no,
@@ -178,7 +182,7 @@ export class EnquiryService {
     sqlQuery += ` ORDER BY i.item_no`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       itemNo: row.item_no,
       itemDescription: row.item_description,
       stdCode: row.std_code,
@@ -246,7 +250,7 @@ export class EnquiryService {
     sqlQuery += ` ORDER BY so.so_no, so.item_no`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       soNo: row.so_no,
       confNo: row.conf_no,
       contNo: row.cont_no,
@@ -316,7 +320,7 @@ export class EnquiryService {
     sqlQuery += ` ORDER BY dn.date DESC, dn.dn_no`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       dnNo: row.dn_no,
       date: row.date,
       custNo: row.cust_no,
@@ -336,7 +340,9 @@ export class EnquiryService {
    * Original Logic Reference:
    * - Legacy Form: einvoice
    */
-  async invoiceEnquiry(query: InvoiceEnquiryQuery): Promise<InvoiceEnquiryResponseDto[]> {
+  async invoiceEnquiry(
+    query: InvoiceEnquiryQuery,
+  ): Promise<InvoiceEnquiryResponseDto[]> {
     let sqlQuery = `
       SELECT
         inv.inv_no,
@@ -381,7 +387,7 @@ export class EnquiryService {
     sqlQuery += ` ORDER BY inv.date DESC, inv.inv_no`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
-    return results.map(row => ({
+    return results.map((row) => ({
       invNo: row.inv_no,
       date: row.date,
       custNo: row.cust_no,

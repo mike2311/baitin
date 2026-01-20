@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 import * as XLSX from 'xlsx';
 
@@ -21,7 +22,7 @@ describe('Report Output Validation', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     dataSource = await getTestDataSource(moduleRef);
 
@@ -58,7 +59,7 @@ describe('Report Output Validation', () => {
         });
 
       expect(response.status).toBe(200);
-      
+
       if (response.body.file) {
         const workbook = XLSX.read(response.body.file, { type: 'buffer' });
         expect(workbook.SheetNames.length).toBeGreaterThan(0);
@@ -79,7 +80,7 @@ describe('Report Output Validation', () => {
         });
 
       expect(response.status).toBe(200);
-      
+
       // Compare with golden file
       // const goldenFile = fs.readFileSync('test/fixtures/golden-files/sales-analysis.xlsx');
       // expect(response.body.file).toEqual(goldenFile);
@@ -152,7 +153,7 @@ describe('Report Output Validation', () => {
         });
 
       expect(response.status).toBe(200);
-      
+
       // Verify calculations in generated report
       // (Implementation depends on report structure)
     });
@@ -174,7 +175,7 @@ describe('Report Output Validation', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.format).toBe('excel');
-      
+
       if (response.body.file) {
         const workbook = XLSX.read(response.body.file, { type: 'buffer' });
         expect(workbook).toBeDefined();

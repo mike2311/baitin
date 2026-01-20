@@ -5,11 +5,11 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import {
-  createTestApp,
   getAuthToken,
   createTestUser,
   ApiTestClient,
 } from '../test-utils/test-helpers';
+import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
@@ -29,7 +29,7 @@ describe('BomManagement API Tests', () => {
   let apiClient: ApiTestClient;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createTestApp();
+    const { app: testApp, moduleRef } = await createMinimalTestApp();
     app = testApp;
     jwtService = moduleRef.get(JwtService);
     userRepo = moduleRef.get(getRepositoryToken(User));

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsArray, IsString, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsArray,
+  IsString,
+  IsNumber,
+} from 'class-validator';
 
 /**
  * Report Batch Migration DTOs

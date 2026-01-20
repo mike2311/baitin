@@ -21,7 +21,7 @@ describe('EnquiryController', () => {
   let service: EnquiryService;
 
   const mockEnquiryService = {
-    getSalesAnalysis: jest.fn(),
+    salesAnalysis: jest.fn(),
     getItemEnquiry: jest.fn(),
     getSoEnquiry: jest.fn(),
     getDnEnquiry: jest.fn(),
@@ -47,7 +47,7 @@ describe('EnquiryController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('getSalesAnalysis', () => {
+  describe('salesAnalysis', () => {
     it('should return sales analysis by customer', async () => {
       const query = {
         analysisType: 'by_customer' as const,
@@ -60,17 +60,17 @@ describe('EnquiryController', () => {
           customer: 'CUST001',
           customerName: 'Test Customer',
           totalInvoices: 5,
-          totalAmount: 25000.00,
+          totalAmount: 25000.0,
           totalQty: 1000,
         },
       ];
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue(mockResult);
+      mockEnquiryService.salesAnalysis.mockResolvedValue(mockResult);
 
-      const result = await controller.getSalesAnalysis(query);
+      const result = await controller.salesAnalysis(query);
 
       expect(result).toEqual(mockResult);
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
 
     it('should return sales analysis by date', async () => {
@@ -85,17 +85,17 @@ describe('EnquiryController', () => {
         {
           period: '2025-01',
           totalInvoices: 8,
-          totalAmount: 40000.00,
+          totalAmount: 40000.0,
           totalQty: 1600,
         },
       ];
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue(mockResult);
+      mockEnquiryService.salesAnalysis.mockResolvedValue(mockResult);
 
-      const result = await controller.getSalesAnalysis(query);
+      const result = await controller.salesAnalysis(query);
 
       expect(result).toEqual(mockResult);
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
 
     it('should return sales analysis by item', async () => {
@@ -110,17 +110,17 @@ describe('EnquiryController', () => {
           itemNo: 'ITEM001',
           itemName: 'Test Item',
           totalQty: 500,
-          totalAmount: 12500.00,
-          avgPrice: 25.00,
+          totalAmount: 12500.0,
+          avgPrice: 25.0,
         },
       ];
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue(mockResult);
+      mockEnquiryService.salesAnalysis.mockResolvedValue(mockResult);
 
-      const result = await controller.getSalesAnalysis(query);
+      const result = await controller.salesAnalysis(query);
 
       expect(result).toEqual(mockResult);
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
 
     it('should handle optional parameters', async () => {
@@ -129,11 +129,11 @@ describe('EnquiryController', () => {
         customerNo: 'CUST001',
       };
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue([]);
+      mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.getSalesAnalysis(query);
+      await controller.salesAnalysis(query);
 
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
   });
 
@@ -150,15 +150,15 @@ describe('EnquiryController', () => {
         itemName: 'Test Item',
         description: 'Test item description',
         totalSold: 500,
-        totalRevenue: 12500.00,
+        totalRevenue: 12500.0,
         lastSoldDate: '2025-01-30',
-        avgPrice: 25.00,
+        avgPrice: 25.0,
         transactions: [
           {
             date: '2025-01-15',
             invoiceNo: 'INV001',
             qty: 100,
-            price: 25.00,
+            price: 25.0,
             customer: 'CUST001',
           },
         ],
@@ -181,7 +181,7 @@ describe('EnquiryController', () => {
         itemNo: 'ITEM001',
         itemName: 'Test Item',
         totalSold: 1000,
-        totalRevenue: 25000.00,
+        totalRevenue: 25000.0,
         transactions: [],
       };
 
@@ -210,12 +210,12 @@ describe('EnquiryController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
-            amount: 1050.00,
+            price: 10.5,
+            amount: 1050.0,
           },
         ],
         totalQty: 100,
-        totalAmount: 1050.00,
+        totalAmount: 1050.0,
       };
 
       mockEnquiryService.getSoEnquiry.mockResolvedValue(mockResult);
@@ -264,7 +264,7 @@ describe('EnquiryController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
+            price: 10.5,
             breakdowns: [
               { port: 'PORT1', qty: 50 },
               { port: 'PORT2', qty: 50 },
@@ -319,12 +319,12 @@ describe('EnquiryController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            price: 10.50,
-            amount: 1050.00,
+            price: 10.5,
+            amount: 1050.0,
           },
         ],
         totalQty: 100,
-        totalAmount: 1050.00,
+        totalAmount: 1050.0,
       };
 
       mockEnquiryService.getInvoiceEnquiry.mockResolvedValue(mockResult);
@@ -332,7 +332,7 @@ describe('EnquiryController', () => {
       const result = await controller.getInvoiceEnquiry(query);
 
       expect(result.invNo).toBe('INV001');
-      expect(result.totalAmount).toBe(1050.00);
+      expect(result.totalAmount).toBe(1050.0);
       expect(mockEnquiryService.getInvoiceEnquiry).toHaveBeenCalledWith(query);
     });
 
@@ -363,9 +363,13 @@ describe('EnquiryController', () => {
         analysisType: 'by_customer' as const,
       };
 
-      mockEnquiryService.getSalesAnalysis.mockRejectedValue(new Error('Database error'));
+      mockEnquiryService.salesAnalysis.mockRejectedValue(
+        new Error('Database error'),
+      );
 
-      await expect(controller.getSalesAnalysis(query)).rejects.toThrow('Database error');
+      await expect(controller.salesAnalysis(query)).rejects.toThrow(
+        'Database error',
+      );
     });
 
     it('should handle service errors in item enquiry', async () => {
@@ -373,9 +377,13 @@ describe('EnquiryController', () => {
         itemNo: 'ITEM001',
       };
 
-      mockEnquiryService.getItemEnquiry.mockRejectedValue(new Error('Item not found'));
+      mockEnquiryService.getItemEnquiry.mockRejectedValue(
+        new Error('Item not found'),
+      );
 
-      await expect(controller.getItemEnquiry(query)).rejects.toThrow('Item not found');
+      await expect(controller.getItemEnquiry(query)).rejects.toThrow(
+        'Item not found',
+      );
     });
 
     it('should handle service errors in SO enquiry', async () => {
@@ -383,9 +391,13 @@ describe('EnquiryController', () => {
         soNo: 'SO001',
       };
 
-      mockEnquiryService.getSoEnquiry.mockRejectedValue(new Error('SO not found'));
+      mockEnquiryService.getSoEnquiry.mockRejectedValue(
+        new Error('SO not found'),
+      );
 
-      await expect(controller.getSoEnquiry(query)).rejects.toThrow('SO not found');
+      await expect(controller.getSoEnquiry(query)).rejects.toThrow(
+        'SO not found',
+      );
     });
 
     it('should handle service errors in DN enquiry', async () => {
@@ -393,9 +405,13 @@ describe('EnquiryController', () => {
         dnNo: 'DN001',
       };
 
-      mockEnquiryService.getDnEnquiry.mockRejectedValue(new Error('DN not found'));
+      mockEnquiryService.getDnEnquiry.mockRejectedValue(
+        new Error('DN not found'),
+      );
 
-      await expect(controller.getDnEnquiry(query)).rejects.toThrow('DN not found');
+      await expect(controller.getDnEnquiry(query)).rejects.toThrow(
+        'DN not found',
+      );
     });
 
     it('should handle service errors in invoice enquiry', async () => {
@@ -403,9 +419,13 @@ describe('EnquiryController', () => {
         invNo: 'INV001',
       };
 
-      mockEnquiryService.getInvoiceEnquiry.mockRejectedValue(new Error('Invoice not found'));
+      mockEnquiryService.getInvoiceEnquiry.mockRejectedValue(
+        new Error('Invoice not found'),
+      );
 
-      await expect(controller.getInvoiceEnquiry(query)).rejects.toThrow('Invoice not found');
+      await expect(controller.getInvoiceEnquiry(query)).rejects.toThrow(
+        'Invoice not found',
+      );
     });
   });
 
@@ -416,11 +436,11 @@ describe('EnquiryController', () => {
         // Missing dateFrom/dateTo
       };
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue([]);
+      mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.getSalesAnalysis(query);
+      await controller.salesAnalysis(query);
 
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
 
     it('should validate required parameters for item enquiry', async () => {
@@ -440,11 +460,11 @@ describe('EnquiryController', () => {
     it('should handle empty query parameters', async () => {
       const query = {};
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue([]);
+      mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.getSalesAnalysis(query as any);
+      await controller.salesAnalysis(query as any);
 
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
   });
 
@@ -456,15 +476,17 @@ describe('EnquiryController', () => {
         dateTo: '2025-12-31',
       };
 
-      const mockLargeResult = Array(1000).fill({}).map((_, i) => ({
-        customer: `CUST${i}`,
-        totalInvoices: Math.floor(Math.random() * 10) + 1,
-        totalAmount: Math.random() * 10000,
-      }));
+      const mockLargeResult = Array(1000)
+        .fill({})
+        .map((_, i) => ({
+          customer: `CUST${i}`,
+          totalInvoices: Math.floor(Math.random() * 10) + 1,
+          totalAmount: Math.random() * 10000,
+        }));
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue(mockLargeResult);
+      mockEnquiryService.salesAnalysis.mockResolvedValue(mockLargeResult);
 
-      const result = await controller.getSalesAnalysis(query);
+      const result = await controller.salesAnalysis(query);
 
       expect(result).toHaveLength(1000);
     });
@@ -478,11 +500,11 @@ describe('EnquiryController', () => {
         itemNo: 'ITEM001',
       };
 
-      mockEnquiryService.getSalesAnalysis.mockResolvedValue([]);
+      mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.getSalesAnalysis(query);
+      await controller.salesAnalysis(query);
 
-      expect(mockEnquiryService.getSalesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
   });
 });

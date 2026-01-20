@@ -118,8 +118,12 @@ describe('LoadingService', () => {
         modDate: new Date(),
       };
 
-      mockLoadingMasterRepository.create.mockReturnValue(mockLoadingMaster as any);
-      mockLoadingMasterRepository.save.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.create.mockReturnValue(
+        mockLoadingMaster as any,
+      );
+      mockLoadingMasterRepository.save.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
 
       const result = await service.createLoadingMaster(createDto);
 
@@ -140,7 +144,7 @@ describe('LoadingService', () => {
       } as LoadingMaster);
 
       await expect(service.createLoadingMaster(createDto)).rejects.toThrow(
-        'Loading LOAD001 already exists'
+        'Loading LOAD001 already exists',
       );
     });
 
@@ -154,7 +158,7 @@ describe('LoadingService', () => {
       };
 
       await expect(service.createLoadingMaster(createDto)).rejects.toThrow(
-        'ETD must be after ETA'
+        'ETD must be after ETA',
       );
     });
   });
@@ -177,7 +181,9 @@ describe('LoadingService', () => {
         { dnNo: 'DN002', loadingStatus: 'Confirmed' },
       ];
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
       mockDataSource.query.mockResolvedValue(mockDns);
       mockDataSource.transaction.mockImplementation(async (cb) => {
         return cb({
@@ -207,10 +213,12 @@ describe('LoadingService', () => {
         status: 'Completed',
       };
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
 
       await expect(service.assignDnsToLoading(assignDto)).rejects.toThrow(
-        'Cannot assign DNs to completed loading'
+        'Cannot assign DNs to completed loading',
       );
     });
 
@@ -229,11 +237,13 @@ describe('LoadingService', () => {
         { dnNo: 'DN001', loadingStatus: 'Draft' }, // Not confirmed
       ];
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
       mockDataSource.query.mockResolvedValue(mockDns);
 
       await expect(service.assignDnsToLoading(assignDto)).rejects.toThrow(
-        'DN DN001 must be confirmed before loading assignment'
+        'DN DN001 must be confirmed before loading assignment',
       );
     });
 
@@ -249,11 +259,11 @@ describe('LoadingService', () => {
         status: 'Draft',
       };
 
-      const mockDns = [
-        { dnNo: 'DN001', loadingStatus: 'Confirmed' },
-      ];
+      const mockDns = [{ dnNo: 'DN001', loadingStatus: 'Confirmed' }];
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
       mockDataSource.query.mockResolvedValue(mockDns);
 
       let updateCallCount = 0;
@@ -262,7 +272,10 @@ describe('LoadingService', () => {
           manager: {
             update: jest.fn().mockImplementation((entity, criteria, values) => {
               updateCallCount++;
-              if (entity.name === 'DeliveryNoteHeader' && values.loadingStatus === 'Loaded') {
+              if (
+                entity.name === 'DeliveryNoteHeader' &&
+                values.loadingStatus === 'Loaded'
+              ) {
                 return { affected: 1 };
               }
               return { affected: 1 };
@@ -312,7 +325,9 @@ describe('LoadingService', () => {
         },
       ];
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
       mockDataSource.query.mockResolvedValue(mockDnDetails);
       mockLoadingAdviceHeaderRepository.create.mockReturnValue({} as any);
       mockLoadingAdviceHeaderRepository.save.mockResolvedValue({} as any);
@@ -350,7 +365,9 @@ describe('LoadingService', () => {
         },
       ];
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
       mockDataSource.query.mockResolvedValue(mockDnDetails);
       mockLoadingAdviceHeaderRepository.create.mockImplementation((data) => ({
         ...data,
@@ -366,7 +383,7 @@ describe('LoadingService', () => {
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM delivery_note_detail'),
-        expect.any(Array)
+        expect.any(Array),
       );
       expect(result).toBeDefined();
     });
@@ -384,7 +401,10 @@ describe('LoadingService', () => {
         limit: 10,
       };
 
-      mockLoadingMasterRepository.findAndCount.mockResolvedValue([mockResult.data as any, 2]);
+      mockLoadingMasterRepository.findAndCount.mockResolvedValue([
+        mockResult.data as any,
+        2,
+      ]);
 
       const result = await service.findAll(1, 10);
 
@@ -423,7 +443,9 @@ describe('LoadingService', () => {
         ],
       };
 
-      mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoadingMaster as any);
+      mockLoadingMasterRepository.findOne.mockResolvedValue(
+        mockLoadingMaster as any,
+      );
 
       const result = await service.findOne('LOAD001');
 
@@ -442,7 +464,10 @@ describe('LoadingService', () => {
       };
 
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
-      mockLoadingMasterRepository.save.mockResolvedValue({ ...mockLoading, ...updateDto } as any);
+      mockLoadingMasterRepository.save.mockResolvedValue({
+        ...mockLoading,
+        ...updateDto,
+      } as any);
 
       const result = await service.updateLoadingStatus('LOAD001', 'Completed');
 
@@ -471,9 +496,9 @@ describe('LoadingService', () => {
 
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
 
-      await expect(service.updateLoadingStatus('LOAD001', 'Active')).rejects.toThrow(
-        'Invalid status transition'
-      );
+      await expect(
+        service.updateLoadingStatus('LOAD001', 'Active'),
+      ).rejects.toThrow('Invalid status transition');
     });
   });
 
@@ -485,16 +510,28 @@ describe('LoadingService', () => {
       };
 
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
-      mockLoadingMasterRepository.delete.mockResolvedValue({ affected: 1 } as any);
-      mockLoadingAdviceHeaderRepository.delete.mockResolvedValue({ affected: 1 } as any);
-      mockLoadingAdviceDetailRepository.delete.mockResolvedValue({ affected: 2 } as any);
+      mockLoadingMasterRepository.delete.mockResolvedValue({
+        affected: 1,
+      } as any);
+      mockLoadingAdviceHeaderRepository.delete.mockResolvedValue({
+        affected: 1,
+      } as any);
+      mockLoadingAdviceDetailRepository.delete.mockResolvedValue({
+        affected: 2,
+      } as any);
 
       const result = await service.remove('LOAD001');
 
       expect(result.affected).toBe(1);
-      expect(mockLoadingMasterRepository.delete).toHaveBeenCalledWith('LOAD001');
-      expect(mockLoadingAdviceHeaderRepository.delete).toHaveBeenCalledWith({ loadingNo: 'LOAD001' });
-      expect(mockLoadingAdviceDetailRepository.delete).toHaveBeenCalledWith({ loadingNo: 'LOAD001' });
+      expect(mockLoadingMasterRepository.delete).toHaveBeenCalledWith(
+        'LOAD001',
+      );
+      expect(mockLoadingAdviceHeaderRepository.delete).toHaveBeenCalledWith({
+        loadingNo: 'LOAD001',
+      });
+      expect(mockLoadingAdviceDetailRepository.delete).toHaveBeenCalledWith({
+        loadingNo: 'LOAD001',
+      });
     });
 
     it('should prevent deletion of completed loadings', async () => {
@@ -506,7 +543,7 @@ describe('LoadingService', () => {
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
 
       await expect(service.remove('LOAD001')).rejects.toThrow(
-        'Cannot delete completed loading'
+        'Cannot delete completed loading',
       );
     });
   });
@@ -530,7 +567,7 @@ describe('LoadingService', () => {
       expect(result).toEqual(mockAssignments);
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM loading_assignments'),
-        ['LOAD001']
+        ['LOAD001'],
       );
     });
   });

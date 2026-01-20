@@ -1,10 +1,20 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
-import { GenerateInvoiceDocumentDto, InvoiceDocumentType } from './dto/generate-invoice-document.dto';
-import { InvoiceDocumentPreviewResponseDto, InvoiceDocumentGenerationResponseDto } from './dto/invoice-document-response.dto';
+import {
+  GenerateInvoiceDocumentDto,
+  InvoiceDocumentType,
+} from './dto/generate-invoice-document.dto';
+import {
+  InvoiceDocumentPreviewResponseDto,
+  InvoiceDocumentGenerationResponseDto,
+} from './dto/invoice-document-response.dto';
 const XLSX = require('xlsx');
 
 /**
@@ -37,12 +47,20 @@ export class InvoiceDocumentService {
    *
    * Returns preview data without generating file
    */
-  async previewInvoiceDocument(generateDto: GenerateInvoiceDocumentDto): Promise<InvoiceDocumentPreviewResponseDto> {
+  async previewInvoiceDocument(
+    generateDto: GenerateInvoiceDocumentDto,
+  ): Promise<InvoiceDocumentPreviewResponseDto> {
     // Load invoice data based on document type
-    const invoiceData = await this.loadInvoiceData(generateDto.invNos, generateDto.documentType, generateDto.containerNo);
-    
+    const invoiceData = await this.loadInvoiceData(
+      generateDto.invNos,
+      generateDto.documentType,
+      generateDto.containerNo,
+    );
+
     if (invoiceData.length === 0) {
-      throw new NotFoundException('No invoices found for the specified invoice numbers');
+      throw new NotFoundException(
+        'No invoices found for the specified invoice numbers',
+      );
     }
 
     return {
@@ -61,14 +79,24 @@ export class InvoiceDocumentService {
    *   - Generate PDF or Excel file
    *   - Apply customer-specific formatting
    */
-  async generateInvoiceDocument(generateDto: GenerateInvoiceDocumentDto): Promise<InvoiceDocumentGenerationResponseDto> {
-    const format = generateDto.outputFormat || (generateDto.documentType.includes('spencer') ? 'excel' : 'pdf');
+  async generateInvoiceDocument(
+    generateDto: GenerateInvoiceDocumentDto,
+  ): Promise<InvoiceDocumentGenerationResponseDto> {
+    const format =
+      generateDto.outputFormat ||
+      (generateDto.documentType.includes('spencer') ? 'excel' : 'pdf');
 
     // Load invoice data
-    const invoiceData = await this.loadInvoiceData(generateDto.invNos, generateDto.documentType, generateDto.containerNo);
-    
+    const invoiceData = await this.loadInvoiceData(
+      generateDto.invNos,
+      generateDto.documentType,
+      generateDto.containerNo,
+    );
+
     if (invoiceData.length === 0) {
-      throw new NotFoundException('No invoices found for the specified invoice numbers');
+      throw new NotFoundException(
+        'No invoices found for the specified invoice numbers',
+      );
     }
 
     // Generate file based on document type and format
@@ -76,13 +104,23 @@ export class InvoiceDocumentService {
     let fileBuffer: Buffer;
 
     if (format === 'excel') {
-      const excelData = await this.generateExcel(invoiceData, generateDto.documentType);
+      const excelData = await this.generateExcel(
+        invoiceData,
+        generateDto.documentType,
+      );
       const extension = 'xlsx';
-      fileName = generateDto.fileName || `${generateDto.documentType}_${generateDto.invNos.join('_')}_${new Date().toISOString().split('T')[0]}.${extension}`;
+      fileName =
+        generateDto.fileName ||
+        `${generateDto.documentType}_${generateDto.invNos.join('_')}_${new Date().toISOString().split('T')[0]}.${extension}`;
       fileBuffer = excelData;
     } else if (format === 'pdf') {
-      const pdfData = await this.generatePdf(invoiceData, generateDto.documentType);
-      fileName = generateDto.fileName || `${generateDto.documentType}_${generateDto.invNos.join('_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      const pdfData = await this.generatePdf(
+        invoiceData,
+        generateDto.documentType,
+      );
+      fileName =
+        generateDto.fileName ||
+        `${generateDto.documentType}_${generateDto.invNos.join('_')}_${new Date().toISOString().split('T')[0]}.pdf`;
       fileBuffer = pdfData;
     } else {
       throw new BadRequestException(`Unsupported output format: ${format}`);
@@ -119,8 +157,10 @@ export class InvoiceDocumentService {
     const parameters: any[] = [invNos];
     let paramIndex = 2;
 
-    if (documentType === InvoiceDocumentType.PACKING_LIST || 
-        documentType === InvoiceDocumentType.PACKING_LIST_SPENCER) {
+    if (
+      documentType === InvoiceDocumentType.PACKING_LIST ||
+      documentType === InvoiceDocumentType.PACKING_LIST_SPENCER
+    ) {
       // Packing list query
       query = `
         SELECT DISTINCT
@@ -257,12 +297,14 @@ export class InvoiceDocumentService {
         wt: item.wt ? parseFloat(item.wt) : undefined,
         cube: item.cube ? parseFloat(item.cube) : undefined,
         dim: item.dim,
-        outerDim: item.ol && item.ow && item.oh 
-          ? `${item.ol}x${item.ow}x${item.oh}=${this.calculateCube(item.ol, item.ow, item.oh)}`
-          : item.dim || undefined,
-        innerDim: item.il && item.iw && item.ih
-          ? `${item.il}x${item.iw}x${item.ih}=${this.calculateCube(item.il, item.iw, item.ih)}`
-          : undefined,
+        outerDim:
+          item.ol && item.ow && item.oh
+            ? `${item.ol}x${item.ow}x${item.oh}=${this.calculateCube(item.ol, item.ow, item.oh)}`
+            : item.dim || undefined,
+        innerDim:
+          item.il && item.iw && item.ih
+            ? `${item.il}x${item.iw}x${item.ih}=${this.calculateCube(item.il, item.iw, item.ih)}`
+            : undefined,
         shipMark: shipMarkMap[item.so_no],
         poNo: item.po_no,
         cntrNo: item.cntr_no,
@@ -276,7 +318,7 @@ export class InvoiceDocumentService {
     // Combine headers with items and apply weight conversion
     return invoiceHeaders.map((header: any) => {
       const items = itemsByInv[header.inv_no] || [];
-      
+
       // Apply weight unit conversion if needed (kg to lbs)
       const convertedItems = items.map((item: any) => {
         if (header.wt_unit === 2 && item.net) {
@@ -332,7 +374,10 @@ export class InvoiceDocumentService {
    *   - BOM items with sub-items (head items with a, b, c suffixes)
    *   - Dimension calculations (outer and inner)
    */
-  private async generateExcel(invoiceData: any[], documentType: InvoiceDocumentType): Promise<Buffer> {
+  private async generateExcel(
+    invoiceData: any[],
+    documentType: InvoiceDocumentType,
+  ): Promise<Buffer> {
     if (documentType === InvoiceDocumentType.PACKING_LIST_SPENCER) {
       return this.generateSpencerPackingListExcel(invoiceData);
     } else if (documentType === InvoiceDocumentType.PACKING_LIST) {
@@ -356,7 +401,9 @@ export class InvoiceDocumentService {
    *   - BOM item handling (head items with sub-items)
    *   - Dimension calculations
    */
-  private async generateSpencerPackingListExcel(invoiceData: any[]): Promise<Buffer> {
+  private async generateSpencerPackingListExcel(
+    invoiceData: any[],
+  ): Promise<Buffer> {
     const workbook = XLSX.utils.book_new();
 
     invoiceData.forEach((inv) => {
@@ -367,13 +414,20 @@ export class InvoiceDocumentService {
       data.push([]);
       data.push(['Consignee:', inv.customerName || '']);
       if (inv.customerAddress) {
-        if (inv.customerAddress.addr1) data.push(['', inv.customerAddress.addr1]);
-        if (inv.customerAddress.addr2) data.push(['', inv.customerAddress.addr2]);
-        if (inv.customerAddress.addr3) data.push(['', inv.customerAddress.addr3]);
-        if (inv.customerAddress.addr4) data.push(['', inv.customerAddress.addr4]);
+        if (inv.customerAddress.addr1)
+          data.push(['', inv.customerAddress.addr1]);
+        if (inv.customerAddress.addr2)
+          data.push(['', inv.customerAddress.addr2]);
+        if (inv.customerAddress.addr3)
+          data.push(['', inv.customerAddress.addr3]);
+        if (inv.customerAddress.addr4)
+          data.push(['', inv.customerAddress.addr4]);
       }
       data.push([]);
-      data.push(['Date:', inv.date ? new Date(inv.date).toLocaleDateString() : '']);
+      data.push([
+        'Date:',
+        inv.date ? new Date(inv.date).toLocaleDateString() : '',
+      ]);
       data.push(['Invoice No:', inv.invNo]);
       data.push(['Confirmation No:', inv.confNo || '']);
       data.push(['Covering:', inv.covering || '']);
@@ -428,7 +482,9 @@ export class InvoiceDocumentService {
             item.cube ? item.cube.toFixed(2) : '',
             item.cube && item.ctn ? (item.cube * item.ctn).toFixed(2) : '',
             item.outerDim || '',
-            item.outerDim && item.ctn ? this.calculateTotalDimCube(item.outerDim, item.ctn) : '',
+            item.outerDim && item.ctn
+              ? this.calculateTotalDimCube(item.outerDim, item.ctn)
+              : '',
           ]);
         } else {
           // Sub-item (BOM component)
@@ -473,7 +529,9 @@ export class InvoiceDocumentService {
   /**
    * Generate standard packing list Excel
    */
-  private async generateStandardPackingListExcel(invoiceData: any[]): Promise<Buffer> {
+  private async generateStandardPackingListExcel(
+    invoiceData: any[],
+  ): Promise<Buffer> {
     const workbook = XLSX.utils.book_new();
 
     invoiceData.forEach((inv) => {
@@ -482,12 +540,27 @@ export class InvoiceDocumentService {
       // Header
       data.push(['PACKING LIST']);
       data.push(['Invoice No:', inv.invNo]);
-      data.push(['Date:', inv.date ? new Date(inv.date).toLocaleDateString() : '']);
+      data.push([
+        'Date:',
+        inv.date ? new Date(inv.date).toLocaleDateString() : '',
+      ]);
       data.push(['Customer:', inv.customerName || '']);
       data.push([]);
 
       // Items
-      data.push(['Item No', 'Description', 'Qty', 'Cartons', 'Qty/Ctn', 'Net Wt', 'Gross Wt', 'Cube', 'Ship Mark', 'PO No', 'Container No']);
+      data.push([
+        'Item No',
+        'Description',
+        'Qty',
+        'Cartons',
+        'Qty/Ctn',
+        'Net Wt',
+        'Gross Wt',
+        'Cube',
+        'Ship Mark',
+        'PO No',
+        'Container No',
+      ]);
 
       inv.items.forEach((item: any) => {
         data.push([
@@ -506,7 +579,16 @@ export class InvoiceDocumentService {
       });
 
       data.push([]);
-      data.push(['Totals:', '', inv.totalQty || 0, inv.totalCartons || 0, '', inv.totalNet ? inv.totalNet.toFixed(2) : '', inv.totalWt ? inv.totalWt.toFixed(2) : '', inv.totalCube ? inv.totalCube.toFixed(2) : '']);
+      data.push([
+        'Totals:',
+        '',
+        inv.totalQty || 0,
+        inv.totalCartons || 0,
+        '',
+        inv.totalNet ? inv.totalNet.toFixed(2) : '',
+        inv.totalWt ? inv.totalWt.toFixed(2) : '',
+        inv.totalCube ? inv.totalCube.toFixed(2) : '',
+      ]);
 
       const worksheet = XLSX.utils.aoa_to_sheet(data);
       XLSX.utils.book_append_sheet(workbook, worksheet, `PL_${inv.invNo}`);
@@ -518,7 +600,9 @@ export class InvoiceDocumentService {
   /**
    * Generate shipment advice Excel
    */
-  private async generateShipmentAdviceExcel(invoiceData: any[]): Promise<Buffer> {
+  private async generateShipmentAdviceExcel(
+    invoiceData: any[],
+  ): Promise<Buffer> {
     const workbook = XLSX.utils.book_new();
 
     invoiceData.forEach((inv) => {
@@ -526,14 +610,24 @@ export class InvoiceDocumentService {
 
       data.push(['SHIPMENT ADVICE']);
       data.push(['Invoice No:', inv.invNo]);
-      data.push(['Date:', inv.date ? new Date(inv.date).toLocaleDateString() : '']);
+      data.push([
+        'Date:',
+        inv.date ? new Date(inv.date).toLocaleDateString() : '',
+      ]);
       data.push(['Customer:', inv.customerName || '']);
       data.push(['Ship:', inv.ship || '']);
       data.push(['Loading:', inv.loading || '']);
       data.push(['Destination:', inv.dest || '']);
       data.push([]);
 
-      data.push(['Item No', 'Description', 'Qty', 'Cartons', 'Ship Mark', 'PO No']);
+      data.push([
+        'Item No',
+        'Description',
+        'Qty',
+        'Cartons',
+        'Ship Mark',
+        'PO No',
+      ]);
 
       inv.items.forEach((item: any) => {
         data.push([
@@ -564,7 +658,10 @@ export class InvoiceDocumentService {
 
       data.push(['DEBIT NOTE']);
       data.push(['Invoice No:', inv.invNo]);
-      data.push(['Date:', inv.date ? new Date(inv.date).toLocaleDateString() : '']);
+      data.push([
+        'Date:',
+        inv.date ? new Date(inv.date).toLocaleDateString() : '',
+      ]);
       data.push(['Customer:', inv.customerName || '']);
       data.push([]);
 
@@ -598,7 +695,10 @@ export class InvoiceDocumentService {
 
       data.push(['INVOICE']);
       data.push(['Invoice No:', inv.invNo]);
-      data.push(['Date:', inv.date ? new Date(inv.date).toLocaleDateString() : '']);
+      data.push([
+        'Date:',
+        inv.date ? new Date(inv.date).toLocaleDateString() : '',
+      ]);
       data.push(['Customer:', inv.customerName || '']);
       data.push([]);
 
@@ -629,10 +729,13 @@ export class InvoiceDocumentService {
    * - Legacy Reports: REPORT FORM ... TO FILE
    * - Business Rules:
    *   - Format for printing
-   * 
+   *
    * Note: PDF generation will use a PDF library when added
    */
-  private async generatePdf(invoiceData: any[], documentType: InvoiceDocumentType): Promise<Buffer> {
+  private async generatePdf(
+    invoiceData: any[],
+    documentType: InvoiceDocumentType,
+  ): Promise<Buffer> {
     // TODO: Implement proper PDF generation with pdfkit or similar library
     // For now, return a simple text representation
     let pdfContent = `${documentType.toUpperCase()} DOCUMENT\n`;
@@ -660,9 +763,12 @@ export class InvoiceDocumentService {
       pdfContent += '\nTotals:\n';
       pdfContent += `Total Qty: ${inv.totalQty || 0}\n`;
       pdfContent += `Total Cartons: ${inv.totalCartons || 0}\n`;
-      if (inv.totalNet) pdfContent += `Total Net Weight: ${inv.totalNet.toFixed(2)}\n`;
-      if (inv.totalWt) pdfContent += `Total Gross Weight: ${inv.totalWt.toFixed(2)}\n`;
-      if (inv.totalCube) pdfContent += `Total Cube: ${inv.totalCube.toFixed(2)}\n`;
+      if (inv.totalNet)
+        pdfContent += `Total Net Weight: ${inv.totalNet.toFixed(2)}\n`;
+      if (inv.totalWt)
+        pdfContent += `Total Gross Weight: ${inv.totalWt.toFixed(2)}\n`;
+      if (inv.totalCube)
+        pdfContent += `Total Cube: ${inv.totalCube.toFixed(2)}\n`;
     });
 
     return Buffer.from(pdfContent);

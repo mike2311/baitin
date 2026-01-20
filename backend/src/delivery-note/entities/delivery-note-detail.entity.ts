@@ -88,7 +88,9 @@ export class DeliveryNoteDetail {
   modDate: Date; // Modification date
 
   // Relations
-  @ManyToOne(() => DeliveryNoteHeader, (header) => header.details, { onDelete: 'CASCADE' })
+  @ManyToOne(() => DeliveryNoteHeader, (header) => header.details, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'dnNo' })
   header?: DeliveryNoteHeader;
 

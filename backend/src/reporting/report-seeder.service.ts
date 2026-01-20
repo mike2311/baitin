@@ -45,17 +45,24 @@ export class ReportSeederService {
         if (!existing) {
           await this.reportDefinitionRepository.save(definition);
           created++;
-          this.logger.debug(`Created report definition: ${definition.reportKey}`);
+          this.logger.debug(
+            `Created report definition: ${definition.reportKey}`,
+          );
         } else {
           skipped++;
           this.logger.debug(`Skipped existing report: ${definition.reportKey}`);
         }
       } catch (error) {
-        this.logger.error(`Failed to create report definition ${definition.reportKey}:`, error);
+        this.logger.error(
+          `Failed to create report definition ${definition.reportKey}:`,
+          error,
+        );
       }
     }
 
-    this.logger.log(`Report seeding completed. Created: ${created}, Skipped: ${skipped}, Total: ${reportDefinitions.length}`);
+    this.logger.log(
+      `Report seeding completed. Created: ${created}, Skipped: ${skipped}, Total: ${reportDefinitions.length}`,
+    );
   }
 
   /**
@@ -84,7 +91,8 @@ export class ReportSeederService {
         reportName: 'Order Enquiry (New)',
         category: 'Transaction',
         description: 'New format order enquiry report',
-        sqlQuery: 'SELECT * FROM order_enquiry_header h JOIN order_enquiry_detail d ON h.oe_no = d.oe_no WHERE 1=1',
+        sqlQuery:
+          'SELECT * FROM order_enquiry_header h JOIN order_enquiry_detail d ON h.oe_no = d.oe_no WHERE 1=1',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
           dateTo: { type: 'date', label: 'Date To', required: false },
@@ -109,9 +117,15 @@ export class ReportSeederService {
         reportName: 'OE Doc (OE, OC, CONT)',
         category: 'Transaction',
         description: 'Combined OE, OC, Contract documents',
-        sqlQuery: 'SELECT * FROM order_enquiry_header WHERE 1=1 UNION SELECT * FROM order_confirmation WHERE 1=1',
+        sqlQuery:
+          'SELECT * FROM order_enquiry_header WHERE 1=1 UNION SELECT * FROM order_confirmation WHERE 1=1',
         parameters: {
-          docType: { type: 'select', label: 'Document Type', options: ['OE', 'OC', 'CONTRACT'], required: true },
+          docType: {
+            type: 'select',
+            label: 'Document Type',
+            options: ['OE', 'OC', 'CONTRACT'],
+            required: true,
+          },
         },
         status: 'Active',
         legacyReportFile: 'poedoc.frx',
@@ -178,7 +192,11 @@ export class ReportSeederService {
         description: 'Contract report 2018 format',
         sqlQuery: 'SELECT * FROM contract WHERE 1=1',
         parameters: {
-          contractNo: { type: 'string', label: 'Contract Number', required: false },
+          contractNo: {
+            type: 'string',
+            label: 'Contract Number',
+            required: false,
+          },
         },
         status: 'Active',
         legacyReportFile: 'pcontract@_2018.frx',
@@ -190,7 +208,11 @@ export class ReportSeederService {
         description: 'Contract in PDF format',
         sqlQuery: 'SELECT * FROM contract WHERE 1=1',
         parameters: {
-          contractNo: { type: 'string', label: 'Contract Number', required: true },
+          contractNo: {
+            type: 'string',
+            label: 'Contract Number',
+            required: true,
+          },
         },
         status: 'Active',
         legacyReportFile: 'pcontract_pdf.frx',
@@ -202,7 +224,11 @@ export class ReportSeederService {
         description: 'Contract quantity breakdown',
         sqlQuery: 'SELECT * FROM contract_detail WHERE 1=1',
         parameters: {
-          contractNo: { type: 'string', label: 'Contract Number', required: true },
+          contractNo: {
+            type: 'string',
+            label: 'Contract Number',
+            required: true,
+          },
         },
         status: 'Active',
         legacyReportFile: 'pcontbrk.frx',
@@ -214,7 +240,11 @@ export class ReportSeederService {
         description: 'Contract amendment report',
         sqlQuery: 'SELECT * FROM contract_amendment WHERE 1=1',
         parameters: {
-          contractNo: { type: 'string', label: 'Contract Number', required: true },
+          contractNo: {
+            type: 'string',
+            label: 'Contract Number',
+            required: true,
+          },
         },
         status: 'Active',
         legacyReportFile: 'pcontamdrmk.frx',
@@ -278,7 +308,8 @@ export class ReportSeederService {
         reportName: 'Invoice to XLS',
         category: 'Export',
         description: 'Invoice export to Excel',
-        sqlQuery: 'SELECT * FROM invoice_header h JOIN invoice_detail d ON h.inv_no = d.inv_no WHERE 1=1',
+        sqlQuery:
+          'SELECT * FROM invoice_header h JOIN invoice_detail d ON h.inv_no = d.inv_no WHERE 1=1',
         parameters: {
           invNo: { type: 'string', label: 'Invoice Number', required: false },
         },
@@ -380,7 +411,8 @@ export class ReportSeederService {
         reportName: 'OE Summary',
         category: 'Summary',
         description: 'Order enquiry summary report',
-        sqlQuery: 'SELECT COUNT(*) as total_oe, DATE_TRUNC(\'month\', date) as month FROM order_enquiry_header GROUP BY DATE_TRUNC(\'month\', date)',
+        sqlQuery:
+          "SELECT COUNT(*) as total_oe, DATE_TRUNC('month', date) as month FROM order_enquiry_header GROUP BY DATE_TRUNC('month', date)",
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
           dateTo: { type: 'date', label: 'Date To', required: false },
@@ -393,7 +425,8 @@ export class ReportSeederService {
         reportName: 'OC Summary',
         category: 'Summary',
         description: 'Order confirmation summary',
-        sqlQuery: 'SELECT COUNT(*) as total_oc, DATE_TRUNC(\'month\', date) as month FROM order_confirmation GROUP BY DATE_TRUNC(\'month\', date)',
+        sqlQuery:
+          "SELECT COUNT(*) as total_oc, DATE_TRUNC('month', date) as month FROM order_confirmation GROUP BY DATE_TRUNC('month', date)",
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
         },
@@ -405,7 +438,8 @@ export class ReportSeederService {
         reportName: 'Invoice Summary',
         category: 'Summary',
         description: 'Invoice summary report',
-        sqlQuery: 'SELECT COUNT(*) as total_inv, SUM(total_amount) as total_value FROM invoice_header',
+        sqlQuery:
+          'SELECT COUNT(*) as total_inv, SUM(total_amount) as total_value FROM invoice_header',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
         },
@@ -431,7 +465,8 @@ export class ReportSeederService {
         reportName: 'Sales Analysis By Customer',
         category: 'Analysis',
         description: 'Sales analysis grouped by customer',
-        sqlQuery: 'SELECT c.ename, SUM(i.total_amount) as total_sales FROM invoice_header i JOIN customer c ON i.cust_no = c.cust_no GROUP BY c.ename',
+        sqlQuery:
+          'SELECT c.ename, SUM(i.total_amount) as total_sales FROM invoice_header i JOIN customer c ON i.cust_no = c.cust_no GROUP BY c.ename',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: true },
           dateTo: { type: 'date', label: 'Date To', required: true },
@@ -444,7 +479,8 @@ export class ReportSeederService {
         reportName: 'Sales Analysis By Customer - Date',
         category: 'Analysis',
         description: 'Sales analysis by customer and date',
-        sqlQuery: 'SELECT c.ename, i.date, SUM(i.total_amount) as sales FROM invoice_header i JOIN customer c ON i.cust_no = c.cust_no GROUP BY c.ename, i.date',
+        sqlQuery:
+          'SELECT c.ename, i.date, SUM(i.total_amount) as sales FROM invoice_header i JOIN customer c ON i.cust_no = c.cust_no GROUP BY c.ename, i.date',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: true },
           dateTo: { type: 'date', label: 'Date To', required: true },
@@ -457,7 +493,8 @@ export class ReportSeederService {
         reportName: 'Sales Analysis By Item - Date',
         category: 'Analysis',
         description: 'Sales analysis by item and date',
-        sqlQuery: 'SELECT it.item_name, i.date, SUM(id.amount) as sales FROM invoice_detail id JOIN invoice_header i ON id.inv_no = i.inv_no JOIN item it ON id.item_no = it.item_no GROUP BY it.item_name, i.date',
+        sqlQuery:
+          'SELECT it.item_name, i.date, SUM(id.amount) as sales FROM invoice_detail id JOIN invoice_header i ON id.inv_no = i.inv_no JOIN item it ON id.item_no = it.item_no GROUP BY it.item_name, i.date',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: true },
           dateTo: { type: 'date', label: 'Date To', required: true },
@@ -470,7 +507,8 @@ export class ReportSeederService {
         reportName: 'Order Report By Item',
         category: 'Analysis',
         description: 'Order analysis by item',
-        sqlQuery: 'SELECT it.item_name, COUNT(*) as order_count FROM order_enquiry_detail oed JOIN item it ON oed.item_no = it.item_no GROUP BY it.item_name',
+        sqlQuery:
+          'SELECT it.item_name, COUNT(*) as order_count FROM order_enquiry_detail oed JOIN item it ON oed.item_no = it.item_no GROUP BY it.item_name',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
         },
@@ -482,7 +520,8 @@ export class ReportSeederService {
         reportName: 'Order List By Maker',
         category: 'Analysis',
         description: 'Order list grouped by maker',
-        sqlQuery: 'SELECT v.maker_name, COUNT(*) as orders FROM order_enquiry_header oeh JOIN vendor v ON oeh.vendor_no = v.vendor_no GROUP BY v.maker_name',
+        sqlQuery:
+          'SELECT v.maker_name, COUNT(*) as orders FROM order_enquiry_header oeh JOIN vendor v ON oeh.vendor_no = v.vendor_no GROUP BY v.maker_name',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
         },
@@ -494,7 +533,8 @@ export class ReportSeederService {
         reportName: 'Cost Breakdown',
         category: 'Analysis',
         description: 'Cost breakdown analysis',
-        sqlQuery: 'SELECT item_no, cost, price, (price - cost) as margin FROM item WHERE cost > 0',
+        sqlQuery:
+          'SELECT item_no, cost, price, (price - cost) as margin FROM item WHERE cost > 0',
         parameters: {
           itemNo: { type: 'string', label: 'Item Number', required: false },
         },
@@ -521,7 +561,8 @@ export class ReportSeederService {
         reportName: 'Item Bought (Excel)',
         category: 'Export',
         description: 'Item purchase summary in Excel',
-        sqlQuery: 'SELECT i.item_no, i.item_name, SUM(oed.qty) as total_bought FROM item i LEFT JOIN order_enquiry_detail oed ON i.item_no = oed.item_no GROUP BY i.item_no, i.item_name',
+        sqlQuery:
+          'SELECT i.item_no, i.item_name, SUM(oed.qty) as total_bought FROM item i LEFT JOIN order_enquiry_detail oed ON i.item_no = oed.item_no GROUP BY i.item_no, i.item_name',
         parameters: {
           dateFrom: { type: 'date', label: 'Date From', required: false },
         },
@@ -533,7 +574,8 @@ export class ReportSeederService {
         reportName: 'Item Measurement (Excel)',
         category: 'Export',
         description: 'Item measurements export to Excel',
-        sqlQuery: 'SELECT item_no, item_name, l, w, h, wt, cube FROM item WHERE l IS NOT NULL',
+        sqlQuery:
+          'SELECT item_no, item_name, l, w, h, wt, cube FROM item WHERE l IS NOT NULL',
         parameters: {
           itemNo: { type: 'string', label: 'Item Number', required: false },
         },
@@ -547,7 +589,8 @@ export class ReportSeederService {
         reportName: 'D/N to Excel',
         category: 'Export',
         description: 'Delivery note export to Excel',
-        sqlQuery: 'SELECT * FROM delivery_note_header h JOIN delivery_note_detail d ON h.dn_no = d.dn_no WHERE 1=1',
+        sqlQuery:
+          'SELECT * FROM delivery_note_header h JOIN delivery_note_detail d ON h.dn_no = d.dn_no WHERE 1=1',
         parameters: {
           dnNo: { type: 'string', label: 'DN Number', required: false },
         },
@@ -559,7 +602,8 @@ export class ReportSeederService {
         reportName: 'Shipmark to XLS',
         category: 'Export',
         description: 'Shipmark export to Excel',
-        sqlQuery: 'SELECT DISTINCT ship_mark FROM shipping_order WHERE ship_mark IS NOT NULL',
+        sqlQuery:
+          'SELECT DISTINCT ship_mark FROM shipping_order WHERE ship_mark IS NOT NULL',
         parameters: {
           soNo: { type: 'string', label: 'SO Number', required: false },
         },
@@ -569,7 +613,7 @@ export class ReportSeederService {
 
       // Add remaining reports as placeholders (would need full SQL definitions)
       // This covers the major categories from the inventory
-    ].map(def => ({
+    ].map((def) => ({
       ...def,
       creUser: 'SYSTEM_SEEDER',
       creDate: new Date(),
@@ -580,10 +624,18 @@ export class ReportSeederService {
   /**
    * Get count of seeded reports
    */
-  async getReportCount(): Promise<{ total: number; active: number; migrated: number }> {
+  async getReportCount(): Promise<{
+    total: number;
+    active: number;
+    migrated: number;
+  }> {
     const total = await this.reportDefinitionRepository.count();
-    const active = await this.reportDefinitionRepository.count({ where: { status: 'Active' } });
-    const migrated = await this.reportDefinitionRepository.count({ where: { status: 'Migrated' } });
+    const active = await this.reportDefinitionRepository.count({
+      where: { status: 'Active' },
+    });
+    const migrated = await this.reportDefinitionRepository.count({
+      where: { status: 'Migrated' },
+    });
 
     return { total, active, migrated };
   }
