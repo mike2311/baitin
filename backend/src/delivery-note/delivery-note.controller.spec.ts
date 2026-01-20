@@ -33,7 +33,7 @@ describe('DeliveryNoteController', () => {
     update: jest.fn(),
     remove: jest.fn(),
     search: jest.fn(),
-    getAvailableSoItems: jest.fn(),
+    getAvailableItemsForDn: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -337,23 +337,20 @@ describe('DeliveryNoteController', () => {
         },
       ];
 
-      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(
+      mockDeliveryNoteService.getAvailableItemsForDn.mockResolvedValue(
         mockResult as any,
       );
 
       const result = await controller.getAvailableItemsForDn('SO001');
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith(
-        'SO001',
-        'CUST001',
-      );
+      expect(mockDeliveryNoteService.getAvailableItemsForDn).toHaveBeenCalledWith('SO001');
     });
 
     it('should handle multiple SO numbers', async () => {
       const mockResult = [];
 
-      mockDeliveryNoteService.getAvailableSoItems.mockResolvedValue(
+      mockDeliveryNoteService.getAvailableItemsForDn.mockResolvedValue(
         mockResult as any,
       );
 
