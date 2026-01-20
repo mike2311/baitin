@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -104,8 +104,7 @@ const ShippingOrderList: React.FC = () => {
       });
 
       // Refresh search results
-      const formData = new FormData();
-      // TODO: Get current form values and re-search
+      // TODO: Re-search with current form values
 
     } catch (error) {
       console.error('Delete failed:', error);

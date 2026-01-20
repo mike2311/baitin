@@ -58,6 +58,7 @@ const InvoiceEntry: React.FC = () => {
       setAvailableItems([]);
       setSourceValidated(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedSourceType, watchedSourceNo]);
 
   const loadAvailableItems = async () => {

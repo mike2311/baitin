@@ -61,7 +61,6 @@ interface BatchMigrationStatus {
 }
 
 const ReportBatchMigrationManager: React.FC = () => {
-  const [loading, setLoading] = useState(false);
   const [migrating, setMigrating] = useState(false);
   const [progress, setProgress] = useState<MigrationProgress | null>(null);
   const [currentBatch, setCurrentBatch] = useState<BatchMigrationStatus | null>(null);

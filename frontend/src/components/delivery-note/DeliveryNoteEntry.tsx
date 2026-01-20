@@ -62,6 +62,7 @@ const DeliveryNoteEntry: React.FC = () => {
       setAvailableItems([]);
       setSoValidated(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedSoNo]);
 
   const loadAvailableItems = async () => {

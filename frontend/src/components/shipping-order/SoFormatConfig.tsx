@@ -40,13 +40,12 @@ interface FormatFormData {
 
 const SoFormatConfig: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [formats, setFormats] = useState<SoFormat[]>([]);
   const [editingFormat, setEditingFormat] = useState<SoFormat | null>(null);
   const [hasLoadedFormat, setHasLoadedFormat] = useState(false);
   const { toast } = useToast();
 
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormatFormData>();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormatFormData>();
   const watchedSoKey = watch('soKey');
 
   // Load format when SO key changes
@@ -57,6 +56,7 @@ const SoFormatConfig: React.FC = () => {
       setFormats([]);
       setHasLoadedFormat(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchedSoKey]);
 
   const loadFormat = async () => {
