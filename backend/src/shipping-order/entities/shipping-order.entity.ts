@@ -36,15 +36,12 @@ export class ShippingOrder {
   soNo: string; // Shipping Order number
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   confNo?: string; // Order Confirmation number (FK to order_confirmation_header)
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   contNo?: string; // Contract number (FK to contract_header)
 
   @Column({ type: 'varchar', length: 20 })
-  @Index()
   itemNo: string; // Item number (FK to item)
 
   @Column({ type: 'decimal', precision: 12, scale: 2 })
@@ -54,7 +51,6 @@ export class ShippingOrder {
   ctn?: number; // Carton quantity
 
   @Column({ type: 'date', nullable: true })
-  @Index()
   shipDate?: Date; // Shipping date
 
   @Column({ type: 'text', nullable: true })

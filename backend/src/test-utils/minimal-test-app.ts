@@ -80,10 +80,17 @@ const allEntities = [
   ReportDefinition,
 ];
 
+// Execution tracing for root cause analysis
+let initializationCount = 0;
+
 export async function createMinimalTestApp(): Promise<{
   app: INestApplication;
   moduleRef: TestingModule;
 }> {
+  initializationCount++;
+  console.log(`[TRACE ${initializationCount}] createMinimalTestApp() called`);
+  console.log(`[TRACE ${initializationCount}] Stack trace:`, new Error().stack?.split('\n').slice(2, 6).join('\n'));
+  
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [
       ConfigModule.forRoot({
@@ -97,8 +104,8 @@ export async function createMinimalTestApp(): Promise<{
         username: 'postgres',
         password: 'postgres',
         database: 'baitin_test',
-        dropSchema: false, // Never drop schema - maintain it across tests
-        synchronize: true, // Will create schema only if it doesn't exist
+        dropSchema: false,
+        synchronize: true, // TEMPORARY - duplicate @Index() decorators need fixing
         entities: allEntities,
         logging: false,
       }),
@@ -145,7 +152,9 @@ export async function createMinimalTestApp(): Promise<{
     }),
   );
 
+  console.log(`[TRACE ${initializationCount}] About to initialize app...`);
   await app.init();
+  console.log(`[TRACE ${initializationCount}] App initialized successfully`);
 
   return { app, moduleRef: moduleFixture };
 }

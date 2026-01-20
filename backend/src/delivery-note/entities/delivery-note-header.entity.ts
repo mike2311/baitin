@@ -35,15 +35,12 @@ export class DeliveryNoteHeader {
   dnNo: string; // Delivery Note number
 
   @Column({ type: 'date' })
-  @Index()
   date: Date; // DN date
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   custNo?: string; // Customer number (FK to customer)
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Index()
   soNo?: string; // Shipping Order number (FK to shipping_order)
 
   @Column({ type: 'varchar', length: 100, nullable: true })
@@ -62,7 +59,6 @@ export class DeliveryNoteHeader {
   delDate?: Date; // Delivery date
 
   @Column({ type: 'varchar', length: 20, default: 'Created' })
-  @Index()
   loadingStatus: string; // Created/Loading/Shipped/Delivered/Invoiced
 
   @Column({ type: 'varchar', length: 50, nullable: true })
