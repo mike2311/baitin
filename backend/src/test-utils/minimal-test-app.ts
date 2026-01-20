@@ -68,8 +68,8 @@ export async function createMinimalTestApp(): Promise<{
         username: 'postgres',
         password: 'postgres',
         database: 'baitin_test',
-        dropSchema: true,
-        synchronize: true,
+        dropSchema: false, // Don't drop schema on every test - causes conflicts
+        synchronize: true, // Still sync schema changes
         entities: [
           User,
           Customer,

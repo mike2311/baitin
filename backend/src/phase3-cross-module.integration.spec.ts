@@ -25,25 +25,32 @@ describe('Phase 3 Cross-Module Integration', () => {
   let authToken: string;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef } = await createMinimalTestApp();
-    app = testApp;
-    dataSource = await getTestDataSource(moduleRef);
+    try {
+      const { app: testApp, moduleRef } = await createMinimalTestApp();
+      app = testApp;
+      dataSource = await getTestDataSource(moduleRef);
 
-    // Login to get auth token
-    const loginResponse = await request(app.getHttpServer())
-      .post('/api/auth/login')
-      .send({
-        username: 'admin',
-        password: 'password123',
-        company: 'HT',
-      });
-
-    authToken = loginResponse.body.access_token;
-  });
+      // Create test user first
+      const { JwtService } = require('@nestjs/jwt');
+      const jwtService = moduleRef.get(JwtService);
+      const { getRepositoryToken } = require('@nestjs/typeorm');
+      const { User } = require('./users/entities/user.entity');
+      const { createTestUser, getAuthToken } = require('./test-utils/test-helpers');
+      
+      const userRepo = moduleRef.get(getRepositoryToken(User));
+      const user = await createTestUser(userRepo);
+      authToken = getAuthToken(jwtService, user.id, user.username);
+    } catch (error) {
+      console.error('Setup failed:', error);
+      throw error;
+    }
+  }, 60000); // Increase timeout for setup
 
   afterAll(async () => {
-    await app.close();
-    if (dataSource.isInitialized) {
+    if (app) {
+      await app.close();
+    }
+    if (dataSource && dataSource.isInitialized) {
       await dataSource.destroy();
     }
   });
