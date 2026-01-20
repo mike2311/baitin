@@ -126,7 +126,11 @@ export async function createMinimalTestApp(): Promise<{
 
   const app = moduleFixture.createNestApplication();
 
+  // Set global API prefix (matching main.ts)
   app.setGlobalPrefix('api');
+  
+  // Enable CORS for tests
+  app.enableCors();
   
   app.useGlobalPipes(
     new ValidationPipe({
