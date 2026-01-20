@@ -239,7 +239,7 @@ describe('InvoiceService', () => {
     it('should validate invoice number uniqueness', async () => {
       const createDto: CreateInvoiceDto = {
         invNo: 'INV001',
-        date: new Date(),
+        date: '2025-01-20',
         custNo: 'CUST001',
         details: [],
       };
@@ -417,13 +417,13 @@ describe('InvoiceService', () => {
           {
             invNo: 'INV001',
             custNo: 'CUST001',
-            date: new Date(),
+            date: '2025-01-20',
             plStatus: 'Not Printed',
           },
           {
             invNo: 'INV002',
             custNo: 'CUST002',
-            date: new Date(),
+            date: '2025-01-20',
             plStatus: 'Printed',
           },
         ],
@@ -466,7 +466,7 @@ describe('InvoiceService', () => {
       const mockHeader = {
         invNo: 'INV001',
         custNo: 'CUST001',
-        date: new Date(),
+        date: '2025-01-20',
         plStatus: 'Not Printed',
       };
 
@@ -493,7 +493,7 @@ describe('InvoiceService', () => {
       const mockHeader = {
         invNo: 'INV001',
         custNo: 'CUST001',
-        date: new Date(),
+        date: '2025-01-20',
       };
 
       const mockDetails = [
