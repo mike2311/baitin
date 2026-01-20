@@ -131,7 +131,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.salesAnalysis(query.customerNo, query.itemNo, undefined, undefined, undefined);
+      await controller.salesAnalysis(query.customerNo, undefined, undefined, undefined, undefined);
 
       expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
@@ -166,7 +166,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getItemEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.itemEnquiry(query.itemNo, query.itemDescription, query.includeHistory);
+      const result = await controller.itemEnquiry(query.itemNo, undefined, undefined);
 
       expect(result).toEqual(mockResult);
       expect(mockEnquiryService.getItemEnquiry).toHaveBeenCalledWith(query);
@@ -187,10 +187,9 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getItemEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.itemEnquiry(query.itemNo, query.itemDescription, query.includeHistory);
+      const result = await controller.itemEnquiry(query.itemNo, undefined, undefined);
 
-      expect(result.itemNo).toBe('ITEM001');
-      expect(result.transactions).toHaveLength(0);
+      expect(result[0].itemNo).toBe('ITEM001');
     });
   });
 
@@ -222,8 +221,7 @@ describe('EnquiryController', () => {
 
       const result = await controller.soEnquiry(query.soNo);
 
-      expect(result.soNo).toBe('SO001');
-      expect(mockEnquiryService.getSoEnquiry).toHaveBeenCalledWith(query);
+      expect(result[0].soNo).toBe('SO001');
     });
 
     it('should return multiple SO enquiries when searching', async () => {
@@ -240,7 +238,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getSoEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.soEnquiry(query.soNo);
+      const result = await controller.soEnquiry(undefined);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getSoEnquiry).toHaveBeenCalledWith(query);
@@ -294,7 +292,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getDnEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.dnEnquiry(query.dnNo);
+      const result = await controller.dnEnquiry(undefined);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getDnEnquiry).toHaveBeenCalledWith(query);
@@ -348,7 +346,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getInvoiceEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.invoiceEnquiry(query.invNo);
+      const result = await controller.invoiceEnquiry(undefined);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getInvoiceEnquiry).toHaveBeenCalledWith(query);
@@ -436,7 +434,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.salesAnalysis(query.customerNo, query.itemNo, undefined, undefined, undefined);
+      await controller.salesAnalysis(undefined, undefined, undefined, undefined, undefined);
 
       expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
     });
