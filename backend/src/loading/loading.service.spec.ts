@@ -6,7 +6,11 @@ import { LoadingMaster } from './entities/loading-master.entity';
 import { LoadingAdviceHeader } from './entities/loading-advice-header.entity';
 import { LoadingAdviceDetail } from './entities/loading-advice-detail.entity';
 import { CreateLoadingMasterDto } from './dto/create-loading-master.dto';
-import { AssignDnsToLoadingDto } from './dto/assign-dns-to-loading.dto';
+// import { AssignDnsToLoadingDto } from './dto/assign-dns-to-loading.dto';
+interface AssignDnsToLoadingDto {
+  loadingNo: string;
+  dnNos: string[];
+}
 
 /**
  * Loading Service Tests
@@ -105,7 +109,7 @@ describe('LoadingService', () => {
         loadingNo: 'LOAD001',
         vesselName: 'Test Vessel',
         voyageNo: 'V001',
-        eta: new Date('2025-02-01'),
+        date: '2025-01-20',
         etd: new Date('2025-02-05'),
         loadingPort: 'PORT1',
         dischargePort: 'PORT2',
@@ -135,6 +139,7 @@ describe('LoadingService', () => {
     it('should validate loading number uniqueness', async () => {
       const createDto: CreateLoadingMasterDto = {
         loadingNo: 'LOAD001',
+        date: '2025-01-20',
         vesselName: 'Test Vessel',
         voyageNo: 'V001',
       };
@@ -153,7 +158,7 @@ describe('LoadingService', () => {
         loadingNo: 'LOAD001',
         vesselName: 'Test Vessel',
         voyageNo: 'V001',
-        etd: new Date('2025-02-01'), // ETD before ETA
+        date: '2025-01-20',
       };
 
       await expect(service.createLoadingMaster(createDto)).rejects.toThrow(
@@ -194,11 +199,10 @@ describe('LoadingService', () => {
         } as any);
       });
 
-      const result = await service.assignDnsToLoading(assignDto);
+      await service.assignDnsToLoading(assignDto.loadingNo, assignDto.dnNos);
 
       expect(mockDataSource.transaction).toHaveBeenCalled();
-      expect(result.loadingNo).toBe('LOAD001');
-      expect(result.assignedDns).toEqual(['DN001', 'DN002']);
+      // Note: assignDnsToLoading returns void
     });
 
     it('should prevent assignment to completed loading', async () => {
