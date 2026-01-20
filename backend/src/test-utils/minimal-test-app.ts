@@ -68,8 +68,8 @@ export async function createMinimalTestApp(): Promise<{
         username: 'postgres',
         password: 'postgres',
         database: 'baitin_test',
-        dropSchema: false, // Don't drop schema on every test - causes conflicts
-        synchronize: true, // Still sync schema changes
+        dropSchema: false, // Never drop schema - maintain it across tests
+        synchronize: false, // Schema created by jest-global-setup.ts
         entities: [
           User,
           Customer,
