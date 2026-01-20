@@ -166,7 +166,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getItemEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getItemEnquiry(query);
+      const result = await controller.itemEnquiry(query);
 
       expect(result).toEqual(mockResult);
       expect(mockEnquiryService.getItemEnquiry).toHaveBeenCalledWith(query);
@@ -187,7 +187,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getItemEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getItemEnquiry(query);
+      const result = await controller.itemEnquiry(query);
 
       expect(result.itemNo).toBe('ITEM001');
       expect(result.transactions).toHaveLength(0);
@@ -220,7 +220,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getSoEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getSoEnquiry(query);
+      const result = await controller.soEnquiry(query);
 
       expect(result.soNo).toBe('SO001');
       expect(mockEnquiryService.getSoEnquiry).toHaveBeenCalledWith(query);
@@ -240,7 +240,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getSoEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getSoEnquiry(query);
+      const result = await controller.soEnquiry(query);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getSoEnquiry).toHaveBeenCalledWith(query);
@@ -275,7 +275,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getDnEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getDnEnquiry(query);
+      const result = await controller.dnEnquiry(query);
 
       expect(result.dnNo).toBe('DN001');
       expect(result.items[0].breakdowns).toHaveLength(2);
@@ -295,7 +295,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getDnEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getDnEnquiry(query);
+      const result = await controller.dnEnquiry(query);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getDnEnquiry).toHaveBeenCalledWith(query);
@@ -329,7 +329,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getInvoiceEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getInvoiceEnquiry(query);
+      const result = await controller.invoiceEnquiry(query);
 
       expect(result.invNo).toBe('INV001');
       expect(result.totalAmount).toBe(1050.0);
@@ -350,7 +350,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getInvoiceEnquiry.mockResolvedValue(mockResult);
 
-      const result = await controller.getInvoiceEnquiry(query);
+      const result = await controller.invoiceEnquiry(query);
 
       expect(result).toHaveLength(2);
       expect(mockEnquiryService.getInvoiceEnquiry).toHaveBeenCalledWith(query);
@@ -381,7 +381,7 @@ describe('EnquiryController', () => {
         new Error('Item not found'),
       );
 
-      await expect(controller.getItemEnquiry(query)).rejects.toThrow(
+      await expect(controller.itemEnquiry(query)).rejects.toThrow(
         'Item not found',
       );
     });
@@ -395,7 +395,7 @@ describe('EnquiryController', () => {
         new Error('SO not found'),
       );
 
-      await expect(controller.getSoEnquiry(query)).rejects.toThrow(
+      await expect(controller.soEnquiry(query)).rejects.toThrow(
         'SO not found',
       );
     });
@@ -409,7 +409,7 @@ describe('EnquiryController', () => {
         new Error('DN not found'),
       );
 
-      await expect(controller.getDnEnquiry(query)).rejects.toThrow(
+      await expect(controller.dnEnquiry(query)).rejects.toThrow(
         'DN not found',
       );
     });
@@ -423,7 +423,7 @@ describe('EnquiryController', () => {
         new Error('Invoice not found'),
       );
 
-      await expect(controller.getInvoiceEnquiry(query)).rejects.toThrow(
+      await expect(controller.invoiceEnquiry(query)).rejects.toThrow(
         'Invoice not found',
       );
     });
@@ -452,7 +452,7 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.getItemEnquiry.mockResolvedValue({} as any);
 
-      await controller.getItemEnquiry(query);
+      await controller.itemEnquiry(query);
 
       expect(mockEnquiryService.getItemEnquiry).toHaveBeenCalledWith(query);
     });
