@@ -1,7 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { RequestLoggerMiddleware } from './common/middleware/request-logger.middleware';
+import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
+import { PaginationInterceptor } from './common/interceptors/pagination.interceptor';
 
 /**
  * Main Application Entry Point
@@ -20,12 +24,44 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Global validation pipe
+  // Request logging middleware
+  app.use(
+    new RequestLoggerMiddleware().use.bind(new RequestLoggerMiddleware()),
+  );
+
+  // Global exception filter for comprehensive error logging
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Global interceptors
+  app.useGlobalInterceptors(
+    new AuditLogInterceptor(app.get('Reflector')),
+    new PaginationInterceptor(),
+  );
+
+  // Global validation pipe with detailed error messages
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      exceptionFactory: (errors) => {
+        const formattedErrors = errors.map((error) => {
+          const constraints = error.constraints || {};
+          const messages = Object.values(constraints);
+          return {
+            field: error.property,
+            messages,
+            value: error.value,
+          };
+        });
+        return new BadRequestException({
+          message: 'Validation failed',
+          errors: formattedErrors,
+        });
+      },
     }),
   );
 

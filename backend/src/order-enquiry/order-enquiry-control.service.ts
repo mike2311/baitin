@@ -4,7 +4,13 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, Between, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import {
+  Repository,
+  Like,
+  Between,
+  MoreThanOrEqual,
+  LessThanOrEqual,
+} from 'typeorm';
 import { OrderEnquiryControl } from './entities/order-enquiry-control.entity';
 import { Customer } from '../customers/entities/customer.entity';
 import {
@@ -86,7 +92,9 @@ export class OrderEnquiryControlService {
     });
 
     if (!control) {
-      throw new NotFoundException(`OE Control not found for OE Number "${oeNo}"`);
+      throw new NotFoundException(
+        `OE Control not found for OE Number "${oeNo}"`,
+      );
     }
 
     return control;
@@ -142,9 +150,7 @@ export class OrderEnquiryControlService {
   /**
    * Search OE Control records
    */
-  async search(
-    searchDto: OrderEnquiryControlSearchDto,
-  ): Promise<{
+  async search(searchDto: OrderEnquiryControlSearchDto): Promise<{
     controls: OrderEnquiryControl[];
     total: number;
     page: number;

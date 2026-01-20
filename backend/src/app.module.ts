@@ -23,12 +23,29 @@ import { OrderConfirmationHeader } from './order-confirmation/entities/order-con
 import { OrderConfirmationDetail } from './order-confirmation/entities/order-confirmation-detail.entity';
 import { ContractHeader } from './contract/entities/contract-header.entity';
 import { ContractDetail } from './contract/entities/contract-detail.entity';
+import { ShippingOrder } from './shipping-order/entities/shipping-order.entity';
+import { SoFormat } from './shipping-order/entities/so-format.entity';
+import { DeliveryNoteHeader } from './delivery-note/entities/delivery-note-header.entity';
+import { DeliveryNoteDetail } from './delivery-note/entities/delivery-note-detail.entity';
+import { DeliveryNoteBreakdown } from './delivery-note/entities/delivery-note-breakdown.entity';
+import { LoadingMaster } from './loading/entities/loading-master.entity';
+import { LoadingAdviceHeader } from './loading/entities/loading-advice-header.entity';
+import { LoadingAdviceDetail } from './loading/entities/loading-advice-detail.entity';
+import { InvoiceHeader } from './invoice/entities/invoice-header.entity';
+import { InvoiceDetail } from './invoice/entities/invoice-detail.entity';
+import { ReportDefinition } from './reporting/entities/report-definition.entity';
 import { Zstdcode } from './reference/entities/zstdcode.entity';
 import { Zorigin } from './reference/entities/zorigin.entity';
 import { OrderEnquiryModule } from './order-enquiry/order-enquiry.module';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { ContractModule } from './contract/contract.module';
 import { BomModule } from './bom/bom.module';
+import { ShippingOrderModule } from './shipping-order/shipping-order.module';
+import { DeliveryNoteModule } from './delivery-note/delivery-note.module';
+import { LoadingModule } from './loading/loading.module';
+import { InvoiceModule } from './invoice/invoice.module';
+import { EnquiryModule } from './enquiry/enquiry.module';
+import { ReportingModule } from './reporting/reporting.module';
 
 /**
  * Root Application Module
@@ -94,6 +111,17 @@ import { BomModule } from './bom/bom.module';
             OrderConfirmationDetail,
             ContractHeader,
             ContractDetail,
+            ShippingOrder,
+            SoFormat,
+            DeliveryNoteHeader,
+            DeliveryNoteDetail,
+            DeliveryNoteBreakdown,
+            LoadingMaster,
+            LoadingAdviceHeader,
+            LoadingAdviceDetail,
+            InvoiceHeader,
+            InvoiceDetail,
+            ReportDefinition,
             Zstdcode,
             Zorigin,
           ],
@@ -120,6 +148,12 @@ import { BomModule } from './bom/bom.module';
     OrderConfirmationModule,
     ContractModule,
     BomModule,
+    ShippingOrderModule,
+    DeliveryNoteModule,
+    LoadingModule,
+    InvoiceModule,
+    EnquiryModule,
+    ReportingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

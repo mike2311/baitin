@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createTestApp, getAuthToken, createTestUser, ApiTestClient } from '../test-utils/test-helpers';
+import {
+  createTestApp,
+  getAuthToken,
+  createTestUser,
+  ApiTestClient,
+} from '../test-utils/test-helpers';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
@@ -36,16 +41,57 @@ describe('OrderEnquiryControl API Tests', () => {
 
     seeder = new TestDataSeeder(
       customerRepo,
-      moduleRef.get(getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor)),
-      moduleRef.get(getRepositoryToken(require('../items/entities/item.entity').Item)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-header.entity').OrderEnquiryHeader)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-detail.entity').OrderEnquiryDetail)),
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-header.entity').OrderConfirmationHeader)),
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-detail.entity').OrderConfirmationDetail)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-header.entity').ContractHeader)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-detail.entity').ContractDetail)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/product-bom.entity').ProductBom)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity').OrderEnquiryQtyBreakdown)),
+      moduleRef.get(
+        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
+      ),
+      moduleRef.get(
+        getRepositoryToken(require('../items/entities/item.entity').Item),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-header.entity')
+            .OrderEnquiryHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-detail.entity')
+            .OrderEnquiryDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-header.entity')
+            .OrderConfirmationHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-detail.entity')
+            .OrderConfirmationDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-header.entity').ContractHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-detail.entity').ContractDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/product-bom.entity').ProductBom,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
+            .OrderEnquiryQtyBreakdown,
+        ),
+      ),
       user.username,
     );
 
@@ -144,7 +190,9 @@ describe('OrderEnquiryControl API Tests', () => {
         oeDate: '2026-01-15',
       });
 
-      const response = await apiClient.get('/api/order-enquiry/control/TEST-OE-READ-001');
+      const response = await apiClient.get(
+        '/api/order-enquiry/control/TEST-OE-READ-001',
+      );
 
       expect(response.status).toBe(200);
       expect(response.body.oeNo).toBe('TEST-OE-READ-001');
@@ -152,7 +200,9 @@ describe('OrderEnquiryControl API Tests', () => {
     });
 
     test('READ-002: Get non-existent OE Control', async () => {
-      const response = await apiClient.get('/api/order-enquiry/control/NON-EXISTENT-OE');
+      const response = await apiClient.get(
+        '/api/order-enquiry/control/NON-EXISTENT-OE',
+      );
 
       expect(response.status).toBe(404);
     });
@@ -167,11 +217,14 @@ describe('OrderEnquiryControl API Tests', () => {
         oeDate: '2026-01-15',
       });
 
-      const response = await apiClient.put('/api/order-enquiry/control/TEST-OE-UPDATE-001', {
-        poNo: 'UPDATED-PO-001',
-        status: 'Updated',
-        remark: 'Updated remark',
-      });
+      const response = await apiClient.put(
+        '/api/order-enquiry/control/TEST-OE-UPDATE-001',
+        {
+          poNo: 'UPDATED-PO-001',
+          status: 'Updated',
+          remark: 'Updated remark',
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.body.poNo).toBe('UPDATED-PO-001');
@@ -186,9 +239,12 @@ describe('OrderEnquiryControl API Tests', () => {
         oeDate: '2026-01-15',
       });
 
-      const response = await apiClient.put('/api/order-enquiry/control/TEST-OE-UPDATE-002', {
-        custNo: 'NON-EXISTENT-CUSTOMER',
-      });
+      const response = await apiClient.put(
+        '/api/order-enquiry/control/TEST-OE-UPDATE-002',
+        {
+          custNo: 'NON-EXISTENT-CUSTOMER',
+        },
+      );
 
       expect(response.status).toBe(400);
       expect(response.body.message).toContain('does not exist');
@@ -204,17 +260,23 @@ describe('OrderEnquiryControl API Tests', () => {
         oeDate: '2026-01-15',
       });
 
-      const response = await apiClient.delete('/api/order-enquiry/control/TEST-OE-DELETE-001');
+      const response = await apiClient.delete(
+        '/api/order-enquiry/control/TEST-OE-DELETE-001',
+      );
 
       expect(response.status).toBe(200);
 
       // Verify deleted
-      const getResponse = await apiClient.get('/api/order-enquiry/control/TEST-OE-DELETE-001');
+      const getResponse = await apiClient.get(
+        '/api/order-enquiry/control/TEST-OE-DELETE-001',
+      );
       expect(getResponse.status).toBe(404);
     });
 
     test('DELETE-002: Delete non-existent OE Control', async () => {
-      const response = await apiClient.delete('/api/order-enquiry/control/NON-EXISTENT-OE');
+      const response = await apiClient.delete(
+        '/api/order-enquiry/control/NON-EXISTENT-OE',
+      );
 
       expect(response.status).toBe(404);
     });
@@ -229,7 +291,9 @@ describe('OrderEnquiryControl API Tests', () => {
         oeDate: '2026-01-15',
       });
 
-      const response = await apiClient.get('/api/order-enquiry/control?oeNo=TEST-OE-SEARCH-001');
+      const response = await apiClient.get(
+        '/api/order-enquiry/control?oeNo=TEST-OE-SEARCH-001',
+      );
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body.controls)).toBe(true);

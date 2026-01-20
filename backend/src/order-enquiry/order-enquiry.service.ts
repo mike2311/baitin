@@ -67,7 +67,9 @@ export class OrderEnquiryService {
     });
 
     if (!header) {
-      throw new NotFoundException(`Order Enquiry not found for OE Number "${oeNo}"`);
+      throw new NotFoundException(
+        `Order Enquiry not found for OE Number "${oeNo}"`,
+      );
     }
 
     return header;
@@ -76,7 +78,10 @@ export class OrderEnquiryService {
   /**
    * Create or update OE (upsert pattern)
    */
-  async upsert(dto: UpsertOrderEnquiryDto, userId?: string): Promise<OrderEnquiryHeader> {
+  async upsert(
+    dto: UpsertOrderEnquiryDto,
+    userId?: string,
+  ): Promise<OrderEnquiryHeader> {
     const oeNo = (dto.oeNo || '').trim();
     if (!oeNo) {
       throw new BadRequestException('OE Number is required');
@@ -253,7 +258,9 @@ export class OrderEnquiryService {
     });
 
     if (!customer) {
-      throw new BadRequestException(`Customer Number "${custNo}" does not exist`);
+      throw new BadRequestException(
+        `Customer Number "${custNo}" does not exist`,
+      );
     }
   }
 
@@ -290,7 +297,9 @@ export class OrderEnquiryService {
         where: uniqueItemNos.map((itemNo) => ({ itemNo })),
       });
       const existingItemNos = new Set(existingItems.map((i) => i.itemNo));
-      const missingItems = uniqueItemNos.filter((itemNo) => !existingItemNos.has(itemNo));
+      const missingItems = uniqueItemNos.filter(
+        (itemNo) => !existingItemNos.has(itemNo),
+      );
       if (missingItems.length > 0) {
         throw new BadRequestException(
           `Item Number(s) do not exist: ${missingItems.join(', ')}`,

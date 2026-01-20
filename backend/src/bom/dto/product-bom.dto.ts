@@ -1,4 +1,5 @@
 import {
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -7,32 +8,35 @@ import {
 } from 'class-validator';
 
 export class CreateProductBomDto {
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Item Number must be a string' })
+  @IsNotEmpty({ message: 'Item Number is required' })
+  @MaxLength(50, { message: 'Item Number cannot exceed 50 characters' })
   itemNo: string;
 
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Sub Item Number must be a string' })
+  @IsNotEmpty({ message: 'Sub Item Number is required' })
+  @MaxLength(50, { message: 'Sub Item Number cannot exceed 50 characters' })
   subItemNo: string;
 
-  @IsNumber()
-  @Min(0.0001)
+  @IsNumber({}, { message: 'Quantity must be a number' })
+  @IsNotEmpty({ message: 'Quantity is required' })
+  @Min(0.0001, { message: 'Quantity must be greater than 0' })
   qty: number;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(20)
+  @IsString({ message: 'Unit must be a string' })
+  @MaxLength(20, { message: 'Unit cannot exceed 20 characters' })
   unit?: string;
 }
 
 export class UpdateProductBomDto {
   @IsOptional()
-  @IsNumber()
-  @Min(0.0001)
+  @IsNumber({}, { message: 'Quantity must be a number' })
+  @Min(0.0001, { message: 'Quantity must be greater than 0' })
   qty?: number;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(20)
+  @IsString({ message: 'Unit must be a string' })
+  @MaxLength(20, { message: 'Unit cannot exceed 20 characters' })
   unit?: string;
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
 import { DataGrid } from '../components/forms/DataGrid'
+import { Navigation } from '../components/Navigation'
 import { enquireOrderConfirmations, getOrderConfirmationReport } from '../services/api/orderConfirmation'
 import { useNavigate } from 'react-router-dom'
 
@@ -53,7 +54,9 @@ export default function OrderConfirmationEnquiryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Order Confirmation - Enquiry</h2>
@@ -137,6 +140,7 @@ export default function OrderConfirmationEnquiryPage() {
             <pre className="text-sm whitespace-pre-wrap">{JSON.stringify(report, null, 2)}</pre>
           </div>
         )}
+      </div>
       </div>
     </div>
   )

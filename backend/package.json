@@ -13,11 +13,12 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --maxWorkers=1",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:verify": "node scripts/verify-test-setup.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/config/data-source.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/data-source.ts",
@@ -25,7 +26,8 @@
     "migration:extract": "cd migration-cli && npm run extract",
     "migration:load": "cd migration-cli && npm run load",
     "migration:validate": "cd migration-cli && npm run validate",
-    "migration:reset": "cd migration-cli && npm run reset"
+    "migration:reset": "cd migration-cli && npm run reset",
+    "seed-reports": "ts-node src/reporting/report-seeder.command.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.10",

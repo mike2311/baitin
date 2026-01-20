@@ -42,9 +42,7 @@ import {
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class OrderEnquiryControlController {
-  constructor(
-    private readonly controlService: OrderEnquiryControlService,
-  ) {}
+  constructor(private readonly controlService: OrderEnquiryControlService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create new OE Control record' })

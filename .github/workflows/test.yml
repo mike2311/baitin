@@ -1,0 +1,117 @@
+name: Phase 2 Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: baitin_dev
+          POSTGRES_PASSWORD: baitin_dev_password
+          POSTGRES_DB: baitin_poc_dev
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install backend dependencies
+        run: cd backend && npm ci
+      
+      - name: Run API tests
+        env:
+          # Use TEST_DATABASE_* variables for test-specific database
+          TEST_DATABASE_HOST: localhost
+          TEST_DATABASE_PORT: 5432
+          TEST_DATABASE_USER: baitin_dev
+          TEST_DATABASE_PASSWORD: baitin_dev_password
+          TEST_DATABASE_NAME: baitin_poc_dev
+          # Fallback to regular DATABASE_* if TEST_DATABASE_* not set
+          DATABASE_HOST: localhost
+          DATABASE_PORT: 5432
+          DATABASE_USER: baitin_dev
+          DATABASE_PASSWORD: baitin_dev_password
+          DATABASE_NAME: baitin_poc_dev
+          NODE_ENV: test
+        run: cd backend && npm test
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-test-results
+          path: backend/coverage
+
+  ui-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install root dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      
+      - name: Install backend dependencies
+        run: cd backend && npm ci
+      
+      - name: Install frontend dependencies
+        run: cd frontend && npm ci
+      
+      - name: Build backend
+        run: cd backend && npm run build
+      
+      - name: Build frontend
+        run: cd frontend && npm run build
+      
+      - name: Run UI tests
+        env:
+          FRONTEND_URL: http://localhost:5173
+        run: npm run test:e2e || true
+      
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [api-tests, ui-tests]
+    if: always()
+    
+    steps:
+      - name: Test Summary
+        run: |
+          echo "## Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- API Tests: ${{ needs.api-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- UI Tests: ${{ needs.ui-tests.result }}" >> $GITHUB_STEP_SUMMARY

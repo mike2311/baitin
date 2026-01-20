@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createTestApp, getAuthToken, createTestUser, ApiTestClient } from '../test-utils/test-helpers';
+import {
+  createTestApp,
+  getAuthToken,
+  createTestUser,
+  ApiTestClient,
+} from '../test-utils/test-helpers';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
@@ -38,17 +43,52 @@ describe('OrderEnquiryEntry API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(getRepositoryToken(require('../customers/entities/customer.entity').Customer)),
-      moduleRef.get(getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor)),
-      moduleRef.get(getRepositoryToken(require('../items/entities/item.entity').Item)),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../customers/entities/customer.entity').Customer,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
+      ),
+      moduleRef.get(
+        getRepositoryToken(require('../items/entities/item.entity').Item),
+      ),
       oeHeaderRepo,
       oeDetailRepo,
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-header.entity').OrderConfirmationHeader)),
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-detail.entity').OrderConfirmationDetail)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-header.entity').ContractHeader)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-detail.entity').ContractDetail)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/product-bom.entity').ProductBom)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity').OrderEnquiryQtyBreakdown)),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-header.entity')
+            .OrderConfirmationHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-detail.entity')
+            .OrderConfirmationDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-header.entity').ContractHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-detail.entity').ContractDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/product-bom.entity').ProductBom,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
+            .OrderEnquiryQtyBreakdown,
+        ),
+      ),
       user.username,
     );
 
@@ -127,9 +167,10 @@ describe('OrderEnquiryEntry API Tests', () => {
       expect(response.body.details.length).toBe(1);
       expect(response.body.details[0].itemNo).toBe(TEST_DATA.ITEMS.ITEM_001);
       // Verify auto-calculated amount
-      const amount = typeof response.body.details[0].amount === 'string'
-        ? parseFloat(response.body.details[0].amount)
-        : response.body.details[0].amount;
+      const amount =
+        typeof response.body.details[0].amount === 'string'
+          ? parseFloat(response.body.details[0].amount)
+          : response.body.details[0].amount;
       expect(amount).toBe(1050); // 100 * 10.5
     });
 
@@ -250,7 +291,9 @@ describe('OrderEnquiryEntry API Tests', () => {
         ],
       });
 
-      const response = await apiClient.get('/api/order-enquiry/TEST-OE-READ-001');
+      const response = await apiClient.get(
+        '/api/order-enquiry/TEST-OE-READ-001',
+      );
 
       expect(response.status).toBe(200);
       expect(response.body.oeNo).toBe('TEST-OE-READ-001');
@@ -258,7 +301,9 @@ describe('OrderEnquiryEntry API Tests', () => {
     });
 
     test('READ-002: Get non-existent OE', async () => {
-      const response = await apiClient.get('/api/order-enquiry/NON-EXISTENT-OE');
+      const response = await apiClient.get(
+        '/api/order-enquiry/NON-EXISTENT-OE',
+      );
 
       expect(response.status).toBe(404);
     });
@@ -309,9 +354,10 @@ describe('OrderEnquiryEntry API Tests', () => {
       expect(response.status).toBe(201);
       expect(response.body.details.length).toBe(2);
       // Verify auto-calculated amounts
-      const amount1 = typeof response.body.details[0].amount === 'string'
-        ? parseFloat(response.body.details[0].amount)
-        : response.body.details[0].amount;
+      const amount1 =
+        typeof response.body.details[0].amount === 'string'
+          ? parseFloat(response.body.details[0].amount)
+          : response.body.details[0].amount;
       expect(amount1).toBe(1800); // 150 * 12.0
     });
   });
@@ -333,12 +379,16 @@ describe('OrderEnquiryEntry API Tests', () => {
         ],
       });
 
-      const response = await apiClient.delete('/api/order-enquiry/TEST-OE-DELETE-001');
+      const response = await apiClient.delete(
+        '/api/order-enquiry/TEST-OE-DELETE-001',
+      );
 
       expect(response.status).toBe(200);
 
       // Verify deleted
-      const getResponse = await apiClient.get('/api/order-enquiry/TEST-OE-DELETE-001');
+      const getResponse = await apiClient.get(
+        '/api/order-enquiry/TEST-OE-DELETE-001',
+      );
       expect(getResponse.status).toBe(404);
     });
   });

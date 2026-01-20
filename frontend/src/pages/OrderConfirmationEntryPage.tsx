@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
 import { DataGrid } from '../components/forms/DataGrid'
+import { Navigation } from '../components/Navigation'
 import {
   deleteOrderConfirmation,
   getOrderConfirmation,
@@ -182,7 +183,9 @@ export default function OrderConfirmationEntryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Order Confirmation - Entry</h2>
@@ -220,6 +223,7 @@ export default function OrderConfirmationEntryPage() {
             height={520}
           />
         </div>
+      </div>
       </div>
     </div>
   )

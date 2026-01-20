@@ -2,8 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { INestApplication, ValidationPipe, BadRequestException } from '@nestjs/common';
+import {
+  INestApplication,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import * as request from 'supertest';
+import { DataSource } from 'typeorm';
 import { AppModule } from '../app.module';
 import { Customer } from '../customers/entities/customer.entity';
 import { Vendor } from '../vendors/entities/vendor.entity';
@@ -20,6 +25,17 @@ import { ContractDetail } from '../contract/entities/contract-detail.entity';
 import { User } from '../users/entities/user.entity';
 import { Zstdcode } from '../reference/entities/zstdcode.entity';
 import { Zorigin } from '../reference/entities/zorigin.entity';
+import { ShippingOrder } from '../shipping-order/entities/shipping-order.entity';
+import { SoFormat } from '../shipping-order/entities/so-format.entity';
+import { DeliveryNoteHeader } from '../delivery-note/entities/delivery-note-header.entity';
+import { DeliveryNoteDetail } from '../delivery-note/entities/delivery-note-detail.entity';
+import { DeliveryNoteBreakdown } from '../delivery-note/entities/delivery-note-breakdown.entity';
+import { LoadingMaster } from '../loading/entities/loading-master.entity';
+import { LoadingAdviceHeader } from '../loading/entities/loading-advice-header.entity';
+import { LoadingAdviceDetail } from '../loading/entities/loading-advice-detail.entity';
+import { InvoiceHeader } from '../invoice/entities/invoice-header.entity';
+import { InvoiceDetail } from '../invoice/entities/invoice-detail.entity';
+import { ReportDefinition } from '../reporting/entities/report-definition.entity';
 import { TEST_DATA } from './test-data.config';
 import { ApiTestClient } from './api-test-client';
 
@@ -43,19 +59,13 @@ export async function createTestApp(): Promise<{
   // Use PostgreSQL for tests (same as production/Supabase)
   // Read from environment variables, with test-specific defaults
   const testDbHost =
-    process.env.TEST_DATABASE_HOST ||
-    process.env.DATABASE_HOST ||
-    'localhost';
+    process.env.TEST_DATABASE_HOST || process.env.DATABASE_HOST || 'localhost';
   const testDbPort = parseInt(
-    process.env.TEST_DATABASE_PORT ||
-      process.env.DATABASE_PORT ||
-      '5432',
+    process.env.TEST_DATABASE_PORT || process.env.DATABASE_PORT || '5432',
     10,
   );
   const testDbUser =
-    process.env.TEST_DATABASE_USER ||
-    process.env.DATABASE_USER ||
-    'postgres';
+    process.env.TEST_DATABASE_USER || process.env.DATABASE_USER || 'postgres';
   const testDbPassword =
     process.env.TEST_DATABASE_PASSWORD ||
     process.env.DATABASE_PASSWORD ||
@@ -105,6 +115,18 @@ export async function createTestApp(): Promise<{
           ContractDetail,
           Zstdcode,
           Zorigin,
+          // Phase 3 entities
+          ShippingOrder,
+          SoFormat,
+          DeliveryNoteHeader,
+          DeliveryNoteDetail,
+          DeliveryNoteBreakdown,
+          LoadingMaster,
+          LoadingAdviceHeader,
+          LoadingAdviceDetail,
+          InvoiceHeader,
+          InvoiceDetail,
+          ReportDefinition,
         ],
         extra: {
           max: 5, // Smaller pool for tests
@@ -150,12 +172,18 @@ export async function createTestApp(): Promise<{
   );
 
   // Global exception filter
-  const { HttpExceptionFilter } = require('../common/filters/http-exception.filter');
+  const {
+    HttpExceptionFilter,
+  } = require('../common/filters/http-exception.filter');
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // Request logging middleware
-  const { RequestLoggerMiddleware } = require('../common/middleware/request-logger.middleware');
-  app.use(new RequestLoggerMiddleware().use.bind(new RequestLoggerMiddleware()));
+  const {
+    RequestLoggerMiddleware,
+  } = require('../common/middleware/request-logger.middleware');
+  app.use(
+    new RequestLoggerMiddleware().use.bind(new RequestLoggerMiddleware()),
+  );
 
   // Set global prefix to match main.ts
   app.setGlobalPrefix('api');
@@ -272,9 +300,10 @@ export async function createTestUser(
   companyCode: string = TEST_DATA.COMPANY_CODES.HT,
 ): Promise<User> {
   // Generate unique username to avoid conflicts when tests run sequentially
-  const uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
+  const uniqueId =
+    Date.now().toString(36) + Math.random().toString(36).substring(2);
   const finalUsername = username || `${TEST_DATA.USER.USERNAME}_${uniqueId}`;
-  
+
   const bcrypt = require('bcrypt');
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -328,4 +357,21 @@ export function isUnauthorizedError(response: any): boolean {
  */
 export function isServerError(response: any): boolean {
   return response.status >= 500;
+}
+
+/**
+ * Gets the DataSource from a NestJS testing module
+ * This is a convenience function for tests that need direct database access
+ */
+export async function getTestDataSource(
+  moduleRef?: TestingModule,
+): Promise<DataSource> {
+  if (moduleRef) {
+    return moduleRef.get<DataSource>(DataSource);
+  }
+  
+  // If no moduleRef provided, create a temporary one
+  // This is less efficient but maintains backward compatibility
+  const { moduleRef: tempModuleRef } = await createTestApp();
+  return tempModuleRef.get<DataSource>(DataSource);
 }

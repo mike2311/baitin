@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
+import { Navigation } from '../components/Navigation'
 import { generateContractsFromOc } from '../services/api/contract'
 
 /**
@@ -35,7 +36,9 @@ export default function ContractGeneratePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-3xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Contract - Generate from OC</h2>
@@ -61,6 +64,7 @@ export default function ContractGeneratePage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

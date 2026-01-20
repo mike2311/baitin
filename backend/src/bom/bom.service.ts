@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
+import { Item } from '../items/entities/item.entity';
 import {
   CreateProductBomDto,
   UpdateProductBomDto,
@@ -23,6 +24,8 @@ export class BomManagementService {
   constructor(
     @InjectRepository(ProductBom)
     private readonly repo: Repository<ProductBom>,
+    @InjectRepository(Item)
+    private readonly itemRepo: Repository<Item>,
   ) {}
 
   async list(itemNo: string) {
@@ -39,6 +42,10 @@ export class BomManagementService {
     if (itemNo === subItemNo)
       throw new BadRequestException('itemNo and subItemNo cannot be the same');
 
+    // Validate that both items exist
+    await this.validateItemExists(itemNo, 'Item Number');
+    await this.validateItemExists(subItemNo, 'Sub Item Number');
+
     const entity = this.repo.create({
       itemNo,
       subItemNo,
@@ -46,6 +53,26 @@ export class BomManagementService {
       unit: dto.unit?.trim() || null,
     } as Partial<ProductBom>);
     return this.repo.save(entity);
+  }
+
+  /**
+   * Validates that an item exists in the item table
+   *
+   * @param itemNo - Item number to validate
+   * @param fieldName - Field name for error message (e.g., "Item Number" or "Sub Item Number")
+   * @throws BadRequestException if item does not exist
+   */
+  private async validateItemExists(
+    itemNo: string,
+    fieldName: string = 'Item Number',
+  ): Promise<void> {
+    const item = await this.itemRepo.findOne({
+      where: { itemNo },
+    });
+
+    if (!item) {
+      throw new BadRequestException(`${fieldName} '${itemNo}' does not exist`);
+    }
   }
 
   async update(id: string, dto: UpdateProductBomDto) {

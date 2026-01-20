@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createTestApp, getAuthToken, createTestUser, ApiTestClient } from '../test-utils/test-helpers';
+import {
+  createTestApp,
+  getAuthToken,
+  createTestUser,
+  ApiTestClient,
+} from '../test-utils/test-helpers';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
@@ -35,17 +40,57 @@ describe('OrderEnquiryEnquiry API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(getRepositoryToken(require('../customers/entities/customer.entity').Customer)),
-      moduleRef.get(getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor)),
-      moduleRef.get(getRepositoryToken(require('../items/entities/item.entity').Item)),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../customers/entities/customer.entity').Customer,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
+      ),
+      moduleRef.get(
+        getRepositoryToken(require('../items/entities/item.entity').Item),
+      ),
       oeHeaderRepo,
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-detail.entity').OrderEnquiryDetail)),
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-header.entity').OrderConfirmationHeader)),
-      moduleRef.get(getRepositoryToken(require('../order-confirmation/entities/order-confirmation-detail.entity').OrderConfirmationDetail)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-header.entity').ContractHeader)),
-      moduleRef.get(getRepositoryToken(require('../contract/entities/contract-detail.entity').ContractDetail)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/product-bom.entity').ProductBom)),
-      moduleRef.get(getRepositoryToken(require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity').OrderEnquiryQtyBreakdown)),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-detail.entity')
+            .OrderEnquiryDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-header.entity')
+            .OrderConfirmationHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-confirmation/entities/order-confirmation-detail.entity')
+            .OrderConfirmationDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-header.entity').ContractHeader,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../contract/entities/contract-detail.entity').ContractDetail,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/product-bom.entity').ProductBom,
+        ),
+      ),
+      moduleRef.get(
+        getRepositoryToken(
+          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
+            .OrderEnquiryQtyBreakdown,
+        ),
+      ),
       user.username,
     );
 
@@ -97,7 +142,9 @@ describe('OrderEnquiryEnquiry API Tests', () => {
 
   describe('SEARCH Operations', () => {
     test('SEARCH-001: Search by OE Number', async () => {
-      const response = await apiClient.get('/api/order-enquiry/enquiry?oeNo=TEST-OE-ENQUIRY-001');
+      const response = await apiClient.get(
+        '/api/order-enquiry/enquiry?oeNo=TEST-OE-ENQUIRY-001',
+      );
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
@@ -124,7 +171,9 @@ describe('OrderEnquiryEnquiry API Tests', () => {
     });
 
     test('SEARCH-004: Search by status', async () => {
-      const response = await apiClient.get('/api/order-enquiry/enquiry?status=0');
+      const response = await apiClient.get(
+        '/api/order-enquiry/enquiry?status=0',
+      );
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
@@ -140,7 +189,9 @@ describe('OrderEnquiryEnquiry API Tests', () => {
     });
 
     test('SEARCH-006: Verify aggregated data', async () => {
-      const response = await apiClient.get('/api/order-enquiry/enquiry?oeNo=TEST-OE-ENQUIRY-001');
+      const response = await apiClient.get(
+        '/api/order-enquiry/enquiry?oeNo=TEST-OE-ENQUIRY-001',
+      );
 
       expect(response.status).toBe(200);
       if (response.body.length > 0) {

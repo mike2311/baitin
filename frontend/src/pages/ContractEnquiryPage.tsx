@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
 import { DataGrid } from '../components/forms/DataGrid'
+import { Navigation } from '../components/Navigation'
 import { enquireContracts, getContractReport } from '../services/api/contract'
 import { useNavigate } from 'react-router-dom'
 
@@ -48,7 +49,9 @@ export default function ContractEnquiryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Contract - Enquiry</h2>
@@ -132,6 +135,7 @@ export default function ContractEnquiryPage() {
             <pre className="text-sm whitespace-pre-wrap">{JSON.stringify(report, null, 2)}</pre>
           </div>
         )}
+      </div>
       </div>
     </div>
   )

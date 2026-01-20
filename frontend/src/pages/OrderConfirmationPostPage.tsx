@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
+import { Navigation } from '../components/Navigation'
 import { postOeToOc } from '../services/api/orderConfirmation'
 
 /**
@@ -47,7 +48,9 @@ export default function OrderConfirmationPostPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-3xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Order Confirmation - Post OE to OC</h2>
@@ -89,6 +92,7 @@ export default function OrderConfirmationPostPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Between, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { OrderConfirmationHeader } from '../entities/order-confirmation-header.entity';
 import { OrderConfirmationDetail } from '../entities/order-confirmation-detail.entity';
 import { UpsertOrderConfirmationDto } from '../dto/order-confirmation.dto';
@@ -101,31 +101,49 @@ export class OrderConfirmationService {
     dateTo?: string;
     limit?: number;
   }) {
-    const qb = this.headerRepo.createQueryBuilder('h');
-    qb.leftJoinAndSelect('h.details', 'd');
-
+    const where: any = {};
     if (params.confNo) {
-      qb.andWhere('h.conf_no ilike :confNo', {
-        confNo: `%${params.confNo.trim()}%`,
-      });
+      where.confNo = params.confNo.trim();
     }
     if (params.custNo) {
-      qb.andWhere('h.cust_no ilike :custNo', {
-        custNo: `%${params.custNo.trim()}%`,
-      });
+      where.custNo = params.custNo.trim();
     }
-    if (params.dateFrom) {
-      qb.andWhere('h.date >= :dateFrom', { dateFrom: params.dateFrom });
-    }
-    if (params.dateTo) {
-      qb.andWhere('h.date <= :dateTo', { dateTo: params.dateTo });
+    if (params.dateFrom || params.dateTo) {
+      if (params.dateFrom && params.dateTo) {
+        where.date = Between(
+          new Date(params.dateFrom),
+          new Date(params.dateTo),
+        );
+      } else if (params.dateFrom) {
+        where.date = MoreThanOrEqual(new Date(params.dateFrom));
+      } else if (params.dateTo) {
+        where.date = LessThanOrEqual(new Date(params.dateTo));
+      }
     }
 
-    qb.orderBy('h.date', 'DESC').addOrderBy('h.conf_no', 'DESC');
-    qb.take(Math.min(params.limit ?? 200, 500));
+    const rows = await this.headerRepo.find({
+      where,
+      relations: ['details'],
+      order: { date: 'DESC', confNo: 'DESC' },
+      take: Math.min(params.limit ?? 200, 500),
+    });
 
-    const rows = await qb.getMany();
-    return rows.map((h) => ({
+    // Filter by ILIKE patterns if provided (post-query for confNo/custNo)
+    let filtered = rows;
+    if (params.confNo && !where.confNo) {
+      const pattern = params.confNo.trim().toLowerCase();
+      filtered = filtered.filter((h) =>
+        h.confNo?.toLowerCase().includes(pattern),
+      );
+    }
+    if (params.custNo && !where.custNo) {
+      const pattern = params.custNo.trim().toLowerCase();
+      filtered = filtered.filter((h) =>
+        h.custNo?.toLowerCase().includes(pattern),
+      );
+    }
+
+    return filtered.map((h) => ({
       confNo: h.confNo,
       oeNo: h.oeNo,
       date: h.date,

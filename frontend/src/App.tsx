@@ -15,6 +15,11 @@ import ContractGeneratePage from './pages/ContractGeneratePage'
 import ContractEntryPage from './pages/ContractEntryPage'
 import ContractEnquiryPage from './pages/ContractEnquiryPage'
 import BomManagementPage from './pages/BomManagementPage'
+import ShippingOrderPage from './pages/ShippingOrderPage'
+import DeliveryNotePage from './pages/DeliveryNotePage'
+import InvoicePage from './pages/InvoicePage'
+import EnquiryPage from './pages/EnquiryPage'
+import ReportBatchMigrationPage from './pages/ReportBatchMigrationPage'
 import OrderEnquiryControlPage from './pages/OrderEnquiryControlPage'
 import OrderEnquiryEntryPage from './pages/OrderEnquiryEntryPage'
 import OrderEnquiryListPage from './pages/OrderEnquiryListPage'
@@ -153,6 +158,46 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ContractEnquiryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/shipping-orders"
+              element={
+                <ProtectedRoute>
+                  <ShippingOrderPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/delivery-notes"
+              element={
+                <ProtectedRoute>
+                  <DeliveryNotePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/invoices"
+              element={
+                <ProtectedRoute>
+                  <InvoicePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/enquiries"
+              element={
+                <ProtectedRoute>
+                  <EnquiryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports/migration"
+              element={
+                <ProtectedRoute>
+                  <ReportBatchMigrationPage />
                 </ProtectedRoute>
               }
             />

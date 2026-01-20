@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { TextInput } from '../components/forms/TextInput'
 import { Button } from '../components/ui/button'
 import { DataGrid } from '../components/forms/DataGrid'
+import { Navigation } from '../components/Navigation'
 import { Contract, ContractDetail, deleteContract, getContract, upsertContract } from '../services/api/contract'
 
 type Row = Omit<ContractDetail, 'id'> & { id: string; isDirty?: boolean; isNew?: boolean }
@@ -200,7 +201,9 @@ export default function ContractEntryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="p-6">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="bg-white rounded-lg shadow p-4 space-y-4">
           <h2 className="text-xl font-semibold">Contract - Entry</h2>
@@ -243,6 +246,7 @@ export default function ContractEntryPage() {
             height={520}
           />
         </div>
+      </div>
       </div>
     </div>
   )

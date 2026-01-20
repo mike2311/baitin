@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Between, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { ContractHeader } from '../entities/contract-header.entity';
 import { ContractDetail } from '../entities/contract-detail.entity';
 import { UpsertContractDto } from '../dto/contract.dto';
@@ -106,36 +106,58 @@ export class ContractService {
     dateTo?: string;
     limit?: number;
   }) {
-    const qb = this.headerRepo.createQueryBuilder('h');
-    qb.leftJoinAndSelect('h.details', 'd');
-
+    const where: any = {};
     if (params.contNo) {
-      qb.andWhere('h.cont_no ilike :contNo', {
-        contNo: `%${params.contNo.trim()}%`,
-      });
+      where.contNo = params.contNo.trim();
     }
     if (params.confNo) {
-      qb.andWhere('h.conf_no ilike :confNo', {
-        confNo: `%${params.confNo.trim()}%`,
-      });
+      where.confNo = params.confNo.trim();
     }
     if (params.vendorNo) {
-      qb.andWhere('h.vendor_no ilike :vendorNo', {
-        vendorNo: `%${params.vendorNo.trim()}%`,
-      });
+      where.vendorNo = params.vendorNo.trim();
     }
-    if (params.dateFrom) {
-      qb.andWhere('h.date >= :dateFrom', { dateFrom: params.dateFrom });
-    }
-    if (params.dateTo) {
-      qb.andWhere('h.date <= :dateTo', { dateTo: params.dateTo });
+    if (params.dateFrom || params.dateTo) {
+      if (params.dateFrom && params.dateTo) {
+        where.date = Between(
+          new Date(params.dateFrom),
+          new Date(params.dateTo),
+        );
+      } else if (params.dateFrom) {
+        where.date = MoreThanOrEqual(new Date(params.dateFrom));
+      } else if (params.dateTo) {
+        where.date = LessThanOrEqual(new Date(params.dateTo));
+      }
     }
 
-    qb.orderBy('h.date', 'DESC').addOrderBy('h.cont_no', 'DESC');
-    qb.take(Math.min(params.limit ?? 200, 500));
+    const rows = await this.headerRepo.find({
+      where,
+      relations: ['details'],
+      order: { date: 'DESC', contNo: 'DESC' },
+      take: Math.min(params.limit ?? 200, 500),
+    });
 
-    const rows = await qb.getMany();
-    return rows.map((h) => ({
+    // Filter by ILIKE patterns if provided (post-query for contNo/confNo/vendorNo)
+    let filtered = rows;
+    if (params.contNo && !where.contNo) {
+      const pattern = params.contNo.trim().toLowerCase();
+      filtered = filtered.filter((h) =>
+        h.contNo?.toLowerCase().includes(pattern),
+      );
+    }
+    if (params.confNo && !where.confNo) {
+      const pattern = params.confNo.trim().toLowerCase();
+      filtered = filtered.filter((h) =>
+        h.confNo?.toLowerCase().includes(pattern),
+      );
+    }
+    if (params.vendorNo && !where.vendorNo) {
+      const pattern = params.vendorNo.trim().toLowerCase();
+      filtered = filtered.filter((h) =>
+        h.vendorNo?.toLowerCase().includes(pattern),
+      );
+    }
+
+    return filtered.map((h) => ({
       contNo: h.contNo,
       confNo: h.confNo,
       date: h.date,

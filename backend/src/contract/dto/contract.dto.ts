@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsDateString,
   IsInt,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,95 +14,106 @@ import {
 import { Type } from 'class-transformer';
 
 export class ContractDetailDto {
-  @IsInt()
-  @Min(1)
+  @IsInt({ message: 'Line Number must be an integer' })
+  @IsNotEmpty({ message: 'Line Number is required' })
+  @Min(1, { message: 'Line Number must be at least 1' })
   lineNo: number;
 
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Item Number must be a string' })
+  @IsNotEmpty({ message: 'Item Number is required' })
+  @MaxLength(50, { message: 'Item Number cannot exceed 50 characters' })
   itemNo: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Vendor Number must be a string' })
+  @MaxLength(50, { message: 'Vendor Number cannot exceed 50 characters' })
   vendorNo?: string;
 
-  @IsNumber()
-  @Min(0.0001)
+  @IsNumber({}, { message: 'Quantity must be a number' })
+  @IsNotEmpty({ message: 'Quantity is required' })
+  @Min(0.0001, { message: 'Quantity must be greater than 0' })
   qty: number;
 
   @IsOptional()
-  @IsInt()
-  @Min(0)
+  @IsInt({ message: 'Carton must be an integer' })
+  @Min(0, { message: 'Carton cannot be negative' })
   ctn?: number;
 
   @IsOptional()
-  @IsNumber()
-  @Min(0)
+  @IsNumber({}, { message: 'Price must be a number' })
+  @Min(0, { message: 'Price cannot be negative' })
   price?: number;
 
   @IsOptional()
-  @IsNumber()
-  @Min(0)
+  @IsNumber({}, { message: 'Cost must be a number' })
+  @Min(0, { message: 'Cost cannot be negative' })
   cost?: number;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBoolean({ message: 'Head must be a boolean' })
   head?: boolean;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'Description Memo must be a string' })
   descMemo?: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'Item Memo must be a string' })
   itemMemo?: string;
 }
 
 export class UpsertContractDto {
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Contract Number must be a string' })
+  @IsNotEmpty({ message: 'Contract Number is required' })
+  @MaxLength(50, { message: 'Contract Number cannot exceed 50 characters' })
   contNo: string;
 
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Confirmation Number must be a string' })
+  @IsNotEmpty({ message: 'Confirmation Number is required' })
+  @MaxLength(50, { message: 'Confirmation Number cannot exceed 50 characters' })
   confNo: string;
 
-  @IsDateString()
+  @IsDateString({}, { message: 'Date must be a valid date string' })
+  @IsNotEmpty({ message: 'Date is required' })
   date: string;
 
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Vendor Number must be a string' })
+  @IsNotEmpty({ message: 'Vendor Number is required' })
+  @MaxLength(50, { message: 'Vendor Number cannot exceed 50 characters' })
   vendorNo: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Payment must be a string' })
+  @MaxLength(50, { message: 'Payment cannot exceed 50 characters' })
   payment?: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'Remark must be a string' })
   remark?: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsDateString(
+    {},
+    { message: 'Required Date From must be a valid date string' },
+  )
   reqDateFr?: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsDateString({}, { message: 'Required Date To must be a valid date string' })
   reqDateTo?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(20)
+  @IsString({ message: 'Currency Code must be a string' })
+  @MaxLength(20, { message: 'Currency Code cannot exceed 20 characters' })
   curCode?: string;
 
   @IsOptional()
-  @IsString()
-  @MaxLength(50)
+  @IsString({ message: 'Ship To must be a string' })
+  @MaxLength(50, { message: 'Ship To cannot exceed 50 characters' })
   shipTo?: string;
 
-  @IsArray()
+  @IsArray({ message: 'Details must be an array' })
+  @IsNotEmpty({ message: 'At least one detail line is required' })
   @ValidateNested({ each: true })
   @Type(() => ContractDetailDto)
   details: ContractDetailDto[];

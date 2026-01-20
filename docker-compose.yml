@@ -18,7 +18,26 @@ services:
       timeout: 5s
       retries: 5
 
+  # Test database for Phase 2 tests
+  postgres-test:
+    image: postgres:14-alpine
+    container_name: baitin_poc_postgres_test
+    environment:
+      POSTGRES_DB: baitin_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"  # Different port to avoid conflict with main postgres
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d baitin_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
+  postgres_test_data:
 
 
