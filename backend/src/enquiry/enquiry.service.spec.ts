@@ -44,7 +44,7 @@ describe('EnquiryService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getSalesAnalysis', () => {
+  describe('salesAnalysis', () => {
     it('should return sales analysis by customer', async () => {
       const query: any = {
         analysisType: 'by_customer',
@@ -71,7 +71,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue(mockData);
 
-      const result = await service.getSalesAnalysis(query);
+      const result = await service.salesAnalysis(query);
 
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
@@ -105,7 +105,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue(mockData);
 
-      const result = await service.getSalesAnalysis(query);
+      const result = await service.salesAnalysis(query);
 
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
@@ -140,7 +140,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue(mockData);
 
-      const result = await service.getSalesAnalysis(query);
+      const result = await service.salesAnalysis(query);
 
       expect(result).toEqual(mockData);
       expect(mockDataSource.query).toHaveBeenCalledWith(
@@ -159,7 +159,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue([]);
 
-      await service.getSalesAnalysis(query);
+      await service.salesAnalysis(query);
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('AND i.cust_no ='),
@@ -177,7 +177,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue([]);
 
-      await service.getSalesAnalysis(query);
+      await service.salesAnalysis(query);
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('AND id.item_no ='),
@@ -415,7 +415,7 @@ describe('EnquiryService', () => {
     });
   });
 
-  describe('getInvoiceEnquiry', () => {
+  describe('invoiceEnquiry', () => {
     it('should return invoice enquiry with details', async () => {
       const query: any = {
         invNo: 'INV001',
@@ -443,7 +443,7 @@ describe('EnquiryService', () => {
       mockDataSource.query.mockResolvedValueOnce(mockData);
       mockDataSource.query.mockResolvedValueOnce(mockData.items);
 
-      const result = await service.getInvoiceEnquiry(query);
+      const result = await service.invoiceEnquiry(query);
 
       expect(result.invNo).toBe('INV001');
       expect(result.items).toHaveLength(1);
@@ -474,7 +474,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue(mockData);
 
-      const result = await service.getInvoiceEnquiry(query);
+      const result = await service.invoiceEnquiry(query);
 
       expect(result).toHaveLength(2);
       expect(mockDataSource.query).toHaveBeenCalledWith(
@@ -505,7 +505,7 @@ describe('EnquiryService', () => {
       mockDataSource.query.mockResolvedValue(mockLargeData);
 
       const startTime = Date.now();
-      const result = await service.getSalesAnalysis(query);
+      const result = await service.salesAnalysis(query);
       const endTime = Date.now();
 
       expect(result).toHaveLength(1000);
@@ -522,7 +522,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue([]);
 
-      await service.getSalesAnalysis(query);
+      await service.salesAnalysis(query);
 
       const queryCall = mockDataSource.query.mock.calls[0][0];
       expect(queryCall).toContain('WHERE'); // Should have WHERE clause for filtering
@@ -540,7 +540,7 @@ describe('EnquiryService', () => {
         new Error('Database connection failed'),
       );
 
-      await expect(service.getSalesAnalysis(query)).rejects.toThrow(
+      await expect(service.salesAnalysis(query)).rejects.toThrow(
         'Database connection failed',
       );
     });
@@ -550,7 +550,7 @@ describe('EnquiryService', () => {
         analysisType: 'invalid_type',
       };
 
-      await expect(service.getSalesAnalysis(invalidQuery)).rejects.toThrow(
+      await expect(service.salesAnalysis(invalidQuery)).rejects.toThrow(
         'Invalid analysis type',
       );
     });
@@ -564,7 +564,7 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValue([]);
 
-      const result = await service.getSalesAnalysis(query);
+      const result = await service.salesAnalysis(query);
 
       expect(result).toEqual([]);
     });

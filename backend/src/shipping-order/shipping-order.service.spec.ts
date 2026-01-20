@@ -286,22 +286,23 @@ describe('ShippingOrderService', () => {
 
       const mockSo = {
         soNo: 'SO001',
+        itemNo: 'ITEM001',
         qty: 100,
-        price: 10.5,
+        creDate: new Date(),
         modDate: new Date(),
       };
 
       jest
         .spyOn(shippingOrderRepository, 'findOne')
-        .mockResolvedValue(mockSo as ShippingOrder);
+        .mockResolvedValue(mockSo as any);
       jest
         .spyOn(shippingOrderRepository, 'save')
-        .mockResolvedValue({ ...mockSo, ...updateDto } as ShippingOrder);
+        .mockResolvedValue({ ...mockSo, qty: 150 } as any);
 
       const result = await service.update('SO001', updateDto as any);
 
       expect(result.qty).toBe(150);
-      expect(result.price).toBe(11.0);
+      expect(result.soNo).toBe('SO001');
       expect(shippingOrderRepository.save).toHaveBeenCalled();
     });
   });
