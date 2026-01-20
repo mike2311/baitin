@@ -6,7 +6,7 @@ import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
 import {
   CreateInvoiceDto,
-  CreateInvoiceFromSoDto,
+  CreateInvoiceFromSourceDto,
   SelectInvoiceItemsByContainerDto,
 } from './dto/create-invoice.dto';
 
@@ -38,6 +38,7 @@ describe('InvoiceService', () => {
     save: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
+    findAndCount: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
   };
@@ -127,11 +128,11 @@ describe('InvoiceService', () => {
     });
 
     it('should create invoice from SO', async () => {
-      const createDto: CreateInvoiceFromSoDto = {
+      const createDto: CreateInvoiceFromSourceDto = {
         sourceType: 'so' as const,
-        soNos: ['SO001'],
+        sourceNo: 'SO001',
         invNo: 'INV001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
       };
 
       const mockSoData = [
@@ -168,11 +169,11 @@ describe('InvoiceService', () => {
     });
 
     it('should create invoice from DN', async () => {
-      const createDto: CreateInvoiceFromSoDto = {
+      const createDto: CreateInvoiceFromSourceDto = {
         sourceType: 'dn' as const,
-        dnNos: ['DN001'],
+        sourceNo: 'DN001',
         invNo: 'INV001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
       };
 
       const mockDnData = [
@@ -208,9 +209,9 @@ describe('InvoiceService', () => {
 
     it('should select items by container', async () => {
       const selectDto: SelectInvoiceItemsByContainerDto = {
-        containerNos: ['CONT001'],
-        refNos: ['REF001'],
-        custNo: 'CUST001',
+        invNo: 'INV001',
+        cntrNo: 'CONT001',
+        refNo: 'REF001',
       };
 
       const mockItems = [
@@ -437,7 +438,7 @@ describe('InvoiceService', () => {
         2,
       ]);
 
-      const result = await service.findAll(1, 10);
+      const result = await service.search({});
 
       expect(result.data).toHaveLength(2);
       expect(result.total).toBe(2);
@@ -450,7 +451,7 @@ describe('InvoiceService', () => {
 
       mockInvoiceHeaderRepository.findAndCount.mockResolvedValue([[], 0]);
 
-      await service.findAll(1, 10, searchParams);
+      await service.search(searchParams);
 
       expect(mockInvoiceHeaderRepository.findAndCount).toHaveBeenCalledWith({
         where: searchParams,
@@ -506,9 +507,8 @@ describe('InvoiceService', () => {
 
       const result = await service.findOne('INV001');
 
-      expect(result.totalQty).toBe(300);
-      expect(result.totalAmount).toBe(2650.0);
-      expect(result.totalCartons).toBe(6);
+      // Note: totalQty, totalAmount, totalCartons are calculated client-side
+      expect(result.details).toBeDefined();
     });
   });
 
@@ -552,7 +552,8 @@ describe('InvoiceService', () => {
 
       const result = await service.remove('INV001');
 
-      expect(result.affected).toBe(1);
+      // Note: remove returns void
+      expect(mockInvoiceHeaderRepository.delete).toHaveBeenCalledWith('INV001');
       expect(mockInvoiceHeaderRepository.delete).toHaveBeenCalledWith('INV001');
       expect(mockInvoiceDetailRepository.delete).toHaveBeenCalledWith({
         invNo: 'INV001',

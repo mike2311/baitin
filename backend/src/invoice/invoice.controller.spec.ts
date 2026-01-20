@@ -5,7 +5,7 @@ import { InvoiceValidationService } from './invoice-validation.service';
 import { InvoiceDocumentService } from './invoice-document.service';
 import {
   CreateInvoiceDto,
-  CreateInvoiceFromSoDto,
+  CreateInvoiceFromSourceDto,
   SelectInvoiceItemsByContainerDto,
 } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
@@ -123,9 +123,9 @@ describe('InvoiceController', () => {
 
   describe('createFromSource', () => {
     it('should create invoice from SO', async () => {
-      const createDto: CreateInvoiceFromSoDto = {
+      const createDto: CreateInvoiceFromSourceDto = {
         sourceType: 'so' as const,
-        soNos: ['SO001'],
+        sourceNo: 'SO001',
         invNo: 'INV001',
         date: '2025-01-15',
       };
@@ -147,9 +147,9 @@ describe('InvoiceController', () => {
     });
 
     it('should create invoice from DN', async () => {
-      const createDto: CreateInvoiceFromSoDto = {
+      const createDto: CreateInvoiceFromSourceDto = {
         sourceType: 'dn' as const,
-        dnNos: ['DN001'],
+        sourceNo: 'DN001',
         invNo: 'INV001',
         date: '2025-01-15',
       };
@@ -174,9 +174,9 @@ describe('InvoiceController', () => {
   describe('selectItemsByContainer', () => {
     it('should select items by container', async () => {
       const selectDto: SelectInvoiceItemsByContainerDto = {
-        containerNos: ['CONT001'],
-        refNos: ['REF001'],
-        custNo: 'CUST001',
+        invNo: 'INV001',
+        cntrNo: 'CONT001',
+        refNo: 'REF001',
       };
 
       const mockResult = [
