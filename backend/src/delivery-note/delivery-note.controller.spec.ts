@@ -62,15 +62,11 @@ describe('DeliveryNoteController', () => {
         date: '2025-01-15',
         custNo: 'CUST001',
         soNo: 'SO001',
-        delAddr: 'Test Address',
+        delAddr1: 'Test Address',
         details: [
           {
             itemNo: 'ITEM001',
             qty: 100,
-            breakdowns: [
-              { port: 'PORT1', qty: 50 },
-              { port: 'PORT2', qty: 50 },
-            ],
           },
         ],
       };
@@ -123,10 +119,6 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            breakdowns: [
-              { port: 'PORT1', qty: 50 },
-              { port: 'PORT2', qty: 50 },
-            ],
           },
         ],
       };
@@ -238,10 +230,6 @@ describe('DeliveryNoteController', () => {
           {
             itemNo: 'ITEM001',
             qty: 100,
-            breakdowns: [
-              { port: 'PORT1', qty: 50 },
-              { port: 'PORT2', qty: 50 },
-            ],
           },
         ],
       };
@@ -311,7 +299,7 @@ describe('DeliveryNoteController', () => {
 
       mockDeliveryNoteService.search.mockResolvedValue(mockResult as any);
 
-      const result = await controller.search(searchParams);
+      const result = await controller.search(searchParams as any);
 
       expect(result).toEqual(mockResult);
       expect(mockDeliveryNoteService.search).toHaveBeenCalledWith(searchParams);
@@ -354,16 +342,10 @@ describe('DeliveryNoteController', () => {
         mockResult as any,
       );
 
-      const result = await controller.getAvailableItemsForDn(
-        'SO001,SO002',
-        'CUST001',
-      );
+      const result = await controller.getAvailableItemsForDn('SO001,SO002');
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableSoItems).toHaveBeenCalledWith(
-        'SO001,SO002',
-        'CUST001',
-      );
+      expect(mockDeliveryNoteService.getAvailableItemsForDn).toHaveBeenCalledWith('SO001,SO002');
     });
   });
 

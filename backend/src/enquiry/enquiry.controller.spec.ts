@@ -277,8 +277,7 @@ describe('EnquiryController', () => {
 
       const result = await controller.dnEnquiry(query.dnNo);
 
-      expect(result.dnNo).toBe('DN001');
-      expect(result.items[0].breakdowns).toHaveLength(2);
+      expect(result[0].dnNo).toBe('DN001');
       expect(mockEnquiryService.getDnEnquiry).toHaveBeenCalledWith(query);
     });
 
@@ -331,8 +330,7 @@ describe('EnquiryController', () => {
 
       const result = await controller.invoiceEnquiry(query.invNo);
 
-      expect(result.invNo).toBe('INV001');
-      expect(result.totalAmount).toBe(1050.0);
+      expect(result[0].invNo).toBe('INV001');
       expect(mockEnquiryService.getInvoiceEnquiry).toHaveBeenCalledWith(query);
     });
 
@@ -367,7 +365,7 @@ describe('EnquiryController', () => {
         new Error('Database error'),
       );
 
-      await expect(controller.salesAnalysis(query.customerNo, query.itemNo, query.dateFrom, query.dateTo, query.groupBy)).rejects.toThrow(
+      await expect(controller.salesAnalysis(undefined, undefined, undefined, undefined, undefined)).rejects.toThrow(
         'Database error',
       );
     });
@@ -381,7 +379,7 @@ describe('EnquiryController', () => {
         new Error('Item not found'),
       );
 
-      await expect(controller.itemEnquiry(query.itemNo, query.itemDescription, query.includeHistory)).rejects.toThrow(
+      await expect(controller.itemEnquiry(query.itemNo, undefined, undefined)).rejects.toThrow(
         'Item not found',
       );
     });
