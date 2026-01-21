@@ -427,7 +427,8 @@ describe('LoadingService', () => {
 
       const result = await service.searchLoadingMasters();
 
-      expect(result).toHaveLength(2);
+      expect(result.data).toHaveLength(2);
+      expect(result.total).toBe(2);
     });
 
     it('should handle search filters', async () => {
@@ -497,6 +498,7 @@ describe('LoadingService', () => {
       // Should allow Planned → In Progress
       const result = await service.updateLoadingMasterStatus('LOAD001', 'In Progress');
       expect(result.status).toBe('In Progress');
+      expect(mockLoadingMasterRepository.save).toHaveBeenCalled();
     });
 
     it('should prevent invalid transitions', async () => {

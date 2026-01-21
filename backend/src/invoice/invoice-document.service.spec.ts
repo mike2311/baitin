@@ -615,7 +615,7 @@ describe('InvoiceDocumentService', () => {
       expect(result.length).toBeGreaterThan(0);
       const content = result.toString();
       expect(content).toContain('INV001');
-      expect(content).toContain('PACKING LIST');
+      expect(content).toContain('PACKING_LIST');
     });
 
     it('should limit PDF content for large datasets', async () => {

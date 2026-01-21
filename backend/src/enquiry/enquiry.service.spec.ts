@@ -82,10 +82,8 @@ describe('EnquiryService', () => {
 
     it('should return sales analysis by date', async () => {
       const query: any = {
-        groupBy: undefined,
-        dateFrom: '2025-01-01',
-        dateTo: '2025-01-31',
-        groupBy: 'month',
+        dateFrom: new Date('2025-01-01'),
+        dateTo: new Date('2025-01-31'),
       };
 
       const mockData = [

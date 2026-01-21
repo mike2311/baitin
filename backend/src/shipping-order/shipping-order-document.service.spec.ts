@@ -392,7 +392,7 @@ describe('ShippingOrderDocumentService', () => {
 
       const result = await (service as any).getFormatConfig(formatKey);
 
-      expect(result).toEqual([]);
+      expect(result).toBeNull();
     });
   });
 });
