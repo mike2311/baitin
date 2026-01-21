@@ -568,7 +568,8 @@ describe('EnquiryService', () => {
 
       const result = await service.salesAnalysis(query);
 
-      expect(result).toEqual([]);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(0);
     });
   });
 });

@@ -422,7 +422,9 @@ describe('LoadingService', () => {
       };
 
       mockLoadingMasterRepository.createQueryBuilder = jest.fn(() => ({
+        where: jest.fn().mockReturnThis(),
         andWhere: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
         getMany: jest.fn().mockResolvedValue(mockResult.data as any),
       }));
 
