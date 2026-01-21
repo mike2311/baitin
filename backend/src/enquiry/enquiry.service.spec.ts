@@ -188,36 +188,40 @@ describe('EnquiryService', () => {
         dateTo: '2025-01-31',
       };
 
-      const mockData = [
+      const mockItemData = {
+        item_no: 'ITEM001',
+        item_description: 'Test Item',
+        std_code: 'STD001',
+        origin: 'CN',
+        price: 25.0,
+        cost: 20.0,
+        total_ordered_qty: 500,
+        total_confirmed_qty: 450,
+        total_shipped_qty: 400,
+        total_invoiced_qty: 350,
+        last_order_date: '2025-01-30',
+        last_invoice_date: '2025-01-28',
+      };
+
+      const mockTransactions = [
         {
-          itemNo: 'ITEM001',
-          itemName: 'Test Item',
-          description: 'Test item description',
-          totalSold: 500,
-          totalRevenue: 12500.0,
-          lastSoldDate: '2025-01-30',
-          avgPrice: 25.0,
-          transactions: [
-            {
-              date: '2025-01-15',
-              invoiceNo: 'INV001',
-              qty: 100,
-              price: 25.0,
-              customer: 'CUST001',
-            },
-            {
-              date: '2025-01-30',
-              invoiceNo: 'INV002',
-              qty: 200,
-              price: 25.0,
-              customer: 'CUST002',
-            },
-          ],
+          inv_no: 'INV001',
+          inv_date: '2025-01-15',
+          qty: 100,
+          amount: 2500.0,
+          cust_no: 'CUST001',
+        },
+        {
+          inv_no: 'INV002',
+          inv_date: '2025-01-30',
+          qty: 200,
+          amount: 5000.0,
+          cust_no: 'CUST002',
         },
       ];
 
-      mockDataSource.query.mockResolvedValueOnce([mockData[0]]); // Item summary as array
-      mockDataSource.query.mockResolvedValueOnce(mockData[0].transactions); // Transactions
+      mockDataSource.query.mockResolvedValueOnce([mockItemData]); // Item summary
+      mockDataSource.query.mockResolvedValueOnce(mockTransactions); // Transactions
 
       const result = await service.itemEnquiry(query);
 
@@ -268,7 +272,14 @@ describe('EnquiryService', () => {
           customer: 'CUST001',
         }));
 
-      mockDataSource.query.mockResolvedValueOnce([{}]);
+      mockDataSource.query.mockResolvedValueOnce([{
+        item_no: 'ITEM001',
+        item_description: 'Test Item',
+        total_ordered_qty: 0,
+        total_confirmed_qty: 0,
+        total_shipped_qty: 0,
+        total_invoiced_qty: 0,
+      }]);
       mockDataSource.query.mockResolvedValueOnce(mockTransactions);
 
       const result = await service.itemEnquiry(query);
