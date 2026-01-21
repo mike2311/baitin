@@ -225,9 +225,9 @@ describe('ReportSeederService', () => {
       const reportKeys = transactionReports.map((r) => r.reportKey);
       expect(reportKeys).toContain('pordenq');
       expect(reportKeys).toContain('pconfirm');
-      expect(reportKeys).toContain('pcontract@_2018');
+      expect(reportKeys).toContain('pcontract_2018');
       expect(reportKeys).toContain('pso');
-      expect(reportKeys).toContain('pinv@');
+      expect(reportKeys).toContain('pinv');
       expect(reportKeys).toContain('pdn');
     });
 
