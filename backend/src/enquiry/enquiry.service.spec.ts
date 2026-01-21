@@ -151,7 +151,7 @@ describe('EnquiryService', () => {
         customerNo: 'CUST001',
       };
 
-      mockDataSource.query.mockResolvedValue([]);
+      mockDataSource.query.mockResolvedValueOnce([]);
 
       await service.salesAnalysis(query);
 
@@ -169,7 +169,7 @@ describe('EnquiryService', () => {
         itemNo: 'ITEM001',
       };
 
-      mockDataSource.query.mockResolvedValue([]);
+      mockDataSource.query.mockResolvedValueOnce([]);
 
       await service.salesAnalysis(query);
 
@@ -446,20 +446,30 @@ describe('EnquiryService', () => {
 
       const mockData = [
         {
-          invNo: 'INV001',
-          ocNo: 'OC001',
+          inv_no: 'INV001',
+          oc_no: 'OC001',
           date: '2025-01-15',
-          plStatus: 'Not Printed',
+          pl_status: 'Not Printed',
+          cust_no: 'CUST001',
+          customer_name: 'Test Customer',
+          item_count: 1,
+          total_amount: 1000.0,
+          cre_date: '2025-01-10',
         },
         {
-          invNo: 'INV002',
-          ocNo: 'OC001',
+          inv_no: 'INV002',
+          oc_no: 'OC001',
           date: '2025-01-20',
-          plStatus: 'Printed',
+          pl_status: 'Printed',
+          cust_no: 'CUST001',
+          customer_name: 'Test Customer',
+          item_count: 1,
+          total_amount: 2000.0,
+          cre_date: '2025-01-15',
         },
       ];
 
-      mockDataSource.query.mockResolvedValue(mockData);
+      mockDataSource.query.mockResolvedValueOnce(mockData);
 
       const result = await service.invoiceEnquiry(query);
 
@@ -482,14 +492,15 @@ describe('EnquiryService', () => {
       const mockLargeData = Array(1000)
         .fill({})
         .map((_, i) => ({
-          customer: `CUST${i}`,
-          customerName: `Customer ${i}`,
-          totalInvoices: Math.floor(Math.random() * 10) + 1,
-          totalAmount: Math.random() * 10000,
-          totalQty: Math.floor(Math.random() * 1000) + 100,
+          cust_no: `CUST${i}`,
+          customer_name: `Customer ${i}`,
+          invoice_count: Math.floor(Math.random() * 10) + 1,
+          total_amount: Math.random() * 10000,
+          total_qty: Math.floor(Math.random() * 1000) + 100,
+          so_count: 0,
         }));
 
-      mockDataSource.query.mockResolvedValue(mockLargeData);
+      mockDataSource.query.mockResolvedValueOnce(mockLargeData);
 
       const startTime = Date.now();
       const result = await service.salesAnalysis(query);
@@ -507,7 +518,7 @@ describe('EnquiryService', () => {
         customerNo: 'CUST001',
       };
 
-      mockDataSource.query.mockResolvedValue([]);
+      mockDataSource.query.mockResolvedValueOnce([]);
 
       await service.salesAnalysis(query);
 
