@@ -71,12 +71,12 @@ describe('LoadingService', () => {
       commitTransaction: jest.fn(),
       rollbackTransaction: jest.fn(),
       release: jest.fn(),
-      manager: {
-        save: jest.fn(),
-        update: jest.fn(),
-        create: jest.fn(),
-        query: jest.fn(),
-      },
+        manager: {
+          save: jest.fn(),
+          update: jest.fn(),
+          create: jest.fn(),
+          query: jest.fn().mockResolvedValue([{ exists: true }]),
+        },
     })),
     query: jest.fn(),
     transaction: jest.fn(),

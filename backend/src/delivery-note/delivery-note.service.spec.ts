@@ -79,9 +79,14 @@ describe('DeliveryNoteService', () => {
       rollbackTransaction: jest.fn(),
       release: jest.fn(),
       manager: {
-        save: jest.fn(),
-        update: jest.fn(),
-        create: jest.fn(),
+        save: jest.fn().mockImplementation((entity, data) => {
+          if (entity && entity.name === 'DeliveryNoteHeader') {
+            return Promise.resolve({ dnNo: data.dnNo || 'DN001', ...data });
+          }
+          return Promise.resolve(data);
+        }),
+        update: jest.fn().mockResolvedValue({ affected: 1 }),
+        create: jest.fn().mockImplementation((entity, data) => data),
         query: jest.fn().mockResolvedValue([{ exists: true }]),
       },
     })),
@@ -209,8 +214,13 @@ describe('DeliveryNoteService', () => {
         },
       ];
 
+      // getSoItems query returns SO items with SQL column names
+      const mockSoItems = [
+        { so_no: 'SO001', item_no: 'ITEM001', qty: 100, ctn: 2, po_no: 'PO001', ship_no: null, cntr_no: null, ref_no: null, oc_no: null, conf_no: null },
+      ];
       mockDataSource.query
-        .mockResolvedValueOnce(mockSoData) // SO data
+        .mockResolvedValueOnce(mockSoItems) // getSoItems
+        .mockResolvedValueOnce([{ cust_no: 'CUST001' }]) // getSoHeader
         .mockResolvedValueOnce(mockOeBreakdown); // OE breakdown
 
       mockDeliveryNoteHeaderRepository.create.mockReturnValue({} as any);
@@ -253,7 +263,13 @@ describe('DeliveryNoteService', () => {
         },
       ];
 
-      mockDataSource.query.mockResolvedValue(mockSoData);
+      const mockSoItems = [
+        { so_no: 'SO001', item_no: 'ITEM001', qty: 100, ctn: 2 },
+        { so_no: 'SO002', item_no: 'ITEM002', qty: 200, ctn: 4 },
+      ];
+      mockDataSource.query
+        .mockResolvedValueOnce(mockSoItems) // getSoItems
+        .mockResolvedValueOnce([{ cust_no: 'CUST001' }]); // getSoHeader
       mockDeliveryNoteHeaderRepository.create.mockReturnValue({} as any);
       mockDeliveryNoteHeaderRepository.save.mockResolvedValue({} as any);
       mockDeliveryNoteDetailRepository.create.mockReturnValue({} as any);
