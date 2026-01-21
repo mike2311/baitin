@@ -33,6 +33,7 @@ describe('LoadingController', () => {
     findAll: jest.fn(),
     findOne: jest.fn(),
     updateLoadingStatus: jest.fn(),
+    updateLoadingMasterStatus: jest.fn(),
     remove: jest.fn(),
     search: jest.fn(),
     getContainerAssignments: jest.fn(),
@@ -255,7 +256,7 @@ describe('LoadingController', () => {
         status: 'Completed',
       };
 
-      mockLoadingService.updateLoadingStatus.mockResolvedValue(
+      mockLoadingService.updateLoadingMasterStatus.mockResolvedValue(
         mockResult as any,
       );
 
@@ -265,14 +266,14 @@ describe('LoadingController', () => {
       );
 
       expect(result).toEqual(mockResult);
-      expect(mockLoadingService.updateLoadingStatus).toHaveBeenCalledWith(
+      expect(mockLoadingService.updateLoadingMasterStatus).toHaveBeenCalledWith(
         'LOAD001',
         'Completed',
       );
     });
 
     it('should handle status update errors', async () => {
-      mockLoadingService.updateLoadingStatus.mockRejectedValue(
+      mockLoadingService.updateLoadingMasterStatus.mockRejectedValue(
         new Error('Invalid transition'),
       );
 
@@ -368,7 +369,7 @@ describe('LoadingController', () => {
     });
 
     it('should handle update errors', async () => {
-      mockLoadingService.updateLoadingStatus.mockRejectedValue(
+      mockLoadingService.updateLoadingMasterStatus.mockRejectedValue(
         new Error('Status update failed'),
       );
 
