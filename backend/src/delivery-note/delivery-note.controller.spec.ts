@@ -200,22 +200,21 @@ describe('DeliveryNoteController', () => {
     });
 
     it('should handle search filters', async () => {
-      const searchParams = { dnNo: 'DN001', custNo: 'CUST001' };
+      const mockResult = [{dnNo: 'DN001', custNo: 'CUST001'}];
 
-      mockDeliveryNoteService.findAll.mockResolvedValue({
-        data: [],
-        total: 0,
-        page: 1,
-        limit: 10,
-      } as any);
+      mockDeliveryNoteService.search.mockResolvedValue(mockResult as any);
 
-      await controller.search(searchParams as any);
+      const result = await controller.search('DN001', 'CUST001');
 
-      expect(mockDeliveryNoteService.findAll).toHaveBeenCalledWith(
-        1,
-        10,
-        searchParams,
-      );
+      expect(result).toEqual(mockResult);
+      expect(mockDeliveryNoteService.search).toHaveBeenCalledWith({
+        dnNo: 'DN001',
+        custNo: 'CUST001',
+        soNo: undefined,
+        dateFrom: undefined,
+        dateTo: undefined,
+        loadingStatus: undefined,
+      });
     });
   });
 

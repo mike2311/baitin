@@ -286,15 +286,20 @@ describe('InvoiceController', () => {
 
   describe('search', () => {
     it('should search invoices', async () => {
-      const searchParams = { invNo: 'INV001', custNo: 'CUST001' };
       const mockResult = [{ invNo: 'INV001', custNo: 'CUST001' }];
 
       mockInvoiceService.search.mockResolvedValue(mockResult as any);
 
-      const result = await controller.search(searchParams as any);
+      const result = await controller.search('INV001', 'CUST001');
 
       expect(result).toEqual(mockResult);
-      expect(mockInvoiceService.search).toHaveBeenCalledWith(searchParams);
+      expect(mockInvoiceService.search).toHaveBeenCalledWith({
+        invNo: 'INV001',
+        custNo: 'CUST001',
+        ocNo: undefined,
+        dateFrom: undefined,
+        dateTo: undefined,
+      });
     });
   });
 

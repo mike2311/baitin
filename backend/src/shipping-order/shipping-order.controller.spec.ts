@@ -196,17 +196,21 @@ describe('ShippingOrderController', () => {
 
   describe('search', () => {
     it('should search shipping orders', async () => {
-      const searchParams = { soNo: 'SO001', itemNo: 'ITEM001' };
       const mockResult = [{ soNo: 'SO001', itemNo: 'ITEM001', qty: 100 }];
 
       mockShippingOrderService.search.mockResolvedValue(mockResult as any);
 
-      const result = await controller.search(searchParams.soNo, searchParams.itemNo);
+      const result = await controller.search('SO001', undefined, undefined, 'ITEM001');
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.search).toHaveBeenCalledWith(
-        searchParams,
-      );
+      expect(mockShippingOrderService.search).toHaveBeenCalledWith({
+        soNo: 'SO001',
+        confNo: undefined,
+        contNo: undefined,
+        itemNo: 'ITEM001',
+        shipDateFrom: undefined,
+        shipDateTo: undefined,
+      });
     });
   });
 
