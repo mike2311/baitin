@@ -288,7 +288,7 @@ describe('LoadingService', () => {
 
       let updateCallCount = 0;
       mockLoadingMasterRepository.findOne.mockResolvedValue({ loadingNo: 'LOAD001' } as any);
-      mockDataSource.createQueryRunner = jest.fn(() => ({
+      const mockQueryRunner = {
         connect: jest.fn().mockResolvedValue(undefined),
         startTransaction: jest.fn().mockResolvedValue(undefined),
         commitTransaction: jest.fn().mockResolvedValue(undefined),
@@ -297,7 +297,8 @@ describe('LoadingService', () => {
         manager: {
           query: jest.fn().mockResolvedValue([{ exists: true }]), // DN exists
         },
-      }));
+      };
+      mockDataSource.createQueryRunner.mockReturnValue(mockQueryRunner as any);
 
       await service.assignDnsToLoading('LOAD001', ['DN001', 'DN002']);
 
