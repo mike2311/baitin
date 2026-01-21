@@ -72,6 +72,12 @@ describe('InvoiceService', () => {
           provide: DataSource,
           useValue: mockDataSource,
         },
+        {
+          provide: 'InvoiceValidationService',
+          useValue: {
+            validateInvoiceItem: jest.fn(),
+          },
+        },
       ],
     }).compile();
 

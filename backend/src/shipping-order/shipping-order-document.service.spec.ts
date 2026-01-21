@@ -4,10 +4,8 @@ import { Repository, DataSource } from 'typeorm';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { ShippingOrder } from './entities/shipping-order.entity';
 import { SoFormat } from './entities/so-format.entity';
-import {
-  GenerateSoDocumentDto,
-  SoDocumentType,
-} from './dto/generate-so-document.dto';
+import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
+// SoDocumentType enum not exported from DTO
 
 /**
  * Shipping Order Document Service Tests
