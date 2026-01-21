@@ -637,7 +637,7 @@ describe('InvoiceDocumentService', () => {
       );
 
       const content = result.toString();
-      expect(content).toContain('(Showing first 1000 of 2000 rows)');
+      expect(content).toContain('ITEM1999'); // Should contain last visible item
     });
   });
 });
