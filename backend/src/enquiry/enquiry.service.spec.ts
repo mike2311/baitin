@@ -69,7 +69,7 @@ describe('EnquiryService', () => {
         },
       ];
 
-      mockDataSource.query.mockResolvedValue(mockData);
+      mockDataSource.query.mockResolvedValueOnce(mockData);
 
       const result = await service.salesAnalysis(query);
 
@@ -101,7 +101,7 @@ describe('EnquiryService', () => {
         },
       ];
 
-      mockDataSource.query.mockResolvedValue(mockData);
+      mockDataSource.query.mockResolvedValueOnce(mockData);
 
       const result = await service.salesAnalysis(query);
 
@@ -133,7 +133,7 @@ describe('EnquiryService', () => {
         },
       ];
 
-      mockDataSource.query.mockResolvedValue(mockData);
+      mockDataSource.query.mockResolvedValueOnce(mockData);
 
       const result = await service.salesAnalysis(query);
 
