@@ -41,11 +41,13 @@ describe('LoadingService', () => {
     find: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
+    createQueryBuilder: jest.fn(),
   };
 
   const mockLoadingAdviceHeaderRepository = {
     create: jest.fn(),
     save: jest.fn(),
+    findOne: jest.fn(),
     find: jest.fn(),
     delete: jest.fn(),
   };
@@ -58,7 +60,17 @@ describe('LoadingService', () => {
   };
 
   const mockDataSource = {
-    createQueryRunner: jest.fn(),
+    createQueryRunner: jest.fn(() => ({
+      connect: jest.fn(),
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn(),
+      rollbackTransaction: jest.fn(),
+      release: jest.fn(),
+      manager: {
+        save: jest.fn(),
+        update: jest.fn(),
+      },
+    })),
     query: jest.fn(),
     transaction: jest.fn(),
   };
