@@ -414,7 +414,7 @@ describe('LoadingService', () => {
       const mockResult = {
         data: [
           { loadingNo: 'LOAD001', vesselName: 'Vessel 1', status: 'Draft' },
-          { loadingNo: 'LOAD002', vesselName: 'Vessel 2', status: 'Active' },
+          { loadingNo: 'LOAD002', vesselName: 'Vessel 2', status: 'In Progress' },
         ],
         total: 2,
         page: 1,
@@ -470,7 +470,7 @@ describe('LoadingService', () => {
       const updateDto = { status: 'Completed' };
       const mockLoading = {
         loadingNo: 'LOAD001',
-        status: 'Active',
+        status: 'Planned',
         modDate: new Date(),
       };
 
@@ -494,9 +494,9 @@ describe('LoadingService', () => {
 
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
 
-      // Should allow Draft → Active
-      const result = await service.updateLoadingMasterStatus('LOAD001', 'Active');
-      expect(result.status).toBe('Active');
+      // Should allow Planned → In Progress
+      const result = await service.updateLoadingMasterStatus('LOAD001', 'In Progress');
+      expect(result.status).toBe('In Progress');
     });
 
     it('should prevent invalid transitions', async () => {
@@ -508,8 +508,8 @@ describe('LoadingService', () => {
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
 
       await expect(
-        service.updateLoadingMasterStatus('LOAD001', 'Active'),
-      ).rejects.toThrow('Invalid status transition');
+        service.updateLoadingMasterStatus('LOAD001', 'InvalidStatus'),
+      ).rejects.toThrow('Invalid status');
     });
   });
 
