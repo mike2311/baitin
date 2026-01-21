@@ -207,7 +207,10 @@ describe('ShippingOrderDocumentService', () => {
         },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
+      // loadSoData makes complex query - mock it properly
+      jest.spyOn(dataSource, 'query').mockResolvedValue([
+        { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001', customer_name: 'Test Customer' }
+      ]);
 
       const result = await service.generateSoDocument(generateDto);
 
@@ -231,7 +234,10 @@ describe('ShippingOrderDocumentService', () => {
         { soNo: 'SO002', items: [] },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
+      jest.spyOn(dataSource, 'query').mockResolvedValue([
+        { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' },
+        { so_no: 'SO002', date: '2025-01-16', cust_no: 'CUST001' }
+      ]);
 
       const result = await service.generateSoDocument(generateDto);
 
