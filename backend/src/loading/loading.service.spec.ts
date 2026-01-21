@@ -287,24 +287,17 @@ describe('LoadingService', () => {
       mockDataSource.query.mockResolvedValue(mockDns);
 
       let updateCallCount = 0;
-      mockDataSource.transaction.mockImplementation(async (cb) => {
-        return cb({
-          manager: {
-            update: jest.fn().mockImplementation((entity, criteria, values) => {
-              updateCallCount++;
-              if (
-                entity.name === 'DeliveryNoteHeader' &&
-                values.loadingStatus === 'Loaded'
-              ) {
-                return { affected: 1 };
-              }
-              return { affected: 1 };
-            }),
-            create: jest.fn().mockReturnValue({}),
-            save: jest.fn().mockResolvedValue({}),
-          },
-        } as any);
-      });
+      mockLoadingMasterRepository.findOne.mockResolvedValue({ loadingNo: 'LOAD001' } as any);
+      mockDataSource.createQueryRunner = jest.fn(() => ({
+        connect: jest.fn().mockResolvedValue(undefined),
+        startTransaction: jest.fn().mockResolvedValue(undefined),
+        commitTransaction: jest.fn().mockResolvedValue(undefined),
+        rollbackTransaction: jest.fn().mockResolvedValue(undefined),
+        release: jest.fn().mockResolvedValue(undefined),
+        manager: {
+          query: jest.fn().mockResolvedValue([{ exists: true }]), // DN exists
+        },
+      }));
 
       await service.assignDnsToLoading('LOAD001', ['DN001', 'DN002']);
 

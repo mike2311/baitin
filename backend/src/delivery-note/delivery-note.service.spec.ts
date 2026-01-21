@@ -82,7 +82,7 @@ describe('DeliveryNoteService', () => {
         save: jest.fn(),
         update: jest.fn(),
         create: jest.fn(),
-        query: jest.fn(),
+        query: jest.fn().mockResolvedValue([{ exists: true }]),
       },
     })),
     query: jest.fn(),

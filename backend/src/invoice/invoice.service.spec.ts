@@ -78,6 +78,12 @@ describe('InvoiceService', () => {
             validateInvoiceItem: jest.fn(),
           },
         },
+        {
+          provide: 'InvoiceValidationService',
+          useValue: {
+            validateInvoiceItem: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
