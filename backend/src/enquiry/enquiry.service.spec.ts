@@ -222,7 +222,7 @@ describe('EnquiryService', () => {
         },
       ];
 
-      mockDataSource.query.mockResolvedValueOnce(mockData[0]); // Item summary
+      mockDataSource.query.mockResolvedValueOnce([mockData[0]]); // Item summary as array
       mockDataSource.query.mockResolvedValueOnce(mockData[0].transactions); // Transactions
 
       const result = await service.itemEnquiry(query);
@@ -274,7 +274,7 @@ describe('EnquiryService', () => {
           customer: 'CUST001',
         }));
 
-      mockDataSource.query.mockResolvedValueOnce({});
+      mockDataSource.query.mockResolvedValueOnce([{}]);
       mockDataSource.query.mockResolvedValueOnce(mockTransactions);
 
       const result = await service.itemEnquiry(query);
