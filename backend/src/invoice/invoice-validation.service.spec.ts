@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { DataSource } from 'typeorm';
 import { InvoiceValidationService } from './invoice-validation.service';
 
 /**
@@ -27,7 +28,7 @@ describe('InvoiceValidationService', () => {
       providers: [
         InvoiceValidationService,
         {
-          provide: 'DataSource',
+          provide: DataSource,
           useValue: mockDataSource,
         },
       ],
