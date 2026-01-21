@@ -502,6 +502,9 @@ describe('EnquiryService', () => {
 
       mockDataSource.query.mockResolvedValueOnce(mockLargeData);
 
+      mockDataSource.query.mockReset();
+      mockDataSource.query.mockResolvedValueOnce(mockLargeData);
+
       const startTime = Date.now();
       const result = await service.salesAnalysis(query);
       const endTime = Date.now();
@@ -534,6 +537,7 @@ describe('EnquiryService', () => {
         groupBy: 'customer',
       };
 
+      mockDataSource.query.mockReset();
       mockDataSource.query.mockRejectedValueOnce(
         new Error('Database connection failed'),
       );
@@ -561,6 +565,7 @@ describe('EnquiryService', () => {
         dateTo: '2025-01-31',
       };
 
+      mockDataSource.query.mockReset();
       mockDataSource.query.mockResolvedValueOnce([]);
 
       const result = await service.salesAnalysis(query);
