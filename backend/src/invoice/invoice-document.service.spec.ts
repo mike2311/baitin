@@ -462,13 +462,21 @@ describe('InvoiceDocumentService', () => {
         },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockInvData);
+      // Mock the actual query structure - loadInvoiceData makes multiple queries
+      jest.spyOn(dataSource, 'query')
+        .mockResolvedValueOnce([{ inv_no: 'INV001', date: '2025-01-15', cust_no: 'CUST001', customer_name: 'Test Customer' }]) // Headers
+        .mockResolvedValueOnce([
+          { inv_no: 'INV001', item_no: 'BOM001', qty: 10, head: true },
+          { inv_no: 'INV001', item_no: 'SUB001', qty: 20, head: false },
+        ]) // Items
+        .mockResolvedValueOnce([]); // Ship marks
 
       const result = await (service as any).loadInvoiceData(
         invNos,
         documentType,
       );
 
+      expect(result.length).toBeGreaterThan(0);
       expect(result[0].items).toBeDefined();
       expect(Array.isArray(result[0].items)).toBe(true);
     });
