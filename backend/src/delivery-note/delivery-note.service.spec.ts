@@ -44,9 +44,11 @@ describe('DeliveryNoteService', () => {
     createQueryBuilder: jest.fn(() => ({
       where: jest.fn().mockReturnThis(),
       andWhere: jest.fn().mockReturnThis(),
+      leftJoin: jest.fn().mockReturnThis(),
       orderBy: jest.fn().mockReturnThis(),
       skip: jest.fn().mockReturnThis(),
       take: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
       getMany: jest.fn().mockResolvedValue([]),
       getCount: jest.fn().mockResolvedValue(0),
     })),
@@ -67,7 +69,19 @@ describe('DeliveryNoteService', () => {
   };
 
   const mockDataSource = {
-    createQueryRunner: jest.fn(),
+    createQueryRunner: jest.fn(() => ({
+      connect: jest.fn(),
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn(),
+      rollbackTransaction: jest.fn(),
+      release: jest.fn(),
+      manager: {
+        save: jest.fn(),
+        update: jest.fn(),
+        create: jest.fn(),
+        query: jest.fn(),
+      },
+    })),
     query: jest.fn(),
     transaction: jest.fn(),
   };
