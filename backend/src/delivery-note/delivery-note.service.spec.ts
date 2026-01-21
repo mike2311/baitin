@@ -308,13 +308,18 @@ describe('DeliveryNoteService', () => {
         limit: 10,
       };
 
-      mockDeliveryNoteHeaderRepository.find = jest.fn().mockResolvedValue(
-        mockResult.data as any,
-      );
+      mockDeliveryNoteHeaderRepository.createQueryBuilder = jest.fn(() => ({
+        leftJoin: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue([]),
+      }));
 
       const result = await service.search();
 
-      expect(result.length).toBeGreaterThanOrEqual(0);
+      expect(Array.isArray(result)).toBe(true);
     });
 
     it('should handle search filters', async () => {

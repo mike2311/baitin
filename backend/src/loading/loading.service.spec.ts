@@ -421,14 +421,14 @@ describe('LoadingService', () => {
         limit: 10,
       };
 
-      mockLoadingMasterRepository.find = jest.fn().mockResolvedValue(
-        mockResult.data as any,
-      );
+      mockLoadingMasterRepository.createQueryBuilder = jest.fn(() => ({
+        andWhere: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue(mockResult.data as any),
+      }));
 
       const result = await service.searchLoadingMasters();
 
-      expect(result.data).toHaveLength(2);
-      expect(result.total).toBe(2);
+      expect(result).toHaveLength(2);
     });
 
     it('should handle search filters', async () => {
@@ -490,10 +490,14 @@ describe('LoadingService', () => {
     it('should validate status transitions', async () => {
       const mockLoading = {
         loadingNo: 'LOAD001',
-        status: 'Draft',
+        status: 'Planned',
       };
 
       mockLoadingMasterRepository.findOne.mockResolvedValue(mockLoading as any);
+      mockLoadingMasterRepository.save.mockResolvedValue({
+        ...mockLoading,
+        status: 'In Progress',
+      } as any);
 
       // Should allow Planned → In Progress
       const result = await service.updateLoadingMasterStatus('LOAD001', 'In Progress');
