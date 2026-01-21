@@ -110,9 +110,7 @@ describe('LoadingService', () => {
         vesselName: 'Test Vessel',
         voyageNo: 'V001',
         date: '2025-01-20',
-        etd: new Date('2025-02-05'),
-        loadingPort: 'PORT1',
-        dischargePort: 'PORT2',
+        // Note: etd, loadingPort, dischargePort not in DTO
       };
 
       const mockLoadingMaster = {
@@ -172,7 +170,7 @@ describe('LoadingService', () => {
       const assignDto: AssignDnsToLoadingDto = {
         loadingNo: 'LOAD001',
         dnNos: ['DN001', 'DN002'],
-        containerNo: 'CONT001',
+        // containerNo not in DTO
       };
 
       const mockLoadingMaster = {
@@ -254,7 +252,7 @@ describe('LoadingService', () => {
       const assignDto: AssignDnsToLoadingDto = {
         loadingNo: 'LOAD001',
         dnNos: ['DN001'],
-        containerNo: 'CONT001',
+        // containerNo not in DTO
       };
 
       const mockLoadingMaster = {
@@ -305,7 +303,7 @@ describe('LoadingService', () => {
         voyageNo: 'V001',
         containerAssignments: [
           {
-            containerNo: 'CONT001',
+            // containerNo not in DTO
             dns: ['DN001', 'DN002'],
           },
         ],
@@ -352,7 +350,7 @@ describe('LoadingService', () => {
         loadingNo: 'LOAD001',
         containerAssignments: [
           {
-            containerNo: 'CONT001',
+            // containerNo not in DTO
             dns: ['DN001'],
           },
         ],
@@ -431,7 +429,7 @@ describe('LoadingService', () => {
         vesselName: 'Test Vessel',
         containerAssignments: [
           {
-            containerNo: 'CONT001',
+            // containerNo not in DTO
             dns: ['DN001', 'DN002'],
           },
         ],
@@ -548,7 +546,7 @@ describe('LoadingService', () => {
   //   it('should return container assignments for loading', async () => {
   //     const mockAssignments = [
   //       {
-  //         containerNo: 'CONT001',
+  //         // containerNo not in DTO
   //         dns: ['DN001', 'DN002'],
   //         totalQty: 300,
   //         totalNet: 150,

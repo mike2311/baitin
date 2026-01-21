@@ -30,6 +30,7 @@ describe('ReportBatchMigrationService', () => {
 
   const mockReportDefinitionRepository = {
     findOne: jest.fn(),
+    find: jest.fn(),
     update: jest.fn(),
     count: jest.fn(),
   };

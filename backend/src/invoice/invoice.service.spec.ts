@@ -93,7 +93,7 @@ describe('InvoiceService', () => {
     it('should create an invoice manually', async () => {
       const createDto: CreateInvoiceDto = {
         invNo: 'INV001',
-        date: new Date('2025-01-15'),
+        date: '2025-01-15',
         custNo: 'CUST001',
         ocNo: 'OC001',
         details: [

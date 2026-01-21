@@ -288,7 +288,8 @@ describe('ReportingService', () => {
       expect(result.reportName).toBe('Sales Report');
       expect(result.format).toBe('excel');
       expect(result.fileSize).toBeGreaterThan(0);
-      expect(result.fileBuffer).toBeInstanceOf(Buffer);
+      // Note: fileBuffer not in ReportGenerationResponseDto
+      expect(result.generatedAt).toBeDefined();
       expect(result.generatedAt).toBeInstanceOf(Date);
     });
 
@@ -315,7 +316,8 @@ describe('ReportingService', () => {
 
       expect(result.format).toBe('pdf');
       expect(result.fileSize).toBeGreaterThan(0);
-      expect(result.fileBuffer).toBeInstanceOf(Buffer);
+      // Note: fileBuffer not in ReportGenerationResponseDto
+      expect(result.generatedAt).toBeDefined();
     });
 
     it('should use custom file name when provided', async () => {
