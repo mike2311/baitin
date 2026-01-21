@@ -40,6 +40,16 @@ describe('DeliveryNoteService', () => {
     find: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
+    remove: jest.fn(),
+    createQueryBuilder: jest.fn(() => ({
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getMany: jest.fn().mockResolvedValue([]),
+      getCount: jest.fn().mockResolvedValue(0),
+    })),
   };
 
   const mockDeliveryNoteDetailRepository = {

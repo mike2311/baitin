@@ -41,7 +41,12 @@ describe('LoadingService', () => {
     find: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
-    createQueryBuilder: jest.fn(),
+    createQueryBuilder: jest.fn(() => ({
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      getMany: jest.fn().mockResolvedValue([]),
+    })),
   };
 
   const mockLoadingAdviceHeaderRepository = {
@@ -69,6 +74,8 @@ describe('LoadingService', () => {
       manager: {
         save: jest.fn(),
         update: jest.fn(),
+        create: jest.fn(),
+        query: jest.fn(),
       },
     })),
     query: jest.fn(),
