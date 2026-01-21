@@ -342,13 +342,35 @@ describe('LoadingService', () => {
       mockLoadingMasterRepository.findOne.mockResolvedValue(
         mockLoadingMaster as any,
       );
-      mockDataSource.query.mockResolvedValue(mockDnDetails);
+      mockDataSource.query.mockResolvedValueOnce(mockDnDetails);
+      const mockSavedHeader = { laNo: 'LA001', loadingNo: 'LOAD001' };
+      mockDataSource.createQueryRunner.mockReturnValue({
+        connect: jest.fn().mockResolvedValue(undefined),
+        startTransaction: jest.fn().mockResolvedValue(undefined),
+        commitTransaction: jest.fn().mockResolvedValue(undefined),
+        rollbackTransaction: jest.fn().mockResolvedValue(undefined),
+        release: jest.fn().mockResolvedValue(undefined),
+        manager: {
+          create: jest.fn().mockImplementation((entity, data) => data),
+          save: jest.fn().mockResolvedValue(mockSavedHeader),
+          query: jest.fn().mockResolvedValue([{ exists: true }]),
+        },
+      } as any);
+      mockLoadingAdviceHeaderRepository.findOne.mockResolvedValue(null);
       mockLoadingAdviceHeaderRepository.create.mockReturnValue({} as any);
       mockLoadingAdviceHeaderRepository.save.mockResolvedValue({} as any);
       mockLoadingAdviceDetailRepository.create.mockReturnValue({} as any);
       mockLoadingAdviceDetailRepository.save.mockResolvedValue({} as any);
 
-      const result = await service.createLoadingAdvice({ laNo: 'LA001', loadingNo: loadingNo, date: '2025-01-20' } as any);
+      const result = await service.createLoadingAdvice({ 
+        laNo: 'LA001', 
+        loadingNo: loadingNo, 
+        date: '2025-01-20',
+        details: [
+          { itemNo: 'ITEM001', qty: 100, ctn: 2 },
+          { itemNo: 'ITEM002', qty: 200, ctn: 4 },
+        ],
+      } as any);
 
       expect(result.loadingNo).toBe('LOAD001');
       expect(result.laNo).toBeDefined();
@@ -382,7 +404,21 @@ describe('LoadingService', () => {
       mockLoadingMasterRepository.findOne.mockResolvedValue(
         mockLoadingMaster as any,
       );
-      mockDataSource.query.mockResolvedValue(mockDnDetails);
+      mockDataSource.query.mockResolvedValueOnce(mockDnDetails);
+      const mockSavedHeader = { laNo: 'LA002', loadingNo: 'LOAD001' };
+      mockDataSource.createQueryRunner.mockReturnValue({
+        connect: jest.fn().mockResolvedValue(undefined),
+        startTransaction: jest.fn().mockResolvedValue(undefined),
+        commitTransaction: jest.fn().mockResolvedValue(undefined),
+        rollbackTransaction: jest.fn().mockResolvedValue(undefined),
+        release: jest.fn().mockResolvedValue(undefined),
+        manager: {
+          create: jest.fn().mockImplementation((entity, data) => data),
+          save: jest.fn().mockResolvedValue(mockSavedHeader),
+          query: jest.fn().mockResolvedValue([{ exists: true }]),
+        },
+      } as any);
+      mockLoadingAdviceHeaderRepository.findOne.mockResolvedValue(null);
       mockLoadingAdviceHeaderRepository.create.mockImplementation((data) => ({
         ...data,
         totalQty: 0,
@@ -393,7 +429,14 @@ describe('LoadingService', () => {
       mockLoadingAdviceDetailRepository.create.mockReturnValue({} as any);
       mockLoadingAdviceDetailRepository.save.mockResolvedValue({} as any);
 
-      const result = await service.createLoadingAdvice({ laNo: 'LA001', loadingNo: loadingNo, date: '2025-01-20' } as any);
+      const result = await service.createLoadingAdvice({ 
+        laNo: 'LA002', 
+        loadingNo: loadingNo, 
+        date: '2025-01-20',
+        details: [
+          { itemNo: 'ITEM001', qty: 100, ctn: 2 },
+        ],
+      } as any);
 
       expect(mockDataSource.query).toHaveBeenCalledWith(
         expect.stringContaining('FROM delivery_note_detail'),
