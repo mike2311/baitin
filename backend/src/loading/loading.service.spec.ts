@@ -437,7 +437,8 @@ describe('LoadingService', () => {
 
       await service.searchLoadingMasters(searchParams);
 
-      expect(mockLoadingMasterRepository.find).toHaveBeenCalled();
+      // Note: search uses createQueryBuilder, not find
+      expect(mockLoadingMasterRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
 

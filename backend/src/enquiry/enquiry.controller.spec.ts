@@ -458,9 +458,15 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.salesAnalysis(query as any);
+      await controller.salesAnalysis(query.custNo, query.itemNo, query.dateFrom, query.dateTo, query.groupBy);
 
-      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith({
+        custNo: query.custNo,
+        itemNo: query.itemNo,
+        dateFrom: query.dateFrom ? new Date(query.dateFrom) : undefined,
+        dateTo: query.dateTo ? new Date(query.dateTo) : undefined,
+        groupBy: query.groupBy,
+      });
     });
   });
 
@@ -498,9 +504,15 @@ describe('EnquiryController', () => {
 
       mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
-      await controller.salesAnalysis(query.customerNo, query.itemNo, undefined, undefined, undefined);
+      await controller.salesAnalysis(query.customerNo, query.itemNo, query.dateFrom, query.dateTo, undefined);
 
-      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith(query);
+      expect(mockEnquiryService.salesAnalysis).toHaveBeenCalledWith({
+        custNo: query.customerNo,
+        itemNo: query.itemNo,
+        dateFrom: query.dateFrom ? new Date(query.dateFrom) : undefined,
+        dateTo: query.dateTo ? new Date(query.dateTo) : undefined,
+        groupBy: undefined,
+      });
     });
   });
 });
