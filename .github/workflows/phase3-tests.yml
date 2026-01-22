@@ -88,7 +88,7 @@ jobs:
       
       - name: Upload unit test coverage
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-unit-test-coverage
           path: backend/coverage
@@ -143,7 +143,7 @@ jobs:
       
       - name: Upload integration test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-integration-test-results
           path: backend/coverage
@@ -211,7 +211,7 @@ jobs:
       
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-e2e-report
           path: playwright-report/
@@ -267,7 +267,7 @@ jobs:
       
       - name: Upload performance test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-performance-results
           path: backend/test-results/
@@ -322,7 +322,7 @@ jobs:
       
       - name: Upload security test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-security-results
           path: backend/test-results/
@@ -377,7 +377,7 @@ jobs:
       
       - name: Upload regression test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase3-regression-results
           path: backend/test-results/
