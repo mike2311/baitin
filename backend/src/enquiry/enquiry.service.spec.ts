@@ -26,6 +26,8 @@ describe('EnquiryService', () => {
   };
 
   beforeEach(async () => {
+    mockDataSource.query.mockReset();
+    
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EnquiryService,

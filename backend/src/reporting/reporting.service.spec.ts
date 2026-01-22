@@ -382,8 +382,10 @@ describe('ReportingService', () => {
         mockReport as ReportDefinition,
       );
 
+      mockDataSource.query.mockResolvedValue([{ test: 'data' }]); // Need data to reach format check
+      
       await expect(service.generateReport(generateDto)).rejects.toThrow(
-        'Unsupported output format',
+        'Unsupported output format: invalid',
       );
     });
 

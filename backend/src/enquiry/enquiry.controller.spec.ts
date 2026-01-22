@@ -454,7 +454,13 @@ describe('EnquiryController', () => {
     });
 
     it('should handle empty query parameters', async () => {
-      const query = {};
+      const query: {
+        custNo?: string;
+        itemNo?: string;
+        dateFrom?: string;
+        dateTo?: string;
+        groupBy?: 'customer' | 'item' | 'date';
+      } = {};
 
       mockEnquiryService.salesAnalysis.mockResolvedValue([]);
 
@@ -465,7 +471,7 @@ describe('EnquiryController', () => {
         itemNo: query.itemNo,
         dateFrom: query.dateFrom ? new Date(query.dateFrom) : undefined,
         dateTo: query.dateTo ? new Date(query.dateTo) : undefined,
-        groupBy: query.groupBy,
+        groupBy: query.groupBy || 'date',
       });
     });
   });
