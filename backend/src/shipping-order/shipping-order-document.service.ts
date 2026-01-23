@@ -13,7 +13,7 @@ import {
   SoDocumentGenerationResponseDto,
 } from './dto/so-document-response.dto';
 // Using xlsx library (already in package.json dependencies)
-const XLSX = require('xlsx');
+import * as XLSX from 'xlsx';
 
 /**
  * Shipping Order Document Service
@@ -56,12 +56,6 @@ export class ShippingOrderDocumentService {
       throw new NotFoundException(
         'No shipping orders found for the specified SO numbers',
       );
-    }
-
-    // Get format configuration if specified
-    let formatConfig: any = null;
-    if (generateDto.formatKey) {
-      formatConfig = await this.getFormatConfig(generateDto.formatKey);
     }
 
     return {
@@ -111,7 +105,7 @@ export class ShippingOrderDocumentService {
         `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.xlsx`;
       fileBuffer = excelData;
     } else if (format === 'pdf') {
-      const pdfData = await this.generatePdf(soData, formatConfig);
+      const pdfData = await this.generatePdf(soData);
       fileName =
         generateDto.fileName ||
         `SO_${generateDto.soNos.join('_')}_${new Date().toISOString().split('T')[0]}.pdf`;
@@ -147,45 +141,47 @@ export class ShippingOrderDocumentService {
   private async loadSoData(soNos: string[]): Promise<any[]> {
     const query = `
       SELECT DISTINCT
-        so.so_no,
-        so.date,
-        so.cust_no,
+        so."soNo" as so_no,
+        so."shipDate" as date,
+        och.cust_no,
         c.ename as customer_name,
         c.addr1 as customer_addr1,
         c.addr2 as customer_addr2,
         c.addr3 as customer_addr3,
         c.addr4 as customer_addr4,
-        c.fc_ename as forwarder_name,
-        c.fc_addr1 as forwarder_addr1,
-        c.fc_addr2 as forwarder_addr2,
-        c.fc_addr3 as forwarder_addr3,
-        c.fc_addr4 as forwarder_addr4,
-        so.ship_date,
-        so.ship_mark,
-        so.fob_port,
-        so.po_no,
-        so.ship_to,
-        so.loading_port,
+        -- Forwarder columns do not exist in Customer entity
+        -- c.fc_ename as forwarder_name,
+        -- c.fc_addr1 as forwarder_addr1,
+        -- c.fc_addr2 as forwarder_addr2,
+        -- c.fc_addr3 as forwarder_addr3,
+        -- c.fc_addr4 as forwarder_addr4,
+        so."shipDate" as ship_date,
+        so."shipMark" as ship_mark,
+        so."fobPort" as fob_port,
+        so."poNo" as po_no,
+        so."shipTo" as ship_to,
+        so."loadingPort" as loading_port,
         so.dest,
-        so.remarks,
-        och.vessel,
-        och.disch as discharge,
-        och.loading,
-        och.delivery,
-        och.fpay as payment_terms,
-        och.bl,
-        och.status,
-        och.sdate,
-        och.collect,
-        och.amend,
-        och.tel,
-        och.fax,
-        och.contact
+        so.remarks
+        -- OrderConfirmationHeader columns that don't exist in entity:
+        -- och.vessel,
+        -- och.disch as discharge,
+        -- och.loading,
+        -- och.delivery,
+        -- och.fpay as payment_terms,
+        -- och.bl,
+        -- och.status,
+        -- och.sdate,
+        -- och.collect,
+        -- och.amend,
+        -- och.tel,
+        -- och.fax,
+        -- och.contact
       FROM shipping_order so
-      LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
+      LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
       LEFT JOIN customer c ON och.cust_no = c.cust_no
-      WHERE so.so_no = ANY($1)
-      ORDER BY so.so_no, so.date
+      WHERE so."soNo" = ANY($1)
+      ORDER BY so."soNo", so."shipDate"
     `;
 
     const soHeaders = await this.dataSource.query(query, [soNos]);
@@ -193,21 +189,21 @@ export class ShippingOrderDocumentService {
     // Load SO items
     const itemsQuery = `
       SELECT
-        so.so_no,
-        so.item_no,
+        so."soNo" as so_no,
+        so."itemNo" as item_no,
         i.desp as item_description,
         so.qty,
         so.ctn,
-        so.ship_mark,
-        so.po_no,
-        so.ship_to,
-        so.loading_port,
+        so."shipMark" as ship_mark,
+        so."poNo" as po_no,
+        so."shipTo" as ship_to,
+        so."loadingPort" as loading_port,
         so.dest,
-        so.fob_port
+        so."fobPort" as fob_port
       FROM shipping_order so
-      LEFT JOIN item i ON so.item_no = i.item_no
-      WHERE so.so_no = ANY($1)
-      ORDER BY so.so_no, so.item_no
+      LEFT JOIN item i ON so."itemNo" = i.item_no
+      WHERE so."soNo" = ANY($1)
+      ORDER BY so."soNo", so."itemNo"
     `;
 
     const soItems = await this.dataSource.query(itemsQuery, [soNos]);
@@ -314,14 +310,14 @@ export class ShippingOrderDocumentService {
    */
   private async generateExcel(
     soData: any[],
-    formatConfig: any,
+    _formatConfig: any,
   ): Promise<Buffer> {
     const workbook = XLSX.utils.book_new();
 
     // Create a worksheet for each SO or combine into one
     if (soData.length === 1) {
       // Single SO - detailed format
-      const ws = this.createSoExcelWorksheet(soData[0], formatConfig);
+      const ws = this.createSoExcelWorksheet(soData[0], _formatConfig);
       XLSX.utils.book_append_sheet(workbook, ws, 'Shipping Order');
     } else {
       // Multiple SOs - summary format
@@ -335,7 +331,8 @@ export class ShippingOrderDocumentService {
   /**
    * Create detailed SO Excel worksheet
    */
-  private createSoExcelWorksheet(so: any, formatConfig: any): any {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private createSoExcelWorksheet(so: any, _formatConfig: any): any {
     const data: any[][] = [];
 
     // Header section
@@ -469,7 +466,8 @@ export class ShippingOrderDocumentService {
    * Note: PDF generation will use a PDF library when added
    * For now, returning a simple text-based representation
    */
-  private async generatePdf(soData: any[], formatConfig: any): Promise<Buffer> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private async generatePdf(soData: any[]): Promise<Buffer> {
     // TODO: Implement proper PDF generation with pdfkit or similar library
     // For now, return a simple text representation
     let pdfContent = 'SHIPPING ORDER DOCUMENT\n';

@@ -54,7 +54,7 @@ export default function OrderEnquiryEntryPage() {
   const [saveError, setSaveError] = useState<string | null>(null)
 
   // Auto-save timer ref
-  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastSaveRef = useRef<{ header: OEHeaderFormData; rows: OEDetailRow[] } | null>(null)
   const hasChangesRef = useRef(false)
 
@@ -84,7 +84,7 @@ export default function OrderEnquiryEntryPage() {
   }, [headerData, rows])
 
   // Debounced auto-save on field blur
-  const debouncedAutoSaveRef = useRef<NodeJS.Timeout | null>(null)
+  const debouncedAutoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const performAutoSave = useCallback(async () => {
     if (!headerData.oeNo || rows.length === 0) {
       return

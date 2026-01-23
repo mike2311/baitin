@@ -1,9 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
 import {
   getAuthToken,
   createTestUser,
@@ -13,10 +10,18 @@ import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { TestDataSeeder } from '../test-utils/test-data-seeder';
 import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
-import { BomModule } from './bom.module';
 import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
 import { Item } from '../items/entities/item.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
+import { OrderEnquiryHeader } from '../order-enquiry/entities/order-enquiry-header.entity';
+import { OrderEnquiryDetail } from '../order-enquiry/entities/order-enquiry-detail.entity';
+import { OrderConfirmationHeader } from '../order-confirmation/entities/order-confirmation-header.entity';
+import { OrderConfirmationDetail } from '../order-confirmation/entities/order-confirmation-detail.entity';
+import { ContractHeader } from '../contract/entities/contract-header.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 
 describe('BomManagement API Tests', () => {
   let app: INestApplication;
@@ -42,59 +47,20 @@ describe('BomManagement API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     // Initialize seeder
-    const customerRepo = moduleRef.get(
-      getRepositoryToken(
-        require('../customers/entities/customer.entity').Customer,
-      ),
-    );
-    const vendorRepo = moduleRef.get(
-      getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-    );
+    const customerRepo = moduleRef.get(getRepositoryToken(Customer));
+    const vendorRepo = moduleRef.get(getRepositoryToken(Vendor));
     seeder = new TestDataSeeder(
       customerRepo,
       vendorRepo,
       itemRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-header.entity')
-            .OrderEnquiryHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-detail.entity')
-            .OrderEnquiryDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-confirmation/entities/order-confirmation-header.entity')
-            .OrderConfirmationHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-confirmation/entities/order-confirmation-detail.entity')
-            .OrderConfirmationDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-header.entity').ContractHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderEnquiryHeader)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryDetail)),
+      moduleRef.get(getRepositoryToken(OrderConfirmationHeader)),
+      moduleRef.get(getRepositoryToken(OrderConfirmationDetail)),
+      moduleRef.get(getRepositoryToken(ContractHeader)),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
       bomRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
-            .OrderEnquiryQtyBreakdown,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderEnquiryQtyBreakdown)),
       user.username,
     );
 

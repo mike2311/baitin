@@ -249,16 +249,16 @@ export class DeliveryNoteService {
 
         const detail = queryRunner.manager.create(DeliveryNoteDetail, {
           dnNo: savedHeader.dnNo,
-          itemNo: soItem.item_no,
+          itemNo: soItem.itemNo || soItem.item_no,
           lineNo: i + 1,
           qty: soItem.qty,
           ctn: soItem.ctn,
-          poNo: soItem.po_no,
-          shipNo: soItem.ship_no,
-          cntrNo: soItem.cntr_no,
-          refNo: soItem.ref_no,
-          ocNo: soItem.oc_no,
-          confNo: soItem.conf_no,
+          poNo: soItem.poNo || soItem.po_no,
+          shipNo: null, // shipNo doesn't exist in ShippingOrder
+          cntrNo: null, // cntrNo doesn't exist in ShippingOrder
+          refNo: null, // refNo doesn't exist in ShippingOrder
+          ocNo: soItem.ocNo || null,
+          confNo: soItem.confNo || soItem.conf_no,
           head: true,
           creUser: userId || createDto.userId,
           userId: userId || createDto.userId,
@@ -492,23 +492,24 @@ export class DeliveryNoteService {
   ): Promise<AvailableItemsForDnResponseDto[]> {
     const query = `
       SELECT
-        so.so_no,
-        so.item_no,
+        so."soNo" as so_no,
+        so."itemNo" as item_no,
         i.desp as item_description,
         so.qty as so_qty,
         COALESCE(SUM(dnd.qty), 0) as delivered_qty,
         (so.qty - COALESCE(SUM(dnd.qty), 0)) as remaining_qty,
         so.ctn,
-        so.po_no,
-        so.ship_date,
+        so."poNo" as po_no,
+        so."shipDate" as ship_date,
         c.ename as customer_name
       FROM shipping_order so
-      LEFT JOIN delivery_note_detail dnd ON so.so_no = dnd.so_no AND so.item_no = dnd.item_no
-      LEFT JOIN item i ON so.item_no = i.item_no
-      LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
+      LEFT JOIN delivery_note_header dn ON so."soNo" = dn."soNo"
+      LEFT JOIN delivery_note_detail dnd ON dn."dnNo" = dnd."dnNo" AND so."itemNo" = dnd."itemNo"
+      LEFT JOIN item i ON so."itemNo" = i.item_no
+      LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
       LEFT JOIN customer c ON och.cust_no = c.cust_no
-      WHERE so.so_no = $1
-      GROUP BY so.so_no, so.item_no, i.desp, so.qty, so.ctn, so.po_no, so.ship_date, c.ename
+      WHERE so."soNo" = $1
+      GROUP BY so."soNo", so."itemNo", i.desp, so.qty, so.ctn, so."poNo", so."shipDate", c.ename
       HAVING (so.qty - COALESCE(SUM(dnd.qty), 0)) > 0
     `;
 
@@ -533,7 +534,8 @@ export class DeliveryNoteService {
   async updateStatus(
     dnNo: string,
     status: string,
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<DeliveryNoteHeader> {
     const header = await this.findOne(dnNo);
 
@@ -564,17 +566,16 @@ export class DeliveryNoteService {
   private async getSoItems(soNo: string): Promise<any[]> {
     const query = `
       SELECT
-        so.item_no,
+        so."itemNo",
         so.qty,
         so.ctn,
-        so.po_no,
-        so.ship_no,
-        so.cntr_no,
-        so.ref_no,
-        so.oc_no,
-        so.conf_no
+        so."poNo",
+        so."shipDate",
+        so."confNo",
+        so."contNo"
+        -- Note: shipNo, cntrNo, refNo, ocNo don't exist in ShippingOrder entity
       FROM shipping_order so
-      WHERE so.so_no = $1
+      WHERE so."soNo" = $1
     `;
     return this.dataSource.query(query, [soNo]);
   }
@@ -584,8 +585,8 @@ export class DeliveryNoteService {
       SELECT DISTINCT
         och.cust_no
       FROM shipping_order so
-      LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
-      WHERE so.so_no = $1
+      LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
+      WHERE so."soNo" = $1
       LIMIT 1
     `;
     const results = await this.dataSource.query(query, [soNo]);

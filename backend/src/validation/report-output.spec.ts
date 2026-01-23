@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { getTestDataSource } from '../test-utils/test-helpers';
 import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 import * as XLSX from 'xlsx';

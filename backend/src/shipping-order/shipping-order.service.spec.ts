@@ -25,7 +25,17 @@ describe('ShippingOrderService', () => {
   let soFormatRepository: Repository<SoFormat>;
   let dataSource: DataSource;
 
+  const mockDataSource = {
+    createQueryRunner: jest.fn(),
+    query: jest.fn().mockResolvedValue([{ exists: true }]),
+  };
+
   beforeEach(async () => {
+    // Reset all mocks to prevent state bleeding
+    jest.clearAllMocks();
+    mockDataSource.query.mockReset();
+    mockDataSource.query.mockResolvedValue([{ exists: true }]);
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ShippingOrderService,
@@ -39,10 +49,7 @@ describe('ShippingOrderService', () => {
         },
         {
           provide: DataSource,
-          useValue: {
-            createQueryRunner: jest.fn(),
-            query: jest.fn(),
-          },
+          useValue: mockDataSource,
         },
       ],
     }).compile();
@@ -171,7 +178,9 @@ describe('ShippingOrderService', () => {
         { soKey: 'GLOBE', uniqueid: 'so_no', vpos: 2, hpos: 1 },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue([{ item_no: 'ITEM001' }]);
+      jest
+        .spyOn(dataSource, 'query')
+        .mockResolvedValue([{ item_no: 'ITEM001' }]);
       jest
         .spyOn(soFormatRepository, 'find')
         .mockResolvedValue(mockFormat as SoFormat[]);
@@ -201,7 +210,9 @@ describe('ShippingOrderService', () => {
         },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue([{ item_no: 'ITEM001' }]);
+      jest
+        .spyOn(dataSource, 'query')
+        .mockResolvedValue([{ item_no: 'ITEM001' }]);
       jest
         .spyOn(soFormatRepository, 'find')
         .mockResolvedValue(mockCustomerFormats as SoFormat[]);

@@ -1,8 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { createTestApp, getTestDataSource } from './test-utils/test-helpers';
+import { getTestDataSource } from './test-utils/test-helpers';
 import { createMinimalTestApp } from './test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from './users/entities/user.entity';
+import { createTestUser, getAuthToken } from './test-utils/test-helpers';
 
 /**
  * Phase 3 Cross-Module Integration Tests
@@ -31,12 +35,8 @@ describe('Phase 3 Cross-Module Integration', () => {
       dataSource = await getTestDataSource(moduleRef);
 
       // Create test user first
-      const { JwtService } = require('@nestjs/jwt');
       const jwtService = moduleRef.get(JwtService);
-      const { getRepositoryToken } = require('@nestjs/typeorm');
-      const { User } = require('./users/entities/user.entity');
-      const { createTestUser, getAuthToken } = require('./test-utils/test-helpers');
-      
+
       const userRepo = moduleRef.get(getRepositoryToken(User));
       const user = await createTestUser(userRepo);
       authToken = getAuthToken(jwtService, user.id, user.username);
@@ -567,7 +567,7 @@ describe('Phase 3 Cross-Module Integration', () => {
   describe('Reference Data Integration', () => {
     it('should integrate reference data with transactions', async () => {
       // Create reference data
-      const refResponse = await request(app.getHttpServer())
+      await request(app.getHttpServer())
         .post('/api/reference')
         .set('Authorization', `Bearer ${authToken}`)
         .send({

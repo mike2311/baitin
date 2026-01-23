@@ -200,7 +200,8 @@ export class ShippingOrderService {
   async update(
     soNo: string,
     updateDto: UpdateShippingOrderDto,
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<ShippingOrder> {
     const shippingOrder = await this.findOne(soNo);
 
@@ -318,7 +319,7 @@ export class ShippingOrderService {
           oc.del_date as ship_date,
           c.ename as customer_name
         FROM order_confirmation_detail oc
-        LEFT JOIN shipping_order so ON oc.conf_no = so.conf_no AND oc.item_no = so.item_no
+        LEFT JOIN shipping_order so ON oc.conf_no = so."confNo" AND oc.item_no = so."itemNo"
         LEFT JOIN item i ON oc.item_no = i.item_no
         LEFT JOIN order_confirmation_header och ON oc.conf_no = och.conf_no
         LEFT JOIN customer c ON och.cust_no = c.cust_no
@@ -343,7 +344,7 @@ export class ShippingOrderService {
           c.req_date_to as ship_date,
           cust.ename as customer_name
         FROM contract_detail c
-        LEFT JOIN shipping_order so ON c.cont_no = so.cont_no AND c.item_no = so.item_no
+        LEFT JOIN shipping_order so ON c.cont_no = so."contNo" AND c.item_no = so."itemNo"
         LEFT JOIN item i ON c.item_no = i.item_no
         LEFT JOIN contract_header ch ON c.cont_no = ch.cont_no
         LEFT JOIN customer cust ON ch.cust_no = cust.cust_no

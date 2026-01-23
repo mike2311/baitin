@@ -53,121 +53,139 @@ export class TestDataSeeder {
    * Seed test customers
    */
   async seedCustomers(): Promise<Customer[]> {
-    const customers = [
-      this.customerRepo.create({
+    const customerData = [
+      {
         custNo: TEST_DATA.CUSTOMERS.CUST_001,
         ename: 'Test Customer 1',
         sname: 'TC1',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.customerRepo.create({
+      },
+      {
         custNo: TEST_DATA.CUSTOMERS.CUST_002,
         ename: 'Test Customer 2',
         sname: 'TC2',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.customerRepo.create({
+      },
+      {
         custNo: TEST_DATA.CUSTOMERS.CUST_003,
         ename: 'Test Customer 3',
         sname: 'TC3',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
+      },
     ];
 
-    return await this.customerRepo.save(customers);
+    const customers: Customer[] = [];
+    for (const data of customerData) {
+      let customer = await this.customerRepo.findOne({
+        where: { custNo: data.custNo },
+      });
+      if (!customer) {
+        customer = this.customerRepo.create({
+          ...data,
+          creDate: new Date(),
+          creUser: this.userId,
+          userId: this.userId,
+        });
+        customer = await this.customerRepo.save(customer);
+      }
+      customers.push(customer);
+    }
+
+    return customers;
   }
 
   /**
    * Seed test vendors
    */
   async seedVendors(): Promise<Vendor[]> {
-    const vendors = [
-      this.vendorRepo.create({
+    const vendorData = [
+      {
         vendorNo: TEST_DATA.VENDORS.VEND_001,
         ename: 'Test Vendor 1',
         sname: 'TV1',
         type: 1, // Vendor
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.vendorRepo.create({
+      },
+      {
         vendorNo: TEST_DATA.VENDORS.VEND_002,
         ename: 'Test Vendor 2',
         sname: 'TV2',
         type: 1, // Vendor
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.vendorRepo.create({
+      },
+      {
         vendorNo: TEST_DATA.VENDORS.VEND_003,
         ename: 'Test Vendor 3',
         sname: 'TV3',
         type: 2, // Maker
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
+      },
     ];
 
-    return await this.vendorRepo.save(vendors);
+    const vendors: Vendor[] = [];
+    for (const data of vendorData) {
+      let vendor = await this.vendorRepo.findOne({
+        where: { vendorNo: data.vendorNo },
+      });
+      if (!vendor) {
+        vendor = this.vendorRepo.create({
+          ...data,
+          creDate: new Date(),
+          creUser: this.userId,
+          userId: this.userId,
+        });
+        vendor = await this.vendorRepo.save(vendor);
+      }
+      vendors.push(vendor);
+    }
+
+    return vendors;
   }
 
   /**
    * Seed test items
    */
   async seedItems(): Promise<Item[]> {
-    const items = [
-      this.itemRepo.create({
+    const itemData = [
+      {
         itemNo: TEST_DATA.ITEMS.ITEM_001,
         shortName: 'Test Item 1',
         desp: 'Test Item Description 1',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.itemRepo.create({
+      },
+      {
         itemNo: TEST_DATA.ITEMS.ITEM_002,
         shortName: 'Test Item 2',
         desp: 'Test Item Description 2',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.itemRepo.create({
+      },
+      {
         itemNo: TEST_DATA.ITEMS.ITEM_003,
         shortName: 'Test Item 3',
         desp: 'Test Item Description 3',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.itemRepo.create({
+      },
+      {
         itemNo: TEST_DATA.ITEMS.ITEM_HEAD,
         shortName: 'Test Head Item',
         desp: 'BOM Head Item',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
-      this.itemRepo.create({
+      },
+      {
         itemNo: TEST_DATA.ITEMS.ITEM_SUB,
         shortName: 'Test Sub Item',
         desp: 'BOM Sub Item',
-        creDate: new Date(),
-        creUser: this.userId,
-        userId: this.userId,
-      }),
+      },
     ];
 
-    return await this.itemRepo.save(items);
+    const items: Item[] = [];
+    for (const data of itemData) {
+      let item = await this.itemRepo.findOne({
+        where: { itemNo: data.itemNo },
+      });
+      if (!item) {
+        item = this.itemRepo.create({
+          ...data,
+          creDate: new Date(),
+          creUser: this.userId,
+          userId: this.userId,
+        });
+        item = await this.itemRepo.save(item);
+      }
+      items.push(item);
+    }
+
+    return items;
   }
 
   /**

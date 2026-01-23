@@ -19,7 +19,6 @@ import { EnquiryService } from './enquiry.service';
  */
 describe('EnquiryService', () => {
   let service: EnquiryService;
-  let dataSource: DataSource;
 
   const mockDataSource = {
     query: jest.fn(),
@@ -27,7 +26,7 @@ describe('EnquiryService', () => {
 
   beforeEach(async () => {
     mockDataSource.query.mockReset();
-    
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EnquiryService,
@@ -39,7 +38,6 @@ describe('EnquiryService', () => {
     }).compile();
 
     service = module.get<EnquiryService>(EnquiryService);
-    dataSource = module.get<DataSource>(DataSource);
   });
 
   it('should be defined', () => {
@@ -280,14 +278,16 @@ describe('EnquiryService', () => {
           customer: 'CUST001',
         }));
 
-      mockDataSource.query.mockResolvedValueOnce([{
-        item_no: 'ITEM001',
-        item_description: 'Test Item',
-        total_ordered_qty: 0,
-        total_confirmed_qty: 0,
-        total_shipped_qty: 0,
-        total_invoiced_qty: 0,
-      }]);
+      mockDataSource.query.mockResolvedValueOnce([
+        {
+          item_no: 'ITEM001',
+          item_description: 'Test Item',
+          total_ordered_qty: 0,
+          total_confirmed_qty: 0,
+          total_shipped_qty: 0,
+          total_invoiced_qty: 0,
+        },
+      ]);
       mockDataSource.query.mockResolvedValueOnce(mockTransactions);
 
       const result = await service.itemEnquiry(query);
@@ -302,18 +302,20 @@ describe('EnquiryService', () => {
         soNo: 'SO001',
       };
 
-      const mockData = [{
-        so_no: 'SO001',
-        conf_no: 'OC001',
-        cont_no: null,
-        item_no: 'ITEM001',
-        item_description: 'Test Item',
-        qty: 100,
-        ctn: 2,
-        ship_date: '2025-01-15',
-        customer_name: 'Test Customer',
-        cre_date: '2025-01-10',
-      }];
+      const mockData = [
+        {
+          so_no: 'SO001',
+          conf_no: 'OC001',
+          cont_no: null,
+          item_no: 'ITEM001',
+          item_description: 'Test Item',
+          qty: 100,
+          ctn: 2,
+          ship_date: '2025-01-15',
+          customer_name: 'Test Customer',
+          cre_date: '2025-01-10',
+        },
+      ];
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
 
@@ -368,18 +370,20 @@ describe('EnquiryService', () => {
         dnNo: 'DN001',
       };
 
-      const mockData = [{
-        dn_no: 'DN001',
-        date: '2025-01-15',
-        so_no: 'SO001',
-        cust_no: 'CUST001',
-        customer_name: 'Test Customer',
-        loading_status: 'Confirmed',
-        loading_no: 'LOAD001',
-        item_count: 1,
-        total_qty: 100,
-        cre_date: '2025-01-10',
-      }];
+      const mockData = [
+        {
+          dn_no: 'DN001',
+          date: '2025-01-15',
+          so_no: 'SO001',
+          cust_no: 'CUST001',
+          customer_name: 'Test Customer',
+          loading_status: 'Confirmed',
+          loading_no: 'LOAD001',
+          item_count: 1,
+          total_qty: 100,
+          cre_date: '2025-01-10',
+        },
+      ];
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
 
@@ -398,8 +402,30 @@ describe('EnquiryService', () => {
       };
 
       const mockData = [
-        { dn_no: 'DN001', so_no: 'SO001', loading_status: 'Confirmed', date: '2025-01-15', cust_no: 'CUST001', customer_name: 'Test', item_count: 1, total_qty: 100, loading_no: null, cre_date: '2025-01-10' },
-        { dn_no: 'DN002', so_no: 'SO001', loading_status: 'Confirmed', date: '2025-01-16', cust_no: 'CUST001', customer_name: 'Test', item_count: 1, total_qty: 200, loading_no: null, cre_date: '2025-01-11' },
+        {
+          dn_no: 'DN001',
+          so_no: 'SO001',
+          loading_status: 'Confirmed',
+          date: '2025-01-15',
+          cust_no: 'CUST001',
+          customer_name: 'Test',
+          item_count: 1,
+          total_qty: 100,
+          loading_no: null,
+          cre_date: '2025-01-10',
+        },
+        {
+          dn_no: 'DN002',
+          so_no: 'SO001',
+          loading_status: 'Confirmed',
+          date: '2025-01-16',
+          cust_no: 'CUST001',
+          customer_name: 'Test',
+          item_count: 1,
+          total_qty: 200,
+          loading_no: null,
+          cre_date: '2025-01-11',
+        },
       ];
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
@@ -418,17 +444,19 @@ describe('EnquiryService', () => {
       };
 
       mockDataSource.query.mockReset();
-      const mockData = [{
-        inv_no: 'INV001',
-        date: '2025-01-15',
-        cust_no: 'CUST001',
-        customer_name: 'Test Customer',
-        oc_no: 'OC001',
-        pl_status: 'Not Printed',
-        item_count: 1,
-        total_amount: 1050.0,
-        cre_date: '2025-01-10',
-      }];
+      const mockData = [
+        {
+          inv_no: 'INV001',
+          date: '2025-01-15',
+          cust_no: 'CUST001',
+          customer_name: 'Test Customer',
+          oc_no: 'OC001',
+          pl_status: 'Not Printed',
+          item_count: 1,
+          total_amount: 1050.0,
+          cre_date: '2025-01-10',
+        },
+      ];
 
       mockDataSource.query.mockResolvedValueOnce(mockData);
 

@@ -53,8 +53,6 @@ describe('Order Workflow E2E', () => {
   });
 
   describe('Complete Workflow: OE → OC → Contract → SO → DN → Invoice', () => {
-    let oeNo: string;
-    let confNo: string;
     let contNo: string;
     let soNo: string;
     let dnNo: string;
@@ -84,7 +82,6 @@ describe('Order Workflow E2E', () => {
         });
 
       expect(oeHeaderResponse.status).toBe(201);
-      oeNo = 'OE-TEST-001';
 
       // Create OE Detail
       const oeDetailResponse = await request(app.getHttpServer())
@@ -110,7 +107,6 @@ describe('Order Workflow E2E', () => {
         });
 
       expect(postResponse.status).toBe(201);
-      confNo = 'OC-TEST-001';
     });
 
     it('should generate Contract from OC', async () => {

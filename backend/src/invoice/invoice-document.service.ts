@@ -15,7 +15,7 @@ import {
   InvoiceDocumentPreviewResponseDto,
   InvoiceDocumentGenerationResponseDto,
 } from './dto/invoice-document-response.dto';
-const XLSX = require('xlsx');
+import * as XLSX from 'xlsx';
 
 /**
  * Invoice Document Service
@@ -164,50 +164,50 @@ export class InvoiceDocumentService {
       // Packing list query
       query = `
         SELECT DISTINCT
-          inv.inv_no,
+          inv."invNo",
           inv.date,
-          inv.cust_no,
+          inv."custNo",
           c.ename as customer_name,
           c.addr1 as customer_addr1,
           c.addr2 as customer_addr2,
           c.addr3 as customer_addr3,
           c.addr4 as customer_addr4,
-          c.wt_unit,
-          c.pl_name,
-          c.dim_2,
-          inv.oc_no as conf_no,
+          NULL as wt_unit,
+          NULL as pl_name,
+          NULL as dim_2,
+          inv."ocNo" as conf_no,
           inv.ship,
-          inv.loading,
+          inv."loadingPort" as loading,
           inv.dest,
-          inv.del_date,
+          inv."delDate" as del_date,
           inv.remarks as covering
         FROM invoice_header inv
-        LEFT JOIN customer c ON inv.cust_no = c.cust_no
-        WHERE inv.inv_no = ANY($1)
-        ORDER BY inv.inv_no, inv.date
+        LEFT JOIN customer c ON inv."custNo" = c.cust_no
+        WHERE inv."invNo" = ANY($1)
+        ORDER BY inv."invNo", inv.date
       `;
     } else {
       // Standard invoice query
       query = `
         SELECT DISTINCT
-          inv.inv_no,
+          inv."invNo",
           inv.date,
-          inv.cust_no,
+          inv."custNo",
           c.ename as customer_name,
           c.addr1 as customer_addr1,
           c.addr2 as customer_addr2,
           c.addr3 as customer_addr3,
           c.addr4 as customer_addr4,
-          inv.oc_no as conf_no,
+          inv."ocNo" as conf_no,
           inv.ship,
-          inv.loading,
+          inv."loadingPort" as loading,
           inv.dest,
-          inv.del_date,
-          inv.payment_terms
+          inv."delDate" as del_date,
+          inv."paymentTerms" as payment_terms
         FROM invoice_header inv
-        LEFT JOIN customer c ON inv.cust_no = c.cust_no
-        WHERE inv.inv_no = ANY($1)
-        ORDER BY inv.inv_no, inv.date
+        LEFT JOIN customer c ON inv."custNo" = c.cust_no
+        WHERE inv."invNo" = ANY($1)
+        ORDER BY inv."invNo", inv.date
       `;
     }
 
@@ -216,8 +216,8 @@ export class InvoiceDocumentService {
     // Load invoice items
     let itemsQuery = `
       SELECT
-        invd.inv_no,
-        invd.item_no,
+        invd."invNo",
+        invd."itemNo",
         i.desp as item_description,
         invd.qty,
         invd.price,
@@ -229,16 +229,16 @@ export class InvoiceDocumentService {
         invd.cube,
         invd.dim,
         invd.unit,
-        invd.desp_memo,
-        invd.po_no,
-        invd.ship_no,
-        invd.cntr_no,
-        invd.ref_no,
-        invd.oc_no,
-        invd.conf_no,
-        invd.so_no,
+        invd."despMemo" as desp_memo,
+        invd."poNo" as po_no,
+        invd."shipNo" as ship_no,
+        invd."cntrNo" as cntr_no,
+        invd."refNo" as ref_no,
+        invd."ocNo" as oc_no,
+        invd."confNo" as conf_no,
+        invd."soNo" as so_no,
         invd.head,
-        i.skn_no,
+        NULL as skn_no,
         i.short_name as item_name,
         NULL as ol,
         NULL as ow,
@@ -249,29 +249,29 @@ export class InvoiceDocumentService {
         NULL as op_desp,
         NULL as ip_desp
       FROM invoice_detail invd
-      LEFT JOIN item i ON invd.item_no = i.item_no
-      WHERE invd.inv_no = ANY($1)
+      LEFT JOIN item i ON invd."itemNo" = i.item_no
+      WHERE invd."invNo" = ANY($1)
     `;
 
     if (containerNo) {
-      itemsQuery += ` AND invd.cntr_no = $${paramIndex++}`;
+      itemsQuery += ` AND invd."cntrNo" = $${paramIndex++}`;
       parameters.push(containerNo);
     }
 
-    itemsQuery += ` ORDER BY invd.inv_no, invd.item_no, invd.line_no`;
+    itemsQuery += ` ORDER BY invd."invNo", invd."itemNo", invd."lineNo"`;
 
     const invoiceItems = await this.dataSource.query(itemsQuery, parameters);
 
     // Get ship marks from SO
     const shipMarksQuery = `
       SELECT DISTINCT
-        so.so_no,
-        so.ship_mark
+        so."soNo" as so_no,
+        so."shipMark" as ship_mark
       FROM shipping_order so
-      WHERE so.so_no IN (
-        SELECT DISTINCT invd.so_no
+      WHERE so."soNo" IN (
+        SELECT DISTINCT invd."soNo"
         FROM invoice_detail invd
-        WHERE invd.inv_no = ANY($1)
+        WHERE invd."invNo" = ANY($1)
       )
     `;
     const shipMarks = await this.dataSource.query(shipMarksQuery, [invNos]);
@@ -457,14 +457,11 @@ export class InvoiceDocumentService {
       // Process items with BOM handling
       let itemCount = 0;
       let sonCount = 0;
-      let currentHeadItem: any = null;
-
       inv.items.forEach((item: any) => {
         if (item.head) {
           // Head item
           itemCount++;
           sonCount = 0;
-          currentHeadItem = item;
           data.push([
             itemCount,
             item.itemNo,

@@ -1,9 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
-  createTestApp,
   getAuthToken,
   createTestUser,
   ApiTestClient,
@@ -19,6 +18,11 @@ import { OrderConfirmationDetail } from '../order-confirmation/entities/order-co
 import { ContractHeader } from '../contract/entities/contract-header.entity';
 import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
+import { Item } from '../items/entities/item.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 
 describe('Integration Tests', () => {
   let app: INestApplication;
@@ -36,7 +40,8 @@ describe('Integration Tests', () => {
   let ocDetailRepo: Repository<OrderConfirmationDetail>;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef: testModuleRef } = await createMinimalTestApp();
+    const { app: testApp, moduleRef: testModuleRef } =
+      await createMinimalTestApp();
     app = testApp;
     moduleRef = testModuleRef;
     jwtService = moduleRef.get(JwtService);
@@ -53,44 +58,17 @@ describe('Integration Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(
-        getRepositoryToken(
-          require('../customers/entities/customer.entity').Customer,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../items/entities/item.entity').Item),
-      ),
+      moduleRef.get(getRepositoryToken(Customer)),
+      moduleRef.get(getRepositoryToken(Vendor)),
+      moduleRef.get(getRepositoryToken(Item)),
       oeHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-detail.entity')
-            .OrderEnquiryDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderEnquiryDetail)),
       ocHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-confirmation/entities/order-confirmation-detail.entity')
-            .OrderConfirmationDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderConfirmationDetail)),
       contHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
       bomRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
-            .OrderEnquiryQtyBreakdown,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderEnquiryQtyBreakdown)),
       user.username,
     );
 
@@ -105,7 +83,7 @@ describe('Integration Tests', () => {
   describe('End-to-End Workflow', () => {
     test('E2E-001: Complete OE to Contract workflow', async () => {
       // Step 1: Create OE
-      const oe = await oeHeaderRepo.save(
+      await oeHeaderRepo.save(
         oeHeaderRepo.create({
           oeNo: 'TEST-OE-E2E-001',
           custNo: TEST_DATA.CUSTOMERS.CUST_001,
@@ -161,7 +139,7 @@ describe('Integration Tests', () => {
       });
 
       // Create OE with BOM head item
-      const oe = await oeHeaderRepo.save(
+      await oeHeaderRepo.save(
         oeHeaderRepo.create({
           oeNo: 'TEST-OE-E2E-002',
           custNo: TEST_DATA.CUSTOMERS.CUST_001,
@@ -227,7 +205,7 @@ describe('Integration Tests', () => {
 
     test('E2E-003: Quantity breakdown through workflow', async () => {
       // Create OE
-      const oe = await oeHeaderRepo.save(
+      await oeHeaderRepo.save(
         oeHeaderRepo.create({
           oeNo: 'TEST-OE-E2E-003',
           custNo: TEST_DATA.CUSTOMERS.CUST_001,
@@ -278,7 +256,7 @@ describe('Integration Tests', () => {
   describe('Data Consistency Tests', () => {
     test('CONSIST-001: OC deletion with related contracts', async () => {
       // Create OC and contract
-      const oc = await ocHeaderRepo.save(
+      await ocHeaderRepo.save(
         ocHeaderRepo.create({
           confNo: 'TEST-OC-CONSIST-001',
           date: new Date('2026-01-05'),
@@ -286,7 +264,7 @@ describe('Integration Tests', () => {
         } as Partial<OrderConfirmationHeader>),
       );
 
-      const contract = await contHeaderRepo.save(
+      await contHeaderRepo.save(
         contHeaderRepo.create({
           contNo: 'TEST-CONT-CONSIST-001',
           confNo: 'TEST-OC-CONSIST-001',
@@ -305,7 +283,7 @@ describe('Integration Tests', () => {
     });
 
     test('CONSIST-002: Contract deletion impact', async () => {
-      const contract = await contHeaderRepo.save(
+      await contHeaderRepo.save(
         contHeaderRepo.create({
           contNo: 'TEST-CONT-CONSIST-002',
           confNo: TEST_DATA.ORDER_CONFIRMATIONS.OC_001,
@@ -343,7 +321,7 @@ describe('Integration Tests', () => {
       );
 
       // Create OE with head item
-      const oe = await oeHeaderRepo.save(
+      await oeHeaderRepo.save(
         oeHeaderRepo.create({
           oeNo: 'TEST-OE-CONSIST-003',
           custNo: TEST_DATA.CUSTOMERS.CUST_001,

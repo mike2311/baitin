@@ -33,7 +33,7 @@ import { InvoiceHeader } from '../invoice/entities/invoice-header.entity';
 import { InvoiceDetail } from '../invoice/entities/invoice-detail.entity';
 import { ReportDefinition } from '../reporting/entities/report-definition.entity';
 
-// Modules  
+// Modules
 import { BomModule } from '../bom/bom.module';
 import { ItemsModule } from '../items/items.module';
 import { CustomersModule } from '../customers/customers.module';
@@ -89,8 +89,11 @@ export async function createMinimalTestApp(): Promise<{
 }> {
   initializationCount++;
   console.log(`[TRACE ${initializationCount}] createMinimalTestApp() called`);
-  console.log(`[TRACE ${initializationCount}] Stack trace:`, new Error().stack?.split('\n').slice(2, 6).join('\n'));
-  
+  console.log(
+    `[TRACE ${initializationCount}] Stack trace:`,
+    new Error().stack?.split('\n').slice(2, 6).join('\n'),
+  );
+
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [
       ConfigModule.forRoot({
@@ -137,10 +140,10 @@ export async function createMinimalTestApp(): Promise<{
 
   // Set global API prefix (matching main.ts)
   app.setGlobalPrefix('api');
-  
+
   // Enable CORS for tests
   app.enableCors();
-  
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

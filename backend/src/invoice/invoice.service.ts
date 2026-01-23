@@ -20,10 +20,6 @@ import {
   ContainerRefSelectionResponseDto,
 } from './dto/invoice-search-response.dto';
 import { InvoiceValidationService } from './invoice-validation.service';
-import {
-  ValidateInvoiceItemDto,
-  ValidateInvoiceDateRangeDto,
-} from './dto/validate-invoice-item.dto';
 
 /**
  * Invoice Service
@@ -316,30 +312,30 @@ export class InvoiceService {
       query = `
         SELECT
           'so' as source_type,
-          so.so_no as source_no,
-          so.item_no,
+          so."soNo" as source_no,
+          so."itemNo" as item_no,
           i.desp as item_description,
           so.qty as source_qty,
           COALESCE(SUM(invd.qty), 0) as invoiced_qty,
           (so.qty - COALESCE(SUM(invd.qty), 0)) as remaining_qty,
           so.ctn,
-          so.po_no,
-          so.ship_no,
-          so.cntr_no,
-          so.ref_no,
-          so.oc_no,
-          so.conf_no,
-          so.so_no,
+          so."poNo" as po_no,
+          so."shipNo" as ship_no,
+          so."cntrNo" as cntr_no,
+          so."refNo" as ref_no,
+          so."ocNo" as oc_no,
+          so."confNo" as conf_no,
+          so."soNo" as so_no,
           c.ename as customer_name
         FROM shipping_order so
-        LEFT JOIN invoice_detail invd ON so.so_no = invd.so_no AND so.item_no = invd.item_no
-        LEFT JOIN item i ON so.item_no = i.item_no
-        LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
+        LEFT JOIN invoice_detail invd ON so."soNo" = invd."soNo" AND so."itemNo" = invd."itemNo"
+        LEFT JOIN item i ON so."itemNo" = i.item_no
+        LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
         LEFT JOIN customer c ON och.cust_no = c.cust_no
-        WHERE so.so_no = $1
-        ${cntrNo ? 'AND so.cntr_no = $2' : ''}
-        ${refNo ? `AND so.ref_no = $${cntrNo ? '3' : '2'}` : ''}
-        GROUP BY so.so_no, so.item_no, i.desp, so.qty, so.ctn, so.po_no, so.ship_no, so.cntr_no, so.ref_no, so.oc_no, so.conf_no, c.ename
+        WHERE so."soNo" = $1
+        ${cntrNo ? 'AND so."cntrNo" = $2' : ''}
+        ${refNo ? `AND so."refNo" = $${cntrNo ? '3' : '2'}` : ''}
+        GROUP BY so."soNo", so."itemNo", i.desp, so.qty, so.ctn, so."poNo", so."shipNo", so."cntrNo", so."refNo", so."ocNo", so."confNo", c.ename
         HAVING (so.qty - COALESCE(SUM(invd.qty), 0)) > 0
       `;
       parameters = [sourceNo];
@@ -408,9 +404,12 @@ export class InvoiceService {
    * - Legacy Form: iinvdt2@ (getcntrno method)
    */
   async getContainerRefSelection(
-    invNo: string,
-    invDtFrDate?: string,
-    invDtToDate?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _invNo: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _invDtFrDate?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _invDtToDate?: string,
   ): Promise<ContainerRefSelectionResponseDto[]> {
     // This would query available containers/refs from SO/DN based on invoice date range
     // For now, return empty array - will be implemented with full container logic
@@ -527,7 +526,8 @@ export class InvoiceService {
   async update(
     invNo: string,
     updateDto: UpdateInvoiceDto,
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<InvoiceHeader> {
     const header = await this.findOne(invNo);
 
@@ -656,43 +656,43 @@ export class InvoiceService {
     if (sourceType === 'so') {
       const query = `
         SELECT
-          so.item_no,
+          so."itemNo" as item_no,
           so.qty,
           so.ctn,
-          so.po_no,
-          so.ship_no,
-          so.cntr_no,
-          so.ref_no,
-          so.oc_no,
-          so.conf_no,
+          so."poNo" as po_no,
+          so."shipNo" as ship_no,
+          so."cntrNo" as cntr_no,
+          so."refNo" as ref_no,
+          so."ocNo" as oc_no,
+          so."confNo" as conf_no,
           NULL as price,
           NULL as net,
           NULL as wt,
           NULL as cube
         FROM shipping_order so
-        WHERE so.so_no = $1
+        WHERE so."soNo" = $1
       `;
       return this.dataSource.query(query, [sourceNo]);
     } else {
       const query = `
         SELECT
-          dnd.item_no,
+          dnd."itemNo" as item_no,
           dnd.qty,
           dnd.ctn,
-          dnd.po_no,
-          dnd.ship_no,
-          dnd.cntr_no,
-          dnd.ref_no,
-          dnd.oc_no,
-          dnd.conf_no,
-          dn.so_no,
+          dnd."poNo" as po_no,
+          dnd."shipNo" as ship_no,
+          dnd."cntrNo" as cntr_no,
+          dnd."refNo" as ref_no,
+          dnd."ocNo" as oc_no,
+          dnd."confNo" as conf_no,
+          dn."soNo" as so_no,
           NULL as price,
           NULL as net,
           NULL as wt,
           NULL as cube
         FROM delivery_note_detail dnd
-        JOIN delivery_note_header dn ON dnd.dn_no = dn.dn_no
-        WHERE dn.dn_no = $1
+        JOIN delivery_note_header dn ON dnd."dnNo" = dn."dnNo"
+        WHERE dn."dnNo" = $1
       `;
       return this.dataSource.query(query, [sourceNo]);
     }
@@ -717,10 +717,10 @@ export class InvoiceService {
     } else {
       const query = `
         SELECT
-          cust_no,
+          "custNo" as cust_no,
           NULL as oc_no
         FROM delivery_note_header
-        WHERE dn_no = $1
+        WHERE "dnNo" = $1
       `;
       const results = await this.dataSource.query(query, [sourceNo]);
       return results[0];

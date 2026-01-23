@@ -15,7 +15,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'migration-cli/**'],
+  ignorePatterns: ['.eslintrc.js', 'migration-cli/**', 'src/test-utils/mock-helpers.ts'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',

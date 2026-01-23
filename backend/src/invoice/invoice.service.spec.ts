@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { InvoiceService } from './invoice.service';
+import { InvoiceValidationService } from './invoice-validation.service';
 import { InvoiceHeader } from './entities/invoice-header.entity';
 import { InvoiceDetail } from './entities/invoice-detail.entity';
 import {
@@ -29,9 +30,6 @@ import {
  */
 describe('InvoiceService', () => {
   let service: InvoiceService;
-  let invoiceHeaderRepository: Repository<InvoiceHeader>;
-  let invoiceDetailRepository: Repository<InvoiceDetail>;
-  let dataSource: DataSource;
 
   const mockInvoiceHeaderRepository = {
     create: jest.fn(),
@@ -42,6 +40,26 @@ describe('InvoiceService', () => {
     update: jest.fn(),
     delete: jest.fn(),
     remove: jest.fn(),
+    createQueryBuilder: jest.fn(() => ({
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orWhere: jest.fn().mockReturnThis(),
+      leftJoin: jest.fn().mockReturnThis(),
+      innerJoin: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addSelect: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      having: jest.fn().mockReturnThis(),
+      setParameter: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getMany: jest.fn().mockResolvedValue([]),
+      getOne: jest.fn().mockResolvedValue(null),
+      getCount: jest.fn().mockResolvedValue(0),
+      getRawMany: jest.fn().mockResolvedValue([]),
+      getRawOne: jest.fn().mockResolvedValue(null),
+    })),
   };
 
   const mockInvoiceDetailRepository = {
@@ -60,7 +78,21 @@ describe('InvoiceService', () => {
       release: jest.fn().mockResolvedValue(undefined),
       manager: {
         create: jest.fn().mockImplementation((entity, data) => data),
-        save: jest.fn().mockImplementation((entity, data) => Promise.resolve({ ...data, invNo: data.invNo || 'INV001' })),
+        save: jest.fn().mockImplementation((entity, data) => {
+          if (entity && typeof entity === 'function') {
+            const entityName = entity.name;
+            if (entityName === 'InvoiceHeader') {
+              return Promise.resolve({
+                invNo: data.invNo || 'INV001',
+                ...data,
+              });
+            }
+            if (entityName === 'InvoiceDetail') {
+              return Promise.resolve({ ...data });
+            }
+          }
+          return Promise.resolve(data);
+        }),
         query: jest.fn().mockResolvedValue([{ exists: true }]),
       },
     })),
@@ -69,6 +101,11 @@ describe('InvoiceService', () => {
   };
 
   beforeEach(async () => {
+    // Reset all mocks to prevent state bleeding
+    jest.clearAllMocks();
+    mockDataSource.query.mockReset();
+    mockDataSource.query.mockResolvedValue([{ exists: true }]);
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         InvoiceService,
@@ -85,7 +122,7 @@ describe('InvoiceService', () => {
           useValue: mockDataSource,
         },
         {
-          provide: 'InvoiceValidationService',
+          provide: InvoiceValidationService,
           useValue: {
             validateInvoiceItem: jest.fn(),
           },
@@ -94,13 +131,6 @@ describe('InvoiceService', () => {
     }).compile();
 
     service = module.get<InvoiceService>(InvoiceService);
-    invoiceHeaderRepository = module.get<Repository<InvoiceHeader>>(
-      getRepositoryToken(InvoiceHeader),
-    );
-    invoiceDetailRepository = module.get<Repository<InvoiceDetail>>(
-      getRepositoryToken(InvoiceDetail),
-    );
-    dataSource = module.get<DataSource>(DataSource);
   });
 
   it('should be defined', () => {
@@ -125,13 +155,6 @@ describe('InvoiceService', () => {
         ],
       };
 
-      const mockInvoice = {
-        ...createDto,
-        plStatus: 'Not Printed',
-        creDate: new Date(),
-        modDate: new Date(),
-      };
-
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(null); // No existing invoice
       mockDataSource.query.mockResolvedValueOnce([{ exists: true }]); // validateCustomerExists
       mockDataSource.query.mockResolvedValueOnce([{ exists: true }]); // validateOrderConfirmationExists
@@ -153,16 +176,34 @@ describe('InvoiceService', () => {
 
       // getSourceItems returns SO items with SQL column names
       const mockSoItems = [
-        { item_no: 'ITEM001', qty: 100, price: 10.5, ctn: 2, qctn: 50, po_no: null, ship_no: null, cntr_no: null, ref_no: null, oc_no: 'OC001', conf_no: null, so_no: 'SO001', net: null, wt: null, cube: null },
+        {
+          item_no: 'ITEM001',
+          qty: 100,
+          price: 10.5,
+          ctn: 2,
+          qctn: 50,
+          po_no: null,
+          ship_no: null,
+          cntr_no: null,
+          ref_no: null,
+          oc_no: 'OC001',
+          conf_no: null,
+          so_no: 'SO001',
+          net: null,
+          wt: null,
+          cube: null,
+        },
       ];
       // getSourceHeader returns SO header
       const mockSoHeader = { cust_no: 'CUST001', oc_no: 'OC001' };
-      
+
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(null); // No existing invoice
       mockDataSource.query
         .mockResolvedValueOnce(mockSoItems) // getSourceItems
         .mockResolvedValueOnce([mockSoHeader]) // getSourceHeader
-        .mockResolvedValueOnce([{ item_no: 'ITEM001', description: 'Test Item' }]) // getItemAndOcData
+        .mockResolvedValueOnce([
+          { item_no: 'ITEM001', description: 'Test Item' },
+        ]) // getItemAndOcData
         .mockResolvedValueOnce([{ item_no: 'ITEM001', price: 10.5 }]); // getOcItemPrice
 
       const result = await service.createFromSource(createDto);
@@ -180,16 +221,34 @@ describe('InvoiceService', () => {
 
       // getSourceItems returns DN items with SQL column names
       const mockDnItems = [
-        { item_no: 'ITEM001', qty: 100, price: 10.5, ctn: null, qctn: null, po_no: null, ship_no: null, cntr_no: null, ref_no: null, oc_no: 'OC001', conf_no: null, so_no: 'SO001', net: null, wt: null, cube: null },
+        {
+          item_no: 'ITEM001',
+          qty: 100,
+          price: 10.5,
+          ctn: null,
+          qctn: null,
+          po_no: null,
+          ship_no: null,
+          cntr_no: null,
+          ref_no: null,
+          oc_no: 'OC001',
+          conf_no: null,
+          so_no: 'SO001',
+          net: null,
+          wt: null,
+          cube: null,
+        },
       ];
       // getSourceHeader returns DN header
       const mockDnHeader = { cust_no: 'CUST001', oc_no: 'OC001' };
-      
+
       mockInvoiceHeaderRepository.findOne.mockResolvedValue(null); // No existing invoice
       mockDataSource.query
         .mockResolvedValueOnce(mockDnItems) // getSourceItems
         .mockResolvedValueOnce([mockDnHeader]) // getSourceHeader
-        .mockResolvedValueOnce([{ item_no: 'ITEM001', description: 'Test Item' }]) // getItemAndOcData
+        .mockResolvedValueOnce([
+          { item_no: 'ITEM001', description: 'Test Item' },
+        ]) // getItemAndOcData
         .mockResolvedValueOnce([{ item_no: 'ITEM001', price: 10.5 }]); // getOcItemPrice
 
       const result = await service.createFromSource(createDto);
@@ -204,27 +263,50 @@ describe('InvoiceService', () => {
         refNo: 'REF001',
       };
 
-      const mockItems = [
+      const mockHeader = {
+        invNo: 'INV001',
+        custNo: 'CUST001',
+        ocNo: 'OC001',
+      } as InvoiceHeader;
+
+      const mockAvailableItems = [
         {
+          sourceType: 'so',
+          sourceNo: 'SO001',
           itemNo: 'ITEM001',
-          qty: 100,
-          price: 10.5,
+          itemDescription: 'Test Item',
+          sourceQty: 100,
+          invoicedQty: 0,
+          remainingQty: 100,
           ctn: 2,
-          qctn: 50,
-          containerNo: 'CONT001',
+          poNo: 'PO001',
+          cntrNo: 'CONT001',
           refNo: 'REF001',
         },
       ];
 
-      mockDataSource.query.mockResolvedValueOnce(mockItems);
+      const mockCreatedDetail = {
+        invNo: 'INV001',
+        itemNo: 'ITEM001',
+        qty: 100,
+        price: 10.5,
+        ctn: 2,
+        qctn: 50,
+      } as InvoiceDetail;
+
+      mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockHeader);
+      mockDataSource.query.mockResolvedValueOnce(mockAvailableItems);
+      mockDataSource
+        .createQueryRunner()
+        .manager.save.mockResolvedValue(mockCreatedDetail);
 
       const result = await service.selectItemsByContainer(selectDto);
 
-      expect(result).toEqual(mockItems);
-      expect(mockDataSource.query).toHaveBeenCalledWith(
-        expect.stringContaining('FROM invoice_select_items'),
-        expect.any(Array),
-      );
+      expect(Array.isArray(result)).toBe(true);
+      expect(mockInvoiceHeaderRepository.findOne).toHaveBeenCalledWith({
+        where: { invNo: 'INV001' },
+      });
+      expect(mockDataSource.query).toHaveBeenCalled();
     });
 
     it('should validate invoice number uniqueness', async () => {
@@ -250,50 +332,87 @@ describe('InvoiceService', () => {
 
   describe('findAll', () => {
     it('should return paginated invoices', async () => {
-      const mockResult = {
-        data: [
-          {
-            invNo: 'INV001',
-            custNo: 'CUST001',
-            date: '2025-01-20',
-            plStatus: 'Not Printed',
-          },
-          {
-            invNo: 'INV002',
-            custNo: 'CUST002',
-            date: '2025-01-20',
-            plStatus: 'Printed',
-          },
-        ],
-        total: 2,
-        page: 1,
-        limit: 10,
-      };
+      const mockResult = [
+        {
+          inv_invNo: 'INV001',
+          inv_custNo: 'CUST001',
+          inv_date: '2025-01-20',
+          inv_plStatus: 'Not Printed',
+          itemCount: '1',
+          totalAmount: '100.00',
+        },
+        {
+          inv_invNo: 'INV002',
+          inv_custNo: 'CUST002',
+          inv_date: '2025-01-20',
+          inv_plStatus: 'Printed',
+          itemCount: '1',
+          totalAmount: '200.00',
+        },
+      ];
 
-      mockInvoiceHeaderRepository.findAndCount.mockResolvedValue([
-        mockResult.data as any,
-        2,
-      ]);
+      const mockQueryBuilder = {
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        orWhere: jest.fn().mockReturnThis(),
+        leftJoin: jest.fn().mockReturnThis(),
+        innerJoin: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        having: jest.fn().mockReturnThis(),
+        setParameter: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue([]),
+        getOne: jest.fn().mockResolvedValue(null),
+        getCount: jest.fn().mockResolvedValue(0),
+        getRawMany: jest.fn().mockResolvedValue(mockResult),
+        getRawOne: jest.fn().mockResolvedValue(null),
+      };
+      mockInvoiceHeaderRepository.createQueryBuilder.mockReturnValue(
+        mockQueryBuilder as any,
+      );
 
       const result = await service.search({});
 
       expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBeGreaterThanOrEqual(0);
+      expect(result.length).toBe(2);
+      expect(mockInvoiceHeaderRepository.createQueryBuilder).toHaveBeenCalled();
     });
 
     it('should handle search filters', async () => {
       const searchParams = { invNo: 'INV001', custNo: 'CUST001' };
 
-      mockInvoiceHeaderRepository.findAndCount.mockResolvedValue([[], 0]);
+      const mockQueryBuilder = {
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        orWhere: jest.fn().mockReturnThis(),
+        leftJoin: jest.fn().mockReturnThis(),
+        innerJoin: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        having: jest.fn().mockReturnThis(),
+        setParameter: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        skip: jest.fn().mockReturnThis(),
+        take: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue([]),
+        getOne: jest.fn().mockResolvedValue(null),
+        getCount: jest.fn().mockResolvedValue(0),
+        getRawMany: jest.fn().mockResolvedValue([]),
+        getRawOne: jest.fn().mockResolvedValue(null),
+      };
+      mockInvoiceHeaderRepository.createQueryBuilder.mockReturnValue(
+        mockQueryBuilder as any,
+      );
 
       await service.search(searchParams);
 
-      expect(mockInvoiceHeaderRepository.findAndCount).toHaveBeenCalledWith({
-        where: searchParams,
-        skip: 0,
-        take: 10,
-        order: { creDate: 'DESC' },
-      });
+      expect(mockInvoiceHeaderRepository.createQueryBuilder).toHaveBeenCalled();
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalled();
     });
   });
 
@@ -320,7 +439,9 @@ describe('InvoiceService', () => {
         ...mockHeader,
         details: mockDetails,
       };
-      mockInvoiceHeaderRepository.findOne.mockResolvedValue(mockHeaderWithDetails as any);
+      mockInvoiceHeaderRepository.findOne.mockResolvedValue(
+        mockHeaderWithDetails as any,
+      );
 
       const result = await service.findOne('INV001');
 

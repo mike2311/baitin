@@ -23,7 +23,6 @@ import { UpdateDeliveryNoteDto } from './dto/update-delivery-note.dto';
  */
 describe('DeliveryNoteController', () => {
   let controller: DeliveryNoteController;
-  let service: DeliveryNoteService;
 
   const mockDeliveryNoteService = {
     create: jest.fn(),
@@ -48,7 +47,6 @@ describe('DeliveryNoteController', () => {
     }).compile();
 
     controller = module.get<DeliveryNoteController>(DeliveryNoteController);
-    service = module.get<DeliveryNoteService>(DeliveryNoteService);
   });
 
   it('should be defined', () => {
@@ -200,7 +198,7 @@ describe('DeliveryNoteController', () => {
     });
 
     it('should handle search filters', async () => {
-      const mockResult = [{dnNo: 'DN001', custNo: 'CUST001'}];
+      const mockResult = [{ dnNo: 'DN001', custNo: 'CUST001' }];
 
       mockDeliveryNoteService.search.mockResolvedValue(mockResult as any);
 
@@ -331,7 +329,9 @@ describe('DeliveryNoteController', () => {
       const result = await controller.getAvailableItemsForDn('SO001');
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableItemsForDn).toHaveBeenCalledWith('SO001');
+      expect(
+        mockDeliveryNoteService.getAvailableItemsForDn,
+      ).toHaveBeenCalledWith('SO001');
     });
 
     it('should handle multiple SO numbers', async () => {
@@ -344,7 +344,9 @@ describe('DeliveryNoteController', () => {
       const result = await controller.getAvailableItemsForDn('SO001,SO002');
 
       expect(result).toEqual(mockResult);
-      expect(mockDeliveryNoteService.getAvailableItemsForDn).toHaveBeenCalledWith('SO001,SO002');
+      expect(
+        mockDeliveryNoteService.getAvailableItemsForDn,
+      ).toHaveBeenCalledWith('SO001,SO002');
     });
   });
 

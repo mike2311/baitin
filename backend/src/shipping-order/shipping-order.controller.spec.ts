@@ -4,7 +4,6 @@ import { ShippingOrderService } from './shipping-order.service';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { CreateShippingOrderDto } from './dto/create-shipping-order.dto';
 import { UpdateShippingOrderDto } from './dto/update-shipping-order.dto';
-import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
 // SoDocumentType enum not exported from DTO
 
 /**
@@ -23,8 +22,6 @@ import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
  */
 describe('ShippingOrderController', () => {
   let controller: ShippingOrderController;
-  let service: ShippingOrderService;
-  let documentService: ShippingOrderDocumentService;
 
   const mockShippingOrderService = {
     create: jest.fn(),
@@ -58,10 +55,6 @@ describe('ShippingOrderController', () => {
     }).compile();
 
     controller = module.get<ShippingOrderController>(ShippingOrderController);
-    service = module.get<ShippingOrderService>(ShippingOrderService);
-    documentService = module.get<ShippingOrderDocumentService>(
-      ShippingOrderDocumentService,
-    );
   });
 
   it('should be defined', () => {
@@ -119,25 +112,42 @@ describe('ShippingOrderController', () => {
         limit: 10,
       };
 
-      mockShippingOrderService.findAll.mockResolvedValue(mockResult as any);
+      mockShippingOrderService.search.mockResolvedValue(mockResult as any);
 
       const result = await controller.search();
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.findAll).toHaveBeenCalledWith(1, 10);
+      expect(mockShippingOrderService.search).toHaveBeenCalledWith({});
     });
 
-    it('should handle pagination parameters', async () => {
-      mockShippingOrderService.findAll.mockResolvedValue({
+    it('should handle search filters', async () => {
+      const mockResult = {
         data: [],
         total: 0,
-        page: 2,
-        limit: 20,
-      } as any);
+        page: 1,
+        limit: 10,
+      };
 
-      await controller.search();
+      mockShippingOrderService.search.mockResolvedValue(mockResult as any);
 
-      expect(mockShippingOrderService.search).toHaveBeenCalled();
+      const result = await controller.search(
+        'SO001',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      expect(result).toEqual(mockResult);
+      expect(mockShippingOrderService.search).toHaveBeenCalledWith({
+        soNo: 'SO001',
+        confNo: undefined,
+        contNo: undefined,
+        itemNo: undefined,
+        shipDateFrom: undefined,
+        shipDateTo: undefined,
+      });
     });
   });
 
@@ -200,7 +210,12 @@ describe('ShippingOrderController', () => {
 
       mockShippingOrderService.search.mockResolvedValue(mockResult as any);
 
-      const result = await controller.search('SO001', undefined, undefined, 'ITEM001');
+      const result = await controller.search(
+        'SO001',
+        undefined,
+        undefined,
+        'ITEM001',
+      );
 
       expect(result).toEqual(mockResult);
       expect(mockShippingOrderService.search).toHaveBeenCalledWith({
@@ -228,10 +243,9 @@ describe('ShippingOrderController', () => {
       const result = await controller.getAvailableItemsForSo('oc', 'CUST001');
 
       expect(result).toEqual(mockResult);
-      expect(mockShippingOrderService.getAvailableItemsForSo).toHaveBeenCalledWith(
-        'oc',
-        'CUST001',
-      );
+      expect(
+        mockShippingOrderService.getAvailableItemsForSo,
+      ).toHaveBeenCalledWith('oc', 'CUST001');
     });
   });
 

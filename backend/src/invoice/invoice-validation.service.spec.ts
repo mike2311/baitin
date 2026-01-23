@@ -50,7 +50,7 @@ describe('InvoiceValidationService', () => {
   //   });
   // });
 
-  // Note: validateDateRange method not implemented  
+  // Note: validateDateRange method not implemented
   // describe('validateDateRange', () => {
   //   it('should validate correct date range', async () => {
   //     const fromDate = new Date('2025-01-01');

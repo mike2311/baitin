@@ -1,9 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
-  createTestApp,
   getAuthToken,
   createTestUser,
   ApiTestClient,
@@ -14,6 +12,16 @@ import { TEST_DATA } from '../test-utils/test-data.config';
 import { JwtService } from '@nestjs/jwt';
 import { OrderConfirmationHeader } from './entities/order-confirmation-header.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
+import { Item } from '../items/entities/item.entity';
+import { OrderEnquiryHeader } from '../order-enquiry/entities/order-enquiry-header.entity';
+import { OrderEnquiryDetail } from '../order-enquiry/entities/order-enquiry-detail.entity';
+import { OrderConfirmationDetail } from './entities/order-confirmation-detail.entity';
+import { ContractHeader } from '../contract/entities/contract-header.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
+import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 
 describe('OrderConfirmationEnquiry API Tests', () => {
   let app: INestApplication;
@@ -36,57 +44,17 @@ describe('OrderConfirmationEnquiry API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(
-        getRepositoryToken(
-          require('../customers/entities/customer.entity').Customer,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../items/entities/item.entity').Item),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-header.entity')
-            .OrderEnquiryHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-detail.entity')
-            .OrderEnquiryDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(Customer)),
+      moduleRef.get(getRepositoryToken(Vendor)),
+      moduleRef.get(getRepositoryToken(Item)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryHeader)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryDetail)),
       ocHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('./entities/order-confirmation-detail.entity')
-            .OrderConfirmationDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-header.entity').ContractHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/product-bom.entity').ProductBom,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
-            .OrderEnquiryQtyBreakdown,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderConfirmationDetail)),
+      moduleRef.get(getRepositoryToken(ContractHeader)),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
+      moduleRef.get(getRepositoryToken(ProductBom)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryQtyBreakdown)),
       user.username,
     );
 

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Res, Header } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Res } from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiTags,
@@ -10,10 +10,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuditLog } from '../common/decorators/audit-log.decorator';
 import { ShippingOrderDocumentService } from './shipping-order-document.service';
 import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
-import {
-  SoDocumentPreviewResponseDto,
-  SoDocumentGenerationResponseDto,
-} from './dto/so-document-response.dto';
+import { SoDocumentPreviewResponseDto } from './dto/so-document-response.dto';
 
 /**
  * Shipping Order Document Controller

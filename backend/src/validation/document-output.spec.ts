@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { createTestApp, getTestDataSource } from '../test-utils/test-helpers';
+import { getTestDataSource } from '../test-utils/test-helpers';
 import { createMinimalTestApp } from '../test-utils/minimal-test-app';
 import { DataSource } from 'typeorm';
 import * as XLSX from 'xlsx';
@@ -312,10 +312,7 @@ describe('Document Output Validation', () => {
 
       // Verify totals: (100 * 10.50) + (50 * 20.00) = 1050 + 1000 = 2050
       if (docResponse.body.file) {
-        const workbook = XLSX.read(docResponse.body.file, { type: 'buffer' });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const data = XLSX.utils.sheet_to_json(sheet);
-
+        // Workbook extracted but not used in this test - available via XLSX.read(docResponse.body.file, { type: 'buffer' }) if needed
         // Find total row and verify calculation
         // (Implementation depends on document structure)
       }

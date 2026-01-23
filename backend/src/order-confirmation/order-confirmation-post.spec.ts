@@ -1,12 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import { TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
-  createTestApp,
   getAuthToken,
-  makeRequest,
   createTestUser,
   ApiTestClient,
 } from '../test-utils/test-helpers';
@@ -18,7 +15,14 @@ import { OrderEnquiryHeader } from '../order-enquiry/entities/order-enquiry-head
 import { OrderEnquiryDetail } from '../order-enquiry/entities/order-enquiry-detail.entity';
 import { OrderConfirmationHeader } from './entities/order-confirmation-header.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
 import { Item } from '../items/entities/item.entity';
+import { OrderConfirmationDetail } from './entities/order-confirmation-detail.entity';
+import { ContractHeader } from '../contract/entities/contract-header.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
+import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 
 describe('OrderConfirmationPost API Tests', () => {
   let app: INestApplication;
@@ -27,20 +31,19 @@ describe('OrderConfirmationPost API Tests', () => {
   let userRepo: Repository<User>;
   let oeHeaderRepo: Repository<OrderEnquiryHeader>;
   let oeDetailRepo: Repository<OrderEnquiryDetail>;
-  let ocHeaderRepo: Repository<OrderConfirmationHeader>;
   let seeder: TestDataSeeder;
   let token: string;
   let moduleRef: TestingModule;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef: testModuleRef } = await createMinimalTestApp();
+    const { app: testApp, moduleRef: testModuleRef } =
+      await createMinimalTestApp();
     app = testApp;
     moduleRef = testModuleRef;
     jwtService = moduleRef.get(JwtService);
     userRepo = moduleRef.get(getRepositoryToken(User));
     oeHeaderRepo = moduleRef.get(getRepositoryToken(OrderEnquiryHeader));
     oeDetailRepo = moduleRef.get(getRepositoryToken(OrderEnquiryDetail));
-    ocHeaderRepo = moduleRef.get(getRepositoryToken(OrderConfirmationHeader));
 
     // Create test user and get token
     const user = await createTestUser(userRepo);
@@ -49,47 +52,17 @@ describe('OrderConfirmationPost API Tests', () => {
 
     // Initialize seeder
     seeder = new TestDataSeeder(
-      moduleRef.get(
-        getRepositoryToken(
-          require('../customers/entities/customer.entity').Customer,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../items/entities/item.entity').Item),
-      ),
+      moduleRef.get(getRepositoryToken(Customer)),
+      moduleRef.get(getRepositoryToken(Vendor)),
+      moduleRef.get(getRepositoryToken(Item)),
       oeHeaderRepo,
       oeDetailRepo,
       moduleRef.get(getRepositoryToken(OrderConfirmationHeader)),
-      moduleRef.get(
-        getRepositoryToken(
-          require('./entities/order-confirmation-detail.entity')
-            .OrderConfirmationDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-header.entity').ContractHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/product-bom.entity').ProductBom,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
-            .OrderEnquiryQtyBreakdown,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(OrderConfirmationDetail)),
+      moduleRef.get(getRepositoryToken(ContractHeader)),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
+      moduleRef.get(getRepositoryToken(ProductBom)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryQtyBreakdown)),
       user.username,
     );
 
@@ -132,7 +105,7 @@ describe('OrderConfirmationPost API Tests', () => {
 
   test('POST-003: Post multiple OEs (array)', async () => {
     // Create fresh OEs for this test to avoid conflicts
-    const oe1 = await oeHeaderRepo.save(
+    await oeHeaderRepo.save(
       oeHeaderRepo.create({
         oeNo: 'TEST-OE-POST-003-1',
         custNo: TEST_DATA.CUSTOMERS.CUST_001,
@@ -161,7 +134,7 @@ describe('OrderConfirmationPost API Tests', () => {
 
   test('POST-004: Post with multiple OEs', async () => {
     // Create fresh OEs for this test
-    const oe1 = await oeHeaderRepo.save(
+    await oeHeaderRepo.save(
       oeHeaderRepo.create({
         oeNo: 'TEST-OE-POST-004-1',
         custNo: TEST_DATA.CUSTOMERS.CUST_001,

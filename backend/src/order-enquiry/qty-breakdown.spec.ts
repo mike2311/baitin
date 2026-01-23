@@ -1,9 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
-  createTestApp,
   getAuthToken,
   createTestUser,
   ApiTestClient,
@@ -15,6 +13,15 @@ import { JwtService } from '@nestjs/jwt';
 import { OrderEnquiryQtyBreakdown } from './entities/order-enquiry-qty-breakdown.entity';
 import { OrderEnquiryHeader } from './entities/order-enquiry-header.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
+import { Item } from '../items/entities/item.entity';
+import { OrderEnquiryDetail } from './entities/order-enquiry-detail.entity';
+import { OrderConfirmationHeader } from '../order-confirmation/entities/order-confirmation-header.entity';
+import { OrderConfirmationDetail } from '../order-confirmation/entities/order-confirmation-detail.entity';
+import { ContractHeader } from '../contract/entities/contract-header.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { ProductBom } from './entities/product-bom.entity';
 
 describe('OrderEnquiryQtyBreakdown API Tests', () => {
   let app: INestApplication;
@@ -41,48 +48,16 @@ describe('OrderEnquiryQtyBreakdown API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(
-        getRepositoryToken(
-          require('../customers/entities/customer.entity').Customer,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../items/entities/item.entity').Item),
-      ),
+      moduleRef.get(getRepositoryToken(Customer)),
+      moduleRef.get(getRepositoryToken(Vendor)),
+      moduleRef.get(getRepositoryToken(Item)),
       oeHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('./entities/order-enquiry-detail.entity').OrderEnquiryDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-confirmation/entities/order-confirmation-header.entity')
-            .OrderConfirmationHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-confirmation/entities/order-confirmation-detail.entity')
-            .OrderConfirmationDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-header.entity').ContractHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('./entities/product-bom.entity').ProductBom),
-      ),
+      moduleRef.get(getRepositoryToken(OrderEnquiryDetail)),
+      moduleRef.get(getRepositoryToken(OrderConfirmationHeader)),
+      moduleRef.get(getRepositoryToken(OrderConfirmationDetail)),
+      moduleRef.get(getRepositoryToken(ContractHeader)),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
+      moduleRef.get(getRepositoryToken(ProductBom)),
       qtyBreakdownRepo,
       user.username,
     );

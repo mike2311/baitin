@@ -10,10 +10,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AuditLog } from '../common/decorators/audit-log.decorator';
 import { InvoiceDocumentService } from './invoice-document.service';
 import { GenerateInvoiceDocumentDto } from './dto/generate-invoice-document.dto';
-import {
-  InvoiceDocumentPreviewResponseDto,
-  InvoiceDocumentGenerationResponseDto,
-} from './dto/invoice-document-response.dto';
+import { InvoiceDocumentPreviewResponseDto } from './dto/invoice-document-response.dto';
 
 /**
  * Invoice Document Controller

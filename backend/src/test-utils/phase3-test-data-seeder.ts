@@ -23,27 +23,27 @@ export class Phase3TestDataSeeder {
 
   /**
    * Seed Shipping Order test data
+   * Note: ShippingOrder is a detail table (not a header), so each record needs soNo, itemNo, qty
    */
   async seedShippingOrders(count: number = 10): Promise<ShippingOrder[]> {
-    const soHeaders: ShippingOrder[] = [];
+    const soRecords: ShippingOrder[] = [];
     const repo = this.dataSource.getRepository(ShippingOrder);
 
     for (let i = 0; i < count; i++) {
       const soNo = `SO-TEST-${Date.now()}-${i}`;
       const so = repo.create({
         soNo,
-        date: new Date('2025-01-15'),
-        custNo: 'CUST001',
-        status: 'Created',
+        itemNo: 'ITEM001',
+        qty: 100,
         creUser: 'test-user',
         userId: 'test-user',
       });
 
       const saved = await repo.save(so);
-      soHeaders.push(saved);
+      soRecords.push(saved);
     }
 
-    return soHeaders;
+    return soRecords;
   }
 
   /**
@@ -177,14 +177,13 @@ export class Phase3TestDataSeeder {
   }> {
     const timestamp = Date.now();
 
-    // Create SO
+    // Create SO (ShippingOrder is a detail table)
     const soRepo = this.dataSource.getRepository(ShippingOrder);
     const soNo = `SO-WORKFLOW-${timestamp}`;
     const so = soRepo.create({
       soNo,
-      date: new Date('2025-01-15'),
-      custNo: 'CUST001',
-      status: 'Created',
+      itemNo: 'ITEM001',
+      qty: 100,
       creUser: 'test-user',
       userId: 'test-user',
     });
@@ -230,7 +229,7 @@ export class Phase3TestDataSeeder {
       invNo,
       date: new Date('2025-01-18'),
       custNo: 'CUST001',
-      soNo,
+      ocNo: 'OC001', // InvoiceHeader uses ocNo, not soNo
       plStatus: 'Not Printed',
       plShStatus: 'Not Printed',
       creUser: 'test-user',
@@ -245,11 +244,11 @@ export class Phase3TestDataSeeder {
    * Cleanup test data
    */
   async cleanup(): Promise<void> {
-    const invRepo = this.dataSource.getRepository(InvoiceHeader);
-    const loadingRepo = this.dataSource.getRepository(LoadingMaster);
-    const dnRepo = this.dataSource.getRepository(DeliveryNoteHeader);
-    const soRepo = this.dataSource.getRepository(ShippingOrder);
-
+    // Note: Repositories retrieved but cleanup logic not yet implemented
+    // this.dataSource.getRepository(InvoiceHeader);
+    // this.dataSource.getRepository(LoadingMaster);
+    // this.dataSource.getRepository(DeliveryNoteHeader);
+    // this.dataSource.getRepository(ShippingOrder);
     // Note: RegExp not supported in delete, use Like() from typeorm
     // For now, delete specific test data or skip cleanup
     // await invRepo.delete({ invNo: Like('TEST-%') });

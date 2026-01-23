@@ -40,6 +40,7 @@ interface FormatFormData {
 
 const SoFormatConfig: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [formats, setFormats] = useState<SoFormat[]>([]);
   const [editingFormat, setEditingFormat] = useState<SoFormat | null>(null);
   const [hasLoadedFormat, setHasLoadedFormat] = useState(false);
@@ -92,26 +93,34 @@ const SoFormatConfig: React.FC = () => {
   const saveFormat = async () => {
     if (!editingFormat) return;
 
-    // TODO: Implement format update API
-    // For now, just show a message
-    toast({
-      title: 'Format Updated',
-      description: `Updated format element ${editingFormat.uniqueid}`,
-    });
+    setSaving(true);
+    try {
+      // TODO: Implement format update API
+      // For now, just show a message
+      toast({
+        title: 'Format Updated',
+        description: `Updated format element ${editingFormat.uniqueid}`,
+      });
 
-    // Update local state
-    setFormats(prev => prev.map(f =>
-      f.soKey === editingFormat.soKey && f.uniqueid === editingFormat.uniqueid
-        ? editingFormat
-        : f
-    ));
+      // Update local state
+      setFormats(prev => prev.map(f =>
+        f.soKey === editingFormat.soKey && f.uniqueid === editingFormat.uniqueid
+          ? editingFormat
+          : f
+      ));
 
-    setEditingFormat(null);
+      setEditingFormat(null);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const updateEditingFormat = (field: keyof SoFormat, value: any) => {
     if (!editingFormat) return;
-    setEditingFormat(prev => ({ ...prev, [field]: value }));
+    setEditingFormat(prev => {
+      if (!prev) return null;
+      return { ...prev, [field]: value } as SoFormat;
+    });
   };
 
   const addNewFormatElement = () => {

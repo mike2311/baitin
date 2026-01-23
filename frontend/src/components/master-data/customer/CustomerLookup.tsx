@@ -19,11 +19,22 @@ import { searchCustomers } from '@/services/api/customers'
  * Reference: Task 02-02 - Customer Lookup
  */
 
-interface CustomerLookupProps extends Omit<LookupProps, 'onSearch'> {
+interface CustomerLookupProps extends Omit<LookupProps, 'onSearch' | 'value' | 'name' | 'onChange'> {
   onSelect?: (item: LookupItem) => void
+  trigger?: React.ReactElement
+  value?: string
+  name?: string
+  onChange?: (value: string, item?: LookupItem) => void
 }
 
-export function CustomerLookup({ onSelect, onChange, ...props }: CustomerLookupProps) {
+export function CustomerLookup({ 
+  onSelect, 
+  onChange, 
+  trigger, 
+  value = '', 
+  name = 'customer', 
+  ...props 
+}: CustomerLookupProps) {
   /**
    * Search customers handler
    * 
@@ -57,15 +68,24 @@ export function CustomerLookup({ onSelect, onChange, ...props }: CustomerLookupP
    * When user selects a customer from lookup, update value and call onSelect callback.
    */
   const handleChange = (value: string, item?: LookupItem) => {
-    onChange(value, item)
+    if (onChange) {
+      onChange(value, item)
+    }
     if (item && onSelect) {
       onSelect(item)
     }
   }
 
+  // If trigger is provided, render just the trigger button (lookup functionality can be added later)
+  if (trigger) {
+    return <div>{trigger}</div>
+  }
+
   return (
     <Lookup
       {...props}
+      value={value}
+      name={name}
       onChange={handleChange}
       onSearch={handleSearch}
       placeholder="Search customers..."

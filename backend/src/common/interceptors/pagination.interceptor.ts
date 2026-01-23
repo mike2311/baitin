@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginationDto, PaginatedResponseDto } from '../dto/pagination.dto';
+import { PaginationDto } from '../dto/pagination.dto';
 
 /**
  * Pagination Interceptor

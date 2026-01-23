@@ -18,6 +18,9 @@ import { OrderEnquiryHeader } from '../order-enquiry/entities/order-enquiry-head
 import { OrderEnquiryDetail } from '../order-enquiry/entities/order-enquiry-detail.entity';
 import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
+import { HttpExceptionFilter } from '../common/filters/http-exception.filter';
+import { RequestLoggerMiddleware } from '../common/middleware/request-logger.middleware';
+import * as bcrypt from 'bcrypt';
 import { OrderConfirmationHeader } from '../order-confirmation/entities/order-confirmation-header.entity';
 import { OrderConfirmationDetail } from '../order-confirmation/entities/order-confirmation-detail.entity';
 import { ContractHeader } from '../contract/entities/contract-header.entity';
@@ -161,15 +164,9 @@ export async function createTestApp(): Promise<{
   );
 
   // Global exception filter
-  const {
-    HttpExceptionFilter,
-  } = require('../common/filters/http-exception.filter');
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // Request logging middleware
-  const {
-    RequestLoggerMiddleware,
-  } = require('../common/middleware/request-logger.middleware');
   app.use(
     new RequestLoggerMiddleware().use.bind(new RequestLoggerMiddleware()),
   );
@@ -293,7 +290,6 @@ export async function createTestUser(
     Date.now().toString(36) + Math.random().toString(36).substring(2);
   const finalUsername = username || `${TEST_DATA.USER.USERNAME}_${uniqueId}`;
 
-  const bcrypt = require('bcrypt');
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = userRepo.create({

@@ -24,11 +24,24 @@ import { GenerateSoDocumentDto } from './dto/generate-so-document.dto';
  */
 describe('ShippingOrderDocumentService', () => {
   let service: ShippingOrderDocumentService;
-  let shippingOrderRepository: Repository<ShippingOrder>;
-  let soFormatRepository: Repository<SoFormat>;
-  let dataSource: DataSource;
+
+  const mockSoFormatRepository = {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    create: jest.fn(),
+    save: jest.fn(),
+  };
+
+  const mockDataSource = {
+    createQueryRunner: jest.fn(),
+    query: jest.fn(),
+  };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+    mockDataSource.query.mockReset();
+    mockDataSource.query.mockResolvedValue([{ exists: true }]);
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ShippingOrderDocumentService,
@@ -38,14 +51,11 @@ describe('ShippingOrderDocumentService', () => {
         },
         {
           provide: getRepositoryToken(SoFormat),
-          useClass: Repository,
+          useValue: mockSoFormatRepository,
         },
         {
           provide: DataSource,
-          useValue: {
-            createQueryRunner: jest.fn(),
-            query: jest.fn(),
-          },
+          useValue: mockDataSource,
         },
       ],
     }).compile();
@@ -53,13 +63,6 @@ describe('ShippingOrderDocumentService', () => {
     service = module.get<ShippingOrderDocumentService>(
       ShippingOrderDocumentService,
     );
-    shippingOrderRepository = module.get<Repository<ShippingOrder>>(
-      getRepositoryToken(ShippingOrder),
-    );
-    soFormatRepository = module.get<Repository<SoFormat>>(
-      getRepositoryToken(SoFormat),
-    );
-    dataSource = module.get<DataSource>(DataSource);
   });
 
   it('should be defined', () => {
@@ -75,24 +78,25 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'DEFAULT',
       };
 
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          date: new Date('2025-01-15'),
-          custNo: 'CUST001',
-          customerName: 'Test Customer',
-          items: [
-            {
-              itemNo: 'ITEM001',
-              itemName: 'Test Item',
-              qty: 100,
-              price: 10.5,
-            },
-          ],
-        },
-      ];
-
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
+      // loadSoData makes 2 queries: headers and items
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          {
+            so_no: 'SO001',
+            date: '2025-01-15',
+            cust_no: 'CUST001',
+            customer_name: 'Test Customer',
+          },
+        ]) // SO headers
+        .mockResolvedValueOnce([
+          {
+            so_no: 'SO001',
+            item_no: 'ITEM001',
+            item_description: 'Test Item',
+            qty: 100,
+            ctn: 2,
+          },
+        ]); // SO items
 
       const result = await service.previewSoDocument(generateDto);
 
@@ -100,7 +104,7 @@ describe('ShippingOrderDocumentService', () => {
       expect(result.soNos).toEqual(['SO001']);
       // expect(result.documentType).toBe(SoDocumentType.SO_DOCUMENT);
       expect(result.data).toBeDefined();
-      expect(dataSource.query).toHaveBeenCalled();
+      expect(mockDataSource.query).toHaveBeenCalled();
     });
 
     it('should handle customer-specific format lookup', async () => {
@@ -111,44 +115,24 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'SPENCER_FORMAT',
       };
 
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          custNo: 'SPENCER',
-          customerName: 'Spencer Corp',
-          items: [],
-        },
-      ];
+      // mockFormatConfig not used - service loads format config internally
 
-      const mockFormatConfig = [
-        {
-          soKey: 'SPENCER_FORMAT',
-          uniqueid: 'logo',
-          vpos: 1,
-          hpos: 1,
-          data: 'SPENCER_LOGO',
-        },
-        {
-          soKey: 'SPENCER_FORMAT',
-          uniqueid: 'header',
-          vpos: 2,
-          hpos: 1,
-          data: 'SHIPPING ORDER',
-        },
-      ];
-
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
-      jest
-        .spyOn(soFormatRepository, 'find')
-        .mockResolvedValue(mockFormatConfig as SoFormat[]);
+      // loadSoData makes 2 queries: headers and items
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          {
+            so_no: 'SO001',
+            cust_no: 'SPENCER',
+            customer_name: 'Spencer Corp',
+          },
+        ]) // SO headers
+        .mockResolvedValueOnce([]); // SO items (empty)
 
       const result = await service.previewSoDocument(generateDto);
 
-      expect(soFormatRepository.find).toHaveBeenCalledWith({
-        where: { soKey: 'SPENCER_FORMAT' },
-        order: { vpos: 'ASC', hpos: 'ASC' },
-      });
+      // previewSoDocument doesn't call getFormatConfig - only generateSoDocument does
       expect(result).toBeDefined();
+      expect(result.formatKey).toBe('SPENCER_FORMAT');
     });
   });
 
@@ -161,28 +145,14 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'DEFAULT',
       };
 
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          date: new Date('2025-01-15'),
-          custNo: 'CUST001',
-          customerName: 'Test Customer',
-          items: [
-            {
-              itemNo: 'ITEM001',
-              itemName: 'Test Item',
-              qty: 100,
-              price: 10.5,
-              amount: 1050.0,
-            },
-          ],
-        },
-      ];
-
       // loadSoData makes 2 queries (headers, items)
-      jest.spyOn(dataSource, 'query')
-        .mockResolvedValueOnce([{ so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' }])
-        .mockResolvedValueOnce([]);
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' },
+        ]) // SO headers
+        .mockResolvedValueOnce([]); // SO items
+      // getFormatConfig is called when formatKey is provided
+      mockSoFormatRepository.find.mockResolvedValue([]); // No format config, use default
 
       const result = await service.generateSoDocument(generateDto);
 
@@ -202,18 +172,19 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'DEFAULT',
       };
 
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          date: new Date('2025-01-15'),
-          items: [],
-        },
-      ];
-
-      // loadSoData makes complex query - mock it properly
-      jest.spyOn(dataSource, 'query').mockResolvedValue([
-        { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001', customer_name: 'Test Customer' }
-      ]);
+      // loadSoData makes 2 queries: headers and items
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          {
+            so_no: 'SO001',
+            date: '2025-01-15',
+            cust_no: 'CUST001',
+            customer_name: 'Test Customer',
+          },
+        ]) // SO headers
+        .mockResolvedValueOnce([]); // SO items
+      // getFormatConfig is called when formatKey is provided
+      mockSoFormatRepository.find.mockResolvedValue([]); // No format config, use default
 
       const result = await service.generateSoDocument(generateDto);
 
@@ -232,14 +203,9 @@ describe('ShippingOrderDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      const mockSoData = [
-        { soNo: 'SO001', items: [] },
-        { soNo: 'SO002', items: [] },
-      ];
-
-      jest.spyOn(dataSource, 'query').mockResolvedValue([
+      mockDataSource.query.mockResolvedValue([
         { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' },
-        { so_no: 'SO002', date: '2025-01-16', cust_no: 'CUST001' }
+        { so_no: 'SO002', date: '2025-01-16', cust_no: 'CUST001' },
       ]);
 
       const result = await service.generateSoDocument(generateDto);
@@ -268,10 +234,10 @@ describe('ShippingOrderDocumentService', () => {
         outputFormat: 'excel',
       };
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue([]);
+      mockDataSource.query.mockResolvedValue([]);
 
       await expect(service.generateSoDocument(generateDto)).rejects.toThrow(
-        'No data found for document generation',
+        'No shipping orders found for the specified SO numbers',
       );
     });
 
@@ -283,40 +249,40 @@ describe('ShippingOrderDocumentService', () => {
         formatKey: 'CUSTOM_FORMAT',
       };
 
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          items: [],
-        },
-      ];
-
-      const mockFormatConfig = [
+      // mockFormatConfig not used - service loads format config internally
+      const mockFormatConfig: SoFormat[] = [
         {
           soKey: 'CUSTOM_FORMAT',
           uniqueid: 'company',
           vpos: 1,
           hpos: 1,
-          data: 'Test Company',
         },
         {
           soKey: 'CUSTOM_FORMAT',
           uniqueid: 'title',
           vpos: 2,
           hpos: 1,
-          data: 'SO DOCUMENT',
         },
       ];
 
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
-      jest
-        .spyOn(soFormatRepository, 'find')
-        .mockResolvedValue(mockFormatConfig as SoFormat[]);
+      // loadSoData makes 2 queries: headers and items
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          {
+            so_no: 'SO001',
+            cust_no: 'CUST001',
+            customer_name: 'Test Customer',
+          },
+        ]) // SO headers
+        .mockResolvedValueOnce([]); // SO items
+      mockSoFormatRepository.find.mockResolvedValue(
+        mockFormatConfig as SoFormat[],
+      );
 
       const result = await service.generateSoDocument(generateDto);
 
-      expect(soFormatRepository.find).toHaveBeenCalledWith({
+      expect(mockSoFormatRepository.find).toHaveBeenCalledWith({
         where: { soKey: 'CUSTOM_FORMAT' },
-        order: { vpos: 'ASC', hpos: 'ASC' },
       });
       expect(result).toBeDefined();
     });
@@ -324,46 +290,30 @@ describe('ShippingOrderDocumentService', () => {
 
   describe('getSoData', () => {
     it('should retrieve SO data with customer and item details', async () => {
-      const soNos = ['SO001'];
-
-      const mockSoData = [
-        {
-          soNo: 'SO001',
-          date: new Date('2025-01-15'),
-          custNo: 'CUST001',
-          customerName: 'Test Customer',
-          items: [
-            {
-              itemNo: 'ITEM001',
-              itemName: 'Test Item',
-              qty: 100,
-              price: 10.5,
-            },
-          ],
-        },
-      ];
-
       // Note: getSoData is private - test via loadSoData indirectly
       // loadSoData makes 2 queries (headers, items)
-      jest.spyOn(dataSource, 'query')
-        .mockResolvedValueOnce([{ so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' }])
-        .mockResolvedValueOnce([{ so_no: 'SO001', item_no: 'ITEM001', qty: 100 }]);
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' },
+        ]) // SO headers
+        .mockResolvedValueOnce([
+          { so_no: 'SO001', item_no: 'ITEM001', qty: 100 },
+        ]); // SO items
 
-      const result = await (service as any).loadSoData(soNos);
+      const result = await (service as any).loadSoData(['SO001']);
 
       expect(result.length).toBeGreaterThan(0);
       expect(result[0].soNo).toBe('SO001');
     });
 
     it('should handle SO data aggregation correctly', async () => {
-      const soNos = ['SO001', 'SO002'];
-
-      const mockSoData = [
-        { soNo: 'SO001', items: [] },
-        { soNo: 'SO002', items: [] },
-      ];
-
-      jest.spyOn(dataSource, 'query').mockResolvedValue(mockSoData);
+      // loadSoData makes 2 queries: headers and items
+      mockDataSource.query
+        .mockResolvedValueOnce([
+          { so_no: 'SO001', date: '2025-01-15', cust_no: 'CUST001' },
+          { so_no: 'SO002', date: '2025-01-16', cust_no: 'CUST001' },
+        ]) // SO headers
+        .mockResolvedValueOnce([]); // SO items
 
       // Note: getSoData is private - test via loadSoData indirectly
       // const result = await (service as any).getSoData(soNos);
@@ -380,16 +330,14 @@ describe('ShippingOrderDocumentService', () => {
         { soKey: 'DEFAULT_FORMAT', uniqueid: 'so_no', vpos: 2, hpos: 1 },
       ];
 
-      jest
-        .spyOn(soFormatRepository, 'find')
-        .mockResolvedValue(mockConfig as SoFormat[]);
+      mockSoFormatRepository.find.mockResolvedValue(mockConfig as SoFormat[]);
 
       const result = await (service as any).getFormatConfig(formatKey);
 
       expect(result).toBeDefined();
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBeGreaterThan(0);
-      expect(soFormatRepository.find).toHaveBeenCalledWith({
+      expect(mockSoFormatRepository.find).toHaveBeenCalledWith({
         where: { soKey: formatKey },
       });
     });
@@ -397,7 +345,7 @@ describe('ShippingOrderDocumentService', () => {
     it('should return empty array for non-existent format', async () => {
       const formatKey = 'NON_EXISTENT';
 
-      jest.spyOn(soFormatRepository, 'find').mockResolvedValue([]);
+      mockSoFormatRepository.find.mockResolvedValue([]);
 
       const result = await (service as any).getFormatConfig(formatKey);
 

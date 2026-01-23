@@ -254,7 +254,8 @@ export class LoadingService {
   async updateLoadingMasterStatus(
     loadingNo: string,
     status: string,
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<LoadingMaster> {
     const master = await this.findLoadingMaster(loadingNo);
 
@@ -281,9 +282,10 @@ export class LoadingService {
   async assignDnsToLoading(
     loadingNo: string,
     dnNos: string[],
-    userId?: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId?: string,
   ): Promise<void> {
-    const master = await this.findLoadingMaster(loadingNo);
+    await this.findLoadingMaster(loadingNo);
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -293,7 +295,7 @@ export class LoadingService {
       for (const dnNo of dnNos) {
         // Validate DN exists
         const dn = await queryRunner.manager.query(
-          'SELECT 1 FROM delivery_note_header WHERE dn_no = $1',
+          'SELECT 1 FROM delivery_note_header WHERE "dnNo" = $1',
           [dnNo],
         );
         if (dn.length === 0) {
@@ -303,8 +305,8 @@ export class LoadingService {
         // Update DN status and assign loading number
         await queryRunner.manager.query(
           `UPDATE delivery_note_header 
-           SET loading_status = 'Loading', loading_no = $1, mod_date = CURRENT_TIMESTAMP
-           WHERE dn_no = $2`,
+           SET "loadingStatus" = 'Loading', "loadingNo" = $1, "modDate" = CURRENT_TIMESTAMP
+           WHERE "dnNo" = $2`,
           [loadingNo, dnNo],
         );
       }

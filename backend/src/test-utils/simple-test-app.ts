@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 // Import all entities
@@ -106,7 +106,7 @@ export async function createSimpleTestApp(): Promise<{
   }).compile();
 
   const app = moduleFixture.createNestApplication();
-  
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

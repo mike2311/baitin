@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { ReportBatchMigrationService } from './report-batch-migration.service';
 import { ReportDefinition } from './entities/report-definition.entity';
 import {
@@ -25,8 +25,6 @@ import {
  */
 describe('ReportBatchMigrationService', () => {
   let service: ReportBatchMigrationService;
-  let reportDefinitionRepository: Repository<ReportDefinition>;
-  let dataSource: DataSource;
 
   const mockReportDefinitionRepository = {
     findOne: jest.fn(),
@@ -58,10 +56,6 @@ describe('ReportBatchMigrationService', () => {
     service = module.get<ReportBatchMigrationService>(
       ReportBatchMigrationService,
     );
-    reportDefinitionRepository = module.get<Repository<ReportDefinition>>(
-      getRepositoryToken(ReportDefinition),
-    );
-    dataSource = module.get<DataSource>(DataSource);
   });
 
   it('should be defined', () => {
@@ -274,7 +268,6 @@ describe('ReportBatchMigrationService', () => {
         sqlQuery: 'SELECT * FROM test_table WHERE :param = :value',
       };
 
-      const testParams = { param: 'id', value: 1 };
       const mockData = Array(500)
         .fill({})
         .map((_, i) => ({ id: i, value: `data${i}` }));

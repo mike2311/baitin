@@ -51,29 +51,29 @@ export class EnquiryService {
     if (query.groupBy === 'customer') {
       sqlQuery = `
         SELECT
-          inv.cust_no,
+          inv."custNo" as cust_no,
           c.ename as customer_name,
-          COUNT(DISTINCT inv.inv_no) as invoice_count,
-          COUNT(DISTINCT invd.so_no) as so_count,
+          COUNT(DISTINCT inv."invNo") as invoice_count,
+          COUNT(DISTINCT invd."soNo") as so_count,
           COALESCE(SUM(invd.qty), 0) as total_qty,
           COALESCE(SUM(invd.amount), 0) as total_amount
         FROM invoice_header inv
-        LEFT JOIN invoice_detail invd ON inv.inv_no = invd.inv_no
-        LEFT JOIN customer c ON inv.cust_no = c.cust_no
+        LEFT JOIN invoice_detail invd ON inv."invNo" = invd."invNo"
+        LEFT JOIN customer c ON inv."custNo" = c.cust_no
         WHERE 1=1
       `;
     } else if (query.groupBy === 'item') {
       sqlQuery = `
         SELECT
-          invd.item_no,
+          invd."itemNo" as item_no,
           i.desp as item_description,
-          COUNT(DISTINCT inv.inv_no) as invoice_count,
-          COUNT(DISTINCT invd.so_no) as so_count,
+          COUNT(DISTINCT inv."invNo") as invoice_count,
+          COUNT(DISTINCT invd."soNo") as so_count,
           COALESCE(SUM(invd.qty), 0) as total_qty,
           COALESCE(SUM(invd.amount), 0) as total_amount
         FROM invoice_detail invd
-        JOIN invoice_header inv ON invd.inv_no = inv.inv_no
-        LEFT JOIN item i ON invd.item_no = i.item_no
+        JOIN invoice_header inv ON invd."invNo" = inv."invNo"
+        LEFT JOIN item i ON invd."itemNo" = i.item_no
         WHERE 1=1
       `;
     } else {
@@ -81,22 +81,22 @@ export class EnquiryService {
       sqlQuery = `
         SELECT
           inv.date,
-          COUNT(DISTINCT inv.inv_no) as invoice_count,
-          COUNT(DISTINCT invd.so_no) as so_count,
+          COUNT(DISTINCT inv."invNo") as invoice_count,
+          COUNT(DISTINCT invd."soNo") as so_count,
           COALESCE(SUM(invd.qty), 0) as total_qty,
           COALESCE(SUM(invd.amount), 0) as total_amount
         FROM invoice_header inv
-        LEFT JOIN invoice_detail invd ON inv.inv_no = invd.inv_no
+        LEFT JOIN invoice_detail invd ON inv."invNo" = invd."invNo"
         WHERE 1=1
       `;
     }
 
     if (query.custNo) {
-      sqlQuery += ` AND inv.cust_no = $${paramIndex++}`;
+      sqlQuery += ` AND inv."custNo" = $${paramIndex++}`;
       parameters.push(query.custNo);
     }
     if (query.itemNo) {
-      sqlQuery += ` AND invd.item_no = $${paramIndex++}`;
+      sqlQuery += ` AND invd."itemNo" = $${paramIndex++}`;
       parameters.push(query.itemNo);
     }
     if (query.dateFrom) {
@@ -110,9 +110,9 @@ export class EnquiryService {
 
     sqlQuery += ` GROUP BY `;
     if (query.groupBy === 'customer') {
-      sqlQuery += `inv.cust_no, c.ename`;
+      sqlQuery += `inv."custNo", c.ename`;
     } else if (query.groupBy === 'item') {
-      sqlQuery += `invd.item_no, i.desp`;
+      sqlQuery += `invd."itemNo", i.desp`;
     } else {
       sqlQuery += `inv.date`;
     }
@@ -156,14 +156,15 @@ export class EnquiryService {
         COALESCE(SUM(oc.qty), 0) as total_confirmed_qty,
         COALESCE(SUM(so.qty), 0) as total_shipped_qty,
         COALESCE(SUM(invd.qty), 0) as total_invoiced_qty,
-        MAX(oe.date) as last_order_date,
+        MAX(oeh.oe_date) as last_order_date,
         MAX(inv.date) as last_invoice_date
       FROM item i
       LEFT JOIN order_enquiry_detail oe ON i.item_no = oe.item_no
+      LEFT JOIN order_enquiry_header oeh ON oe.oe_no = oeh.oe_no
       LEFT JOIN order_confirmation_detail oc ON i.item_no = oc.item_no
-      LEFT JOIN shipping_order so ON i.item_no = so.item_no
-      LEFT JOIN invoice_detail invd ON i.item_no = invd.item_no
-      LEFT JOIN invoice_header inv ON invd.inv_no = inv.inv_no
+      LEFT JOIN shipping_order so ON i.item_no = so."itemNo"
+      LEFT JOIN invoice_detail invd ON i.item_no = invd."itemNo"
+      LEFT JOIN invoice_header inv ON invd."invNo" = inv."invNo"
       WHERE 1=1
     `;
     const parameters: any[] = [];
@@ -207,19 +208,19 @@ export class EnquiryService {
   async soEnquiry(query: SoEnquiryQuery): Promise<SoEnquiryResponseDto[]> {
     let sqlQuery = `
       SELECT
-        so.so_no,
-        so.conf_no,
-        so.cont_no,
-        so.item_no,
+        so."soNo" as so_no,
+        so."confNo" as conf_no,
+        so."contNo" as cont_no,
+        so."itemNo" as item_no,
         i.desp as item_description,
         so.qty,
         so.ctn,
-        so.ship_date,
+        so."shipDate" as ship_date,
         c.ename as customer_name,
-        so.cre_date
+        so."creDate" as cre_date
       FROM shipping_order so
-      LEFT JOIN item i ON so.item_no = i.item_no
-      LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
+      LEFT JOIN item i ON so."itemNo" = i.item_no
+      LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
       LEFT JOIN customer c ON och.cust_no = c.cust_no
       WHERE 1=1
     `;
@@ -227,7 +228,7 @@ export class EnquiryService {
     let paramIndex = 1;
 
     if (query.soNo) {
-      sqlQuery += ` AND so.so_no ILIKE $${paramIndex++}`;
+      sqlQuery += ` AND so."soNo" ILIKE $${paramIndex++}`;
       parameters.push(`%${query.soNo}%`);
     }
     if (query.custNo) {
@@ -235,19 +236,19 @@ export class EnquiryService {
       parameters.push(query.custNo);
     }
     if (query.itemNo) {
-      sqlQuery += ` AND so.item_no ILIKE $${paramIndex++}`;
+      sqlQuery += ` AND so."itemNo" ILIKE $${paramIndex++}`;
       parameters.push(`%${query.itemNo}%`);
     }
     if (query.dateFrom) {
-      sqlQuery += ` AND so.ship_date >= $${paramIndex++}`;
+      sqlQuery += ` AND so."shipDate" >= $${paramIndex++}`;
       parameters.push(query.dateFrom);
     }
     if (query.dateTo) {
-      sqlQuery += ` AND so.ship_date <= $${paramIndex++}`;
+      sqlQuery += ` AND so."shipDate" <= $${paramIndex++}`;
       parameters.push(query.dateTo);
     }
 
-    sqlQuery += ` ORDER BY so.so_no, so.item_no`;
+    sqlQuery += ` ORDER BY so."soNo", so."itemNo"`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
     return results.map((row) => ({
@@ -273,34 +274,34 @@ export class EnquiryService {
   async dnEnquiry(query: DnEnquiryQuery): Promise<DnEnquiryResponseDto[]> {
     let sqlQuery = `
       SELECT
-        dn.dn_no,
+        dn."dnNo" as dn_no,
         dn.date,
-        dn.cust_no,
+        dn."custNo" as cust_no,
         c.ename as customer_name,
-        dn.so_no,
-        COUNT(DISTINCT dnd.item_no) as item_count,
+        dn."soNo" as so_no,
+        COUNT(DISTINCT dnd."itemNo") as item_count,
         COALESCE(SUM(dnd.qty), 0) as total_qty,
-        dn.loading_status,
-        dn.loading_no,
-        dn.cre_date
+        dn."loadingStatus" as loading_status,
+        dn."loadingNo" as loading_no,
+        dn."creDate" as cre_date
       FROM delivery_note_header dn
-      LEFT JOIN customer c ON dn.cust_no = c.cust_no
-      LEFT JOIN delivery_note_detail dnd ON dn.dn_no = dnd.dn_no
+      LEFT JOIN customer c ON dn."custNo" = c.cust_no
+      LEFT JOIN delivery_note_detail dnd ON dn."dnNo" = dnd."dnNo"
       WHERE 1=1
     `;
     const parameters: any[] = [];
     let paramIndex = 1;
 
     if (query.dnNo) {
-      sqlQuery += ` AND dn.dn_no ILIKE $${paramIndex++}`;
+      sqlQuery += ` AND dn."dnNo" ILIKE $${paramIndex++}`;
       parameters.push(`%${query.dnNo}%`);
     }
     if (query.custNo) {
-      sqlQuery += ` AND dn.cust_no = $${paramIndex++}`;
+      sqlQuery += ` AND dn."custNo" = $${paramIndex++}`;
       parameters.push(query.custNo);
     }
     if (query.soNo) {
-      sqlQuery += ` AND dn.so_no = $${paramIndex++}`;
+      sqlQuery += ` AND dn."soNo" = $${paramIndex++}`;
       parameters.push(query.soNo);
     }
     if (query.dateFrom) {
@@ -312,12 +313,12 @@ export class EnquiryService {
       parameters.push(query.dateTo);
     }
     if (query.loadingStatus) {
-      sqlQuery += ` AND dn.loading_status = $${paramIndex++}`;
+      sqlQuery += ` AND dn."loadingStatus" = $${paramIndex++}`;
       parameters.push(query.loadingStatus);
     }
 
-    sqlQuery += ` GROUP BY dn.dn_no, dn.date, dn.cust_no, c.ename, dn.so_no, dn.loading_status, dn.loading_no, dn.cre_date`;
-    sqlQuery += ` ORDER BY dn.date DESC, dn.dn_no`;
+    sqlQuery += ` GROUP BY dn."dnNo", dn.date, dn."custNo", c.ename, dn."soNo", dn."loadingStatus", dn."loadingNo", dn."creDate"`;
+    sqlQuery += ` ORDER BY dn.date DESC, dn."dnNo"`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
     return results.map((row) => ({
@@ -345,33 +346,33 @@ export class EnquiryService {
   ): Promise<InvoiceEnquiryResponseDto[]> {
     let sqlQuery = `
       SELECT
-        inv.inv_no,
+        inv."invNo" as inv_no,
         inv.date,
-        inv.cust_no,
+        inv."custNo" as cust_no,
         c.ename as customer_name,
-        inv.oc_no,
-        COUNT(DISTINCT invd.item_no) as item_count,
+        inv."ocNo" as oc_no,
+        COUNT(DISTINCT invd."itemNo") as item_count,
         COALESCE(SUM(invd.amount), 0) as total_amount,
-        inv.pl_status,
-        inv.cre_date
+        inv."plStatus" as pl_status,
+        inv."creDate" as cre_date
       FROM invoice_header inv
-      LEFT JOIN customer c ON inv.cust_no = c.cust_no
-      LEFT JOIN invoice_detail invd ON inv.inv_no = invd.inv_no
+      LEFT JOIN customer c ON inv."custNo" = c.cust_no
+      LEFT JOIN invoice_detail invd ON inv."invNo" = invd."invNo"
       WHERE 1=1
     `;
     const parameters: any[] = [];
     let paramIndex = 1;
 
     if (query.invNo) {
-      sqlQuery += ` AND inv.inv_no ILIKE $${paramIndex++}`;
+      sqlQuery += ` AND inv."invNo" ILIKE $${paramIndex++}`;
       parameters.push(`%${query.invNo}%`);
     }
     if (query.custNo) {
-      sqlQuery += ` AND inv.cust_no = $${paramIndex++}`;
+      sqlQuery += ` AND inv."custNo" = $${paramIndex++}`;
       parameters.push(query.custNo);
     }
     if (query.ocNo) {
-      sqlQuery += ` AND inv.oc_no = $${paramIndex++}`;
+      sqlQuery += ` AND inv."ocNo" = $${paramIndex++}`;
       parameters.push(query.ocNo);
     }
     if (query.dateFrom) {
@@ -383,8 +384,8 @@ export class EnquiryService {
       parameters.push(query.dateTo);
     }
 
-    sqlQuery += ` GROUP BY inv.inv_no, inv.date, inv.cust_no, c.ename, inv.oc_no, inv.pl_status, inv.cre_date`;
-    sqlQuery += ` ORDER BY inv.date DESC, inv.inv_no`;
+    sqlQuery += ` GROUP BY inv."invNo", inv.date, inv."custNo", c.ename, inv."ocNo", inv."plStatus", inv."creDate"`;
+    sqlQuery += ` ORDER BY inv.date DESC, inv."invNo"`;
 
     const results = await this.dataSource.query(sqlQuery, parameters);
     return results.map((row) => ({

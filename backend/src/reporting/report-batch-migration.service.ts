@@ -5,15 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource, EntityManager } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { ReportDefinition } from './entities/report-definition.entity';
 import {
   MigrateReportBatchDto,
   ReportMigrationStatusDto,
   BatchMigrationStatusDto,
   MigrationStatus,
-  ReportValidationDto,
-  ReportPerformanceTestDto,
   BatchMigrationProgressDto,
 } from './dto/report-batch-migration.dto';
 
@@ -327,10 +325,7 @@ export class ReportBatchMigrationService {
         const firstRow = results[0];
 
         // Check for null primary keys or essential fields
-        const essentialFields = this.identifyEssentialFields(
-          report.category,
-          report.reportKey,
-        );
+        const essentialFields = this.identifyEssentialFields(report.category);
         for (const field of essentialFields) {
           if (firstRow[field] === null || firstRow[field] === undefined) {
             return {
@@ -343,10 +338,10 @@ export class ReportBatchMigrationService {
         // Check data types consistency
         for (let i = 0; i < Math.min(results.length, 10); i++) {
           const row = results[i];
-          for (const [key, value] of Object.entries(row)) {
+          for (const [, value] of Object.entries(row)) {
             if (value !== null && value !== undefined) {
-              const expectedType = this.inferColumnType(value);
               // Basic type consistency check across first few rows
+              // Type inference available via this.inferColumnType(value) if needed
             }
           }
         }
@@ -474,15 +469,14 @@ export class ReportBatchMigrationService {
     return { query, parameters: paramArray };
   }
 
-  private async simulateDataProcessing(results: any[]): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private async simulateDataProcessing(_results: any[]): Promise<void> {
     // Simulate typical data processing operations
     await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay
   }
 
-  private identifyEssentialFields(
-    category?: string,
-    reportKey?: string,
-  ): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private identifyEssentialFields(category?: string): string[] {
     // Define essential fields based on report category
     const essentials: Record<string, string[]> = {
       Transaction: ['id', 'date', 'no'],

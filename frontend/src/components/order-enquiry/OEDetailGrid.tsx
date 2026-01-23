@@ -82,8 +82,9 @@ export function OEDetailGrid({
         if (itemData.price) {
           row.price = itemData.price
         }
-        if (itemData.unit) {
-          row.unit = itemData.unit
+        // Note: Item API may not have 'unit' property - check if it exists
+        if ('unit' in itemData && itemData.unit) {
+          row.unit = itemData.unit as string
         }
         // Recalculate amount
         row.amount = calculateAmount(row.qty, row.price)
@@ -105,14 +106,14 @@ export function OEDetailGrid({
         name: 'Line',
         editable: true,
         width: 70,
-        formatter: ({ row }) => <span>{row.lineNo}</span>,
+        formatter: ({ row }: { row: OEDetailRow }) => <span>{row.lineNo}</span>,
       },
       {
         key: 'itemNo',
         name: 'Item No',
         editable: true,
         width: 160,
-        formatter: ({ row, onRowChange }) => {
+        formatter: ({ row, onRowChange }: { row: OEDetailRow; onRowChange?: (row: OEDetailRow) => void }) => {
           const rowIdx = rows.findIndex((r) => r.id === row.id)
 
           return (
@@ -155,14 +156,14 @@ export function OEDetailGrid({
         name: 'Description',
         editable: false,
         width: 200,
-        formatter: ({ row }) => <span className="text-gray-600">{row.itemDesc || ''}</span>,
+        formatter: ({ row }: { row: OEDetailRow }) => <span className="text-gray-600">{row.itemDesc || ''}</span>,
       },
       {
         key: 'qty',
         name: 'Qty',
         editable: true,
         width: 110,
-        formatter: ({ row, onRowChange }) => (
+        formatter: ({ row, onRowChange }: { row: OEDetailRow; onRowChange?: (row: OEDetailRow) => void }) => (
           <input
             type="number"
             step="0.0001"
@@ -193,7 +194,7 @@ export function OEDetailGrid({
         name: 'Price',
         editable: true,
         width: 110,
-        formatter: ({ row, onRowChange }) => (
+        formatter: ({ row, onRowChange }: { row: OEDetailRow; onRowChange?: (row: OEDetailRow) => void }) => (
           <input
             type="number"
             step="0.01"
@@ -224,7 +225,7 @@ export function OEDetailGrid({
         name: 'Total',
         editable: false,
         width: 110,
-        formatter: ({ row }) => (
+        formatter: ({ row }: { row: OEDetailRow }) => (
           <span className="text-gray-700 font-medium">
             {row.amount?.toFixed(2) || '0.00'}
           </span>
@@ -253,7 +254,7 @@ export function OEDetailGrid({
         name: 'Head',
         editable: true,
         width: 90,
-        formatter: ({ row, onRowChange }) => (
+        formatter: ({ row, onRowChange }: { row: OEDetailRow; onRowChange?: (row: OEDetailRow) => void }) => (
           <input
             type="checkbox"
             checked={row.head || false}

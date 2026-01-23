@@ -16,6 +16,7 @@ import {
 // For now, using basic implementations
 // import * as ExcelJS from 'exceljs';
 // import * as PDFDocument from 'pdfkit';
+import * as XLSX from 'xlsx';
 
 /**
  * Reporting Service
@@ -190,10 +191,16 @@ export class ReportingService {
     data: any[],
   ): Promise<Buffer> {
     // Using xlsx library (already in package.json)
-    const XLSX = require('xlsx');
 
     if (data.length === 0) {
       const workbook = XLSX.utils.book_new();
+      // XLSX requires at least one worksheet - create empty worksheet
+      const emptyWorksheet = XLSX.utils.aoa_to_sheet([['No data available']]);
+      XLSX.utils.book_append_sheet(
+        workbook,
+        emptyWorksheet,
+        report.reportName || 'Report',
+      );
       return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
     }
 
@@ -304,9 +311,19 @@ export class ReportingService {
    * Infer column type from value
    */
   private inferColumnType(value: any): string {
-    if (value === null || value === undefined) return 'string';
+    if (value === null || value === undefined) return 'unknown';
     if (typeof value === 'number') {
-      return Number.isInteger(value) ? 'integer' : 'decimal';
+      // Check if number has decimal part
+      // Number.isInteger returns true for 0.0, so we need to check if it's actually a whole number
+      // by checking if the value equals its integer part
+      if (
+        Number.isInteger(value) &&
+        value === Math.floor(value) &&
+        value === Math.ceil(value)
+      ) {
+        return 'integer';
+      }
+      return 'decimal';
     }
     if (value instanceof Date) return 'date';
     if (typeof value === 'boolean') return 'boolean';

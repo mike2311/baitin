@@ -1,12 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as request from 'supertest';
-import { AppModule } from '../app.module';
 import {
-  createTestApp,
   getAuthToken,
   createTestUser,
   ApiTestClient,
@@ -19,6 +15,14 @@ import { OrderConfirmationHeader } from './entities/order-confirmation-header.en
 import { OrderConfirmationDetail } from './entities/order-confirmation-detail.entity';
 import { ContractHeader } from '../contract/entities/contract-header.entity';
 import { User } from '../users/entities/user.entity';
+import { Customer } from '../customers/entities/customer.entity';
+import { Vendor } from '../vendors/entities/vendor.entity';
+import { Item } from '../items/entities/item.entity';
+import { OrderEnquiryHeader } from '../order-enquiry/entities/order-enquiry-header.entity';
+import { OrderEnquiryDetail } from '../order-enquiry/entities/order-enquiry-detail.entity';
+import { ContractDetail } from '../contract/entities/contract-detail.entity';
+import { ProductBom } from '../order-enquiry/entities/product-bom.entity';
+import { OrderEnquiryQtyBreakdown } from '../order-enquiry/entities/order-enquiry-qty-breakdown.entity';
 
 describe('OrderConfirmationEntry API Tests', () => {
   let app: INestApplication;
@@ -33,7 +37,8 @@ describe('OrderConfirmationEntry API Tests', () => {
   let moduleRef: TestingModule;
 
   beforeAll(async () => {
-    const { app: testApp, moduleRef: testModuleRef } = await createMinimalTestApp();
+    const { app: testApp, moduleRef: testModuleRef } =
+      await createMinimalTestApp();
     app = testApp;
     moduleRef = testModuleRef;
     jwtService = moduleRef.get(JwtService);
@@ -47,48 +52,17 @@ describe('OrderConfirmationEntry API Tests', () => {
     apiClient = new ApiTestClient(app, token);
 
     seeder = new TestDataSeeder(
-      moduleRef.get(
-        getRepositoryToken(
-          require('../customers/entities/customer.entity').Customer,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../vendors/entities/vendor.entity').Vendor),
-      ),
-      moduleRef.get(
-        getRepositoryToken(require('../items/entities/item.entity').Item),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-header.entity')
-            .OrderEnquiryHeader,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-detail.entity')
-            .OrderEnquiryDetail,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(Customer)),
+      moduleRef.get(getRepositoryToken(Vendor)),
+      moduleRef.get(getRepositoryToken(Item)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryHeader)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryDetail)),
       ocHeaderRepo,
       ocDetailRepo,
       contHeaderRepo,
-      moduleRef.get(
-        getRepositoryToken(
-          require('../contract/entities/contract-detail.entity').ContractDetail,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/product-bom.entity').ProductBom,
-        ),
-      ),
-      moduleRef.get(
-        getRepositoryToken(
-          require('../order-enquiry/entities/order-enquiry-qty-breakdown.entity')
-            .OrderEnquiryQtyBreakdown,
-        ),
-      ),
+      moduleRef.get(getRepositoryToken(ContractDetail)),
+      moduleRef.get(getRepositoryToken(ProductBom)),
+      moduleRef.get(getRepositoryToken(OrderEnquiryQtyBreakdown)),
       user.username,
     );
 

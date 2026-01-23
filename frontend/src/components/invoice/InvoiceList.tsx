@@ -44,7 +44,7 @@ const InvoiceList: React.FC = () => {
   const [showDocumentGenerator, setShowDocumentGenerator] = useState(false);
   const { toast } = useToast();
 
-  const { register, handleSubmit, reset } = useForm<SearchFormData>();
+  const { register, handleSubmit, reset, getValues } = useForm<SearchFormData>();
 
   const performSearch = async (data: SearchFormData) => {
     try {
@@ -102,7 +102,9 @@ const InvoiceList: React.FC = () => {
       });
 
       // Refresh search results
-      performSearch(reset());
+      reset();
+      const formData = getValues();
+      performSearch(formData);
 
     } catch (error) {
       console.error('Delete failed:', error);

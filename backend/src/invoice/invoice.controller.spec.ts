@@ -9,10 +9,7 @@ import {
   SelectInvoiceItemsByContainerDto,
 } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import {
-  GenerateInvoiceDocumentDto,
-  InvoiceDocumentType,
-} from './dto/generate-invoice-document.dto';
+// GenerateInvoiceDocumentDto and InvoiceDocumentType not used in tests
 
 /**
  * Invoice Controller Tests
@@ -30,9 +27,6 @@ import {
  */
 describe('InvoiceController', () => {
   let controller: InvoiceController;
-  let service: InvoiceService;
-  let validationService: InvoiceValidationService;
-  let documentService: InvoiceDocumentService;
 
   const mockInvoiceService = {
     create: jest.fn(),
@@ -77,13 +71,6 @@ describe('InvoiceController', () => {
     }).compile();
 
     controller = module.get<InvoiceController>(InvoiceController);
-    service = module.get<InvoiceService>(InvoiceService);
-    validationService = module.get<InvoiceValidationService>(
-      InvoiceValidationService,
-    );
-    documentService = module.get<InvoiceDocumentService>(
-      InvoiceDocumentService,
-    );
   });
 
   it('should be defined', () => {
@@ -314,7 +301,7 @@ describe('InvoiceController', () => {
   //   });
   // });
 
-  // Note: document endpoints not implemented on controller  
+  // Note: document endpoints not implemented on controller
   // describe('document endpoints', () => {
   //   describe('previewInvoiceDocument', () => {
   //     it('should preview invoice document', async () => {
@@ -342,8 +329,6 @@ describe('InvoiceController', () => {
     });
 
     it('should handle validation service errors', async () => {
-      const items = [{ itemNo: 'ITEM001', qty: 100, ctn: 2, qctn: 40 }];
-
       mockValidationService.validateQtyCartonMatch.mockRejectedValue(
         new Error('Validation error'),
       );
@@ -353,22 +338,15 @@ describe('InvoiceController', () => {
     });
 
     it('should handle document service errors', async () => {
-      const generateDto: GenerateInvoiceDocumentDto = {
-        invNos: ['INV001'],
-        documentType: InvoiceDocumentType.PACKING_LIST,
-        outputFormat: 'excel',
-      };
-
+      // Note: generateInvoiceDocument not on controller
+      // const generateDto: GenerateInvoiceDocumentDto = {
+      //   invNos: ['INV001'],
+      //   documentType: InvoiceDocumentType.PACKING_LIST,
+      //   outputFormat: 'excel',
+      // };
       mockDocumentService.generateInvoiceDocument.mockRejectedValue(
         new Error('Document generation failed'),
       );
-
-      const mockRes = {
-        setHeader: jest.fn(),
-        send: jest.fn(),
-      };
-
-      // Note: generateInvoiceDocument not on controller
       // await expect(
       //   controller.generateInvoiceDocument(generateDto, mockRes as any),
       // ).rejects.toThrow('Document generation failed');
