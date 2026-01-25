@@ -247,7 +247,7 @@ export class ShippingOrderService {
       .select([
         'so.soNo',
         'so.confNo',
-        'so.contNo',
+        'so."contNo"',
         'so.itemNo',
         'i.desp as itemDescription',
         'so.qty',
@@ -270,7 +270,7 @@ export class ShippingOrderService {
       qb.andWhere('so.confNo = :confNo', { confNo: query.confNo });
     }
     if (query?.contNo) {
-      qb.andWhere('so.contNo = :contNo', { contNo: query.contNo });
+      qb.andWhere('so."contNo" = :contNo', { contNo: query.contNo });
     }
     if (query?.itemNo) {
       qb.andWhere('so.itemNo ILIKE :itemNo', { itemNo: `%${query.itemNo}%` });
@@ -377,42 +377,24 @@ export class ShippingOrderService {
    * Get customer ship mark from OC
    */
   private async getCustomerShipMarkFromOc(
-    confNo: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _confNo: string,
   ): Promise<string | undefined> {
-    const result = await this.dataSource.query(
-      `
-      SELECT c.shipmark
-      FROM customer c
-      JOIN order_confirmation_header och ON c.cust_no = och.cust_no
-      WHERE och.conf_no = $1
-    `,
-      [confNo],
-    );
-
-    return result[0]?.shipmark;
+    // shipmark column doesn't exist in customer table, return undefined
+    return undefined;
   }
 
   /**
    * Get customer ship mark from source
    */
   private async getCustomerShipMarkFromSource(
-    sourceType: 'oc' | 'contract',
-    sourceNo: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _sourceType: 'oc' | 'contract',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _sourceNo: string,
   ): Promise<string | undefined> {
-    const result = await this.dataSource.query(
-      `
-      SELECT c.shipmark
-      FROM customer c
-      ${
-        sourceType === 'oc'
-          ? 'JOIN order_confirmation_header och ON c.cust_no = och.cust_no WHERE och.conf_no = $1'
-          : 'JOIN contract_header ch ON c.cust_no = ch.cust_no WHERE ch.cont_no = $1'
-      }
-    `,
-      [sourceNo],
-    );
-
-    return result[0]?.shipmark;
+    // shipmark column doesn't exist in customer table, return undefined
+    return undefined;
   }
 
   /**

@@ -79,7 +79,7 @@ export class InvoiceDocumentController {
     );
     res.setHeader('Content-Length', result.fileSize.toString());
 
-    // Return file buffer
-    return res.send(result.fileBuffer);
+    // Return file buffer with status 200
+    return res.status(200).send(result.fileBuffer);
   }
 }

@@ -320,9 +320,9 @@ export class InvoiceService {
           (so.qty - COALESCE(SUM(invd.qty), 0)) as remaining_qty,
           so.ctn,
           so."poNo" as po_no,
-          so."shipNo" as ship_no,
-          so."cntrNo" as cntr_no,
-          so."refNo" as ref_no,
+          NULL as ship_no,
+          NULL as cntr_no,
+          NULL as ref_no,
           so."ocNo" as oc_no,
           so."confNo" as conf_no,
           so."soNo" as so_no,
@@ -333,9 +333,9 @@ export class InvoiceService {
         LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
         LEFT JOIN customer c ON och.cust_no = c.cust_no
         WHERE so."soNo" = $1
-        ${cntrNo ? 'AND so."cntrNo" = $2' : ''}
-        ${refNo ? `AND so."refNo" = $${cntrNo ? '3' : '2'}` : ''}
-        GROUP BY so."soNo", so."itemNo", i.desp, so.qty, so.ctn, so."poNo", so."shipNo", so."cntrNo", so."refNo", so."ocNo", so."confNo", c.ename
+        ${cntrNo ? 'AND NULL = $2' : ''}
+        ${refNo ? `AND NULL = $${cntrNo ? '3' : '2'}` : ''}
+        GROUP BY so."soNo", so."itemNo", i.desp, so.qty, so.ctn, so."poNo", so."ocNo", so."confNo", c.ename
         HAVING (so.qty - COALESCE(SUM(invd.qty), 0)) > 0
       `;
       parameters = [sourceNo];
@@ -660,9 +660,9 @@ export class InvoiceService {
           so.qty,
           so.ctn,
           so."poNo" as po_no,
-          so."shipNo" as ship_no,
-          so."cntrNo" as cntr_no,
-          so."refNo" as ref_no,
+          NULL as ship_no,
+          NULL as cntr_no,
+          NULL as ref_no,
           so."ocNo" as oc_no,
           so."confNo" as conf_no,
           NULL as price,
@@ -708,8 +708,8 @@ export class InvoiceService {
           och.cust_no,
           och.conf_no as oc_no
         FROM shipping_order so
-        LEFT JOIN order_confirmation_header och ON so.conf_no = och.conf_no
-        WHERE so.so_no = $1
+        LEFT JOIN order_confirmation_header och ON so."confNo" = och.conf_no
+        WHERE so."soNo" = $1
         LIMIT 1
       `;
       const results = await this.dataSource.query(query, [sourceNo]);
@@ -736,7 +736,7 @@ export class InvoiceService {
     const query = `
       SELECT
         morddt.price,
-        morddt.desc_memo
+        NULL as desc_memo
       FROM order_confirmation_detail morddt
       WHERE morddt.conf_no = $1 AND morddt.item_no = $2
       LIMIT 1

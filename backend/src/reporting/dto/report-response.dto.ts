@@ -47,4 +47,5 @@ export class ReportGenerationResponseDto {
   format: 'pdf' | 'excel' | 'html';
   generatedAt: Date;
   parameters?: Record<string, any>;
+  fileBuffer?: Buffer; // File buffer for direct download (not serialized in JSON)
 }

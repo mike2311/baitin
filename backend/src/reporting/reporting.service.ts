@@ -160,9 +160,7 @@ export class ReportingService {
       throw new BadRequestException(`Unsupported output format: ${format}`);
     }
 
-    // TODO: Save file to storage and return URL
-    // For now, return file info (actual file saving will be implemented with storage service)
-
+    // Return file info with buffer for download
     return {
       reportKey: report.reportKey,
       reportName: report.reportName,
@@ -171,6 +169,7 @@ export class ReportingService {
       format: format as 'pdf' | 'excel' | 'html',
       generatedAt: new Date(),
       parameters: generateDto.parameters,
+      fileBuffer, // Include buffer for file download
     };
   }
 

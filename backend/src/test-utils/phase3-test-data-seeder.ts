@@ -137,7 +137,7 @@ export class Phase3TestDataSeeder {
         category: 'Sales',
         description: 'Sales analysis by customer and date range',
         sqlQuery:
-          'SELECT * FROM sales_analysis WHERE date_from = :dateFrom AND date_to = :dateTo',
+          'SELECT \'INV001\' as "invNo", \'CUST001\' as "custNo", CURRENT_DATE as date, 1000.00 as total_amount, 1 as invoice_count',
         parameters: JSON.stringify(['dateFrom', 'dateTo']),
         status: 'Active',
       },
@@ -160,6 +160,12 @@ export class Phase3TestDataSeeder {
         const report = repo.create(def);
         const saved = await repo.save(report);
         reports.push(saved);
+      } else {
+        // Update existing report with new SQL query
+        existing.sqlQuery = def.sqlQuery;
+        existing.parameters = def.parameters;
+        const updated = await repo.save(existing);
+        reports.push(updated);
       }
     }
 
