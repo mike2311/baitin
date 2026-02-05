@@ -5,7 +5,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   onValueChange?: (value: string) => void;
 }
 
-export const Select: React.FC<SelectProps> = ({ children, onValueChange, onChange, ...props }) => {
+export const Select: React.FC<SelectProps> = ({ children, onValueChange, onChange, className, ...props }) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (onValueChange) {
       onValueChange(e.target.value);
@@ -14,7 +14,20 @@ export const Select: React.FC<SelectProps> = ({ children, onValueChange, onChang
       onChange(e);
     }
   };
-  return <select {...props} onChange={handleChange}>{children}</select>;
+  // Filter out wrapper components - only SelectItem (option) should be direct children of select
+  const validChildren = React.Children.toArray(children).reduce((acc: ReactNode[], child: any) => {
+    if (React.isValidElement(child)) {
+      if (child.type === SelectContent) {
+        // Extract SelectItem children from SelectContent
+        return [...acc, ...React.Children.toArray(child.props.children)];
+      } else if (child.type === SelectItem) {
+        return [...acc, child];
+      }
+      // Skip SelectTrigger and SelectValue
+    }
+    return acc;
+  }, []);
+  return <select {...props} className={className} onChange={handleChange}>{validChildren}</select>;
 };
 
 interface SelectTriggerProps {
@@ -22,16 +35,18 @@ interface SelectTriggerProps {
   children: ReactNode;
 }
 
-export const SelectTrigger: React.FC<SelectTriggerProps> = ({ className, children }) => {
-  return <div className={className}>{children}</div>;
+export const SelectTrigger: React.FC<SelectTriggerProps> = () => {
+  // SelectTrigger is just for API compatibility - doesn't render anything
+  return null;
 };
 
 interface SelectValueProps {
   placeholder?: string;
 }
 
-export const SelectValue: React.FC<SelectValueProps> = ({ placeholder }) => {
-  return <span>{placeholder}</span>;
+export const SelectValue: React.FC<SelectValueProps> = () => {
+  // SelectValue is just for API compatibility - doesn't render anything
+  return null;
 };
 
 interface SelectContentProps {
@@ -39,8 +54,10 @@ interface SelectContentProps {
   children: ReactNode;
 }
 
-export const SelectContent: React.FC<SelectContentProps> = ({ className, children }) => {
-  return <div className={className}>{children}</div>;
+export const SelectContent: React.FC<SelectContentProps> = ({ children }) => {
+  // SelectContent doesn't render a DOM element - children are extracted by Select component
+  // Use fragment to preserve children without adding DOM nodes
+  return <>{children}</>;
 };
 
 interface SelectItemProps {
