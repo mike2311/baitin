@@ -5,7 +5,7 @@ This guide gets the full app (React frontend + NestJS API) running on Vercel usi
 ## Overview
 
 - **Project 1 (Frontend):** Root Directory = **`frontend`**. Uses `frontend/vercel.json` to build and serve the React/Vite app.
-- **Project 2 (Backend):** Root Directory = **`backend`**. Uses `backend/vercel.json` to build and run the NestJS API as a serverless function.
+- **Project 2 (Backend):** Root Directory = **`backend`**. No `vercel.json` needed—Vercel auto-detects NestJS and deploys it as a serverless function.
 
 **Important:** Each project must have its **Root Directory** set in the Vercel project settings. If the backend build fails with `cd: frontend: No such file or directory`, the backend project is still using the wrong config—set Root Directory to **`backend`** and redeploy.
 
@@ -20,9 +20,7 @@ After both are deployed, set `VITE_API_URL` on the frontend so it uses the backe
 3. **Root Directory:** Click **Edit**, set to **`backend`**, and confirm.  
    This makes Vercel build and run the NestJS app (it will find `backend/src/main.ts`).
 4. **Framework Preset:** Leave as auto or “Other”. Do **not** override with a frontend framework.
-5. **Build and Output:**  
-   - Build Command: `npm run build` (default when root is `backend`)  
-   - Output Directory: leave empty (NestJS is deployed as a serverless function, not static files).
+5. **Build and Output:** Leave defaults. Do **not** set Output Directory—NestJS is deployed as a serverless function, not static files. (If you see “No Output Directory named dist”, the project is being treated as static; ensure Root Directory is `backend` and there is no `backend/vercel.json` that sets `outputDirectory` or only `buildCommand`.)
 6. **Environment variables:** Add these in the project’s **Settings → Environment Variables** (for Production and Preview if you use them):
 
    | Name               | Value                          | Notes                    |
@@ -92,7 +90,7 @@ After seeding, log in on the frontend with **admin** / **admin123** and company 
 | Project   | Root Directory | Config file           | Purpose                          |
 |----------|----------------|------------------------|-----------------------------------|
 | Frontend | **`frontend`** | `frontend/vercel.json` | Serves the React app.             |
-| Backend  | **`backend`**  | `backend/vercel.json` | Serves NestJS API (serverless).   |
+| Backend  | **`backend`**  | (none; zero-config)   | Serves NestJS API (serverless).   |
 
 - Frontend env: `VITE_API_URL` = `https://<backend-vercel-url>/api`.
 - Backend env: `DATABASE_*`, `FRONTEND_URL`, optionally `JWT_SECRET`.
@@ -105,7 +103,10 @@ Once both projects are deployed and env vars are set, the full app runs on Verce
 ## Troubleshooting
 
 - **Backend build fails: `cd: frontend: No such file or directory`**  
-  The backend project is using the wrong config. In the backend project’s Vercel settings, set **Root Directory** to **`backend`** (and save). Then redeploy. The repo no longer has a root `vercel.json`; each app uses its own (`frontend/vercel.json` and `backend/vercel.json`).
+  The backend project is using the wrong config. Set **Root Directory** to **`backend`** and redeploy. The repo has no root `vercel.json`; the frontend uses `frontend/vercel.json` only.
+
+- **Backend build fails: No Output Directory named "dist" found**  
+  Vercel is treating the backend as a static site. The backend must **not** have an `outputDirectory` (NestJS is serverless). Ensure **Root Directory** is **`backend`** and that there is no `backend/vercel.json` in the repo—Vercel’s zero-config will then detect NestJS and deploy it as a function.
 
 - **Frontend build fails: No entrypoint found**  
   Set the frontend project’s **Root Directory** to **`frontend`** so Vercel uses `frontend/vercel.json`.
