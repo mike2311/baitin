@@ -63,6 +63,10 @@ npm run dev
 3. Create user: `baitin_dev` with password
 4. Follow steps 2-5 above
 
+## Deploy to Vercel (full stack)
+
+To run both the frontend and backend on Vercel, use **two Vercel projects** (same repo): frontend with **Root Directory** `frontend`, backend with **Root Directory** `backend`. Step-by-step: **[docs/deployment/vercel-full-stack.md](docs/deployment/vercel-full-stack.md)**.
+
 ## Project Structure
 
 ```

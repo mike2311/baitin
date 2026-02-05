@@ -10,24 +10,15 @@
     "lint:frontend": "cd frontend && npm run lint -- --fix",
     "type-check:frontend": "cd frontend && npm run type-check",
     "lint:backend": "cd backend && npm run lint -- --fix",
-    "build:backend": "cd backend && npm run build"
+    "build:backend": "cd backend && npm run build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed"
   },
   "devDependencies": {
     "husky": "^8.0.3",
     "lint-staged": "^15.5.2",
     "@playwright/test": "^1.40.0",
     "playwright": "^1.40.0"
-  },
-  "scripts": {
-    "prepare": "husky install",
-    "pre-commit-check": "node scripts/pre-commit-check.js",
-    "pre-push-check": "node scripts/pre-push-check.js",
-    "lint:frontend": "cd frontend && npm run lint -- --fix",
-    "type-check:frontend": "cd frontend && npm run type-check",
-    "lint:backend": "cd backend && npm run lint -- --fix",
-    "build:backend": "cd backend && npm run build",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
   }
 }
