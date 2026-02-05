@@ -15,8 +15,8 @@ export const Select: React.FC<SelectProps> = ({ children, onValueChange, onChang
     }
   };
   // Filter out wrapper components - only SelectItem (option) should be direct children of select
-  const validChildren = React.Children.toArray(children).reduce((acc: ReactNode[], child: any) => {
-    if (React.isValidElement(child)) {
+  const validChildren = React.Children.toArray(children).reduce((acc: ReactNode[], child: React.ReactNode) => {
+    if (React.isValidElement<{ children?: ReactNode }>(child)) {
       if (child.type === SelectContent) {
         // Extract SelectItem children from SelectContent
         return [...acc, ...React.Children.toArray(child.props.children)];
