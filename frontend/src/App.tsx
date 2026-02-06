@@ -23,6 +23,7 @@ import ReportBatchMigrationPage from './pages/ReportBatchMigrationPage'
 import OrderEnquiryControlPage from './pages/OrderEnquiryControlPage'
 import OrderEnquiryEntryPage from './pages/OrderEnquiryEntryPage'
 import OrderEnquiryListPage from './pages/OrderEnquiryListPage'
+import OrderEnquiryImportPage from './pages/OrderEnquiryImportPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 const queryClient = new QueryClient({
@@ -102,6 +103,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <OrderEnquiryListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-enquiry/import"
+              element={
+                <ProtectedRoute>
+                  <OrderEnquiryImportPage />
                 </ProtectedRoute>
               }
             />

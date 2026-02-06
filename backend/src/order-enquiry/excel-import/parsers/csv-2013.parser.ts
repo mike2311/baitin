@@ -36,16 +36,38 @@ export class Csv2013Parser {
     }) as Record<string, string>[];
 
     const lines: ParsedOrderEnquiryLine[] = records.map((r) => {
-      const get = (key: string) => {
-        const foundKey = Object.keys(r).find(
-          (k) => k.trim().toLowerCase() === key.toLowerCase(),
-        );
+      const get = (key: string, alternatives: string[] = []) => {
+        const allKeys = [key, ...alternatives];
+        const foundKey = Object.keys(r).find((k) => {
+          const kLower = k
+            .trim()
+            .toLowerCase()
+            .replace(/[_\s-]/g, '');
+          return allKeys.some((searchKey) => {
+            const searchLower = searchKey.toLowerCase().replace(/[_\s-]/g, '');
+            return (
+              kLower === searchLower ||
+              kLower.includes(searchLower) ||
+              searchLower.includes(kLower)
+            );
+          });
+        });
         return foundKey ? (r[foundKey] ?? '').trim() : '';
       };
 
-      const oeNo = get('oe_no');
-      const itemNo = get('item_no');
-      const qty = Number(get('qty'));
+      const oeNo = get('oe_no', [
+        'oe number',
+        'oe',
+        'order enquiry number',
+        'order enquiry',
+      ]);
+      const itemNo = get('item_no', [
+        'item number',
+        'item',
+        'item code',
+        'itemcode',
+      ]);
+      const qty = Number(get('qty', ['quantity', 'qty', 'qty.', 'qty_']));
 
       if (!oeNo || !itemNo || !Number.isFinite(qty)) {
         throw new BadRequestException(
@@ -53,9 +75,24 @@ export class Csv2013Parser {
         );
       }
 
-      const priceStr = get('price');
-      const delFromStr = get('del_from');
-      const delToStr = get('del_to');
+      const priceStr = get('price', [
+        'unit price',
+        'price',
+        'unitprice',
+        'unit_price',
+      ]);
+      const delFromStr = get('del_from', [
+        'delivery from',
+        'deliveryfrom',
+        'del from',
+        'delivery date from',
+      ]);
+      const delToStr = get('del_to', [
+        'delivery to',
+        'deliveryto',
+        'del to',
+        'delivery date to',
+      ]);
 
       const line: ParsedOrderEnquiryLine = {
         oeNo,

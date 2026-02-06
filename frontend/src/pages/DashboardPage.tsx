@@ -83,6 +83,34 @@ export default function DashboardPage() {
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-6">Order Enquiry</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button
+              onClick={() => navigate('/order-enquiry/control')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📋 OE Control</h3>
+              <p className="text-gray-600 text-sm">Create and manage OE Control records</p>
+            </button>
+            <button
+              onClick={() => navigate('/order-enquiry/entry')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📝 OE Entry</h3>
+              <p className="text-gray-600 text-sm">Create and edit Order Enquiries</p>
+            </button>
+            <button
+              onClick={() => navigate('/order-enquiry/list')}
+              className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
+            >
+              <h3 className="text-lg font-semibold mb-2">📊 OE List</h3>
+              <p className="text-gray-600 text-sm">View and search Order Enquiries</p>
+            </button>
+            <button
+              onClick={() => navigate('/order-enquiry/import')}
+              className="p-6 bg-white border-2 border-indigo-300 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left border-dashed"
+            >
+              <h3 className="text-lg font-semibold mb-2">📥 Excel Import</h3>
+              <p className="text-gray-600 text-sm">Import Order Enquiry from Excel/CSV files</p>
+            </button>
+            <button
               onClick={() => navigate('/order-enquiry/qty-breakdown')}
               className="p-6 bg-white border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-lg transition-all text-left"
             >

@@ -30,10 +30,11 @@ export const TableBody: React.FC<TableBodyProps> = ({ className, children }) => 
 interface TableRowProps {
   className?: string;
   children: ReactNode;
+  onClick?: () => void;
 }
 
-export const TableRow: React.FC<TableRowProps> = ({ className, children }) => {
-  return <tr className={className}>{children}</tr>;
+export const TableRow: React.FC<TableRowProps> = ({ className, children, onClick }) => {
+  return <tr className={className} onClick={onClick}>{children}</tr>;
 };
 
 interface TableHeadProps {
@@ -49,8 +50,9 @@ interface TableCellProps {
   className?: string;
   title?: string;
   children: ReactNode;
+  colSpan?: number;
 }
 
-export const TableCell: React.FC<TableCellProps> = ({ className, title, children }) => {
-  return <td className={className} title={title}>{children}</td>;
+export const TableCell: React.FC<TableCellProps> = ({ className, title, children, colSpan }) => {
+  return <td className={className} title={title} colSpan={colSpan}>{children}</td>;
 };

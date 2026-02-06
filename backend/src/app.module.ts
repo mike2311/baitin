@@ -126,7 +126,7 @@ import { ReportingModule } from './reporting/reporting.module';
             Zorigin,
           ],
           migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-          synchronize: false, // Disabled - use migrations instead to avoid startup delays
+          synchronize: true, // Temporarily enabled for PoC - creates tables automatically
           logging: configService.get('NODE_ENV') === 'development',
           connectTimeoutMS: 10000, // 10 second connection timeout
           extra: {

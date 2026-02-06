@@ -28,6 +28,8 @@
     "migration:validate": "cd migration-cli && npm run validate",
     "migration:reset": "cd migration-cli && npm run reset",
     "seed-reports": "ts-node src/reporting/report-seeder.command.ts",
+    "seed-user": "ts-node src/scripts/seed-user.ts",
+    "seed-import-data": "ts-node src/scripts/seed-import-test-data.ts",
     "setup:test-schema": "ts-node src/test-utils/setup-test-schema.ts",
     "test:reset": "docker restart baitin_poc_postgres_test && timeout /t 10 && npm run setup:test-schema"
   },

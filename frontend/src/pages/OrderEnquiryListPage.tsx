@@ -104,9 +104,17 @@ export default function OrderEnquiryListPage() {
         <div className="bg-white rounded-lg shadow p-6 space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Order Enquiry List</h2>
-            <Button onClick={() => navigate('/order-enquiry/entry')}>
-              Create New OE
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => navigate('/order-enquiry/import')}
+              >
+                Import Excel
+              </Button>
+              <Button onClick={() => navigate('/order-enquiry/entry')}>
+                Create New OE
+              </Button>
+            </div>
           </div>
 
           {/* Search/Filter Section */}

@@ -30,8 +30,9 @@ After both are deployed, set `VITE_API_URL` on the frontend so it uses the backe
    | `DATABASE_USER`    | `postgres`                     |                          |
    | `DATABASE_PASSWORD`| Your Supabase DB password      | From Supabase dashboard  |
    | `DATABASE_NAME`    | `postgres`                     |                          |
-   | `FRONTEND_URL`     | Your frontend Vercel URL       | e.g. `https://baitin.vercel.app` |
-   | `JWT_SECRET`       | A long random secret string    | Optional; app has a default |
+   | `FRONTEND_URL`     | Your frontend Vercel URL       | e.g. `https://baitinfrontend.vercel.app` (exact origin for CORS) |
+   | `JWT_SECRET`       | A long random secret string    | Recommended in production |
+   | `JWT_EXPIRES_IN`   | Token expiry (e.g. `24h`, `1d`) | Optional; app default is `1d` |
 
    Replace `db.xxxxx.supabase.co` and the password with your real Supabase project values. Ensure the Supabase project is **not paused**.
 
@@ -110,3 +111,9 @@ Once both projects are deployed and env vars are set, the full app runs on Verce
 
 - **Frontend build fails: No entrypoint found**  
   Set the frontend project’s **Root Directory** to **`frontend`** so Vercel uses `frontend/vercel.json`.
+
+- **Backend returns 500 / FUNCTION_INVOCATION_FAILED on `/api/auth/login`**  
+  The serverless function is failing. Check: (1) **Backend** project → **Settings** → **Environment Variables**: set all of `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `FRONTEND_URL`, and `JWT_SECRET` (values from your local `backend/.env`). Optionally set `JWT_EXPIRES_IN` (e.g. `24h`); you do **not** need `PORT` or `JWT_EXPIRATION`. (2) In Supabase Dashboard, ensure the project is **not paused**. (3) **Redeploy** the backend after changing env vars.
+
+- **CORS / login works from same origin but fails from frontend**  
+  Backend CORS uses `FRONTEND_URL`. In the backend Vercel project, set `FRONTEND_URL` to the **exact** frontend origin, e.g. `https://baitinfrontend.vercel.app` (no trailing slash). Redeploy the backend after changing it.
