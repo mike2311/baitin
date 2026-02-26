@@ -3,17 +3,19 @@ name: Deploy Documentation
 # This workflow builds and deploys documentation from docs/ folder
 # Structure:
 # - docs/source/ - Source system documentation (legacy system)
-# - docs/planning/ - Implementation planning (tracked separately, not in docs build)
-# - docs/modernization-strategy/ - Modernization strategy (included in docs build)
+# - docs/planning/ - Implementation planning
+# - docs/deployment/ - Deployment guides (Vercel, Supabase)
+# - docs/demo/ - PoC demo scripts and presentation
+# - docs/modernization-strategy/ - Modernization strategy
+# - docs/migration-cli/ - Migration CLI usage
+# - docs/runbooks/ - Runbooks and testing guides
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'docs/source/**'  # Source documentation
-      - 'docs/modernization-strategy/**'  # Modernization strategy
-      - 'docs/planning/**'  # Implementation planning
+      - 'docs/**'
       - 'mkdocs.yml'
       - '.github/workflows/docs.yml'
   workflow_dispatch:
@@ -50,7 +52,7 @@ jobs:
         run: mkdocs build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./site
 
