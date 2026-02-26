@@ -174,9 +174,9 @@ export async function createTestApp(): Promise<{
   // Set global prefix to match main.ts
   app.setGlobalPrefix('api');
 
-  // Enable CORS
+  // Enable CORS (simplified for tests - allow all origins)
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: true,
     credentials: true,
   });
 

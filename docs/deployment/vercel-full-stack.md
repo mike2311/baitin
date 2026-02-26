@@ -2,6 +2,8 @@
 
 This guide gets the full app (React frontend + NestJS API) running on Vercel using **two Vercel projects** from the same repo. Both run on Vercel; the frontend calls the backend via the backend’s public URL.
 
+> **Prerequisite:** Read [supabase-pooling.md](./supabase-pooling.md) first. Supabase **Session Pooler** is required for Vercel (Direct connection is not IPv4 compatible). Use the pooler host, port, and user in your backend env vars.
+
 ## Overview
 
 - **Project 1 (Frontend):** Root Directory = **`frontend`**. Uses `frontend/vercel.json` to build and serve the React/Vite app.
@@ -25,16 +27,17 @@ After both are deployed, set `VITE_API_URL` on the frontend so it uses the backe
 
    | Name               | Value                          | Notes                    |
    |--------------------|--------------------------------|--------------------------|
-   | `DATABASE_HOST`    | `db.xxxxx.supabase.co`         | Your Supabase host       |
-   | `DATABASE_PORT`    | `5432`                         |                          |
-   | `DATABASE_USER`    | `postgres`                     |                          |
+   | `DATABASE_HOST`    | Session Pooler host only       | e.g. `aws-1-ap-southeast-1.pooler.supabase.com` — **not** `db.xxx.supabase.co` (see [supabase-pooling.md](./supabase-pooling.md)) |
+   | `DATABASE_PORT`    | `5432` or `6543`               | From Supabase pooler settings |
+   | `DATABASE_USER`    | `postgres.<project-ref>` or `postgres` | Pooler username format |
    | `DATABASE_PASSWORD`| Your Supabase DB password      | From Supabase dashboard  |
    | `DATABASE_NAME`    | `postgres`                     |                          |
-   | `FRONTEND_URL`     | Your frontend Vercel URL       | e.g. `https://baitinfrontend.vercel.app` (exact origin for CORS) |
+   | `CORS_ORIGINS`     | Comma-separated allowed origins | e.g. `https://baitinfrontend.vercel.app,https://preview-xxx.vercel.app` |
+   | `FRONTEND_URL`     | (Fallback) Single frontend URL | e.g. `https://baitinfrontend.vercel.app` — use `CORS_ORIGINS` for multiple |
    | `JWT_SECRET`       | A long random secret string    | Recommended in production |
    | `JWT_EXPIRES_IN`   | Token expiry (e.g. `24h`, `1d`) | Optional; app default is `1d` |
 
-   Replace `db.xxxxx.supabase.co` and the password with your real Supabase project values. Ensure the Supabase project is **not paused**.
+   Get these values from Supabase **Session Pooler** (not Direct connection). See [supabase-pooling.md](./supabase-pooling.md). Ensure the Supabase project is **not paused**.
 
 7. Deploy the project. Wait for the deployment to finish and note the **backend URL**, e.g. `https://baitin-api-xxxxx.vercel.app`.  
    All API routes live under `/api`, e.g. `https://baitin-api-xxxxx.vercel.app/api/auth/login`.
@@ -44,8 +47,10 @@ After both are deployed, set `VITE_API_URL` on the frontend so it uses the backe
 ## Step 2: Deploy the frontend (if not already)
 
 1. Create a **frontend** Vercel project from the same repo.
-2. Set **Root Directory** to **`frontend`**. This makes Vercel use `frontend/vercel.json` (build/output/install for the React app only).
-3. Deploy. Note your frontend URL (e.g. `https://baitin.vercel.app`).
+2. Set **Root Directory** to **`frontend`**. This makes Vercel use `frontend/vercel.json` (build, output, SPA rewrites).
+3. Deploy. Note your frontend URL (e.g. `https://baitinfrontend.vercel.app`).
+
+The frontend `vercel.json` includes SPA rewrites so client-side routes (e.g. `/customers`, `/items`) load correctly when visited directly or refreshed. Without rewrites, paths like `/customers` would return 404.
 
 ## Step 3: Point the frontend at the backend
 
@@ -90,12 +95,19 @@ After seeding, log in on the frontend with **admin** / **admin123** and company 
 
 | Project   | Root Directory | Config file           | Purpose                          |
 |----------|----------------|------------------------|-----------------------------------|
-| Frontend | **`frontend`** | `frontend/vercel.json` | Serves the React app.             |
+| Frontend | **`frontend`** | `frontend/vercel.json` | Serves the React app + SPA rewrites. |
 | Backend  | **`backend`**  | `backend/vercel.json` (install only) | Serves NestJS API (serverless).   |
 
 - Frontend env: `VITE_API_URL` = `https://<backend-vercel-url>/api`.
-- Backend env: `DATABASE_*`, `FRONTEND_URL`, optionally `JWT_SECRET`.
-- Database: Supabase (or any Postgres); keep it active (unpaused) so the API can connect.
+- Backend env: `DATABASE_*` (use **Session Pooler**, see [supabase-pooling.md](./supabase-pooling.md)), `CORS_ORIGINS` (or `FRONTEND_URL`), optionally `JWT_SECRET`.
+- Database: Supabase (Session Pooler); keep it active (unpaused) so the API can connect.
+
+### Configuration Files Reference
+
+| File | Purpose |
+|------|---------|
+| `frontend/vercel.json` | `buildCommand`, `outputDirectory`, `installCommand`, `rewrites` (SPA fallback to `/index.html`) |
+| `backend/vercel.json` | `installCommand` only; NestJS deployed as serverless |
 
 Once both projects are deployed and env vars are set, the full app runs on Vercel and login works against the backend.
 
@@ -116,4 +128,10 @@ Once both projects are deployed and env vars are set, the full app runs on Verce
   The serverless function is failing. Check: (1) **Backend** project → **Settings** → **Environment Variables**: set all of `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `FRONTEND_URL`, and `JWT_SECRET` (values from your local `backend/.env`). Optionally set `JWT_EXPIRES_IN` (e.g. `24h`); you do **not** need `PORT` or `JWT_EXPIRATION`. (2) In Supabase Dashboard, ensure the project is **not paused**. (3) **Redeploy** the backend after changing env vars.
 
 - **CORS / login works from same origin but fails from frontend**  
-  Backend CORS uses `FRONTEND_URL`. In the backend Vercel project, set `FRONTEND_URL` to the **exact** frontend origin, e.g. `https://baitinfrontend.vercel.app` (no trailing slash). Redeploy the backend after changing it.
+  Backend CORS uses `CORS_ORIGINS` (or `FRONTEND_URL` as fallback). In the backend Vercel project, set `CORS_ORIGINS` to a comma-separated list of allowed origins, e.g. `https://baitinfrontend.vercel.app,https://preview-xxx.vercel.app` (no trailing slashes). For a single origin, you can use `FRONTEND_URL` instead. Redeploy the backend after changing it.
+
+- **`getaddrinfo ENOTFOUND` for database host**  
+  You are using Supabase Direct connection (`db.xxx.supabase.co`) or a full connection URI in `DATABASE_HOST`. Vercel is IPv4-only; use the **Session Pooler** instead. See [supabase-pooling.md](./supabase-pooling.md). Set `DATABASE_HOST` to **only** the pooler host (e.g. `aws-1-ap-southeast-1.pooler.supabase.com`), not the full URI.
+
+- **Frontend 404 on routes like `/customers` when visited directly or refreshed**  
+  Ensure `frontend/vercel.json` includes `rewrites: [{ "source": "/(.*)", "destination": "/index.html" }]` so all non-file paths serve the SPA.
